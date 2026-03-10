@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEAL — Politique de confidentialité</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg0:#07111F;
+      --bg1:#0A1426;
+      --bg2:#0D1A31;
+      --card:rgba(10,18,34,.72);
+      --card-strong:rgba(10,18,34,.88);
+      --text:#EAF2FF;
+      --muted:#A7B4D3;
+      --line:rgba(148,163,184,.18);
+      --accent:#35C6C2;
+      --accent2:#6DBBFF;
+      --accent3:#8A7CFF;
+      --shadow:0 24px 70px rgba(0,0,0,.38);
+      --max:1240px;
+    }
+
+    html[data-theme="light"]{
+      --bg0:#EEF5FF;
+      --bg1:#F8FBFF;
+      --bg2:#FFFFFF;
+      --card:rgba(255,255,255,.82);
+      --card-strong:rgba(255,255,255,.94);
+      --text:#0B1630;
+      --muted:#4B5B79;
+      --line:rgba(15,23,42,.10);
+      --shadow:0 22px 55px rgba(15,23,42,.10);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Roboto,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 520px at 10% -10%, rgba(53,198,194,.18), transparent 60%),
+        radial-gradient(700px 420px at 90% 0%, rgba(109,187,255,.18), transparent 55%),
+        radial-gradient(760px 520px at 50% 120%, rgba(138,124,255,.14), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 48%, var(--bg2));
+      overflow-x:hidden;
+    }
+
+    html[dir="rtl"] body{direction:rtl;}
+    html[dir="rtl"] .nav,
+    html[dir="rtl"] .controls,
+    html[dir="rtl"] .hero-grid,
+    html[dir="rtl"] .policy-layout,
+    html[dir="rtl"] .footer-grid,
+    html[dir="rtl"] .footer-bottom,
+    html[dir="rtl"] .cta{
+      direction:rtl;
+    }
+    html[dir="rtl"] .lang .menu{right:auto;left:0;}
+    html[dir="rtl"] .footer-links a:hover{transform:translateX(-2px)}
+
+    .bg-grid{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.28;
+      background:
+        linear-gradient(to right, rgba(148,163,184,.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148,163,184,.08) 1px, transparent 1px);
+      background-size:52px 52px;
+      mask-image: radial-gradient(circle at 50% 25%, rgba(0,0,0,.9) 0, rgba(0,0,0,.55) 45%, rgba(0,0,0,0) 82%);
+      animation:gridMove 18s linear infinite;
+    }
+    @keyframes gridMove{
+      from{transform:translate3d(0,0,0)}
+      to{transform:translate3d(-52px,52px,0)}
+    }
+
+    .aurora,.aurora2,.aurora3{
+      position:fixed;
+      border-radius:999px;
+      filter:blur(36px);
+      pointer-events:none;
+      opacity:.22;
+      mix-blend-mode:screen;
+    }
+    .aurora{
+      width:420px;height:420px;left:-80px;top:120px;
+      background:radial-gradient(circle at 35% 35%, rgba(53,198,194,.92), transparent 60%);
+      animation:floatA 12s ease-in-out infinite;
+    }
+    .aurora2{
+      width:460px;height:460px;right:-120px;top:80px;
+      background:radial-gradient(circle at 60% 40%, rgba(109,187,255,.90), transparent 60%);
+      animation:floatB 14s ease-in-out infinite;
+    }
+    .aurora3{
+      width:360px;height:360px;left:50%;bottom:-110px;transform:translateX(-50%);
+      background:radial-gradient(circle at 50% 50%, rgba(138,124,255,.75), transparent 62%);
+      animation:floatC 16s ease-in-out infinite;
+    }
+    @keyframes floatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)}}
+    @keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(20px)}}
+    @keyframes floatC{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.06)}}
+
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 18px}
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:60;
+      backdrop-filter:blur(16px);
+      background:color-mix(in srgb, var(--bg1) 72%, transparent);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:14px 0;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      text-decoration:none;
+      color:var(--text);
+      min-width:120px;
+    }
+    .brand img{
+      height:72px;
+      width:auto;
+      display:block;
+      transform-origin:left center;
+    }
+    .brand img.is-dark-logo{transform:scale(1.6)}
+    .brand img.is-light-logo{transform:scale(1.08)}
+
+    .navlinks{
+      display:flex;
+      align-items:center;
+      gap:22px;
+      list-style:none;
+      margin:0;
+      padding:0;
+    }
+    .navlinks a{
+      text-decoration:none;
+      color:var(--text);
+      opacity:.88;
+      font-size:14px;
+      font-weight:600;
+      padding:8px 2px;
+      position:relative;
+      transition:opacity .2s ease, transform .2s ease;
+    }
+    .navlinks a:hover{opacity:1;transform:translateY(-1px)}
+    .navlinks a::after{
+      content:"";
+      position:absolute;
+      left:0;right:0;bottom:0;
+      height:2px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));
+      transform:scaleX(0);
+      transform-origin:left;
+      transition:transform .22s ease;
+    }
+    .navlinks a:hover::after,.navlinks a.active::after{transform:scaleX(1)}
+    .navlinks a.active{opacity:1}
+
+    .controls{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .lang{position:relative}
+    .lang button,
+    .theme-toggle{
+      border:1px solid var(--line);
+      background:color-mix(in srgb, var(--card-strong) 74%, transparent);
+      color:var(--text);
+      box-shadow:0 12px 30px rgba(0,0,0,.15);
+    }
+    .lang button{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      border-radius:999px;
+      padding:9px 12px;
+      font-size:12px;
+      font-weight:700;
+      cursor:pointer;
+      transition:transform .18s ease,border-color .18s ease;
+    }
+    .lang button:hover,.theme-toggle:hover{
+      transform:translateY(-1px);
+      border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
+    }
+    .lang .menu{
+      position:absolute;
+      top:110%;
+      right:0;
+      min-width:190px;
+      padding:8px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background:color-mix(in srgb, var(--card-strong) 90%, transparent);
+      backdrop-filter:blur(14px);
+      box-shadow:var(--shadow);
+      display:none;
+      z-index:80;
+    }
+    .lang .menu.open{display:block}
+    .lang .item{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      border:0;
+      background:transparent;
+      color:var(--text);
+      border-radius:12px;
+      padding:10px;
+      cursor:pointer;
+      font-size:13px;
+      opacity:.92;
+    }
+    .lang .item:hover{background:rgba(148,163,184,.10);opacity:1}
+    .lang .item.active{background:rgba(53,198,194,.12)}
+
+    .pill{
+      font-size:11px;
+      padding:4px 8px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+
+    .theme-toggle{
+      width:46px;height:46px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      transition:transform .18s ease,border-color .18s ease;
+    }
+    .sunmoon{
+      width:22px;height:22px;display:block;
+      transform-origin:50% 50%;
+      transition:transform .55s cubic-bezier(.2,.9,.2,1);
+    }
+    html[data-theme="dark"] .sunmoon{transform:rotate(180deg)}
+    .sun-core,.moon-core{transition:opacity .35s ease}
+    html[data-theme="dark"] .sun-core{opacity:0}
+    html[data-theme="light"] .moon-core{opacity:0}
+
+    main{padding:28px 0 56px}
+
+    .hero,.section,footer,.cta{
+      border:1px solid var(--line);
+      background:color-mix(in srgb, var(--card-strong) 88%, transparent);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(16px);
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border-radius:32px;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 88%, transparent), color-mix(in srgb, var(--card) 92%, transparent)),
+        radial-gradient(900px 420px at 8% 0%, rgba(53,198,194,.12), transparent 62%),
+        radial-gradient(820px 360px at 100% 0%, rgba(109,187,255,.14), transparent 58%);
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg, rgba(255,255,255,.06), transparent 25%, transparent 74%, rgba(255,255,255,.04));
+      pointer-events:none;
+    }
+
+    .hero-grid{
+      position:relative;
+      display:grid;
+      grid-template-columns:1.02fr .98fr;
+      gap:20px;
+      padding:34px 26px 26px;
+      align-items:start;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:10px 14px;
+      background:rgba(255,255,255,.05);
+      color:var(--muted);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+    .eyebrow i{
+      width:8px;height:8px;border-radius:999px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      box-shadow:0 0 0 6px rgba(53,198,194,.12);
+    }
+
+    .hero h1{
+      margin:18px 0 12px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:clamp(34px,4.8vw,66px);
+      line-height:1.02;
+      letter-spacing:-.045em;
+      font-weight:800;
+      max-width:760px;
+    }
+    .hero-title-line{display:block}
+    .hero-title-gradient{
+      display:block;
+      background:linear-gradient(90deg, #9FD8FF 0%, #6DBBFF 28%, #67D6D2 72%, #35C6C2 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .hero p.lead{
+      margin:0;
+      max-width:760px;
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.8;
+    }
+
+    .hero-side{
+      display:grid;
+      gap:14px;
+    }
+    .floating-card{
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:16px;
+      overflow:hidden;
+      background:rgba(255,255,255,.04);
+    }
+    .floating-card h3{
+      margin:0 0 8px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+    .floating-card p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.7;
+    }
+
+    .policy-layout{
+      display:grid;
+      grid-template-columns:.88fr 1.12fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .section{
+      border-radius:28px;
+      overflow:hidden;
+    }
+    .section-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:18px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(148,163,184,.06), transparent);
+      flex-wrap:wrap;
+    }
+    .section-head h2{
+      margin:0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:15px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+    .section-head p{
+      margin:0;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .summary-panel{
+      padding:18px;
+      display:grid;
+      gap:14px;
+    }
+    .summary-card{
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    }
+    .summary-card h3{
+      margin:0 0 8px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:18px;
+    }
+    .summary-card p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+    }
+
+    .policy-content{
+      padding:18px;
+      display:grid;
+      gap:14px;
+    }
+
+    .policy-card{
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:20px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)),
+        radial-gradient(260px 120px at 0% 0%, rgba(53,198,194,.06), transparent 60%);
+    }
+    .policy-card h3{
+      margin:0 0 12px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:20px;
+      line-height:1.35;
+    }
+    .policy-card p{
+      margin:0 0 12px 0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.85;
+    }
+    .policy-card p:last-child{margin-bottom:0}
+
+    .policy-card ul{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.85;
+    }
+    html[dir="rtl"] .policy-card ul{
+      padding-left:0;
+      padding-right:18px;
+    }
+
+    .cta{
+      margin-top:18px;
+      border-radius:28px;
+      padding:22px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 86%, transparent), color-mix(in srgb, var(--card) 95%, transparent)),
+        radial-gradient(700px 240px at 0% 0%, rgba(53,198,194,.10), transparent 55%);
+    }
+    .cta h3{
+      margin:0 0 8px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:24px;
+    }
+    .cta p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+      max-width:760px;
+    }
+
+    .glass-btn{
+      min-height:52px;
+      padding:0 18px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--text);
+      text-decoration:none;
+      font-weight:800;
+      font-size:14px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      cursor:pointer;
+      background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.20), inset 0 -1px 0 rgba(255,255,255,.06), 0 14px 34px rgba(0,0,0,.20);
+      backdrop-filter:blur(14px);
+      transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease;
+    }
+    .glass-btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(255,255,255,.22);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.25), inset 0 -1px 0 rgba(255,255,255,.08), 0 18px 42px rgba(0,0,0,.26);
+      filter:saturate(1.05);
+    }
+    .glass-btn.primary{
+      color:#05121E;
+      border-color:rgba(255,255,255,.16);
+      background:linear-gradient(90deg, rgba(53,198,194,.96), rgba(109,187,255,.96));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.30), 0 18px 40px rgba(53,198,194,.22);
+    }
+    .glass-btn .arrow{
+      width:9px;height:9px;
+      border-right:2px solid currentColor;
+      border-bottom:2px solid currentColor;
+      transform:rotate(-45deg);
+    }
+
+    footer{
+      margin-top:18px;
+      border-radius:32px;
+      overflow:hidden;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 86%, transparent), color-mix(in srgb, var(--card) 95%, transparent)),
+        radial-gradient(700px 220px at 0% 0%, rgba(53,198,194,.10), transparent 55%);
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr .8fr .9fr;
+      gap:18px;
+      padding:24px 22px 20px;
+    }
+    .footer-brand{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .footer-brand img{
+      height:88px;
+      width:auto;
+      display:block;
+      max-width:100%;
+      object-fit:contain;
+      transform-origin:left center;
+    }
+    .footer-brand img.is-dark-logo{transform:scale(1.12)}
+    .footer-brand p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+      max-width:420px;
+    }
+
+    .footer-col h3{
+      margin:0 0 12px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+    .footer-links{
+      display:grid;
+      gap:10px;
+    }
+    .footer-links a,.footer-links span{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:14px;
+      line-height:1.6;
+      transition:color .2s ease, transform .2s ease;
+    }
+    .footer-links a:hover{color:var(--text);transform:translateX(2px)}
+
+    .social-label{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+    .social-label::before{
+      content:"";
+      width:18px;height:1px;
+      background:linear-gradient(90deg,var(--accent),transparent);
+    }
+
+    .socials{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+    }
+    .social{
+      width:42px;height:42px;border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      text-decoration:none;
+      display:grid;place-items:center;
+      transition:transform .18s ease,border-color .18s ease,background .18s ease;
+    }
+    .social:hover{
+      transform:translateY(-1px);
+      border-color:color-mix(in srgb, var(--accent2) 42%, var(--line));
+      background:rgba(53,198,194,.09);
+    }
+    .social svg{width:18px;height:18px;fill:currentColor;display:block}
+
+    .footer-bottom{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      padding:0 22px 20px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    @media (max-width: 1080px){
+      .hero-grid,.policy-layout{grid-template-columns:1fr}
+      .footer-grid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 820px){
+      .navlinks{display:none}
+      .brand img{height:64px}
+      .footer-grid{grid-template-columns:1fr}
+    }
+    @media (max-width: 640px){
+      .hero-grid{padding:26px 16px 16px}
+      .section-head,.summary-panel,.policy-content{padding:16px}
+      .brand img{height:58px}
+      .hero h1{font-size:34px}
+      .footer-grid{padding:20px 16px 14px}
+      .footer-bottom{padding:0 16px 16px}
+      .cta{padding:18px}
+      .policy-card{padding:16px}
+    }
+    @media (prefers-reduced-motion: reduce){
+      .bg-grid,.aurora,.aurora2,.aurora3{animation:none}
+      *{scroll-behavior:auto}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="aurora2" aria-hidden="true"></div>
+  <div class="aurora3" aria-hidden="true"></div>
+
+  <header>
+    <div class="wrap">
+      <div class="nav">
+        <a class="brand" href="SEAL_page_accueil.html" aria-label="SEAL">
+          <img
+            id="brandLogo"
+            src="SEAL-logo-sombre.png"
+            data-logo-dark="SEAL-logo-sombre.png"
+            data-logo-light="SEAL-logo-clair.png"
+            alt="SEAL Logo"
+          >
+        </a>
+
+        <ul class="navlinks">
+          <li><a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a></li>
+          <li><a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a></li>
+          <li><a href="a-propos.html" data-i18n="nav.about">À propos</a></li>
+          <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+          <li><a href="contact-public.html" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+
+        <div class="controls">
+          <div class="lang">
+            <button id="langToggle" type="button" aria-haspopup="true" aria-expanded="false">
+              <span id="langLabel">FR</span>
+              <span class="pill" id="langName">Français</span>
+            </button>
+            <div class="menu" id="langMenu" role="menu" aria-label="Langues">
+              <button class="item" data-lang="fr" role="menuitem"><span>Français</span><span class="pill">FR</span></button>
+              <button class="item" data-lang="en" role="menuitem"><span>English</span><span class="pill">EN</span></button>
+              <button class="item" data-lang="es" role="menuitem"><span>Español</span><span class="pill">ES</span></button>
+              <button class="item" data-lang="ru" role="menuitem"><span>Русский</span><span class="pill">RU</span></button>
+              <button class="item" data-lang="ar" role="menuitem"><span>العربية</span><span class="pill">AR</span></button>
+              <button class="item" data-lang="zh" role="menuitem"><span>中文</span><span class="pill">ZH</span></button>
+            </div>
+          </div>
+
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Basculer clair/sombre">
+            <svg class="sunmoon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <g class="sun-core">
+                <circle cx="12" cy="12" r="5.2" fill="url(#gSun)"/>
+                <g stroke="url(#gSun)" stroke-width="1.8" stroke-linecap="round" opacity=".95">
+                  <path d="M12 1.8v3.0"/>
+                  <path d="M12 19.2v3.0"/>
+                  <path d="M1.8 12h3.0"/>
+                  <path d="M19.2 12h3.0"/>
+                  <path d="M4.1 4.1l2.1 2.1"/>
+                  <path d="M17.8 17.8l2.1 2.1"/>
+                  <path d="M19.9 4.1l-2.1 2.1"/>
+                  <path d="M6.2 17.8l-2.1 2.1"/>
+                </g>
+              </g>
+              <g class="moon-core">
+                <g mask="url(#crescentMaskClean)">
+                  <circle cx="12" cy="12" r="7.35" fill="url(#gMoon)"/>
+                </g>
+                <path d="M7.9 12.2c.2-3.5 2.6-6.4 6.0-7.0"
+                      stroke="rgba(255,255,255,.55)"
+                      stroke-width="1.2"
+                      stroke-linecap="round"
+                      opacity=".35"/>
+              </g>
+              <defs>
+                <linearGradient id="gSun" x1="6" y1="6" x2="19" y2="19" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#35C6C2"/>
+                  <stop offset="1" stop-color="#6DBBFF"/>
+                </linearGradient>
+                <linearGradient id="gMoon" x1="7" y1="7" x2="19" y2="19" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#6DBBFF"/>
+                  <stop offset="1" stop-color="#8A7CFF"/>
+                </linearGradient>
+                <mask id="crescentMaskClean">
+                  <rect x="0" y="0" width="24" height="24" fill="white"/>
+                  <circle cx="15.2" cy="11.0" r="7.1" fill="black"/>
+                </mask>
+              </defs>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="hero" aria-label="Politique de confidentialité">
+        <div class="hero-grid">
+          <div>
+            <span class="eyebrow">
+              <i aria-hidden="true"></i>
+              <span data-i18n="hero.eyebrow">Protection des données</span>
+            </span>
+
+            <h1>
+              <span class="hero-title-line" data-i18n="hero.title.l1">Politique</span>
+              <span class="hero-title-line" data-i18n="hero.title.l2">de</span>
+              <span class="hero-title-gradient" data-i18n="hero.title.l3">confidentialité.</span>
+            </h1>
+
+            <p class="lead" data-i18n="hero.subtitle">
+              Cette page présente de manière claire la façon dont les informations liées au site public SEAL peuvent être utilisées dans le cadre de l’expérience proposée.
+            </p>
+          </div>
+
+          <div class="hero-side">
+            <div class="floating-card">
+              <h3 data-i18n="hero.sideTitle">Lecture simple</h3>
+              <p data-i18n="hero.sideText">
+                Le but de cette page est d’expliquer l’essentiel dans un langage accessible, sans complexité inutile.
+              </p>
+            </div>
+
+            <div class="floating-card">
+              <h3 data-i18n="hero.sideTitle2">Transparence</h3>
+              <p data-i18n="hero.sideText2">
+                Nous privilégions une présentation claire de ce qui est affiché, enregistré localement ou transmis par le formulaire de contact.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="policy-layout">
+        <section class="section" aria-label="Résumé">
+          <div class="section-head">
+            <div>
+              <h2 data-i18n="summary.title">Résumé</h2>
+              <p data-i18n="summary.subtitle">Les points essentiels à retenir.</p>
+            </div>
+          </div>
+
+          <div class="summary-panel">
+            <div class="summary-card">
+              <h3 data-i18n="summary.card1.title">Utilisation du site</h3>
+              <p data-i18n="summary.card1.text">
+                Le site public SEAL permet principalement d’afficher des informations liées à la consultation d’un domaine et de proposer un formulaire de contact.
+              </p>
+            </div>
+
+            <div class="summary-card">
+              <h3 data-i18n="summary.card2.title">Préférences locales</h3>
+              <p data-i18n="summary.card2.text">
+                Certaines préférences, comme la langue ou le mode clair/sombre, peuvent être conservées localement dans le navigateur pour améliorer le confort d’utilisation.
+              </p>
+            </div>
+
+            <div class="summary-card">
+              <h3 data-i18n="summary.card3.title">Formulaire de contact</h3>
+              <p data-i18n="summary.card3.text">
+                Les données saisies dans le formulaire de contact sont utilisées uniquement pour transmettre votre message et permettre une réponse.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-label="Contenu de la politique">
+          <div class="section-head">
+            <div>
+              <h2 data-i18n="policy.title">Détails</h2>
+              <p data-i18n="policy.subtitle">Informations générales sur la confidentialité du site public.</p>
+            </div>
+          </div>
+
+          <div class="policy-content">
+            <article class="policy-card">
+              <h3 data-i18n="p1.title">1. Objet de la politique</h3>
+              <p data-i18n="p1.text1">
+                La présente politique de confidentialité a pour but d’expliquer, de manière générale, comment les informations liées à l’utilisation du site public SEAL peuvent être traitées.
+              </p>
+              <p data-i18n="p1.text2">
+                Elle s’applique aux pages publiques du site, notamment la page d’accueil, les pages d’information, la FAQ et le formulaire de contact.
+              </p>
+            </article>
+
+            <article class="policy-card">
+              <h3 data-i18n="p2.title">2. Informations affichées ou traitées sur le site</h3>
+              <p data-i18n="p2.text1">
+                Dans le cadre de l’expérience proposée, le site peut traiter des informations nécessaires à l’affichage des résultats demandés par l’utilisateur, par exemple lorsqu’un domaine est saisi dans l’interface prévue à cet effet.
+              </p>
+              <p data-i18n="p2.text2">
+                Le site peut également utiliser les données volontairement renseignées dans le formulaire de contact, comme le nom, l’adresse e-mail, l’objet et le message.
+              </p>
+            </article>
+
+            <article class="policy-card">
+              <h3 data-i18n="p3.title">3. Préférences enregistrées localement</h3>
+              <p data-i18n="p3.text1">
+                Pour améliorer l’utilisation du site, certaines préférences peuvent être enregistrées localement dans le navigateur de l’utilisateur.
+              </p>
+              <ul>
+                <li data-i18n="p3.li1">la langue sélectionnée dans l’interface ;</li>
+                <li data-i18n="p3.li2">le mode clair ou sombre choisi ;</li>
+                <li data-i18n="p3.li3">d’autres réglages purement liés à l’affichage ou au confort de navigation.</li>
+              </ul>
+            </article>
+
+            <article class="policy-card">
+              <h3 data-i18n="p4.title">4. Utilisation du formulaire de contact</h3>
+              <p data-i18n="p4.text1">
+                Lorsque l’utilisateur utilise le formulaire de contact, les informations qu’il fournit sont destinées à transmettre son message à l’équipe SEAL via l’adresse de contact prévue.
+              </p>
+              <p data-i18n="p4.text2">
+                Ces informations sont utilisées dans le seul but de traiter la demande, d’y répondre, ou d’assurer le suivi de l’échange si cela est nécessaire.
+              </p>
+            </article>
+
+            <article class="policy-card">
+              <h3 data-i18n="p5.title">5. Finalité générale</h3>
+              <p data-i18n="p5.text1">
+                Les traitements réalisés dans le cadre du site public ont pour finalité principale d’assurer le bon fonctionnement de l’interface, de permettre l’affichage des contenus demandés, de conserver certaines préférences d’affichage, et de transmettre les messages envoyés via la page Contact.
+              </p>
+            </article>
+
+            <article class="policy-card">
+              <h3 data-i18n="p6.title">6. Durée et conservation</h3>
+              <p data-i18n="p6.text1">
+                Les préférences techniques conservées localement dans le navigateur restent sous le contrôle de l’utilisateur, qui peut les supprimer depuis les paramètres de son navigateur.
+              </p>
+              <p data-i18n="p6.text2">
+                Les informations envoyées via le formulaire de contact peuvent être conservées le temps nécessaire au traitement et au suivi raisonnable de la demande.
+              </p>
+            </article>
+
+            <article class="policy-card">
+              <h3 data-i18n="p7.title">7. Mise à jour de cette politique</h3>
+              <p data-i18n="p7.text1">
+                Cette politique de confidentialité peut évoluer afin de refléter les changements apportés au site public, à son fonctionnement ou à sa présentation.
+              </p>
+              <p data-i18n="p7.text2">
+                La version affichée sur cette page est celle qui s’applique au moment de la consultation.
+              </p>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <section class="cta" aria-label="Aide complémentaire">
+        <div>
+          <h3 data-i18n="cta.title">Besoin d’une autre information ?</h3>
+          <p data-i18n="cta.text">Vous pouvez consulter les mentions légales, les conditions d’utilisation ou nous écrire directement via la page Contact.</p>
+        </div>
+
+        <a class="glass-btn primary" href="contact-public.html">
+          <span data-i18n="cta.button">Aller vers Contact</span>
+          <span class="arrow" aria-hidden="true"></span>
+        </a>
+      </section>
+
+      <footer>
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="SEAL_page_accueil.html" aria-label="SEAL">
+              <img
+                id="footerLogo"
+                src="SEAL-logo-sombre.png"
+                data-logo-dark="SEAL-logo-sombre.png"
+                data-logo-light="SEAL-logo-clair.png"
+                alt="SEAL Logo"
+              >
+            </a>
+            <p data-i18n="footer.brandText">
+              SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.
+            </p>
+
+            <div class="social-label" data-i18n="footer.socials">Réseaux</div>
+            <div class="socials" aria-label="Réseaux sociaux">
+              <a class="social" href="#" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.28 4.97 1.97 1.97 0 0 0 5.25 6.94 1.97 1.97 0 0 0 7.22 4.97 1.97 1.97 0 0 0 5.25 3ZM12.28 12.9c0-1.82.84-2.9 2.46-2.9 1.48 0 2.19 1.04 2.19 2.9V20h3.36v-8.22c0-3.48-1.97-5.16-4.71-5.16-2.2 0-3.17 1.21-3.72 2.05V8.5H8.62c.04.81 0 11.5 0 11.5h3.24v-7.1Z"/></svg>
+              </a>
+              <a class="social" href="#" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.95 1.35a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+              </a>
+              <a class="social" href="#" aria-label="X">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H21l-6.56 7.5L22 22h-5.96l-4.67-6.1L6.03 22H4l7-8L2 2h6.11l4.22 5.52L18.9 2Zm-1.04 18h1.65L7.2 3.9H5.42L17.86 20Z"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h3 data-i18n="footer.nav">Navigation</h3>
+            <div class="footer-links">
+              <a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a>
+              <a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a>
+              <a href="a-propos.html" data-i18n="nav.about">À propos</a>
+              <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+              <a href="contact-public.html" data-i18n="nav.contact">Contact</a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h3 data-i18n="footer.support">Support</h3>
+            <div class="footer-links">
+              <span>esaipseal@gmail.com</span>
+              <span data-i18n="footer.supportText">Pour toute question liée au site public ou à l’utilisation du formulaire de contact.</span>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h3 data-i18n="footer.legalTitle">Légal</h3>
+            <div class="footer-links">
+              <a href="politique-confidentialite-public.html" class="active-link" data-i18n="footer.privacy">Politique de confidentialité</a>
+              <a href="mentions-legales-public.html" data-i18n="footer.legal">Mentions légales</a>
+              <a href="conditions-utilisation-public.html" data-i18n="footer.terms">Conditions d’utilisation</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div>© 2026 SEAL</div>
+          <div data-i18n="footer.bottomText">Secure Expiry Alert & Logging</div>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    const I18N = {
+      fr: {
+        "nav.home":"Accueil",
+        "nav.features":"Fonctionnalités",
+        "nav.about":"À propos",
+        "nav.faq":"FAQ",
+        "nav.contact":"Contact",
+
+        "hero.eyebrow":"Protection des données",
+        "hero.title.l1":"Politique",
+        "hero.title.l2":"de",
+        "hero.title.l3":"confidentialité.",
+        "hero.subtitle":"Cette page présente de manière claire la façon dont les informations liées au site public SEAL peuvent être utilisées dans le cadre de l’expérience proposée.",
+        "hero.sideTitle":"Lecture simple",
+        "hero.sideText":"Le but de cette page est d’expliquer l’essentiel dans un langage accessible, sans complexité inutile.",
+        "hero.sideTitle2":"Transparence",
+        "hero.sideText2":"Nous privilégions une présentation claire de ce qui est affiché, enregistré localement ou transmis par le formulaire de contact.",
+
+        "summary.title":"Résumé",
+        "summary.subtitle":"Les points essentiels à retenir.",
+        "summary.card1.title":"Utilisation du site",
+        "summary.card1.text":"Le site public SEAL permet principalement d’afficher des informations liées à la consultation d’un domaine et de proposer un formulaire de contact.",
+        "summary.card2.title":"Préférences locales",
+        "summary.card2.text":"Certaines préférences, comme la langue ou le mode clair/sombre, peuvent être conservées localement dans le navigateur pour améliorer le confort d’utilisation.",
+        "summary.card3.title":"Formulaire de contact",
+        "summary.card3.text":"Les données saisies dans le formulaire de contact sont utilisées uniquement pour transmettre votre message et permettre une réponse.",
+
+        "policy.title":"Détails",
+        "policy.subtitle":"Informations générales sur la confidentialité du site public.",
+
+        "p1.title":"1. Objet de la politique",
+        "p1.text1":"La présente politique de confidentialité a pour but d’expliquer, de manière générale, comment les informations liées à l’utilisation du site public SEAL peuvent être traitées.",
+        "p1.text2":"Elle s’applique aux pages publiques du site, notamment la page d’accueil, les pages d’information, la FAQ et le formulaire de contact.",
+
+        "p2.title":"2. Informations affichées ou traitées sur le site",
+        "p2.text1":"Dans le cadre de l’expérience proposée, le site peut traiter des informations nécessaires à l’affichage des résultats demandés par l’utilisateur, par exemple lorsqu’un domaine est saisi dans l’interface prévue à cet effet.",
+        "p2.text2":"Le site peut également utiliser les données volontairement renseignées dans le formulaire de contact, comme le nom, l’adresse e-mail, l’objet et le message.",
+
+        "p3.title":"3. Préférences enregistrées localement",
+        "p3.text1":"Pour améliorer l’utilisation du site, certaines préférences peuvent être enregistrées localement dans le navigateur de l’utilisateur.",
+        "p3.li1":"la langue sélectionnée dans l’interface ;",
+        "p3.li2":"le mode clair ou sombre choisi ;",
+        "p3.li3":"d’autres réglages purement liés à l’affichage ou au confort de navigation.",
+
+        "p4.title":"4. Utilisation du formulaire de contact",
+        "p4.text1":"Lorsque l’utilisateur utilise le formulaire de contact, les informations qu’il fournit sont destinées à transmettre son message à l’équipe SEAL via l’adresse de contact prévue.",
+        "p4.text2":"Ces informations sont utilisées dans le seul but de traiter la demande, d’y répondre, ou d’assurer le suivi de l’échange si cela est nécessaire.",
+
+        "p5.title":"5. Finalité générale",
+        "p5.text1":"Les traitements réalisés dans le cadre du site public ont pour finalité principale d’assurer le bon fonctionnement de l’interface, de permettre l’affichage des contenus demandés, de conserver certaines préférences d’affichage, et de transmettre les messages envoyés via la page Contact.",
+
+        "p6.title":"6. Durée et conservation",
+        "p6.text1":"Les préférences techniques conservées localement dans le navigateur restent sous le contrôle de l’utilisateur, qui peut les supprimer depuis les paramètres de son navigateur.",
+        "p6.text2":"Les informations envoyées via le formulaire de contact peuvent être conservées le temps nécessaire au traitement et au suivi raisonnable de la demande.",
+
+        "p7.title":"7. Mise à jour de cette politique",
+        "p7.text1":"Cette politique de confidentialité peut évoluer afin de refléter les changements apportés au site public, à son fonctionnement ou à sa présentation.",
+        "p7.text2":"La version affichée sur cette page est celle qui s’applique au moment de la consultation.",
+
+        "cta.title":"Besoin d’une autre information ?",
+        "cta.text":"Vous pouvez consulter les mentions légales, les conditions d’utilisation ou nous écrire directement via la page Contact.",
+        "cta.button":"Aller vers Contact",
+
+        "footer.nav":"Navigation",
+        "footer.support":"Support",
+        "footer.supportText":"Pour toute question liée au site public ou à l’utilisation du formulaire de contact.",
+        "footer.legalTitle":"Légal",
+        "footer.brandText":"SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.",
+        "footer.socials":"Réseaux",
+        "footer.privacy":"Politique de confidentialité",
+        "footer.legal":"Mentions légales",
+        "footer.terms":"Conditions d’utilisation",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      en: {
+        "nav.home":"Home",
+        "nav.features":"Features",
+        "nav.about":"About",
+        "nav.faq":"FAQ",
+        "nav.contact":"Contact",
+
+        "hero.eyebrow":"Data protection",
+        "hero.title.l1":"Privacy",
+        "hero.title.l2":"policy",
+        "hero.title.l3":".",
+        "hero.subtitle":"This page clearly explains how information related to the SEAL public website may be used within the experience offered.",
+        "hero.sideTitle":"Simple reading",
+        "hero.sideText":"The goal of this page is to explain the essentials in accessible language, without unnecessary complexity.",
+        "hero.sideTitle2":"Transparency",
+        "hero.sideText2":"We favor a clear presentation of what is displayed, locally stored, or transmitted through the contact form.",
+
+        "summary.title":"Summary",
+        "summary.subtitle":"The essential points to remember.",
+        "summary.card1.title":"Use of the site",
+        "summary.card1.text":"The SEAL public website mainly allows the display of information related to a domain lookup and provides a contact form.",
+        "summary.card2.title":"Local preferences",
+        "summary.card2.text":"Some preferences, such as language or light/dark mode, may be stored locally in the browser to improve comfort of use.",
+        "summary.card3.title":"Contact form",
+        "summary.card3.text":"The data entered in the contact form is used only to send your message and allow a reply.",
+
+        "policy.title":"Details",
+        "policy.subtitle":"General information about privacy on the public website.",
+
+        "p1.title":"1. Purpose of this policy",
+        "p1.text1":"This privacy policy aims to explain, in general terms, how information related to the use of the SEAL public website may be processed.",
+        "p1.text2":"It applies to the public pages of the site, including the home page, information pages, the FAQ, and the contact form.",
+
+        "p2.title":"2. Information displayed or processed on the site",
+        "p2.text1":"As part of the proposed experience, the site may process information needed to display the results requested by the user, for example when a domain is entered in the interface provided for that purpose.",
+        "p2.text2":"The site may also use data voluntarily provided through the contact form, such as name, email address, subject, and message.",
+
+        "p3.title":"3. Locally stored preferences",
+        "p3.text1":"To improve the use of the site, some preferences may be stored locally in the user’s browser.",
+        "p3.li1":"the language selected in the interface;",
+        "p3.li2":"the chosen light or dark mode;",
+        "p3.li3":"other settings related only to display or browsing comfort.",
+
+        "p4.title":"4. Use of the contact form",
+        "p4.text1":"When the user uses the contact form, the information provided is intended to send the message to the SEAL team through the designated contact address.",
+        "p4.text2":"This information is used solely to process the request, reply to it, or ensure reasonable follow-up if necessary.",
+
+        "p5.title":"5. General purpose",
+        "p5.text1":"The processing carried out within the public website mainly aims to ensure proper interface operation, allow the display of requested content, keep some display preferences, and transmit messages sent through the Contact page.",
+
+        "p6.title":"6. Duration and retention",
+        "p6.text1":"Technical preferences stored locally in the browser remain under the user’s control and can be deleted through browser settings.",
+        "p6.text2":"Information sent through the contact form may be kept for the time necessary to process and reasonably follow up on the request.",
+
+        "p7.title":"7. Updates to this policy",
+        "p7.text1":"This privacy policy may evolve in order to reflect changes made to the public site, its functioning, or its presentation.",
+        "p7.text2":"The version displayed on this page is the one that applies at the time of consultation.",
+
+        "cta.title":"Need another piece of information?",
+        "cta.text":"You can read the legal notice, the terms of use, or write to us directly through the Contact page.",
+        "cta.button":"Go to Contact",
+
+        "footer.nav":"Navigation",
+        "footer.support":"Support",
+        "footer.supportText":"For any question related to the public website or the contact form.",
+        "footer.legalTitle":"Legal",
+        "footer.brandText":"SEAL helps you better visualize SSL certificate expiration with a clear, readable, and accessible interface.",
+        "footer.socials":"Socials",
+        "footer.privacy":"Privacy policy",
+        "footer.legal":"Legal notice",
+        "footer.terms":"Terms of use",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      es: {
+        "nav.home":"Inicio",
+        "nav.features":"Funcionalidades",
+        "nav.about":"Acerca de",
+        "nav.faq":"FAQ",
+        "nav.contact":"Contacto",
+
+        "hero.eyebrow":"Protección de datos",
+        "hero.title.l1":"Política",
+        "hero.title.l2":"de",
+        "hero.title.l3":"privacidad.",
+        "hero.subtitle":"Esta página presenta de forma clara cómo puede utilizarse la información relacionada con el sitio público SEAL dentro de la experiencia ofrecida.",
+        "hero.sideTitle":"Lectura simple",
+        "hero.sideText":"El objetivo de esta página es explicar lo esencial con un lenguaje accesible, sin complejidad innecesaria.",
+        "hero.sideTitle2":"Transparencia",
+        "hero.sideText2":"Damos prioridad a una presentación clara de lo que se muestra, se guarda localmente o se transmite mediante el formulario de contacto.",
+
+        "summary.title":"Resumen",
+        "summary.subtitle":"Los puntos esenciales que hay que recordar.",
+        "summary.card1.title":"Uso del sitio",
+        "summary.card1.text":"El sitio público SEAL permite principalmente mostrar información relacionada con la consulta de un dominio y ofrecer un formulario de contacto.",
+        "summary.card2.title":"Preferencias locales",
+        "summary.card2.text":"Algunas preferencias, como el idioma o el modo claro/oscuro, pueden conservarse localmente en el navegador para mejorar la comodidad de uso.",
+        "summary.card3.title":"Formulario de contacto",
+        "summary.card3.text":"Los datos introducidos en el formulario de contacto se utilizan únicamente para transmitir tu mensaje y permitir una respuesta.",
+
+        "policy.title":"Detalles",
+        "policy.subtitle":"Información general sobre la privacidad del sitio público.",
+
+        "p1.title":"1. Objeto de la política",
+        "p1.text1":"La presente política de privacidad tiene por objeto explicar, de forma general, cómo puede tratarse la información relacionada con el uso del sitio público SEAL.",
+        "p1.text2":"Se aplica a las páginas públicas del sitio, en particular la página de inicio, las páginas informativas, la FAQ y el formulario de contacto.",
+
+        "p2.title":"2. Información mostrada o tratada en el sitio",
+        "p2.text1":"En el marco de la experiencia propuesta, el sitio puede tratar la información necesaria para mostrar los resultados solicitados por el usuario, por ejemplo cuando se introduce un dominio en la interfaz prevista para ello.",
+        "p2.text2":"El sitio también puede utilizar los datos proporcionados voluntariamente en el formulario de contacto, como el nombre, el correo electrónico, el asunto y el mensaje.",
+
+        "p3.title":"3. Preferencias guardadas localmente",
+        "p3.text1":"Para mejorar el uso del sitio, algunas preferencias pueden guardarse localmente en el navegador del usuario.",
+        "p3.li1":"el idioma seleccionado en la interfaz;",
+        "p3.li2":"el modo claro u oscuro elegido;",
+        "p3.li3":"otros ajustes relacionados únicamente con la visualización o la comodidad de navegación.",
+
+        "p4.title":"4. Uso del formulario de contacto",
+        "p4.text1":"Cuando el usuario utiliza el formulario de contacto, la información que proporciona se destina a transmitir su mensaje al equipo de SEAL mediante la dirección de contacto prevista.",
+        "p4.text2":"Esta información se utiliza únicamente con el fin de tratar la solicitud, responderla o asegurar el seguimiento del intercambio si es necesario.",
+
+        "p5.title":"5. Finalidad general",
+        "p5.text1":"Los tratamientos realizados en el marco del sitio público tienen como finalidad principal asegurar el buen funcionamiento de la interfaz, permitir la visualización de los contenidos solicitados, conservar ciertas preferencias de visualización y transmitir los mensajes enviados mediante la página Contacto.",
+
+        "p6.title":"6. Duración y conservación",
+        "p6.text1":"Las preferencias técnicas conservadas localmente en el navegador permanecen bajo el control del usuario, que puede eliminarlas desde la configuración de su navegador.",
+        "p6.text2":"La información enviada mediante el formulario de contacto puede conservarse el tiempo necesario para el tratamiento y el seguimiento razonable de la solicitud.",
+
+        "p7.title":"7. Actualización de esta política",
+        "p7.text1":"Esta política de privacidad puede evolucionar para reflejar los cambios realizados en el sitio público, su funcionamiento o su presentación.",
+        "p7.text2":"La versión mostrada en esta página es la que se aplica en el momento de la consulta.",
+
+        "cta.title":"¿Necesitas otra información?",
+        "cta.text":"Puedes consultar el aviso legal, las condiciones de uso o escribirnos directamente a través de la página de contacto.",
+        "cta.button":"Ir a Contacto",
+
+        "footer.nav":"Navegación",
+        "footer.support":"Soporte",
+        "footer.supportText":"Para cualquier pregunta relacionada con el sitio público o con el uso del formulario de contacto.",
+        "footer.legalTitle":"Legal",
+        "footer.brandText":"SEAL te ayuda a visualizar mejor la expiración de un certificado SSL con una interfaz clara, legible y accesible.",
+        "footer.socials":"Redes",
+        "footer.privacy":"Política de privacidad",
+        "footer.legal":"Aviso legal",
+        "footer.terms":"Condiciones de uso",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      ru: {
+        "nav.home":"Главная",
+        "nav.features":"Функции",
+        "nav.about":"О нас",
+        "nav.faq":"FAQ",
+        "nav.contact":"Контакты",
+
+        "hero.eyebrow":"Защита данных",
+        "hero.title.l1":"Политика",
+        "hero.title.l2":"конфиденциальности",
+        "hero.title.l3":".",
+        "hero.subtitle":"На этой странице в понятной форме объясняется, как может использоваться информация, связанная с публичным сайтом SEAL, в рамках предлагаемого опыта.",
+        "hero.sideTitle":"Простое чтение",
+        "hero.sideText":"Цель этой страницы — объяснить главное доступным языком без лишней сложности.",
+        "hero.sideTitle2":"Прозрачность",
+        "hero.sideText2":"Мы отдаем приоритет ясному представлению того, что отображается, хранится локально или передается через форму контакта.",
+
+        "summary.title":"Кратко",
+        "summary.subtitle":"Основные моменты, которые стоит запомнить.",
+        "summary.card1.title":"Использование сайта",
+        "summary.card1.text":"Публичный сайт SEAL в основном позволяет отображать информацию, связанную с запросом домена, и предоставляет форму контакта.",
+        "summary.card2.title":"Локальные предпочтения",
+        "summary.card2.text":"Некоторые предпочтения, такие как язык или светлая/тёмная тема, могут сохраняться локально в браузере для повышения удобства использования.",
+        "summary.card3.title":"Форма контакта",
+        "summary.card3.text":"Данные, введённые в форме контакта, используются только для передачи вашего сообщения и возможности ответа.",
+
+        "policy.title":"Подробности",
+        "policy.subtitle":"Общая информация о конфиденциальности на публичном сайте.",
+
+        "p1.title":"1. Цель политики",
+        "p1.text1":"Настоящая политика конфиденциальности предназначена для общего объяснения того, как может обрабатываться информация, связанная с использованием публичного сайта SEAL.",
+        "p1.text2":"Она применяется к публичным страницам сайта, включая главную страницу, информационные страницы, FAQ и форму контакта.",
+
+        "p2.title":"2. Информация, отображаемая или обрабатываемая на сайте",
+        "p2.text1":"В рамках предлагаемого опыта сайт может обрабатывать информацию, необходимую для отображения результатов, запрошенных пользователем, например когда домен вводится в предусмотренный для этого интерфейс.",
+        "p2.text2":"Сайт также может использовать данные, добровольно указанные в форме контакта, такие как имя, адрес электронной почты, тема и сообщение.",
+
+        "p3.title":"3. Локально сохраняемые предпочтения",
+        "p3.text1":"Для улучшения использования сайта некоторые предпочтения могут сохраняться локально в браузере пользователя.",
+        "p3.li1":"язык, выбранный в интерфейсе;",
+        "p3.li2":"выбранная светлая или тёмная тема;",
+        "p3.li3":"другие настройки, связанные только с отображением или комфортом навигации.",
+
+        "p4.title":"4. Использование формы контакта",
+        "p4.text1":"Когда пользователь использует форму контакта, предоставленная информация предназначена для передачи сообщения команде SEAL через указанный контактный адрес.",
+        "p4.text2":"Эта информация используется исключительно для обработки запроса, ответа на него или разумного сопровождения обмена, если это необходимо.",
+
+        "p5.title":"5. Общая цель",
+        "p5.text1":"Обработка, выполняемая в рамках публичного сайта, в первую очередь направлена на обеспечение корректной работы интерфейса, отображение запрошенного содержания, сохранение некоторых предпочтений отображения и передачу сообщений, отправленных через страницу Контакты.",
+
+        "p6.title":"6. Срок и хранение",
+        "p6.text1":"Технические предпочтения, хранящиеся локально в браузере, остаются под контролем пользователя и могут быть удалены через настройки браузера.",
+        "p6.text2":"Информация, отправленная через форму контакта, может храниться столько, сколько необходимо для обработки и разумного сопровождения запроса.",
+
+        "p7.title":"7. Обновление этой политики",
+        "p7.text1":"Эта политика конфиденциальности может изменяться, чтобы отражать изменения, внесённые в публичный сайт, его работу или представление.",
+        "p7.text2":"Версия, отображаемая на этой странице, применяется на момент её просмотра.",
+
+        "cta.title":"Нужна другая информация?",
+        "cta.text":"Вы можете открыть юридическую информацию, условия использования или написать нам напрямую через страницу Контакты.",
+        "cta.button":"Перейти к Контактам",
+
+        "footer.nav":"Навигация",
+        "footer.support":"Поддержка",
+        "footer.supportText":"По любым вопросам, связанным с публичным сайтом или использованием формы контакта.",
+        "footer.legalTitle":"Правовая информация",
+        "footer.brandText":"SEAL помогает лучше видеть срок действия SSL-сертификата благодаря понятному, читаемому и доступному интерфейсу.",
+        "footer.socials":"Соцсети",
+        "footer.privacy":"Политика конфиденциальности",
+        "footer.legal":"Юридическая информация",
+        "footer.terms":"Условия использования",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      ar: {
+        "nav.home":"الرئيسية",
+        "nav.features":"الميزات",
+        "nav.about":"من نحن",
+        "nav.faq":"الأسئلة الشائعة",
+        "nav.contact":"اتصال",
+
+        "hero.eyebrow":"حماية البيانات",
+        "hero.title.l1":"سياسة",
+        "hero.title.l2":"الخصوصية",
+        "hero.title.l3":".",
+        "hero.subtitle":"توضح هذه الصفحة بشكل واضح كيف يمكن استخدام المعلومات المرتبطة بالموقع العام SEAL ضمن التجربة المقترحة.",
+        "hero.sideTitle":"قراءة بسيطة",
+        "hero.sideText":"الهدف من هذه الصفحة هو شرح الأساسيات بلغة سهلة دون تعقيد غير ضروري.",
+        "hero.sideTitle2":"الشفافية",
+        "hero.sideText2":"نحن نفضل عرضًا واضحًا لما يتم إظهاره أو حفظه محليًا أو إرساله عبر نموذج الاتصال.",
+
+        "summary.title":"ملخص",
+        "summary.subtitle":"أهم النقاط التي يجب تذكرها.",
+        "summary.card1.title":"استخدام الموقع",
+        "summary.card1.text":"يتيح الموقع العام SEAL بشكل أساسي عرض المعلومات المرتبطة بالتحقق من نطاق ويوفر نموذج اتصال.",
+        "summary.card2.title":"التفضيلات المحلية",
+        "summary.card2.text":"يمكن حفظ بعض التفضيلات، مثل اللغة أو الوضع الفاتح/الداكن، محليًا في المتصفح لتحسين راحة الاستخدام.",
+        "summary.card3.title":"نموذج الاتصال",
+        "summary.card3.text":"تُستخدم البيانات المدخلة في نموذج الاتصال فقط لنقل رسالتك والسماح بالرد عليها.",
+
+        "policy.title":"التفاصيل",
+        "policy.subtitle":"معلومات عامة حول خصوصية الموقع العام.",
+
+        "p1.title":"1. موضوع السياسة",
+        "p1.text1":"تهدف سياسة الخصوصية هذه إلى توضيح، بشكل عام، كيف يمكن معالجة المعلومات المرتبطة باستخدام الموقع العام SEAL.",
+        "p1.text2":"وهي تنطبق على الصفحات العامة للموقع، بما في ذلك الصفحة الرئيسية وصفحات المعلومات والأسئلة الشائعة ونموذج الاتصال.",
+
+        "p2.title":"2. المعلومات المعروضة أو المعالجة على الموقع",
+        "p2.text1":"في إطار التجربة المقترحة، قد يعالج الموقع المعلومات اللازمة لعرض النتائج التي يطلبها المستخدم، على سبيل المثال عندما يتم إدخال نطاق في الواجهة المخصصة لذلك.",
+        "p2.text2":"كما قد يستخدم الموقع البيانات التي يقدمها المستخدم طوعًا عبر نموذج الاتصال، مثل الاسم والبريد الإلكتروني والموضوع والرسالة.",
+
+        "p3.title":"3. التفضيلات المحفوظة محليًا",
+        "p3.text1":"لتحسين استخدام الموقع، قد يتم حفظ بعض التفضيلات محليًا في متصفح المستخدم.",
+        "p3.li1":"اللغة المختارة في الواجهة؛",
+        "p3.li2":"الوضع الفاتح أو الداكن المختار؛",
+        "p3.li3":"إعدادات أخرى مرتبطة فقط بالعرض أو براحة التصفح.",
+
+        "p4.title":"4. استخدام نموذج الاتصال",
+        "p4.text1":"عندما يستخدم المستخدم نموذج الاتصال، تكون المعلومات التي يقدمها مخصصة لنقل رسالته إلى فريق SEAL عبر عنوان الاتصال المحدد.",
+        "p4.text2":"تُستخدم هذه المعلومات فقط لمعالجة الطلب أو الرد عليه أو ضمان المتابعة المعقولة إذا لزم الأمر.",
+
+        "p5.title":"5. الغرض العام",
+        "p5.text1":"تهدف المعالجات التي تتم في إطار الموقع العام أساسًا إلى ضمان حسن عمل الواجهة، والسماح بعرض المحتوى المطلوب، والاحتفاظ ببعض تفضيلات العرض، ونقل الرسائل المرسلة عبر صفحة الاتصال.",
+
+        "p6.title":"6. المدة والحفظ",
+        "p6.text1":"تظل التفضيلات التقنية المحفوظة محليًا في المتصفح تحت سيطرة المستخدم، الذي يمكنه حذفها من إعدادات المتصفح.",
+        "p6.text2":"قد يتم الاحتفاظ بالمعلومات المرسلة عبر نموذج الاتصال للمدة اللازمة لمعالجة الطلب ومتابعته بشكل معقول.",
+
+        "p7.title":"7. تحديث هذه السياسة",
+        "p7.text1":"قد تتطور سياسة الخصوصية هذه لتعكس التغييرات التي تُجرى على الموقع العام أو طريقة عمله أو عرضه.",
+        "p7.text2":"النسخة المعروضة على هذه الصفحة هي التي تنطبق وقت الاطلاع عليها.",
+
+        "cta.title":"هل تحتاج إلى معلومة أخرى؟",
+        "cta.text":"يمكنك الاطلاع على البيان القانوني أو شروط الاستخدام أو مراسلتنا مباشرة عبر صفحة الاتصال.",
+        "cta.button":"الذهاب إلى الاتصال",
+
+        "footer.nav":"التنقل",
+        "footer.support":"الدعم",
+        "footer.supportText":"لأي سؤال متعلق بالموقع العام أو باستخدام نموذج الاتصال.",
+        "footer.legalTitle":"قانوني",
+        "footer.brandText":"يساعدك SEAL على فهم تاريخ انتهاء شهادة SSL بشكل أفضل من خلال واجهة واضحة وسهلة القراءة.",
+        "footer.socials":"الشبكات",
+        "footer.privacy":"سياسة الخصوصية",
+        "footer.legal":"بيان قانوني",
+        "footer.terms":"شروط الاستخدام",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      zh: {
+        "nav.home":"主页",
+        "nav.features":"功能",
+        "nav.about":"关于我们",
+        "nav.faq":"常见问题",
+        "nav.contact":"联系",
+
+        "hero.eyebrow":"数据保护",
+        "hero.title.l1":"隐私",
+        "hero.title.l2":"政策",
+        "hero.title.l3":"。",
+        "hero.subtitle":"本页面以清晰方式说明，在 SEAL 公开网站的使用过程中，相关信息可能会如何被使用。",
+        "hero.sideTitle":"简明阅读",
+        "hero.sideText":"本页面的目标是用易懂的语言说明关键内容，不增加不必要的复杂性。",
+        "hero.sideTitle2":"透明度",
+        "hero.sideText2":"我们优先清楚说明哪些内容会被显示、在本地保存，或通过联系表单传输。",
+
+        "summary.title":"摘要",
+        "summary.subtitle":"需要记住的重点内容。",
+        "summary.card1.title":"网站使用",
+        "summary.card1.text":"SEAL 公开网站主要用于显示与域名查询相关的信息，并提供联系表单。",
+        "summary.card2.title":"本地偏好",
+        "summary.card2.text":"某些偏好设置，如语言或明暗模式，可能会在浏览器中本地保存，以提升使用舒适度。",
+        "summary.card3.title":"联系表单",
+        "summary.card3.text":"联系表单中填写的数据仅用于传达你的消息并允许回复。",
+
+        "policy.title":"详细内容",
+        "policy.subtitle":"关于公开网站隐私的一般信息。",
+
+        "p1.title":"1. 政策目的",
+        "p1.text1":"本隐私政策旨在从总体上说明，与使用 SEAL 公开网站相关的信息可能会如何被处理。",
+        "p1.text2":"它适用于网站的公开页面，包括首页、信息页、FAQ 和联系表单。",
+
+        "p2.title":"2. 网站上显示或处理的信息",
+        "p2.text1":"在提供的体验中，网站可能会处理显示用户所请求结果所需的信息，例如当用户在相应界面中输入域名时。",
+        "p2.text2":"网站也可能使用用户通过联系表单自愿提供的数据，例如姓名、电子邮箱、主题和消息。",
+
+        "p3.title":"3. 本地保存的偏好设置",
+        "p3.text1":"为改善网站使用体验，某些偏好设置可能会保存在用户浏览器本地。",
+        "p3.li1":"界面中选择的语言；",
+        "p3.li2":"所选择的明亮或暗黑模式；",
+        "p3.li3":"其他仅与显示或浏览舒适度有关的设置。",
+
+        "p4.title":"4. 联系表单的使用",
+        "p4.text1":"当用户使用联系表单时，其提供的信息将用于通过指定联系地址把消息发送给 SEAL 团队。",
+        "p4.text2":"这些信息仅用于处理请求、回复请求，或在有需要时进行合理跟进。",
+
+        "p5.title":"5. 一般目的",
+        "p5.text1":"在公开网站框架内进行的处理主要用于确保界面正常运行、显示用户请求的内容、保留某些显示偏好设置，以及传递通过联系页面发送的消息。",
+
+        "p6.title":"6. 保存期限",
+        "p6.text1":"保存在浏览器本地的技术偏好设置仍由用户控制，用户可以在浏览器设置中删除它们。",
+        "p6.text2":"通过联系表单发送的信息可能会保留至处理请求及合理跟进所需的时间。",
+
+        "p7.title":"7. 本政策的更新",
+        "p7.text1":"本隐私政策可能会更新，以反映对公开网站、其运行方式或其展示所做的更改。",
+        "p7.text2":"本页面显示的版本即为访问时适用的版本。",
+
+        "cta.title":"还需要其他信息？",
+        "cta.text":"你可以查看法律声明、使用条款，或通过联系页面直接给我们留言。",
+        "cta.button":"前往联系页面",
+
+        "footer.nav":"导航",
+        "footer.support":"支持",
+        "footer.supportText":"如对公开网站或联系表单有任何问题，可通过此处联系。",
+        "footer.legalTitle":"法律信息",
+        "footer.brandText":"SEAL 通过清晰、易读、易访问的界面，帮助你更好地查看 SSL 证书到期情况。",
+        "footer.socials":"社交",
+        "footer.privacy":"隐私政策",
+        "footer.legal":"法律声明",
+        "footer.terms":"使用条款",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      }
+    };
+
+    const LANGS = [
+      { code:"fr", label:"FR", nameKey:"Français", dir:"ltr" },
+      { code:"en", label:"EN", nameKey:"English", dir:"ltr" },
+      { code:"es", label:"ES", nameKey:"Español", dir:"ltr" },
+      { code:"ru", label:"RU", nameKey:"Русский", dir:"ltr" },
+      { code:"ar", label:"AR", nameKey:"العربية", dir:"rtl" },
+      { code:"zh", label:"ZH", nameKey:"中文", dir:"ltr" }
+    ];
+
+    const $ = (s) => document.querySelector(s);
+
+    function getLang(){ return localStorage.getItem("appLanguage") || "fr"; }
+    function getTheme(){ return localStorage.getItem("themeMode") || "dark"; }
+
+    function t(key){
+      const lang = getLang();
+      return (I18N[lang] && I18N[lang][key]) || I18N.fr[key] || key;
+    }
+
+    function applyI18n(){
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        el.textContent = t(key);
+      });
+    }
+
+    function updateLangUI(){
+      const lang = getLang();
+      const current = LANGS.find(x => x.code === lang) || LANGS[0];
+      $("#langLabel").textContent = current.label;
+      $("#langName").textContent = current.nameKey;
+      $("#langMenu").querySelectorAll(".item").forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
+      });
+    }
+
+    function setLang(lang){
+      const current = LANGS.find(x => x.code === lang) || LANGS[0];
+      localStorage.setItem("appLanguage", current.code);
+      document.documentElement.lang = current.code;
+      document.documentElement.dir = current.dir;
+      applyI18n();
+      updateLangUI();
+    }
+
+    function syncLogo(img){
+      if(!img) return;
+      const theme = document.documentElement.getAttribute("data-theme") || "dark";
+      const darkSrc = img.getAttribute("data-logo-dark");
+      const lightSrc = img.getAttribute("data-logo-light");
+      const useDark = theme === "dark";
+      img.src = useDark ? darkSrc : lightSrc;
+      img.classList.toggle("is-dark-logo", useDark);
+      img.classList.toggle("is-light-logo", !useDark);
+    }
+
+    function syncAllLogos(){
+      syncLogo(document.getElementById("brandLogo"));
+      syncLogo(document.getElementById("footerLogo"));
+    }
+
+    function setTheme(theme){
+      const next = theme === "light" ? "light" : "dark";
+      localStorage.setItem("themeMode", next);
+      document.documentElement.setAttribute("data-theme", next);
+      syncAllLogos();
+    }
+
+    function toggleTheme(){
+      setTheme(getTheme() === "dark" ? "light" : "dark");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setTheme(getTheme());
+      setLang(getLang());
+      syncAllLogos();
+
+      const langToggle = $("#langToggle");
+      const langMenu = $("#langMenu");
+
+      langToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const open = langMenu.classList.toggle("open");
+        langToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+
+      window.addEventListener("click", () => {
+        langMenu.classList.remove("open");
+        langToggle.setAttribute("aria-expanded", "false");
+      });
+
+      langMenu.querySelectorAll(".item").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          setLang(btn.getAttribute("data-lang"));
+          langMenu.classList.remove("open");
+          langToggle.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      $("#themeToggle").addEventListener("click", toggleTheme);
+    });
+  </script>
+</body>
+</html>

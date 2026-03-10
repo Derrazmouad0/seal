@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEAL — Mentions légales</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg0:#07111F;
+      --bg1:#0A1426;
+      --bg2:#0D1A31;
+      --card:rgba(10,18,34,.72);
+      --card-strong:rgba(10,18,34,.88);
+      --text:#EAF2FF;
+      --muted:#A7B4D3;
+      --line:rgba(148,163,184,.18);
+      --accent:#35C6C2;
+      --accent2:#6DBBFF;
+      --accent3:#8A7CFF;
+      --shadow:0 24px 70px rgba(0,0,0,.38);
+      --max:1240px;
+    }
+
+    html[data-theme="light"]{
+      --bg0:#EEF5FF;
+      --bg1:#F8FBFF;
+      --bg2:#FFFFFF;
+      --card:rgba(255,255,255,.82);
+      --card-strong:rgba(255,255,255,.94);
+      --text:#0B1630;
+      --muted:#4B5B79;
+      --line:rgba(15,23,42,.10);
+      --shadow:0 22px 55px rgba(15,23,42,.10);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Roboto,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 520px at 10% -10%, rgba(53,198,194,.18), transparent 60%),
+        radial-gradient(700px 420px at 90% 0%, rgba(109,187,255,.18), transparent 55%),
+        radial-gradient(760px 520px at 50% 120%, rgba(138,124,255,.14), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 48%, var(--bg2));
+      overflow-x:hidden;
+    }
+
+    html[dir="rtl"] body{direction:rtl;}
+    html[dir="rtl"] .nav,
+    html[dir="rtl"] .controls,
+    html[dir="rtl"] .hero-grid,
+    html[dir="rtl"] .legal-layout,
+    html[dir="rtl"] .footer-grid,
+    html[dir="rtl"] .footer-bottom,
+    html[dir="rtl"] .cta{
+      direction:rtl;
+    }
+    html[dir="rtl"] .lang .menu{right:auto;left:0;}
+    html[dir="rtl"] .footer-links a:hover{transform:translateX(-2px)}
+
+    .bg-grid{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.28;
+      background:
+        linear-gradient(to right, rgba(148,163,184,.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148,163,184,.08) 1px, transparent 1px);
+      background-size:52px 52px;
+      mask-image: radial-gradient(circle at 50% 25%, rgba(0,0,0,.9) 0, rgba(0,0,0,.55) 45%, rgba(0,0,0,0) 82%);
+      animation:gridMove 18s linear infinite;
+    }
+    @keyframes gridMove{
+      from{transform:translate3d(0,0,0)}
+      to{transform:translate3d(-52px,52px,0)}
+    }
+
+    .aurora,.aurora2,.aurora3{
+      position:fixed;
+      border-radius:999px;
+      filter:blur(36px);
+      pointer-events:none;
+      opacity:.22;
+      mix-blend-mode:screen;
+    }
+    .aurora{
+      width:420px;height:420px;left:-80px;top:120px;
+      background:radial-gradient(circle at 35% 35%, rgba(53,198,194,.92), transparent 60%);
+      animation:floatA 12s ease-in-out infinite;
+    }
+    .aurora2{
+      width:460px;height:460px;right:-120px;top:80px;
+      background:radial-gradient(circle at 60% 40%, rgba(109,187,255,.90), transparent 60%);
+      animation:floatB 14s ease-in-out infinite;
+    }
+    .aurora3{
+      width:360px;height:360px;left:50%;bottom:-110px;transform:translateX(-50%);
+      background:radial-gradient(circle at 50% 50%, rgba(138,124,255,.75), transparent 62%);
+      animation:floatC 16s ease-in-out infinite;
+    }
+    @keyframes floatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)}}
+    @keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(20px)}}
+    @keyframes floatC{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.06)}}
+
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 18px}
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:60;
+      backdrop-filter:blur(16px);
+      background:color-mix(in srgb, var(--bg1) 72%, transparent);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:14px 0;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      text-decoration:none;
+      color:var(--text);
+      min-width:120px;
+    }
+    .brand img{
+      height:72px;
+      width:auto;
+      display:block;
+      transform-origin:left center;
+    }
+    .brand img.is-dark-logo{transform:scale(1.6)}
+    .brand img.is-light-logo{transform:scale(1.08)}
+
+    .navlinks{
+      display:flex;
+      align-items:center;
+      gap:22px;
+      list-style:none;
+      margin:0;
+      padding:0;
+    }
+    .navlinks a{
+      text-decoration:none;
+      color:var(--text);
+      opacity:.88;
+      font-size:14px;
+      font-weight:600;
+      padding:8px 2px;
+      position:relative;
+      transition:opacity .2s ease, transform .2s ease;
+    }
+    .navlinks a:hover{opacity:1;transform:translateY(-1px)}
+    .navlinks a::after{
+      content:"";
+      position:absolute;
+      left:0;right:0;bottom:0;
+      height:2px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));
+      transform:scaleX(0);
+      transform-origin:left;
+      transition:transform .22s ease;
+    }
+    .navlinks a:hover::after,.navlinks a.active::after{transform:scaleX(1)}
+    .navlinks a.active{opacity:1}
+
+    .controls{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .lang{position:relative}
+    .lang button,
+    .theme-toggle{
+      border:1px solid var(--line);
+      background:color-mix(in srgb, var(--card-strong) 74%, transparent);
+      color:var(--text);
+      box-shadow:0 12px 30px rgba(0,0,0,.15);
+    }
+    .lang button{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      border-radius:999px;
+      padding:9px 12px;
+      font-size:12px;
+      font-weight:700;
+      cursor:pointer;
+      transition:transform .18s ease,border-color .18s ease;
+    }
+    .lang button:hover,.theme-toggle:hover{
+      transform:translateY(-1px);
+      border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
+    }
+    .lang .menu{
+      position:absolute;
+      top:110%;
+      right:0;
+      min-width:190px;
+      padding:8px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background:color-mix(in srgb, var(--card-strong) 90%, transparent);
+      backdrop-filter:blur(14px);
+      box-shadow:var(--shadow);
+      display:none;
+      z-index:80;
+    }
+    .lang .menu.open{display:block}
+    .lang .item{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      border:0;
+      background:transparent;
+      color:var(--text);
+      border-radius:12px;
+      padding:10px;
+      cursor:pointer;
+      font-size:13px;
+      opacity:.92;
+    }
+    .lang .item:hover{background:rgba(148,163,184,.10);opacity:1}
+    .lang .item.active{background:rgba(53,198,194,.12)}
+
+    .pill{
+      font-size:11px;
+      padding:4px 8px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+
+    .theme-toggle{
+      width:46px;height:46px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      transition:transform .18s ease,border-color .18s ease;
+    }
+    .sunmoon{
+      width:22px;height:22px;display:block;
+      transform-origin:50% 50%;
+      transition:transform .55s cubic-bezier(.2,.9,.2,1);
+    }
+    html[data-theme="dark"] .sunmoon{transform:rotate(180deg)}
+    .sun-core,.moon-core{transition:opacity .35s ease}
+    html[data-theme="dark"] .sun-core{opacity:0}
+    html[data-theme="light"] .moon-core{opacity:0}
+
+    main{padding:28px 0 56px}
+
+    .hero,.section,footer,.cta{
+      border:1px solid var(--line);
+      background:color-mix(in srgb, var(--card-strong) 88%, transparent);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(16px);
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border-radius:32px;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 88%, transparent), color-mix(in srgb, var(--card) 92%, transparent)),
+        radial-gradient(900px 420px at 8% 0%, rgba(53,198,194,.12), transparent 62%),
+        radial-gradient(820px 360px at 100% 0%, rgba(109,187,255,.14), transparent 58%);
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg, rgba(255,255,255,.06), transparent 25%, transparent 74%, rgba(255,255,255,.04));
+      pointer-events:none;
+    }
+
+    .hero-grid{
+      position:relative;
+      display:grid;
+      grid-template-columns:1.02fr .98fr;
+      gap:20px;
+      padding:34px 26px 26px;
+      align-items:start;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:10px 14px;
+      background:rgba(255,255,255,.05);
+      color:var(--muted);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+    .eyebrow i{
+      width:8px;height:8px;border-radius:999px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      box-shadow:0 0 0 6px rgba(53,198,194,.12);
+    }
+
+    .hero h1{
+      margin:18px 0 12px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:clamp(34px,4.8vw,66px);
+      line-height:1.02;
+      letter-spacing:-.045em;
+      font-weight:800;
+      max-width:760px;
+    }
+    .hero-title-line{display:block}
+    .hero-title-gradient{
+      display:block;
+      background:linear-gradient(90deg, #9FD8FF 0%, #6DBBFF 28%, #67D6D2 72%, #35C6C2 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .hero p.lead{
+      margin:0;
+      max-width:760px;
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.8;
+    }
+
+    .hero-side{
+      display:grid;
+      gap:14px;
+    }
+    .floating-card{
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:16px;
+      overflow:hidden;
+      background:rgba(255,255,255,.04);
+    }
+    .floating-card h3{
+      margin:0 0 8px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+    .floating-card p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.7;
+    }
+
+    .legal-layout{
+      display:grid;
+      grid-template-columns:.88fr 1.12fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .section{
+      border-radius:28px;
+      overflow:hidden;
+    }
+    .section-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:18px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(148,163,184,.06), transparent);
+      flex-wrap:wrap;
+    }
+    .section-head h2{
+      margin:0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:15px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+    .section-head p{
+      margin:0;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .summary-panel{
+      padding:18px;
+      display:grid;
+      gap:14px;
+    }
+    .summary-card{
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    }
+    .summary-card h3{
+      margin:0 0 8px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:18px;
+    }
+    .summary-card p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+    }
+
+    .legal-content{
+      padding:18px;
+      display:grid;
+      gap:14px;
+    }
+
+    .legal-card{
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:20px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)),
+        radial-gradient(260px 120px at 0% 0%, rgba(53,198,194,.06), transparent 60%);
+    }
+    .legal-card h3{
+      margin:0 0 12px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:20px;
+      line-height:1.35;
+    }
+    .legal-card p{
+      margin:0 0 12px 0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.85;
+    }
+    .legal-card p:last-child{margin-bottom:0}
+
+    .legal-card ul{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.85;
+    }
+    html[dir="rtl"] .legal-card ul{
+      padding-left:0;
+      padding-right:18px;
+    }
+
+    .cta{
+      margin-top:18px;
+      border-radius:28px;
+      padding:22px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 86%, transparent), color-mix(in srgb, var(--card) 95%, transparent)),
+        radial-gradient(700px 240px at 0% 0%, rgba(53,198,194,.10), transparent 55%);
+    }
+    .cta h3{
+      margin:0 0 8px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:24px;
+    }
+    .cta p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+      max-width:760px;
+    }
+
+    .glass-btn{
+      min-height:52px;
+      padding:0 18px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--text);
+      text-decoration:none;
+      font-weight:800;
+      font-size:14px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      cursor:pointer;
+      background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.20), inset 0 -1px 0 rgba(255,255,255,.06), 0 14px 34px rgba(0,0,0,.20);
+      backdrop-filter:blur(14px);
+      transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease;
+    }
+    .glass-btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(255,255,255,.22);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.25), inset 0 -1px 0 rgba(255,255,255,.08), 0 18px 42px rgba(0,0,0,.26);
+      filter:saturate(1.05);
+    }
+    .glass-btn.primary{
+      color:#05121E;
+      border-color:rgba(255,255,255,.16);
+      background:linear-gradient(90deg, rgba(53,198,194,.96), rgba(109,187,255,.96));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.30), 0 18px 40px rgba(53,198,194,.22);
+    }
+    .glass-btn .arrow{
+      width:9px;height:9px;
+      border-right:2px solid currentColor;
+      border-bottom:2px solid currentColor;
+      transform:rotate(-45deg);
+    }
+
+    footer{
+      margin-top:18px;
+      border-radius:32px;
+      overflow:hidden;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 86%, transparent), color-mix(in srgb, var(--card) 95%, transparent)),
+        radial-gradient(700px 220px at 0% 0%, rgba(53,198,194,.10), transparent 55%);
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr .8fr .9fr;
+      gap:18px;
+      padding:24px 22px 20px;
+    }
+    .footer-brand{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .footer-brand img{
+      height:88px;
+      width:auto;
+      display:block;
+      max-width:100%;
+      object-fit:contain;
+      transform-origin:left center;
+    }
+    .footer-brand img.is-dark-logo{transform:scale(1.12)}
+    .footer-brand p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+      max-width:420px;
+    }
+
+    .footer-col h3{
+      margin:0 0 12px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+    .footer-links{
+      display:grid;
+      gap:10px;
+    }
+    .footer-links a,.footer-links span{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:14px;
+      line-height:1.6;
+      transition:color .2s ease, transform .2s ease;
+    }
+    .footer-links a:hover{color:var(--text);transform:translateX(2px)}
+
+    .social-label{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+    .social-label::before{
+      content:"";
+      width:18px;height:1px;
+      background:linear-gradient(90deg,var(--accent),transparent);
+    }
+
+    .socials{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+    }
+    .social{
+      width:42px;height:42px;border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      text-decoration:none;
+      display:grid;place-items:center;
+      transition:transform .18s ease,border-color .18s ease,background .18s ease;
+    }
+    .social:hover{
+      transform:translateY(-1px);
+      border-color:color-mix(in srgb, var(--accent2) 42%, var(--line));
+      background:rgba(53,198,194,.09);
+    }
+    .social svg{width:18px;height:18px;fill:currentColor;display:block}
+
+    .footer-bottom{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      padding:0 22px 20px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    @media (max-width: 1080px){
+      .hero-grid,.legal-layout{grid-template-columns:1fr}
+      .footer-grid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 820px){
+      .navlinks{display:none}
+      .brand img{height:64px}
+      .footer-grid{grid-template-columns:1fr}
+    }
+    @media (max-width: 640px){
+      .hero-grid{padding:26px 16px 16px}
+      .section-head,.summary-panel,.legal-content{padding:16px}
+      .brand img{height:58px}
+      .hero h1{font-size:34px}
+      .footer-grid{padding:20px 16px 14px}
+      .footer-bottom{padding:0 16px 16px}
+      .cta{padding:18px}
+      .legal-card{padding:16px}
+    }
+    @media (prefers-reduced-motion: reduce){
+      .bg-grid,.aurora,.aurora2,.aurora3{animation:none}
+      *{scroll-behavior:auto}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="aurora2" aria-hidden="true"></div>
+  <div class="aurora3" aria-hidden="true"></div>
+
+  <header>
+    <div class="wrap">
+      <div class="nav">
+        <a class="brand" href="SEAL_page_accueil.html" aria-label="SEAL">
+          <img
+            id="brandLogo"
+            src="SEAL-logo-sombre.png"
+            data-logo-dark="SEAL-logo-sombre.png"
+            data-logo-light="SEAL-logo-clair.png"
+            alt="SEAL Logo"
+          >
+        </a>
+
+        <ul class="navlinks">
+          <li><a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a></li>
+          <li><a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a></li>
+          <li><a href="a-propos.html" data-i18n="nav.about">À propos</a></li>
+          <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+          <li><a href="contact-public.html" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+
+        <div class="controls">
+          <div class="lang">
+            <button id="langToggle" type="button" aria-haspopup="true" aria-expanded="false">
+              <span id="langLabel">FR</span>
+              <span class="pill" id="langName">Français</span>
+            </button>
+            <div class="menu" id="langMenu" role="menu" aria-label="Langues">
+              <button class="item" data-lang="fr" role="menuitem"><span>Français</span><span class="pill">FR</span></button>
+              <button class="item" data-lang="en" role="menuitem"><span>English</span><span class="pill">EN</span></button>
+              <button class="item" data-lang="es" role="menuitem"><span>Español</span><span class="pill">ES</span></button>
+              <button class="item" data-lang="ru" role="menuitem"><span>Русский</span><span class="pill">RU</span></button>
+              <button class="item" data-lang="ar" role="menuitem"><span>العربية</span><span class="pill">AR</span></button>
+              <button class="item" data-lang="zh" role="menuitem"><span>中文</span><span class="pill">ZH</span></button>
+            </div>
+          </div>
+
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Basculer clair/sombre">
+            <svg class="sunmoon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <g class="sun-core">
+                <circle cx="12" cy="12" r="5.2" fill="url(#gSun)"/>
+                <g stroke="url(#gSun)" stroke-width="1.8" stroke-linecap="round" opacity=".95">
+                  <path d="M12 1.8v3.0"/>
+                  <path d="M12 19.2v3.0"/>
+                  <path d="M1.8 12h3.0"/>
+                  <path d="M19.2 12h3.0"/>
+                  <path d="M4.1 4.1l2.1 2.1"/>
+                  <path d="M17.8 17.8l2.1 2.1"/>
+                  <path d="M19.9 4.1l-2.1 2.1"/>
+                  <path d="M6.2 17.8l-2.1 2.1"/>
+                </g>
+              </g>
+              <g class="moon-core">
+                <g mask="url(#crescentMaskClean)">
+                  <circle cx="12" cy="12" r="7.35" fill="url(#gMoon)"/>
+                </g>
+                <path d="M7.9 12.2c.2-3.5 2.6-6.4 6.0-7.0"
+                      stroke="rgba(255,255,255,.55)"
+                      stroke-width="1.2"
+                      stroke-linecap="round"
+                      opacity=".35"/>
+              </g>
+              <defs>
+                <linearGradient id="gSun" x1="6" y1="6" x2="19" y2="19" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#35C6C2"/>
+                  <stop offset="1" stop-color="#6DBBFF"/>
+                </linearGradient>
+                <linearGradient id="gMoon" x1="7" y1="7" x2="19" y2="19" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#6DBBFF"/>
+                  <stop offset="1" stop-color="#8A7CFF"/>
+                </linearGradient>
+                <mask id="crescentMaskClean">
+                  <rect x="0" y="0" width="24" height="24" fill="white"/>
+                  <circle cx="15.2" cy="11.0" r="7.1" fill="black"/>
+                </mask>
+              </defs>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="hero" aria-label="Mentions légales">
+        <div class="hero-grid">
+          <div>
+            <span class="eyebrow">
+              <i aria-hidden="true"></i>
+              <span data-i18n="hero.eyebrow">Informations légales</span>
+            </span>
+
+            <h1>
+              <span class="hero-title-line" data-i18n="hero.title.l1">Mentions</span>
+              <span class="hero-title-line" data-i18n="hero.title.l2">légales</span>
+              <span class="hero-title-gradient" data-i18n="hero.title.l3">SEAL.</span>
+            </h1>
+
+            <p class="lead" data-i18n="hero.subtitle">
+              Cette page présente les informations générales relatives au site public SEAL, à son cadre de publication et aux éléments utiles de référence.
+            </p>
+          </div>
+
+          <div class="hero-side">
+            <div class="floating-card">
+              <h3 data-i18n="hero.sideTitle">Clarté</h3>
+              <p data-i18n="hero.sideText">
+                Le contenu de cette page est présenté dans une forme simple, lisible et cohérente avec le reste du site.
+              </p>
+            </div>
+
+            <div class="floating-card">
+              <h3 data-i18n="hero.sideTitle2">Référence</h3>
+              <p data-i18n="hero.sideText2">
+                Les mentions légales donnent un cadre informatif général autour du site public et de son utilisation.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="legal-layout">
+        <section class="section" aria-label="Résumé">
+          <div class="section-head">
+            <div>
+              <h2 data-i18n="summary.title">Résumé</h2>
+              <p data-i18n="summary.subtitle">Les éléments principaux de référence.</p>
+            </div>
+          </div>
+
+          <div class="summary-panel">
+            <div class="summary-card">
+              <h3 data-i18n="summary.card1.title">Site public</h3>
+              <p data-i18n="summary.card1.text">
+                Cette page concerne le site public SEAL et les informations générales qui lui sont associées.
+              </p>
+            </div>
+
+            <div class="summary-card">
+              <h3 data-i18n="summary.card2.title">Contact</h3>
+              <p data-i18n="summary.card2.text">
+                Pour toute question liée au site public, le formulaire de contact et l’adresse du projet constituent le point de contact principal.
+              </p>
+            </div>
+
+            <div class="summary-card">
+              <h3 data-i18n="summary.card3.title">Cadre informatif</h3>
+              <p data-i18n="summary.card3.text">
+                Les mentions légales ont pour vocation de présenter les repères généraux relatifs à l’édition, l’utilisation et le contenu du site.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-label="Contenu légal">
+          <div class="section-head">
+            <div>
+              <h2 data-i18n="legal.title">Détails</h2>
+              <p data-i18n="legal.subtitle">Informations générales liées au site public SEAL.</p>
+            </div>
+          </div>
+
+          <div class="legal-content">
+            <article class="legal-card">
+              <h3 data-i18n="l1.title">1. Présentation du site</h3>
+              <p data-i18n="l1.text1">
+                Le site SEAL est une interface publique proposant une expérience centrée sur la consultation d’informations relatives à l’expiration SSL et sur la mise à disposition de pages d’information accessibles.
+              </p>
+              <p data-i18n="l1.text2">
+                Il comprend notamment une page d’accueil, des pages de présentation, une FAQ, un formulaire de contact et plusieurs pages de référence.
+              </p>
+            </article>
+
+            <article class="legal-card">
+              <h3 data-i18n="l2.title">2. Édition du site</h3>
+              <p data-i18n="l2.text1">
+                Le site public SEAL est présenté comme un projet développé dans un cadre de réalisation numérique autour d’une solution de suivi visuel de l’expiration SSL.
+              </p>
+              <p data-i18n="l2.text2">
+                Les contenus textuels, les interfaces et les éléments affichés sur le site sont publiés dans le cadre de ce projet et peuvent évoluer selon son avancement.
+              </p>
+            </article>
+
+            <article class="legal-card">
+              <h3 data-i18n="l3.title">3. Contact</h3>
+              <p data-i18n="l3.text1">
+                Pour toute question, remarque ou demande liée au site public, l’utilisateur peut utiliser la page Contact prévue à cet effet.
+              </p>
+              <p data-i18n="l3.text2">
+                L’adresse de contact actuellement utilisée dans le cadre du site public est : <strong>esaipseal@gmail.com</strong>.
+              </p>
+            </article>
+
+            <article class="legal-card">
+              <h3 data-i18n="l4.title">4. Hébergement et accessibilité</h3>
+              <p data-i18n="l4.text1">
+                Le site public est destiné à être accessible en ligne dans un environnement d’hébergement compatible avec son fonctionnement technique.
+              </p>
+              <p data-i18n="l4.text2">
+                Malgré l’attention portée à l’expérience proposée, l’accessibilité, la disponibilité ou certains contenus peuvent évoluer dans le temps en fonction des mises à jour du projet.
+              </p>
+            </article>
+
+            <article class="legal-card">
+              <h3 data-i18n="l5.title">5. Contenus et responsabilité générale</h3>
+              <p data-i18n="l5.text1">
+                Les informations présentes sur le site sont fournies dans un objectif de présentation, d’explication et d’usage public de l’interface SEAL.
+              </p>
+              <p data-i18n="l5.text2">
+                Elles peuvent être modifiées, enrichies ou réorganisées à tout moment afin d’améliorer la lisibilité, la cohérence ou la qualité générale du site.
+              </p>
+            </article>
+
+            <article class="legal-card">
+              <h3 data-i18n="l6.title">6. Propriété du contenu visuel et rédactionnel</h3>
+              <p data-i18n="l6.text1">
+                Les éléments visuels, les textes, la structure des pages et l’identité de présentation du site relèvent du cadre global du projet SEAL.
+              </p>
+              <p data-i18n="l6.text2">
+                Toute reprise, adaptation ou réutilisation significative du contenu du site doit être envisagée avec cohérence et dans le respect du contexte du projet.
+              </p>
+            </article>
+
+            <article class="legal-card">
+              <h3 data-i18n="l7.title">7. Liens et pages associées</h3>
+              <p data-i18n="l7.text1">
+                Le site public propose également des pages complémentaires, notamment la politique de confidentialité, les conditions d’utilisation, la FAQ et la page Contact.
+              </p>
+              <p data-i18n="l7.text2">
+                Ces pages forment un ensemble cohérent destiné à mieux encadrer la compréhension et l’utilisation du site public.
+              </p>
+            </article>
+
+            <article class="legal-card">
+              <h3 data-i18n="l8.title">8. Évolution des mentions légales</h3>
+              <p data-i18n="l8.text1">
+                Les présentes mentions légales peuvent être ajustées afin de refléter l’évolution du site, de sa structure, de ses contenus ou de son organisation générale.
+              </p>
+              <p data-i18n="l8.text2">
+                La version consultée sur cette page est celle qui fait référence au moment de la navigation.
+              </p>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <section class="cta" aria-label="Aide complémentaire">
+        <div>
+          <h3 data-i18n="cta.title">Continuer votre lecture</h3>
+          <p data-i18n="cta.text">Vous pouvez également consulter la politique de confidentialité, les conditions d’utilisation ou nous contacter directement.</p>
+        </div>
+
+        <a class="glass-btn primary" href="politique-confidentialite-public.html">
+          <span data-i18n="cta.button">Voir la politique de confidentialité</span>
+          <span class="arrow" aria-hidden="true"></span>
+        </a>
+      </section>
+
+      <footer>
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="SEAL_page_accueil.html" aria-label="SEAL">
+              <img
+                id="footerLogo"
+                src="SEAL-logo-sombre.png"
+                data-logo-dark="SEAL-logo-sombre.png"
+                data-logo-light="SEAL-logo-clair.png"
+                alt="SEAL Logo"
+              >
+            </a>
+            <p data-i18n="footer.brandText">
+              SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.
+            </p>
+
+            <div class="social-label" data-i18n="footer.socials">Réseaux</div>
+            <div class="socials" aria-label="Réseaux sociaux">
+              <a class="social" href="#" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.28 4.97 1.97 1.97 0 0 0 5.25 6.94 1.97 1.97 0 0 0 7.22 4.97 1.97 1.97 0 0 0 5.25 3ZM12.28 12.9c0-1.82.84-2.9 2.46-2.9 1.48 0 2.19 1.04 2.19 2.9V20h3.36v-8.22c0-3.48-1.97-5.16-4.71-5.16-2.2 0-3.17 1.21-3.72 2.05V8.5H8.62c.04.81 0 11.5 0 11.5h3.24v-7.1Z"/></svg>
+              </a>
+              <a class="social" href="#" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.95 1.35a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+              </a>
+              <a class="social" href="#" aria-label="X">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H21l-6.56 7.5L22 22h-5.96l-4.67-6.1L6.03 22H4l7-8L2 2h6.11l4.22 5.52L18.9 2Zm-1.04 18h1.65L7.2 3.9H5.42L17.86 20Z"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h3 data-i18n="footer.nav">Navigation</h3>
+            <div class="footer-links">
+              <a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a>
+              <a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a>
+              <a href="a-propos.html" data-i18n="nav.about">À propos</a>
+              <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+              <a href="contact-public.html" data-i18n="nav.contact">Contact</a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h3 data-i18n="footer.support">Support</h3>
+            <div class="footer-links">
+              <span>esaipseal@gmail.com</span>
+              <span data-i18n="footer.supportText">Pour toute question liée au site public ou à l’utilisation du formulaire de contact.</span>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h3 data-i18n="footer.legalTitle">Légal</h3>
+            <div class="footer-links">
+              <a href="politique-confidentialite-public.html" data-i18n="footer.privacy">Politique de confidentialité</a>
+              <a href="mentions-legales-public.html" data-i18n="footer.legal">Mentions légales</a>
+              <a href="conditions-utilisation-public.html" data-i18n="footer.terms">Conditions d’utilisation</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div>© 2026 SEAL</div>
+          <div data-i18n="footer.bottomText">Secure Expiry Alert & Logging</div>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    const I18N = {
+      fr: {
+        "nav.home":"Accueil",
+        "nav.features":"Fonctionnalités",
+        "nav.about":"À propos",
+        "nav.faq":"FAQ",
+        "nav.contact":"Contact",
+
+        "hero.eyebrow":"Informations légales",
+        "hero.title.l1":"Mentions",
+        "hero.title.l2":"légales",
+        "hero.title.l3":"SEAL.",
+        "hero.subtitle":"Cette page présente les informations générales relatives au site public SEAL, à son cadre de publication et aux éléments utiles de référence.",
+        "hero.sideTitle":"Clarté",
+        "hero.sideText":"Le contenu de cette page est présenté dans une forme simple, lisible et cohérente avec le reste du site.",
+        "hero.sideTitle2":"Référence",
+        "hero.sideText2":"Les mentions légales donnent un cadre informatif général autour du site public et de son utilisation.",
+
+        "summary.title":"Résumé",
+        "summary.subtitle":"Les éléments principaux de référence.",
+        "summary.card1.title":"Site public",
+        "summary.card1.text":"Cette page concerne le site public SEAL et les informations générales qui lui sont associées.",
+        "summary.card2.title":"Contact",
+        "summary.card2.text":"Pour toute question liée au site public, le formulaire de contact et l’adresse du projet constituent le point de contact principal.",
+        "summary.card3.title":"Cadre informatif",
+        "summary.card3.text":"Les mentions légales ont pour vocation de présenter les repères généraux relatifs à l’édition, l’utilisation et le contenu du site.",
+
+        "legal.title":"Détails",
+        "legal.subtitle":"Informations générales liées au site public SEAL.",
+
+        "l1.title":"1. Présentation du site",
+        "l1.text1":"Le site SEAL est une interface publique proposant une expérience centrée sur la consultation d’informations relatives à l’expiration SSL et sur la mise à disposition de pages d’information accessibles.",
+        "l1.text2":"Il comprend notamment une page d’accueil, des pages de présentation, une FAQ, un formulaire de contact et plusieurs pages de référence.",
+
+        "l2.title":"2. Édition du site",
+        "l2.text1":"Le site public SEAL est présenté comme un projet développé dans un cadre de réalisation numérique autour d’une solution de suivi visuel de l’expiration SSL.",
+        "l2.text2":"Les contenus textuels, les interfaces et les éléments affichés sur le site sont publiés dans le cadre de ce projet et peuvent évoluer selon son avancement.",
+
+        "l3.title":"3. Contact",
+        "l3.text1":"Pour toute question, remarque ou demande liée au site public, l’utilisateur peut utiliser la page Contact prévue à cet effet.",
+        "l3.text2":"L’adresse de contact actuellement utilisée dans le cadre du site public est : ",
+
+        "l4.title":"4. Hébergement et accessibilité",
+        "l4.text1":"Le site public est destiné à être accessible en ligne dans un environnement d’hébergement compatible avec son fonctionnement technique.",
+        "l4.text2":"Malgré l’attention portée à l’expérience proposée, l’accessibilité, la disponibilité ou certains contenus peuvent évoluer dans le temps en fonction des mises à jour du projet.",
+
+        "l5.title":"5. Contenus et responsabilité générale",
+        "l5.text1":"Les informations présentes sur le site sont fournies dans un objectif de présentation, d’explication et d’usage public de l’interface SEAL.",
+        "l5.text2":"Elles peuvent être modifiées, enrichies ou réorganisées à tout moment afin d’améliorer la lisibilité, la cohérence ou la qualité générale du site.",
+
+        "l6.title":"6. Propriété du contenu visuel et rédactionnel",
+        "l6.text1":"Les éléments visuels, les textes, la structure des pages et l’identité de présentation du site relèvent du cadre global du projet SEAL.",
+        "l6.text2":"Toute reprise, adaptation ou réutilisation significative du contenu du site doit être envisagée avec cohérence et dans le respect du contexte du projet.",
+
+        "l7.title":"7. Liens et pages associées",
+        "l7.text1":"Le site public propose également des pages complémentaires, notamment la politique de confidentialité, les conditions d’utilisation, la FAQ et la page Contact.",
+        "l7.text2":"Ces pages forment un ensemble cohérent destiné à mieux encadrer la compréhension et l’utilisation du site public.",
+
+        "l8.title":"8. Évolution des mentions légales",
+        "l8.text1":"Les présentes mentions légales peuvent être ajustées afin de refléter l’évolution du site, de sa structure, de ses contenus ou de son organisation générale.",
+        "l8.text2":"La version consultée sur cette page est celle qui fait référence au moment de la navigation.",
+
+        "cta.title":"Continuer votre lecture",
+        "cta.text":"Vous pouvez également consulter la politique de confidentialité, les conditions d’utilisation ou nous contacter directement.",
+        "cta.button":"Voir la politique de confidentialité",
+
+        "footer.nav":"Navigation",
+        "footer.support":"Support",
+        "footer.supportText":"Pour toute question liée au site public ou à l’utilisation du formulaire de contact.",
+        "footer.legalTitle":"Légal",
+        "footer.brandText":"SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.",
+        "footer.socials":"Réseaux",
+        "footer.privacy":"Politique de confidentialité",
+        "footer.legal":"Mentions légales",
+        "footer.terms":"Conditions d’utilisation",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      en: {
+        "nav.home":"Home",
+        "nav.features":"Features",
+        "nav.about":"About",
+        "nav.faq":"FAQ",
+        "nav.contact":"Contact",
+
+        "hero.eyebrow":"Legal information",
+        "hero.title.l1":"Legal",
+        "hero.title.l2":"notice",
+        "hero.title.l3":"SEAL.",
+        "hero.subtitle":"This page presents the general information related to the SEAL public website, its publication framework, and useful reference elements.",
+        "hero.sideTitle":"Clarity",
+        "hero.sideText":"The content of this page is presented in a simple, readable form consistent with the rest of the site.",
+        "hero.sideTitle2":"Reference",
+        "hero.sideText2":"The legal notice provides a general informational framework around the public website and its use.",
+
+        "summary.title":"Summary",
+        "summary.subtitle":"The main reference elements.",
+        "summary.card1.title":"Public website",
+        "summary.card1.text":"This page concerns the SEAL public website and the general information associated with it.",
+        "summary.card2.title":"Contact",
+        "summary.card2.text":"For any question related to the public website, the contact form and the project address are the main point of contact.",
+        "summary.card3.title":"Informational framework",
+        "summary.card3.text":"The legal notice is intended to present the general reference points related to the publication, use, and content of the site.",
+
+        "legal.title":"Details",
+        "legal.subtitle":"General information related to the SEAL public website.",
+
+        "l1.title":"1. Presentation of the website",
+        "l1.text1":"The SEAL website is a public interface offering an experience centered on consulting information related to SSL expiration and providing accessible information pages.",
+        "l1.text2":"It notably includes a home page, presentation pages, an FAQ, a contact form, and several reference pages.",
+
+        "l2.title":"2. Website publication",
+        "l2.text1":"The SEAL public website is presented as a project developed within a digital creation framework around a visual SSL expiration tracking solution.",
+        "l2.text2":"The textual contents, interfaces, and displayed elements on the website are published within the framework of this project and may evolve as it progresses.",
+
+        "l3.title":"3. Contact",
+        "l3.text1":"For any question, remark, or request related to the public website, the user may use the Contact page provided for that purpose.",
+        "l3.text2":"The contact address currently used for the public website is: ",
+
+        "l4.title":"4. Hosting and accessibility",
+        "l4.text1":"The public website is intended to be accessible online in a hosting environment compatible with its technical operation.",
+        "l4.text2":"Despite the attention given to the proposed experience, accessibility, availability, or some content may evolve over time depending on project updates.",
+
+        "l5.title":"5. Content and general responsibility",
+        "l5.text1":"The information available on the site is provided for the purpose of presentation, explanation, and public use of the SEAL interface.",
+        "l5.text2":"It may be modified, enriched, or reorganized at any time in order to improve readability, coherence, or the general quality of the site.",
+
+        "l6.title":"6. Ownership of visual and editorial content",
+        "l6.text1":"The visual elements, texts, page structure, and presentation identity of the site belong to the overall framework of the SEAL project.",
+        "l6.text2":"Any significant reuse, adaptation, or reproduction of the website content should be considered coherently and with respect for the project context.",
+
+        "l7.title":"7. Links and related pages",
+        "l7.text1":"The public website also provides complementary pages, notably the privacy policy, terms of use, FAQ, and the Contact page.",
+        "l7.text2":"These pages form a coherent whole designed to better frame the understanding and use of the public website.",
+
+        "l8.title":"8. Evolution of the legal notice",
+        "l8.text1":"This legal notice may be adjusted to reflect the evolution of the website, its structure, its content, or its overall organization.",
+        "l8.text2":"The version viewed on this page is the one that applies at the time of browsing.",
+
+        "cta.title":"Continue reading",
+        "cta.text":"You can also read the privacy policy, the terms of use, or contact us directly.",
+        "cta.button":"View the privacy policy",
+
+        "footer.nav":"Navigation",
+        "footer.support":"Support",
+        "footer.supportText":"For any question related to the public website or the contact form.",
+        "footer.legalTitle":"Legal",
+        "footer.brandText":"SEAL helps you better visualize SSL certificate expiration with a clear, readable, and accessible interface.",
+        "footer.socials":"Socials",
+        "footer.privacy":"Privacy policy",
+        "footer.legal":"Legal notice",
+        "footer.terms":"Terms of use",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      es: {
+        "nav.home":"Inicio",
+        "nav.features":"Funcionalidades",
+        "nav.about":"Acerca de",
+        "nav.faq":"FAQ",
+        "nav.contact":"Contacto",
+
+        "hero.eyebrow":"Información legal",
+        "hero.title.l1":"Aviso",
+        "hero.title.l2":"legal",
+        "hero.title.l3":"SEAL.",
+        "hero.subtitle":"Esta página presenta la información general relacionada con el sitio público SEAL, su marco de publicación y los elementos útiles de referencia.",
+        "hero.sideTitle":"Claridad",
+        "hero.sideText":"El contenido de esta página se presenta de forma simple, legible y coherente con el resto del sitio.",
+        "hero.sideTitle2":"Referencia",
+        "hero.sideText2":"El aviso legal ofrece un marco informativo general en torno al sitio público y su uso.",
+
+        "summary.title":"Resumen",
+        "summary.subtitle":"Los principales elementos de referencia.",
+        "summary.card1.title":"Sitio público",
+        "summary.card1.text":"Esta página se refiere al sitio público SEAL y a la información general asociada a él.",
+        "summary.card2.title":"Contacto",
+        "summary.card2.text":"Para cualquier pregunta relacionada con el sitio público, el formulario de contacto y la dirección del proyecto constituyen el principal punto de contacto.",
+        "summary.card3.title":"Marco informativo",
+        "summary.card3.text":"El aviso legal tiene por objeto presentar los puntos generales de referencia relativos a la edición, el uso y el contenido del sitio.",
+
+        "legal.title":"Detalles",
+        "legal.subtitle":"Información general relacionada con el sitio público SEAL.",
+
+        "l1.title":"1. Presentación del sitio",
+        "l1.text1":"El sitio SEAL es una interfaz pública que ofrece una experiencia centrada en la consulta de información relativa a la expiración SSL y en la puesta a disposición de páginas informativas accesibles.",
+        "l1.text2":"Incluye en particular una página de inicio, páginas de presentación, una FAQ, un formulario de contacto y varias páginas de referencia.",
+
+        "l2.title":"2. Edición del sitio",
+        "l2.text1":"El sitio público SEAL se presenta como un proyecto desarrollado en un marco de realización digital en torno a una solución de seguimiento visual de la expiración SSL.",
+        "l2.text2":"Los contenidos textuales, las interfaces y los elementos mostrados en el sitio se publican en el marco de este proyecto y pueden evolucionar según su avance.",
+
+        "l3.title":"3. Contacto",
+        "l3.text1":"Para cualquier pregunta, observación o solicitud relacionada con el sitio público, el usuario puede utilizar la página Contacto prevista para ello.",
+        "l3.text2":"La dirección de contacto utilizada actualmente en el marco del sitio público es: ",
+
+        "l4.title":"4. Alojamiento y accesibilidad",
+        "l4.text1":"El sitio público está destinado a ser accesible en línea en un entorno de alojamiento compatible con su funcionamiento técnico.",
+        "l4.text2":"A pesar de la atención prestada a la experiencia propuesta, la accesibilidad, la disponibilidad o ciertos contenidos pueden evolucionar con el tiempo en función de las actualizaciones del proyecto.",
+
+        "l5.title":"5. Contenidos y responsabilidad general",
+        "l5.text1":"La información presente en el sitio se proporciona con un objetivo de presentación, explicación y uso público de la interfaz SEAL.",
+        "l5.text2":"Puede ser modificada, enriquecida o reorganizada en cualquier momento con el fin de mejorar la legibilidad, la coherencia o la calidad general del sitio.",
+
+        "l6.title":"6. Propiedad del contenido visual y editorial",
+        "l6.text1":"Los elementos visuales, los textos, la estructura de las páginas y la identidad de presentación del sitio pertenecen al marco global del proyecto SEAL.",
+        "l6.text2":"Toda reutilización, adaptación o reproducción significativa del contenido del sitio debe considerarse de forma coherente y respetando el contexto del proyecto.",
+
+        "l7.title":"7. Enlaces y páginas asociadas",
+        "l7.text1":"El sitio público también ofrece páginas complementarias, en particular la política de privacidad, las condiciones de uso, la FAQ y la página de Contacto.",
+        "l7.text2":"Estas páginas forman un conjunto coherente destinado a encuadrar mejor la comprensión y el uso del sitio público.",
+
+        "l8.title":"8. Evolución del aviso legal",
+        "l8.text1":"El presente aviso legal puede ajustarse para reflejar la evolución del sitio, su estructura, sus contenidos o su organización general.",
+        "l8.text2":"La versión consultada en esta página es la que sirve de referencia en el momento de la navegación.",
+
+        "cta.title":"Continuar la lectura",
+        "cta.text":"También puedes consultar la política de privacidad, las condiciones de uso o contactarnos directamente.",
+        "cta.button":"Ver la política de privacidad",
+
+        "footer.nav":"Navegación",
+        "footer.support":"Soporte",
+        "footer.supportText":"Para cualquier pregunta relacionada con el sitio público o el formulario de contacto.",
+        "footer.legalTitle":"Legal",
+        "footer.brandText":"SEAL te ayuda a visualizar mejor la expiración de un certificado SSL con una interfaz clara, legible y accesible.",
+        "footer.socials":"Redes",
+        "footer.privacy":"Política de privacidad",
+        "footer.legal":"Aviso legal",
+        "footer.terms":"Condiciones de uso",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      ru: {
+        "nav.home":"Главная",
+        "nav.features":"Функции",
+        "nav.about":"О нас",
+        "nav.faq":"FAQ",
+        "nav.contact":"Контакты",
+
+        "hero.eyebrow":"Юридическая информация",
+        "hero.title.l1":"Юридическая",
+        "hero.title.l2":"информация",
+        "hero.title.l3":"SEAL.",
+        "hero.subtitle":"На этой странице представлена общая информация, связанная с публичным сайтом SEAL, рамками его публикации и полезными справочными элементами.",
+        "hero.sideTitle":"Ясность",
+        "hero.sideText":"Содержимое этой страницы представлено в простой, читаемой форме и согласовано с остальной частью сайта.",
+        "hero.sideTitle2":"Справка",
+        "hero.sideText2":"Юридическая информация задаёт общий информационный контекст вокруг публичного сайта и его использования.",
+
+        "summary.title":"Кратко",
+        "summary.subtitle":"Основные справочные элементы.",
+        "summary.card1.title":"Публичный сайт",
+        "summary.card1.text":"Эта страница относится к публичному сайту SEAL и общей информации, связанной с ним.",
+        "summary.card2.title":"Контакт",
+        "summary.card2.text":"По любым вопросам, связанным с публичным сайтом, форма контакта и адрес проекта являются основным способом связи.",
+        "summary.card3.title":"Информационные рамки",
+        "summary.card3.text":"Юридическая информация предназначена для представления общих ориентиров, связанных с публикацией, использованием и содержанием сайта.",
+
+        "legal.title":"Подробности",
+        "legal.subtitle":"Общая информация, связанная с публичным сайтом SEAL.",
+
+        "l1.title":"1. Представление сайта",
+        "l1.text1":"Сайт SEAL — это публичный интерфейс, предлагающий опыт, сосредоточенный на просмотре информации, связанной со сроком действия SSL, и на предоставлении доступных информационных страниц.",
+        "l1.text2":"Он включает, в частности, главную страницу, страницы представления, FAQ, форму контакта и несколько справочных страниц.",
+
+        "l2.title":"2. Публикация сайта",
+        "l2.text1":"Публичный сайт SEAL представлен как проект, разработанный в цифровом формате вокруг решения для визуального отслеживания срока действия SSL.",
+        "l2.text2":"Текстовое содержание, интерфейсы и отображаемые элементы публикуются в рамках этого проекта и могут изменяться по мере его развития.",
+
+        "l3.title":"3. Контакт",
+        "l3.text1":"По любому вопросу, замечанию или запросу, связанному с публичным сайтом, пользователь может воспользоваться страницей Контакты, предусмотренной для этой цели.",
+        "l3.text2":"Контактный адрес, используемый в рамках публичного сайта в настоящее время: ",
+
+        "l4.title":"4. Хостинг и доступность",
+        "l4.text1":"Публичный сайт предназначен для онлайн-доступа в среде хостинга, совместимой с его технической работой.",
+        "l4.text2":"Несмотря на внимание к предлагаемому опыту, доступность, наличие или некоторые материалы могут меняться со временем в зависимости от обновлений проекта.",
+
+        "l5.title":"5. Содержание и общая ответственность",
+        "l5.text1":"Информация, размещённая на сайте, предоставляется в целях представления, объяснения и публичного использования интерфейса SEAL.",
+        "l5.text2":"Она может быть изменена, дополнена или переработана в любое время для улучшения читаемости, согласованности или общего качества сайта.",
+
+        "l6.title":"6. Право на визуальное и редакционное содержание",
+        "l6.text1":"Визуальные элементы, тексты, структура страниц и стиль представления сайта относятся к общему проектному контексту SEAL.",
+        "l6.text2":"Любое существенное повторное использование, адаптация или воспроизведение содержания сайта должно рассматриваться последовательно и с уважением к контексту проекта.",
+
+        "l7.title":"7. Ссылки и связанные страницы",
+        "l7.text1":"Публичный сайт также предлагает дополнительные страницы, в частности политику конфиденциальности, условия использования, FAQ и страницу Контакты.",
+        "l7.text2":"Эти страницы образуют единое целое, предназначенное для лучшего понимания и использования публичного сайта.",
+
+        "l8.title":"8. Изменение юридической информации",
+        "l8.text1":"Настоящая юридическая информация может корректироваться, чтобы отражать изменения в сайте, его структуре, содержании или общей организации.",
+        "l8.text2":"Версия, отображаемая на этой странице, является действующей на момент просмотра.",
+
+        "cta.title":"Продолжить чтение",
+        "cta.text":"Вы также можете открыть политику конфиденциальности, условия использования или связаться с нами напрямую.",
+        "cta.button":"Открыть политику конфиденциальности",
+
+        "footer.nav":"Навигация",
+        "footer.support":"Поддержка",
+        "footer.supportText":"По любым вопросам, связанным с публичным сайтом или формой контакта.",
+        "footer.legalTitle":"Правовая информация",
+        "footer.brandText":"SEAL помогает лучше видеть срок действия SSL-сертификата благодаря понятному, читаемому и доступному интерфейсу.",
+        "footer.socials":"Соцсети",
+        "footer.privacy":"Политика конфиденциальности",
+        "footer.legal":"Юридическая информация",
+        "footer.terms":"Условия использования",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      ar: {
+        "nav.home":"الرئيسية",
+        "nav.features":"الميزات",
+        "nav.about":"من نحن",
+        "nav.faq":"الأسئلة الشائعة",
+        "nav.contact":"اتصال",
+
+        "hero.eyebrow":"معلومات قانونية",
+        "hero.title.l1":"البيانات",
+        "hero.title.l2":"القانونية",
+        "hero.title.l3":"SEAL.",
+        "hero.subtitle":"تقدم هذه الصفحة المعلومات العامة المتعلقة بالموقع العام SEAL وإطار نشره والعناصر المرجعية المفيدة.",
+        "hero.sideTitle":"وضوح",
+        "hero.sideText":"يتم عرض محتوى هذه الصفحة بشكل بسيط وسهل القراءة ومتناسق مع بقية الموقع.",
+        "hero.sideTitle2":"مرجع",
+        "hero.sideText2":"توفر البيانات القانونية إطارًا معلوماتيًا عامًا حول الموقع العام وكيفية استخدامه.",
+
+        "summary.title":"ملخص",
+        "summary.subtitle":"العناصر المرجعية الرئيسية.",
+        "summary.card1.title":"الموقع العام",
+        "summary.card1.text":"تتعلق هذه الصفحة بالموقع العام SEAL وبالمعلومات العامة المرتبطة به.",
+        "summary.card2.title":"الاتصال",
+        "summary.card2.text":"لأي سؤال متعلق بالموقع العام، فإن نموذج الاتصال وعنوان المشروع يشكلان نقطة الاتصال الرئيسية.",
+        "summary.card3.title":"الإطار المعلوماتي",
+        "summary.card3.text":"تهدف البيانات القانونية إلى عرض المعالم العامة المتعلقة بنشر الموقع واستخدامه ومحتواه.",
+
+        "legal.title":"التفاصيل",
+        "legal.subtitle":"معلومات عامة مرتبطة بالموقع العام SEAL.",
+
+        "l1.title":"1. تقديم الموقع",
+        "l1.text1":"موقع SEAL هو واجهة عامة تقدم تجربة تركز على الاطلاع على المعلومات المرتبطة بانتهاء SSL وعلى توفير صفحات معلوماتية متاحة.",
+        "l1.text2":"ويتضمن خصوصًا صفحة رئيسية وصفحات عرض وأسئلة شائعة ونموذج اتصال وعدة صفحات مرجعية.",
+
+        "l2.title":"2. نشر الموقع",
+        "l2.text1":"يُعرض الموقع العام SEAL كمشروع تم تطويره في إطار إنجاز رقمي حول حل مرئي لمتابعة انتهاء SSL.",
+        "l2.text2":"يتم نشر المحتويات النصية والواجهات والعناصر المعروضة على الموقع ضمن إطار هذا المشروع، وقد تتطور حسب تقدمه.",
+
+        "l3.title":"3. الاتصال",
+        "l3.text1":"لأي سؤال أو ملاحظة أو طلب متعلق بالموقع العام، يمكن للمستخدم استعمال صفحة الاتصال المخصصة لذلك.",
+        "l3.text2":"عنوان الاتصال المستخدم حاليًا في إطار الموقع العام هو: ",
+
+        "l4.title":"4. الاستضافة وإمكانية الوصول",
+        "l4.text1":"الموقع العام مخصص ليكون متاحًا عبر الإنترنت ضمن بيئة استضافة متوافقة مع عمله التقني.",
+        "l4.text2":"ورغم العناية الممنوحة للتجربة المقترحة، فإن إمكانية الوصول أو التوفر أو بعض المحتويات قد تتطور بمرور الوقت وفقًا لتحديثات المشروع.",
+
+        "l5.title":"5. المحتوى والمسؤولية العامة",
+        "l5.text1":"تُقدم المعلومات الموجودة على الموقع بهدف العرض والشرح والاستخدام العام لواجهة SEAL.",
+        "l5.text2":"ويمكن تعديلها أو إثراؤها أو إعادة تنظيمها في أي وقت لتحسين الوضوح أو التناسق أو الجودة العامة للموقع.",
+
+        "l6.title":"6. ملكية المحتوى البصري والتحريري",
+        "l6.text1":"تندرج العناصر البصرية والنصوص وبنية الصفحات وهوية العرض الخاصة بالموقع ضمن الإطار العام لمشروع SEAL.",
+        "l6.text2":"يجب النظر في أي إعادة استخدام أو تكييف أو استغلال مهم لمحتوى الموقع بشكل منسجم ومع احترام سياق المشروع.",
+
+        "l7.title":"7. الروابط والصفحات المرتبطة",
+        "l7.text1":"يوفر الموقع العام أيضًا صفحات مكملة، لاسيما سياسة الخصوصية وشروط الاستخدام والأسئلة الشائعة وصفحة الاتصال.",
+        "l7.text2":"تشكل هذه الصفحات مجموعة متناسقة تهدف إلى تأطير أفضل لفهم الموقع العام واستخدامه.",
+
+        "l8.title":"8. تطور البيانات القانونية",
+        "l8.text1":"يمكن تعديل هذه البيانات القانونية لتعكس تطور الموقع أو بنيته أو محتواه أو تنظيمه العام.",
+        "l8.text2":"النسخة المعروضة على هذه الصفحة هي المرجع وقت التصفح.",
+
+        "cta.title":"تابع القراءة",
+        "cta.text":"يمكنك أيضًا الاطلاع على سياسة الخصوصية أو شروط الاستخدام أو التواصل معنا مباشرة.",
+        "cta.button":"عرض سياسة الخصوصية",
+
+        "footer.nav":"التنقل",
+        "footer.support":"الدعم",
+        "footer.supportText":"لأي سؤال متعلق بالموقع العام أو نموذج الاتصال.",
+        "footer.legalTitle":"قانوني",
+        "footer.brandText":"يساعدك SEAL على فهم تاريخ انتهاء شهادة SSL بشكل أفضل من خلال واجهة واضحة وسهلة القراءة.",
+        "footer.socials":"الشبكات",
+        "footer.privacy":"سياسة الخصوصية",
+        "footer.legal":"بيان قانوني",
+        "footer.terms":"شروط الاستخدام",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      zh: {
+        "nav.home":"主页",
+        "nav.features":"功能",
+        "nav.about":"关于我们",
+        "nav.faq":"常见问题",
+        "nav.contact":"联系",
+
+        "hero.eyebrow":"法律信息",
+        "hero.title.l1":"法律",
+        "hero.title.l2":"声明",
+        "hero.title.l3":"SEAL.",
+        "hero.subtitle":"本页面介绍与 SEAL 公开网站、其发布框架以及相关参考信息有关的一般内容。",
+        "hero.sideTitle":"清晰",
+        "hero.sideText":"本页面内容以简单、易读并与网站其他部分一致的方式呈现。",
+        "hero.sideTitle2":"参考",
+        "hero.sideText2":"法律声明为公开网站及其使用提供一般性的信息框架。",
+
+        "summary.title":"摘要",
+        "summary.subtitle":"主要参考要点。",
+        "summary.card1.title":"公开网站",
+        "summary.card1.text":"本页面涉及 SEAL 公开网站以及与之相关的一般信息。",
+        "summary.card2.title":"联系",
+        "summary.card2.text":"如有与公开网站相关的问题，联系表单和项目地址构成主要联系入口。",
+        "summary.card3.title":"信息框架",
+        "summary.card3.text":"法律声明旨在介绍与网站发布、使用和内容有关的一般参考要点。",
+
+        "legal.title":"详细内容",
+        "legal.subtitle":"与 SEAL 公开网站相关的一般信息。",
+
+        "l1.title":"1. 网站介绍",
+        "l1.text1":"SEAL 网站是一个公开界面，提供围绕 SSL 到期信息查询以及可访问信息页面的使用体验。",
+        "l1.text2":"其中包括首页、介绍页面、FAQ、联系表单以及若干参考页面。",
+
+        "l2.title":"2. 网站发布",
+        "l2.text1":"SEAL 公开网站被呈现为一个围绕可视化 SSL 到期跟踪方案而开发的数字化项目。",
+        "l2.text2":"网站上的文本内容、界面和显示元素均在该项目框架下发布，并可能随着项目进展而变化。",
+
+        "l3.title":"3. 联系方式",
+        "l3.text1":"如有任何与公开网站有关的问题、意见或请求，用户可以使用为此设置的联系页面。",
+        "l3.text2":"当前公开网站使用的联系地址为：",
+
+        "l4.title":"4. 托管与可访问性",
+        "l4.text1":"公开网站旨在部署于与其技术运行兼容的在线托管环境中。",
+        "l4.text2":"尽管我们重视所提供的体验，但可访问性、可用性或部分内容仍可能随着项目更新而发生变化。",
+
+        "l5.title":"5. 内容与一般责任",
+        "l5.text1":"网站上的信息用于展示、说明以及公开使用 SEAL 界面。",
+        "l5.text2":"这些信息可在任何时候被修改、补充或重新组织，以提升可读性、一致性或网站整体质量。",
+
+        "l6.title":"6. 视觉与文字内容的归属",
+        "l6.text1":"网站的视觉元素、文本、页面结构和展示风格均属于 SEAL 项目的整体框架。",
+        "l6.text2":"任何对网站内容的重要再利用、改编或复用，都应在尊重项目背景和整体一致性的前提下考虑。",
+
+        "l7.title":"7. 链接与相关页面",
+        "l7.text1":"公开网站还提供补充页面，尤其包括隐私政策、使用条款、FAQ 和联系页面。",
+        "l7.text2":"这些页面构成一个连贯整体，旨在更好地帮助理解和使用公开网站。",
+
+        "l8.title":"8. 法律声明的更新",
+        "l8.text1":"本法律声明可根据网站、其结构、内容或整体组织方式的变化进行调整。",
+        "l8.text2":"本页面显示的版本为访问时的参考版本。",
+
+        "cta.title":"继续阅读",
+        "cta.text":"你也可以查看隐私政策、使用条款，或直接联系我们。",
+        "cta.button":"查看隐私政策",
+
+        "footer.nav":"导航",
+        "footer.support":"支持",
+        "footer.supportText":"如对公开网站或联系表单有任何问题，可通过此处联系。",
+        "footer.legalTitle":"法律信息",
+        "footer.brandText":"SEAL 通过清晰、易读、易访问的界面，帮助你更好地查看 SSL 证书到期情况。",
+        "footer.socials":"社交",
+        "footer.privacy":"隐私政策",
+        "footer.legal":"法律声明",
+        "footer.terms":"使用条款",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      }
+    };
+
+    const LANGS = [
+      { code:"fr", label:"FR", nameKey:"Français", dir:"ltr" },
+      { code:"en", label:"EN", nameKey:"English", dir:"ltr" },
+      { code:"es", label:"ES", nameKey:"Español", dir:"ltr" },
+      { code:"ru", label:"RU", nameKey:"Русский", dir:"ltr" },
+      { code:"ar", label:"AR", nameKey:"العربية", dir:"rtl" },
+      { code:"zh", label:"ZH", nameKey:"中文", dir:"ltr" }
+    ];
+
+    const $ = (s) => document.querySelector(s);
+
+    function getLang(){ return localStorage.getItem("appLanguage") || "fr"; }
+    function getTheme(){ return localStorage.getItem("themeMode") || "dark"; }
+
+    function t(key){
+      const lang = getLang();
+      return (I18N[lang] && I18N[lang][key]) || I18N.fr[key] || key;
+    }
+
+    function applyI18n(){
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        el.textContent = t(key);
+      });
+    }
+
+    function updateLangUI(){
+      const lang = getLang();
+      const current = LANGS.find(x => x.code === lang) || LANGS[0];
+      $("#langLabel").textContent = current.label;
+      $("#langName").textContent = current.nameKey;
+      $("#langMenu").querySelectorAll(".item").forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
+      });
+    }
+
+    function setLang(lang){
+      const current = LANGS.find(x => x.code === lang) || LANGS[0];
+      localStorage.setItem("appLanguage", current.code);
+      document.documentElement.lang = current.code;
+      document.documentElement.dir = current.dir;
+      applyI18n();
+      updateLangUI();
+    }
+
+    function syncLogo(img){
+      if(!img) return;
+      const theme = document.documentElement.getAttribute("data-theme") || "dark";
+      const darkSrc = img.getAttribute("data-logo-dark");
+      const lightSrc = img.getAttribute("data-logo-light");
+      const useDark = theme === "dark";
+      img.src = useDark ? darkSrc : lightSrc;
+      img.classList.toggle("is-dark-logo", useDark);
+      img.classList.toggle("is-light-logo", !useDark);
+    }
+
+    function syncAllLogos(){
+      syncLogo(document.getElementById("brandLogo"));
+      syncLogo(document.getElementById("footerLogo"));
+    }
+
+    function setTheme(theme){
+      const next = theme === "light" ? "light" : "dark";
+      localStorage.setItem("themeMode", next);
+      document.documentElement.setAttribute("data-theme", next);
+      syncAllLogos();
+    }
+
+    function toggleTheme(){
+      setTheme(getTheme() === "dark" ? "light" : "dark");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setTheme(getTheme());
+      setLang(getLang());
+      syncAllLogos();
+
+      const langToggle = $("#langToggle");
+      const langMenu = $("#langMenu");
+
+      langToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const open = langMenu.classList.toggle("open");
+        langToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+
+      window.addEventListener("click", () => {
+        langMenu.classList.remove("open");
+        langToggle.setAttribute("aria-expanded", "false");
+      });
+
+      langMenu.querySelectorAll(".item").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          setLang(btn.getAttribute("data-lang"));
+          langMenu.classList.remove("open");
+          langToggle.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      $("#themeToggle").addEventListener("click", toggleTheme);
+    });
+  </script>
+</body>
+</html>

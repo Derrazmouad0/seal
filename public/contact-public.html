@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEAL — Contact</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg0:#07111F;
+      --bg1:#0A1426;
+      --bg2:#0D1A31;
+      --card:rgba(10,18,34,.72);
+      --card-strong:rgba(10,18,34,.88);
+      --card-soft:rgba(255,255,255,.05);
+      --text:#EAF2FF;
+      --muted:#A7B4D3;
+      --line:rgba(148,163,184,.18);
+      --accent:#35C6C2;
+      --accent2:#6DBBFF;
+      --accent3:#8A7CFF;
+      --success:#35C6A0;
+      --danger:#FF7E8A;
+      --shadow:0 24px 70px rgba(0,0,0,.38);
+      --max:1240px;
+    }
+
+    html[data-theme="light"]{
+      --bg0:#EEF5FF;
+      --bg1:#F8FBFF;
+      --bg2:#FFFFFF;
+      --card:rgba(255,255,255,.82);
+      --card-strong:rgba(255,255,255,.94);
+      --card-soft:rgba(15,23,42,.035);
+      --text:#0B1630;
+      --muted:#4B5B79;
+      --line:rgba(15,23,42,.10);
+      --shadow:0 22px 55px rgba(15,23,42,.10);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Roboto,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 520px at 10% -10%, rgba(53,198,194,.18), transparent 60%),
+        radial-gradient(700px 420px at 90% 0%, rgba(109,187,255,.18), transparent 55%),
+        radial-gradient(760px 520px at 50% 120%, rgba(138,124,255,.14), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 48%, var(--bg2));
+      overflow-x:hidden;
+    }
+
+    html[dir="rtl"] body{direction:rtl;}
+    html[dir="rtl"] .nav,
+    html[dir="rtl"] .controls,
+    html[dir="rtl"] .hero-grid,
+    html[dir="rtl"] .contact-layout,
+    html[dir="rtl"] .form-row,
+    html[dir="rtl"] .footer-grid,
+    html[dir="rtl"] .footer-bottom,
+    html[dir="rtl"] .cta{
+      direction:rtl;
+    }
+    html[dir="rtl"] .lang .menu{right:auto;left:0;}
+    html[dir="rtl"] .footer-links a:hover{transform:translateX(-2px)}
+
+    .bg-grid{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.28;
+      background:
+        linear-gradient(to right, rgba(148,163,184,.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148,163,184,.08) 1px, transparent 1px);
+      background-size:52px 52px;
+      mask-image: radial-gradient(circle at 50% 25%, rgba(0,0,0,.9) 0, rgba(0,0,0,.55) 45%, rgba(0,0,0,0) 82%);
+      animation:gridMove 18s linear infinite;
+    }
+    @keyframes gridMove{
+      from{transform:translate3d(0,0,0)}
+      to{transform:translate3d(-52px,52px,0)}
+    }
+
+    .aurora,.aurora2,.aurora3{
+      position:fixed;
+      border-radius:999px;
+      filter:blur(36px);
+      pointer-events:none;
+      opacity:.22;
+      mix-blend-mode:screen;
+    }
+    .aurora{
+      width:420px;height:420px;left:-80px;top:120px;
+      background:radial-gradient(circle at 35% 35%, rgba(53,198,194,.92), transparent 60%);
+      animation:floatA 12s ease-in-out infinite;
+    }
+    .aurora2{
+      width:460px;height:460px;right:-120px;top:80px;
+      background:radial-gradient(circle at 60% 40%, rgba(109,187,255,.90), transparent 60%);
+      animation:floatB 14s ease-in-out infinite;
+    }
+    .aurora3{
+      width:360px;height:360px;left:50%;bottom:-110px;transform:translateX(-50%);
+      background:radial-gradient(circle at 50% 50%, rgba(138,124,255,.75), transparent 62%);
+      animation:floatC 16s ease-in-out infinite;
+    }
+    @keyframes floatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)}}
+    @keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(20px)}}
+    @keyframes floatC{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.06)}}
+
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 18px}
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:60;
+      backdrop-filter:blur(16px);
+      background:color-mix(in srgb, var(--bg1) 72%, transparent);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:14px 0;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      text-decoration:none;
+      color:var(--text);
+      min-width:120px;
+    }
+    .brand img{
+      height:72px;
+      width:auto;
+      display:block;
+      transform-origin:left center;
+    }
+    .brand img.is-dark-logo{transform:scale(1.6)}
+    .brand img.is-light-logo{transform:scale(1.08)}
+
+    .navlinks{
+      display:flex;
+      align-items:center;
+      gap:22px;
+      list-style:none;
+      margin:0;
+      padding:0;
+    }
+    .navlinks a{
+      text-decoration:none;
+      color:var(--text);
+      opacity:.88;
+      font-size:14px;
+      font-weight:600;
+      padding:8px 2px;
+      position:relative;
+      transition:opacity .2s ease, transform .2s ease;
+    }
+    .navlinks a:hover{opacity:1;transform:translateY(-1px)}
+    .navlinks a::after{
+      content:"";
+      position:absolute;
+      left:0;right:0;bottom:0;
+      height:2px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));
+      transform:scaleX(0);
+      transform-origin:left;
+      transition:transform .22s ease;
+    }
+    .navlinks a:hover::after,.navlinks a.active::after{transform:scaleX(1)}
+    .navlinks a.active{opacity:1}
+
+    .controls{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .lang{position:relative}
+    .lang button,
+    .theme-toggle{
+      border:1px solid var(--line);
+      background:color-mix(in srgb, var(--card-strong) 74%, transparent);
+      color:var(--text);
+      box-shadow:0 12px 30px rgba(0,0,0,.15);
+    }
+    .lang button{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      border-radius:999px;
+      padding:9px 12px;
+      font-size:12px;
+      font-weight:700;
+      cursor:pointer;
+      transition:transform .18s ease,border-color .18s ease;
+    }
+    .lang button:hover,.theme-toggle:hover{
+      transform:translateY(-1px);
+      border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
+    }
+    .lang .menu{
+      position:absolute;
+      top:110%;
+      right:0;
+      min-width:190px;
+      padding:8px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background:color-mix(in srgb, var(--card-strong) 90%, transparent);
+      backdrop-filter:blur(14px);
+      box-shadow:var(--shadow);
+      display:none;
+      z-index:80;
+    }
+    .lang .menu.open{display:block}
+    .lang .item{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      border:0;
+      background:transparent;
+      color:var(--text);
+      border-radius:12px;
+      padding:10px;
+      cursor:pointer;
+      font-size:13px;
+      opacity:.92;
+    }
+    .lang .item:hover{background:rgba(148,163,184,.10);opacity:1}
+    .lang .item.active{background:rgba(53,198,194,.12)}
+
+    .pill{
+      font-size:11px;
+      padding:4px 8px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+
+    .theme-toggle{
+      width:46px;height:46px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      transition:transform .18s ease,border-color .18s ease;
+    }
+    .sunmoon{
+      width:22px;height:22px;display:block;
+      transform-origin:50% 50%;
+      transition:transform .55s cubic-bezier(.2,.9,.2,1);
+    }
+    html[data-theme="dark"] .sunmoon{transform:rotate(180deg)}
+    .sun-core,.moon-core{transition:opacity .35s ease}
+    html[data-theme="dark"] .sun-core{opacity:0}
+    html[data-theme="light"] .moon-core{opacity:0}
+
+    main{padding:28px 0 56px}
+
+    .hero,.section,footer,.cta{
+      border:1px solid var(--line);
+      background:color-mix(in srgb, var(--card-strong) 88%, transparent);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(16px);
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border-radius:32px;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 88%, transparent), color-mix(in srgb, var(--card) 92%, transparent)),
+        radial-gradient(900px 420px at 8% 0%, rgba(53,198,194,.12), transparent 62%),
+        radial-gradient(820px 360px at 100% 0%, rgba(109,187,255,.14), transparent 58%);
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg, rgba(255,255,255,.06), transparent 25%, transparent 74%, rgba(255,255,255,.04));
+      pointer-events:none;
+    }
+
+    .hero-grid{
+      position:relative;
+      display:grid;
+      grid-template-columns:1.02fr .98fr;
+      gap:20px;
+      padding:34px 26px 26px;
+      align-items:start;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:10px 14px;
+      background:rgba(255,255,255,.05);
+      color:var(--muted);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+    .eyebrow i{
+      width:8px;height:8px;border-radius:999px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      box-shadow:0 0 0 6px rgba(53,198,194,.12);
+    }
+
+    .hero h1{
+      margin:18px 0 12px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:clamp(34px,4.8vw,66px);
+      line-height:1.02;
+      letter-spacing:-.045em;
+      font-weight:800;
+      max-width:760px;
+    }
+    .hero-title-line{display:block}
+    .hero-title-gradient{
+      display:block;
+      background:linear-gradient(90deg, #9FD8FF 0%, #6DBBFF 28%, #67D6D2 72%, #35C6C2 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .hero p.lead{
+      margin:0;
+      max-width:760px;
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.8;
+    }
+
+    .contact-layout{
+      display:grid;
+      grid-template-columns:.9fr 1.1fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .section{
+      border-radius:28px;
+      overflow:hidden;
+    }
+    .section-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:18px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(148,163,184,.06), transparent);
+      flex-wrap:wrap;
+    }
+    .section-head h2{
+      margin:0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:15px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+    .section-head p{
+      margin:0;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .contact-info{
+      padding:18px;
+      display:grid;
+      gap:14px;
+    }
+
+    .info-card{
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    }
+    .info-card h3{
+      margin:0 0 8px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:18px;
+    }
+    .info-card p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+    }
+
+    .info-list{
+      display:grid;
+      gap:12px;
+      margin-top:12px;
+    }
+    .info-item{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+      background:rgba(255,255,255,.04);
+    }
+    .info-item strong{
+      display:block;
+      font-size:14px;
+      margin-bottom:4px;
+      font-family:Montserrat,Roboto,sans-serif;
+    }
+    .info-item span{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.7;
+      word-break:break-word;
+    }
+
+    .contact-form-wrap{
+      padding:18px;
+    }
+
+    .contact-form{
+      border:1px solid var(--line);
+      border-radius:26px;
+      padding:20px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
+        radial-gradient(320px 160px at 0% 0%, rgba(53,198,194,.08), transparent 60%);
+      display:grid;
+      gap:14px;
+    }
+
+    .form-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .field{
+      display:grid;
+      gap:8px;
+    }
+
+    .field label{
+      font-size:13px;
+      font-weight:700;
+      color:var(--text);
+    }
+
+    .field input,
+    .field textarea{
+      width:100%;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      border-radius:16px;
+      padding:14px 16px;
+      font:inherit;
+      outline:none;
+      transition:border-color .2s ease, box-shadow .2s ease, background .2s ease;
+      resize:none;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder{
+      color:var(--muted);
+      opacity:.9;
+    }
+
+    .field input:focus,
+    .field textarea:focus{
+      border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
+      box-shadow:0 0 0 4px rgba(109,187,255,.10);
+      background:rgba(255,255,255,.07);
+    }
+
+    .field textarea{
+      min-height:180px;
+    }
+
+    .helper{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    .form-actions{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .glass-btn{
+      min-height:52px;
+      padding:0 18px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--text);
+      text-decoration:none;
+      font-weight:800;
+      font-size:14px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      cursor:pointer;
+      background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.20), inset 0 -1px 0 rgba(255,255,255,.06), 0 14px 34px rgba(0,0,0,.20);
+      backdrop-filter:blur(14px);
+      transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease;
+      border-width:1px;
+    }
+    .glass-btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(255,255,255,.22);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.25), inset 0 -1px 0 rgba(255,255,255,.08), 0 18px 42px rgba(0,0,0,.26);
+      filter:saturate(1.05);
+    }
+    .glass-btn.primary{
+      color:#05121E;
+      border-color:rgba(255,255,255,.16);
+      background:linear-gradient(90deg, rgba(53,198,194,.96), rgba(109,187,255,.96));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.30), 0 18px 40px rgba(53,198,194,.22);
+    }
+    .glass-btn[disabled]{
+      opacity:.65;
+      cursor:not-allowed;
+      transform:none !important;
+    }
+    .glass-btn .arrow{
+      width:9px;height:9px;
+      border-right:2px solid currentColor;
+      border-bottom:2px solid currentColor;
+      transform:rotate(-45deg);
+    }
+
+    .status-box{
+      display:none;
+      border-radius:16px;
+      padding:14px 16px;
+      font-size:14px;
+      line-height:1.65;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+    }
+    .status-box.show{display:block}
+    .status-box.success{
+      border-color:rgba(53,198,160,.30);
+      background:rgba(53,198,160,.10);
+      color:var(--text);
+    }
+    .status-box.error{
+      border-color:rgba(255,126,138,.32);
+      background:rgba(255,126,138,.10);
+      color:var(--text);
+    }
+
+    .cta{
+      margin-top:18px;
+      border-radius:28px;
+      padding:22px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 86%, transparent), color-mix(in srgb, var(--card) 95%, transparent)),
+        radial-gradient(700px 240px at 0% 0%, rgba(53,198,194,.10), transparent 55%);
+    }
+    .cta h3{
+      margin:0 0 8px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:24px;
+    }
+    .cta p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+      max-width:760px;
+    }
+
+    footer{
+      margin-top:18px;
+      border-radius:32px;
+      overflow:hidden;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 86%, transparent), color-mix(in srgb, var(--card) 95%, transparent)),
+        radial-gradient(700px 220px at 0% 0%, rgba(53,198,194,.10), transparent 55%);
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr .8fr .9fr;
+      gap:18px;
+      padding:24px 22px 20px;
+    }
+    .footer-brand{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .footer-brand img{
+      height:88px;
+      width:auto;
+      display:block;
+      max-width:100%;
+      object-fit:contain;
+      transform-origin:left center;
+    }
+    .footer-brand img.is-dark-logo{transform:scale(1.12)}
+    .footer-brand p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+      max-width:420px;
+    }
+
+    .footer-col h3{
+      margin:0 0 12px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+    .footer-links{
+      display:grid;
+      gap:10px;
+    }
+    .footer-links a,.footer-links span{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:14px;
+      line-height:1.6;
+      transition:color .2s ease, transform .2s ease;
+    }
+    .footer-links a:hover{color:var(--text);transform:translateX(2px)}
+
+    .social-label{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+    .social-label::before{
+      content:"";
+      width:18px;height:1px;
+      background:linear-gradient(90deg,var(--accent),transparent);
+    }
+
+    .socials{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+    }
+    .social{
+      width:42px;height:42px;border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      text-decoration:none;
+      display:grid;place-items:center;
+      transition:transform .18s ease,border-color .18s ease,background .18s ease;
+    }
+    .social:hover{
+      transform:translateY(-1px);
+      border-color:color-mix(in srgb, var(--accent2) 42%, var(--line));
+      background:rgba(53,198,194,.09);
+    }
+    .social svg{width:18px;height:18px;fill:currentColor;display:block}
+
+    .footer-bottom{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      padding:0 22px 20px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    @media (max-width: 1080px){
+      .hero-grid,.contact-layout{grid-template-columns:1fr}
+      .footer-grid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 820px){
+      .navlinks{display:none}
+      .brand img{height:64px}
+      .footer-grid{grid-template-columns:1fr}
+      .form-row{grid-template-columns:1fr}
+    }
+    @media (max-width: 640px){
+      .hero-grid{padding:26px 16px 16px}
+      .section-head,.contact-info,.contact-form-wrap{padding:16px}
+      .brand img{height:58px}
+      .hero h1{font-size:34px}
+      .footer-grid{padding:20px 16px 14px}
+      .footer-bottom{padding:0 16px 16px}
+      .cta{padding:18px}
+      .contact-form{padding:16px}
+    }
+    @media (prefers-reduced-motion: reduce){
+      .bg-grid,.aurora,.aurora2,.aurora3{animation:none}
+      *{scroll-behavior:auto}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="aurora2" aria-hidden="true"></div>
+  <div class="aurora3" aria-hidden="true"></div>
+
+  <header>
+    <div class="wrap">
+      <div class="nav">
+        <a class="brand" href="SEAL_page_accueil.html" aria-label="SEAL">
+          <img
+            id="brandLogo"
+            src="SEAL-logo-sombre.png"
+            data-logo-dark="SEAL-logo-sombre.png"
+            data-logo-light="SEAL-logo-clair.png"
+            alt="SEAL Logo"
+          >
+        </a>
+
+        <ul class="navlinks">
+          <li><a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a></li>
+          <li><a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a></li>
+          <li><a href="a-propos.html" data-i18n="nav.about">À propos</a></li>
+          <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+          <li><a class="active" href="contact-public.html" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+
+        <div class="controls">
+          <div class="lang">
+            <button id="langToggle" type="button" aria-haspopup="true" aria-expanded="false">
+              <span id="langLabel">FR</span>
+              <span class="pill" id="langName">Français</span>
+            </button>
+            <div class="menu" id="langMenu" role="menu" aria-label="Langues">
+              <button class="item" data-lang="fr" role="menuitem"><span>Français</span><span class="pill">FR</span></button>
+              <button class="item" data-lang="en" role="menuitem"><span>English</span><span class="pill">EN</span></button>
+              <button class="item" data-lang="es" role="menuitem"><span>Español</span><span class="pill">ES</span></button>
+              <button class="item" data-lang="ru" role="menuitem"><span>Русский</span><span class="pill">RU</span></button>
+              <button class="item" data-lang="ar" role="menuitem"><span>العربية</span><span class="pill">AR</span></button>
+              <button class="item" data-lang="zh" role="menuitem"><span>中文</span><span class="pill">ZH</span></button>
+            </div>
+          </div>
+
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Basculer clair/sombre">
+            <svg class="sunmoon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <g class="sun-core">
+                <circle cx="12" cy="12" r="5.2" fill="url(#gSun)"/>
+                <g stroke="url(#gSun)" stroke-width="1.8" stroke-linecap="round" opacity=".95">
+                  <path d="M12 1.8v3.0"/>
+                  <path d="M12 19.2v3.0"/>
+                  <path d="M1.8 12h3.0"/>
+                  <path d="M19.2 12h3.0"/>
+                  <path d="M4.1 4.1l2.1 2.1"/>
+                  <path d="M17.8 17.8l2.1 2.1"/>
+                  <path d="M19.9 4.1l-2.1 2.1"/>
+                  <path d="M6.2 17.8l-2.1 2.1"/>
+                </g>
+              </g>
+              <g class="moon-core">
+                <g mask="url(#crescentMaskClean)">
+                  <circle cx="12" cy="12" r="7.35" fill="url(#gMoon)"/>
+                </g>
+                <path d="M7.9 12.2c.2-3.5 2.6-6.4 6.0-7.0"
+                      stroke="rgba(255,255,255,.55)"
+                      stroke-width="1.2"
+                      stroke-linecap="round"
+                      opacity=".35"/>
+              </g>
+              <defs>
+                <linearGradient id="gSun" x1="6" y1="6" x2="19" y2="19" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#35C6C2"/>
+                  <stop offset="1" stop-color="#6DBBFF"/>
+                </linearGradient>
+                <linearGradient id="gMoon" x1="7" y1="7" x2="19" y2="19" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#6DBBFF"/>
+                  <stop offset="1" stop-color="#8A7CFF"/>
+                </linearGradient>
+                <mask id="crescentMaskClean">
+                  <rect x="0" y="0" width="24" height="24" fill="white"/>
+                  <circle cx="15.2" cy="11.0" r="7.1" fill="black"/>
+                </mask>
+              </defs>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="hero" aria-label="Contact SEAL">
+        <div class="hero-grid">
+          <div>
+            <span class="eyebrow">
+              <i aria-hidden="true"></i>
+              <span data-i18n="hero.eyebrow">Entrer en contact</span>
+            </span>
+
+            <h1>
+              <span class="hero-title-line" data-i18n="hero.title.l1">Parlons</span>
+              <span class="hero-title-line" data-i18n="hero.title.l2">de votre message</span>
+              <span class="hero-title-gradient" data-i18n="hero.title.l3">avec SEAL.</span>
+            </h1>
+
+            <p class="lead" data-i18n="hero.subtitle">
+              Utilisez ce formulaire pour nous écrire. Votre message sera transmis à l’équipe SEAL via notre adresse de contact.
+            </p>
+          </div>
+
+          <div>
+            <div class="info-card">
+              <h3 data-i18n="hero.sideTitle">Réponse claire, formulaire simple</h3>
+              <p data-i18n="hero.sideText">
+                Cette page a été pensée pour offrir une prise de contact directe, lisible et agréable, dans le même esprit que le reste du site.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="contact-layout">
+        <section class="section" aria-label="Informations de contact">
+          <div class="section-head">
+            <div>
+              <h2 data-i18n="info.title">Informations</h2>
+              <p data-i18n="info.subtitle">Quelques repères utiles avant de nous écrire.</p>
+            </div>
+          </div>
+
+          <div class="contact-info">
+            <div class="info-card">
+              <h3 data-i18n="info.card1.title">Contact principal</h3>
+              <p data-i18n="info.card1.text">
+                Le formulaire de cette page transmet les messages à l’adresse de contact du projet.
+              </p>
+
+              <div class="info-list">
+                <div class="info-item">
+                  <strong data-i18n="info.email.label">Adresse de contact</strong>
+                  <span>esaipseal@gmail.com</span>
+                </div>
+
+                <div class="info-item">
+                  <strong data-i18n="info.scope.label">Type de demandes</strong>
+                  <span data-i18n="info.scope.value">Questions générales, retours, échanges autour du projet et demandes liées au site public.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <h3 data-i18n="info.card2.title">Avant d’envoyer</h3>
+              <p data-i18n="info.card2.text">
+                Essayez de décrire votre demande avec un objet clair et un message précis. Cela nous aide à mieux comprendre votre besoin.
+              </p>
+            </div>
+
+            <div class="info-card">
+              <h3 data-i18n="info.card3.title">Confidentialité</h3>
+              <p data-i18n="info.card3.text">
+                Les informations envoyées via ce formulaire sont utilisées uniquement pour traiter votre message et vous répondre.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-label="Formulaire de contact">
+          <div class="section-head">
+            <div>
+              <h2 data-i18n="form.title">Formulaire</h2>
+              <p data-i18n="form.subtitle">Remplissez les champs ci-dessous pour envoyer votre message.</p>
+            </div>
+          </div>
+
+          <div class="contact-form-wrap">
+            <form class="contact-form" id="contactForm" novalidate>
+              <div class="form-row">
+                <div class="field">
+                  <label for="name" data-i18n="form.name">Nom</label>
+                  <input type="text" id="name" name="name" data-i18n-placeholder="form.namePlaceholder" placeholder="Votre nom">
+                </div>
+
+                <div class="field">
+                  <label for="email" data-i18n="form.email">Adresse e-mail</label>
+                  <input type="email" id="email" name="email" data-i18n-placeholder="form.emailPlaceholder" placeholder="vous@exemple.com">
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="subject" data-i18n="form.subject">Objet</label>
+                <input type="text" id="subject" name="subject" data-i18n-placeholder="form.subjectPlaceholder" placeholder="Objet de votre message">
+              </div>
+
+              <div class="field">
+                <label for="message" data-i18n="form.message">Message</label>
+                <textarea id="message" name="message" data-i18n-placeholder="form.messagePlaceholder" placeholder="Écrivez votre message ici..."></textarea>
+              </div>
+
+              <div class="helper" data-i18n="form.helper">
+                Merci d’écrire un message suffisamment clair pour que nous puissions bien comprendre votre demande.
+              </div>
+
+              <div id="formStatus" class="status-box" aria-live="polite"></div>
+
+              <div class="form-actions">
+                <button class="glass-btn primary" id="submitBtn" type="submit">
+                  <span data-i18n="form.send">Envoyer</span>
+                  <span class="arrow" aria-hidden="true"></span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </div>
+
+      <section class="cta" aria-label="Aide complémentaire">
+        <div>
+          <h3 data-i18n="cta.title">Besoin d’aller plus loin ?</h3>
+          <p data-i18n="cta.text">Vous pouvez aussi consulter la FAQ ou revenir à l’accueil pour utiliser directement l’outil principal du site.</p>
+        </div>
+
+        <a class="glass-btn primary" href="faq.html">
+          <span data-i18n="cta.button">Voir la FAQ</span>
+          <span class="arrow" aria-hidden="true"></span>
+        </a>
+      </section>
+
+      <footer>
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="SEAL_page_accueil.html" aria-label="SEAL">
+              <img
+                id="footerLogo"
+                src="SEAL-logo-sombre.png"
+                data-logo-dark="SEAL-logo-sombre.png"
+                data-logo-light="SEAL-logo-clair.png"
+                alt="SEAL Logo"
+              >
+            </a>
+            <p data-i18n="footer.brandText">
+              SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.
+            </p>
+
+            <div class="social-label" data-i18n="footer.socials">Réseaux</div>
+            <div class="socials" aria-label="Réseaux sociaux">
+              <a class="social" href="#" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.28 4.97 1.97 1.97 0 0 0 5.25 6.94 1.97 1.97 0 0 0 7.22 4.97 1.97 1.97 0 0 0 5.25 3ZM12.28 12.9c0-1.82.84-2.9 2.46-2.9 1.48 0 2.19 1.04 2.19 2.9V20h3.36v-8.22c0-3.48-1.97-5.16-4.71-5.16-2.2 0-3.17 1.21-3.72 2.05V8.5H8.62c.04.81 0 11.5 0 11.5h3.24v-7.1Z"/></svg>
+              </a>
+              <a class="social" href="#" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.95 1.35a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+              </a>
+              <a class="social" href="#" aria-label="X">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H21l-6.56 7.5L22 22h-5.96l-4.67-6.1L6.03 22H4l7-8L2 2h6.11l4.22 5.52L18.9 2Zm-1.04 18h1.65L7.2 3.9H5.42L17.86 20Z"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h3 data-i18n="footer.nav">Navigation</h3>
+            <div class="footer-links">
+              <a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a>
+              <a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a>
+              <a href="a-propos.html" data-i18n="nav.about">À propos</a>
+              <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+              <a href="contact-public.html" data-i18n="nav.contact">Contact</a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h3 data-i18n="footer.support">Support</h3>
+            <div class="footer-links">
+              <span>esaipseal@gmail.com</span>
+              <span data-i18n="footer.supportText">Pour toute question liée au site public ou à l’utilisation du formulaire de contact.</span>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h3 data-i18n="footer.legalTitle">Légal</h3>
+            <div class="footer-links">
+              <a href="politique-confidentialite-public.html" data-i18n="footer.privacy">Politique de confidentialité</a>
+              <a href="mentions-legales-public.html" data-i18n="footer.legal">Mentions légales</a>
+              <a href="conditions-utilisation-public.html" data-i18n="footer.terms">Conditions d’utilisation</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div>© 2026 SEAL</div>
+          <div data-i18n="footer.bottomText">Secure Expiry Alert & Logging</div>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    const I18N = {
+      fr: {
+        "nav.home":"Accueil",
+        "nav.features":"Fonctionnalités",
+        "nav.about":"À propos",
+        "nav.faq":"FAQ",
+        "nav.contact":"Contact",
+
+        "hero.eyebrow":"Entrer en contact",
+        "hero.title.l1":"Parlons",
+        "hero.title.l2":"de votre message",
+        "hero.title.l3":"avec SEAL.",
+        "hero.subtitle":"Utilisez ce formulaire pour nous écrire. Votre message sera transmis à l’équipe SEAL via notre adresse de contact.",
+        "hero.sideTitle":"Réponse claire, formulaire simple",
+        "hero.sideText":"Cette page a été pensée pour offrir une prise de contact directe, lisible et agréable, dans le même esprit que le reste du site.",
+
+        "info.title":"Informations",
+        "info.subtitle":"Quelques repères utiles avant de nous écrire.",
+        "info.card1.title":"Contact principal",
+        "info.card1.text":"Le formulaire de cette page transmet les messages à l’adresse de contact du projet.",
+        "info.email.label":"Adresse de contact",
+        "info.scope.label":"Type de demandes",
+        "info.scope.value":"Questions générales, retours, échanges autour du projet et demandes liées au site public.",
+        "info.card2.title":"Avant d’envoyer",
+        "info.card2.text":"Essayez de décrire votre demande avec un objet clair et un message précis. Cela nous aide à mieux comprendre votre besoin.",
+        "info.card3.title":"Confidentialité",
+        "info.card3.text":"Les informations envoyées via ce formulaire sont utilisées uniquement pour traiter votre message et vous répondre.",
+
+        "form.title":"Formulaire",
+        "form.subtitle":"Remplissez les champs ci-dessous pour envoyer votre message.",
+        "form.name":"Nom",
+        "form.email":"Adresse e-mail",
+        "form.subject":"Objet",
+        "form.message":"Message",
+        "form.namePlaceholder":"Votre nom",
+        "form.emailPlaceholder":"vous@exemple.com",
+        "form.subjectPlaceholder":"Objet de votre message",
+        "form.messagePlaceholder":"Écrivez votre message ici...",
+        "form.helper":"Merci d’écrire un message suffisamment clair pour que nous puissions bien comprendre votre demande.",
+        "form.send":"Envoyer",
+
+        "status.success":"Votre message a bien été envoyé.",
+        "status.error.generic":"Une erreur est survenue lors de l’envoi du message.",
+        "status.error.invalidEmail":"Veuillez entrer une adresse e-mail valide.",
+        "status.error.messageRequired":"Veuillez écrire un message avant d’envoyer.",
+        "status.sending":"Envoi en cours...",
+
+        "cta.title":"Besoin d’aller plus loin ?",
+        "cta.text":"Vous pouvez aussi consulter la FAQ ou revenir à l’accueil pour utiliser directement l’outil principal du site.",
+        "cta.button":"Voir la FAQ",
+
+        "footer.nav":"Navigation",
+        "footer.support":"Support",
+        "footer.supportText":"Pour toute question liée au site public ou à l’utilisation du formulaire de contact.",
+        "footer.legalTitle":"Légal",
+        "footer.brandText":"SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.",
+        "footer.socials":"Réseaux",
+        "footer.privacy":"Politique de confidentialité",
+        "footer.legal":"Mentions légales",
+        "footer.terms":"Conditions d’utilisation",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      en: {
+        "nav.home":"Home",
+        "nav.features":"Features",
+        "nav.about":"About",
+        "nav.faq":"FAQ",
+        "nav.contact":"Contact",
+
+        "hero.eyebrow":"Get in touch",
+        "hero.title.l1":"Let’s talk",
+        "hero.title.l2":"about your message",
+        "hero.title.l3":"with SEAL.",
+        "hero.subtitle":"Use this form to write to us. Your message will be sent to the SEAL team through our contact address.",
+        "hero.sideTitle":"Clear response, simple form",
+        "hero.sideText":"This page was designed to offer a direct, readable, and pleasant way to get in touch, in the same spirit as the rest of the site.",
+
+        "info.title":"Information",
+        "info.subtitle":"A few useful points before writing to us.",
+        "info.card1.title":"Main contact",
+        "info.card1.text":"The form on this page sends messages to the project contact address.",
+        "info.email.label":"Contact address",
+        "info.scope.label":"Request types",
+        "info.scope.value":"General questions, feedback, project-related exchanges, and requests related to the public site.",
+        "info.card2.title":"Before sending",
+        "info.card2.text":"Try to describe your request with a clear subject and a precise message. This helps us better understand your need.",
+        "info.card3.title":"Privacy",
+        "info.card3.text":"The information sent through this form is used only to process your message and reply to you.",
+
+        "form.title":"Form",
+        "form.subtitle":"Fill in the fields below to send your message.",
+        "form.name":"Name",
+        "form.email":"Email address",
+        "form.subject":"Subject",
+        "form.message":"Message",
+        "form.namePlaceholder":"Your name",
+        "form.emailPlaceholder":"you@example.com",
+        "form.subjectPlaceholder":"Subject of your message",
+        "form.messagePlaceholder":"Write your message here...",
+        "form.helper":"Please write a sufficiently clear message so that we can properly understand your request.",
+        "form.send":"Send",
+
+        "status.success":"Your message has been sent successfully.",
+        "status.error.generic":"An error occurred while sending the message.",
+        "status.error.invalidEmail":"Please enter a valid email address.",
+        "status.error.messageRequired":"Please write a message before sending.",
+        "status.sending":"Sending...",
+
+        "cta.title":"Need to go further?",
+        "cta.text":"You can also read the FAQ or return to the homepage to use the main tool directly.",
+        "cta.button":"View FAQ",
+
+        "footer.nav":"Navigation",
+        "footer.support":"Support",
+        "footer.supportText":"For any question related to the public website or the contact form.",
+        "footer.legalTitle":"Legal",
+        "footer.brandText":"SEAL helps you better visualize SSL certificate expiration with a clear, readable, and accessible interface.",
+        "footer.socials":"Socials",
+        "footer.privacy":"Privacy policy",
+        "footer.legal":"Legal notice",
+        "footer.terms":"Terms of use",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      es: {
+        "nav.home":"Inicio",
+        "nav.features":"Funcionalidades",
+        "nav.about":"Acerca de",
+        "nav.faq":"FAQ",
+        "nav.contact":"Contacto",
+
+        "hero.eyebrow":"Entrar en contacto",
+        "hero.title.l1":"Hablemos",
+        "hero.title.l2":"de tu mensaje",
+        "hero.title.l3":"con SEAL.",
+        "hero.subtitle":"Usa este formulario para escribirnos. Tu mensaje será enviado al equipo de SEAL a través de nuestra dirección de contacto.",
+        "hero.sideTitle":"Respuesta clara, formulario simple",
+        "hero.sideText":"Esta página ha sido diseñada para ofrecer un contacto directo, legible y agradable, en el mismo espíritu que el resto del sitio.",
+
+        "info.title":"Información",
+        "info.subtitle":"Algunas referencias útiles antes de escribirnos.",
+        "info.card1.title":"Contacto principal",
+        "info.card1.text":"El formulario de esta página transmite los mensajes a la dirección de contacto del proyecto.",
+        "info.email.label":"Dirección de contacto",
+        "info.scope.label":"Tipo de solicitudes",
+        "info.scope.value":"Preguntas generales, comentarios, intercambios sobre el proyecto y solicitudes relacionadas con el sitio público.",
+        "info.card2.title":"Antes de enviar",
+        "info.card2.text":"Intenta describir tu solicitud con un asunto claro y un mensaje preciso. Esto nos ayuda a comprender mejor tu necesidad.",
+        "info.card3.title":"Privacidad",
+        "info.card3.text":"La información enviada mediante este formulario se utiliza únicamente para procesar tu mensaje y responderte.",
+
+        "form.title":"Formulario",
+        "form.subtitle":"Completa los campos siguientes para enviar tu mensaje.",
+        "form.name":"Nombre",
+        "form.email":"Correo electrónico",
+        "form.subject":"Asunto",
+        "form.message":"Mensaje",
+        "form.namePlaceholder":"Tu nombre",
+        "form.emailPlaceholder":"tu@ejemplo.com",
+        "form.subjectPlaceholder":"Asunto de tu mensaje",
+        "form.messagePlaceholder":"Escribe tu mensaje aquí...",
+        "form.helper":"Gracias por escribir un mensaje suficientemente claro para que podamos comprender bien tu solicitud.",
+        "form.send":"Enviar",
+
+        "status.success":"Tu mensaje ha sido enviado correctamente.",
+        "status.error.generic":"Se produjo un error al enviar el mensaje.",
+        "status.error.invalidEmail":"Por favor, introduce una dirección de correo válida.",
+        "status.error.messageRequired":"Por favor, escribe un mensaje antes de enviar.",
+        "status.sending":"Envío en curso...",
+
+        "cta.title":"¿Necesitas ir más lejos?",
+        "cta.text":"También puedes consultar la FAQ o volver a la página de inicio para utilizar directamente la herramienta principal.",
+        "cta.button":"Ver FAQ",
+
+        "footer.nav":"Navegación",
+        "footer.support":"Soporte",
+        "footer.supportText":"Para cualquier pregunta relacionada con el sitio público o con el uso del formulario de contacto.",
+        "footer.legalTitle":"Legal",
+        "footer.brandText":"SEAL te ayuda a visualizar mejor la expiración de un certificado SSL con una interfaz clara, legible y accesible.",
+        "footer.socials":"Redes",
+        "footer.privacy":"Política de privacidad",
+        "footer.legal":"Aviso legal",
+        "footer.terms":"Condiciones de uso",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      ru: {
+        "nav.home":"Главная",
+        "nav.features":"Функции",
+        "nav.about":"О нас",
+        "nav.faq":"FAQ",
+        "nav.contact":"Контакты",
+
+        "hero.eyebrow":"Связаться с нами",
+        "hero.title.l1":"Поговорим",
+        "hero.title.l2":"о вашем сообщении",
+        "hero.title.l3":"с SEAL.",
+        "hero.subtitle":"Используйте эту форму, чтобы написать нам. Ваше сообщение будет отправлено команде SEAL через наш контактный адрес.",
+        "hero.sideTitle":"Понятный ответ, простая форма",
+        "hero.sideText":"Эта страница создана для прямого, читаемого и приятного способа связи в том же духе, что и весь сайт.",
+
+        "info.title":"Информация",
+        "info.subtitle":"Несколько полезных ориентиров перед тем, как написать нам.",
+        "info.card1.title":"Основной контакт",
+        "info.card1.text":"Форма на этой странице отправляет сообщения на контактный адрес проекта.",
+        "info.email.label":"Контактный адрес",
+        "info.scope.label":"Типы запросов",
+        "info.scope.value":"Общие вопросы, отзывы, обсуждение проекта и запросы, связанные с публичным сайтом.",
+        "info.card2.title":"Перед отправкой",
+        "info.card2.text":"Постарайтесь описать ваш запрос с понятной темой и точным сообщением. Это помогает нам лучше понять вашу потребность.",
+        "info.card3.title":"Конфиденциальность",
+        "info.card3.text":"Информация, отправленная через эту форму, используется только для обработки вашего сообщения и ответа вам.",
+
+        "form.title":"Форма",
+        "form.subtitle":"Заполните поля ниже, чтобы отправить сообщение.",
+        "form.name":"Имя",
+        "form.email":"Адрес электронной почты",
+        "form.subject":"Тема",
+        "form.message":"Сообщение",
+        "form.namePlaceholder":"Ваше имя",
+        "form.emailPlaceholder":"you@example.com",
+        "form.subjectPlaceholder":"Тема вашего сообщения",
+        "form.messagePlaceholder":"Напишите ваше сообщение здесь...",
+        "form.helper":"Пожалуйста, напишите достаточно понятное сообщение, чтобы мы могли правильно понять ваш запрос.",
+        "form.send":"Отправить",
+
+        "status.success":"Ваше сообщение успешно отправлено.",
+        "status.error.generic":"Произошла ошибка при отправке сообщения.",
+        "status.error.invalidEmail":"Пожалуйста, введите корректный адрес электронной почты.",
+        "status.error.messageRequired":"Пожалуйста, напишите сообщение перед отправкой.",
+        "status.sending":"Отправка...",
+
+        "cta.title":"Нужно больше?",
+        "cta.text":"Вы также можете открыть FAQ или вернуться на главную страницу, чтобы сразу использовать основной инструмент сайта.",
+        "cta.button":"Смотреть FAQ",
+
+        "footer.nav":"Навигация",
+        "footer.support":"Поддержка",
+        "footer.supportText":"По любым вопросам, связанным с публичным сайтом или использованием формы контакта.",
+        "footer.legalTitle":"Правовая информация",
+        "footer.brandText":"SEAL помогает лучше видеть срок действия SSL-сертификата благодаря понятному, читаемому и доступному интерфейсу.",
+        "footer.socials":"Соцсети",
+        "footer.privacy":"Политика конфиденциальности",
+        "footer.legal":"Юридическая информация",
+        "footer.terms":"Условия использования",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      ar: {
+        "nav.home":"الرئيسية",
+        "nav.features":"الميزات",
+        "nav.about":"من نحن",
+        "nav.faq":"الأسئلة الشائعة",
+        "nav.contact":"اتصال",
+
+        "hero.eyebrow":"تواصل معنا",
+        "hero.title.l1":"لنتحدث",
+        "hero.title.l2":"عن رسالتك",
+        "hero.title.l3":"مع SEAL.",
+        "hero.subtitle":"استخدم هذا النموذج لمراسلتنا. سيتم إرسال رسالتك إلى فريق SEAL عبر عنوان الاتصال الخاص بنا.",
+        "hero.sideTitle":"رد واضح ونموذج بسيط",
+        "hero.sideText":"تم تصميم هذه الصفحة لتقديم وسيلة تواصل مباشرة وواضحة ومريحة، بنفس روح بقية الموقع.",
+
+        "info.title":"معلومات",
+        "info.subtitle":"بعض النقاط المفيدة قبل مراسلتنا.",
+        "info.card1.title":"الاتصال الرئيسي",
+        "info.card1.text":"يقوم نموذج هذه الصفحة بإرسال الرسائل إلى عنوان الاتصال الخاص بالمشروع.",
+        "info.email.label":"عنوان الاتصال",
+        "info.scope.label":"نوع الطلبات",
+        "info.scope.value":"أسئلة عامة، ملاحظات، نقاشات حول المشروع، وطلبات مرتبطة بالموقع العام.",
+        "info.card2.title":"قبل الإرسال",
+        "info.card2.text":"حاول وصف طلبك بعنوان واضح ورسالة دقيقة. هذا يساعدنا على فهم حاجتك بشكل أفضل.",
+        "info.card3.title":"الخصوصية",
+        "info.card3.text":"تُستخدم المعلومات المرسلة عبر هذا النموذج فقط لمعالجة رسالتك والرد عليك.",
+
+        "form.title":"النموذج",
+        "form.subtitle":"املأ الحقول التالية لإرسال رسالتك.",
+        "form.name":"الاسم",
+        "form.email":"البريد الإلكتروني",
+        "form.subject":"الموضوع",
+        "form.message":"الرسالة",
+        "form.namePlaceholder":"اسمك",
+        "form.emailPlaceholder":"you@example.com",
+        "form.subjectPlaceholder":"موضوع رسالتك",
+        "form.messagePlaceholder":"اكتب رسالتك هنا...",
+        "form.helper":"يرجى كتابة رسالة واضحة بما يكفي حتى نتمكن من فهم طلبك جيدًا.",
+        "form.send":"إرسال",
+
+        "status.success":"تم إرسال رسالتك بنجاح.",
+        "status.error.generic":"حدث خطأ أثناء إرسال الرسالة.",
+        "status.error.invalidEmail":"يرجى إدخال عنوان بريد إلكتروني صالح.",
+        "status.error.messageRequired":"يرجى كتابة رسالة قبل الإرسال.",
+        "status.sending":"جارٍ الإرسال...",
+
+        "cta.title":"هل تحتاج إلى المزيد؟",
+        "cta.text":"يمكنك أيضًا الاطلاع على الأسئلة الشائعة أو العودة إلى الصفحة الرئيسية لاستخدام الأداة الأساسية للموقع مباشرة.",
+        "cta.button":"عرض الأسئلة الشائعة",
+
+        "footer.nav":"التنقل",
+        "footer.support":"الدعم",
+        "footer.supportText":"لأي سؤال متعلق بالموقع العام أو باستخدام نموذج الاتصال.",
+        "footer.legalTitle":"قانوني",
+        "footer.brandText":"يساعدك SEAL على فهم تاريخ انتهاء شهادة SSL بشكل أفضل من خلال واجهة واضحة وسهلة القراءة.",
+        "footer.socials":"الشبكات",
+        "footer.privacy":"سياسة الخصوصية",
+        "footer.legal":"بيان قانوني",
+        "footer.terms":"شروط الاستخدام",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      },
+
+      zh: {
+        "nav.home":"主页",
+        "nav.features":"功能",
+        "nav.about":"关于我们",
+        "nav.faq":"常见问题",
+        "nav.contact":"联系",
+
+        "hero.eyebrow":"取得联系",
+        "hero.title.l1":"让我们谈谈",
+        "hero.title.l2":"你的消息",
+        "hero.title.l3":"与 SEAL。",
+        "hero.subtitle":"使用此表单给我们留言。你的消息将通过我们的联系邮箱发送给 SEAL 团队。",
+        "hero.sideTitle":"清晰回复，简洁表单",
+        "hero.sideText":"本页面旨在提供一种直接、清晰、舒适的联系体验，并与网站其余部分保持一致。",
+
+        "info.title":"信息",
+        "info.subtitle":"在给我们留言前的一些有用提示。",
+        "info.card1.title":"主要联系",
+        "info.card1.text":"本页表单会将消息发送到项目联系邮箱。",
+        "info.email.label":"联系地址",
+        "info.scope.label":"请求类型",
+        "info.scope.value":"一般问题、反馈、围绕项目的交流以及与公开网站相关的请求。",
+        "info.card2.title":"发送前",
+        "info.card2.text":"请尽量用清晰的主题和准确的内容描述你的请求，这有助于我们更好理解你的需求。",
+        "info.card3.title":"隐私",
+        "info.card3.text":"通过此表单发送的信息仅用于处理你的消息并向你回复。",
+
+        "form.title":"表单",
+        "form.subtitle":"请填写以下字段以发送你的消息。",
+        "form.name":"姓名",
+        "form.email":"电子邮箱",
+        "form.subject":"主题",
+        "form.message":"消息",
+        "form.namePlaceholder":"你的姓名",
+        "form.emailPlaceholder":"you@example.com",
+        "form.subjectPlaceholder":"你的消息主题",
+        "form.messagePlaceholder":"在这里输入你的消息...",
+        "form.helper":"请尽量写清楚你的需求，以便我们更好地理解你的请求。",
+        "form.send":"发送",
+
+        "status.success":"你的消息已成功发送。",
+        "status.error.generic":"发送消息时发生错误。",
+        "status.error.invalidEmail":"请输入有效的电子邮箱地址。",
+        "status.error.messageRequired":"请在发送前填写消息内容。",
+        "status.sending":"发送中...",
+
+        "cta.title":"还想继续了解？",
+        "cta.text":"你也可以查看 FAQ，或者返回首页直接使用网站的主要工具。",
+        "cta.button":"查看 FAQ",
+
+        "footer.nav":"导航",
+        "footer.support":"支持",
+        "footer.supportText":"如对公开网站或联系表单有任何问题，可通过此处联系。",
+        "footer.legalTitle":"法律信息",
+        "footer.brandText":"SEAL 通过清晰、易读、易访问的界面，帮助你更好地查看 SSL 证书到期情况。",
+        "footer.socials":"社交",
+        "footer.privacy":"隐私政策",
+        "footer.legal":"法律声明",
+        "footer.terms":"使用条款",
+        "footer.bottomText":"Secure Expiry Alert & Logging"
+      }
+    };
+
+    const LANGS = [
+      { code:"fr", label:"FR", nameKey:"Français", dir:"ltr" },
+      { code:"en", label:"EN", nameKey:"English", dir:"ltr" },
+      { code:"es", label:"ES", nameKey:"Español", dir:"ltr" },
+      { code:"ru", label:"RU", nameKey:"Русский", dir:"ltr" },
+      { code:"ar", label:"AR", nameKey:"العربية", dir:"rtl" },
+      { code:"zh", label:"ZH", nameKey:"中文", dir:"ltr" }
+    ];
+
+    const $ = (s) => document.querySelector(s);
+
+    function getLang(){ return localStorage.getItem("appLanguage") || "fr"; }
+    function getTheme(){ return localStorage.getItem("themeMode") || "dark"; }
+
+    function t(key){
+      const lang = getLang();
+      return (I18N[lang] && I18N[lang][key]) || I18N.fr[key] || key;
+    }
+
+    function applyI18n(){
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        el.textContent = t(key);
+      });
+
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+        const key = el.getAttribute("data-i18n-placeholder");
+        el.setAttribute("placeholder", t(key));
+      });
+    }
+
+    function updateLangUI(){
+      const lang = getLang();
+      const current = LANGS.find(x => x.code === lang) || LANGS[0];
+      $("#langLabel").textContent = current.label;
+      $("#langName").textContent = current.nameKey;
+      $("#langMenu").querySelectorAll(".item").forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
+      });
+    }
+
+    function setLang(lang){
+      const current = LANGS.find(x => x.code === lang) || LANGS[0];
+      localStorage.setItem("appLanguage", current.code);
+      document.documentElement.lang = current.code;
+      document.documentElement.dir = current.dir;
+      applyI18n();
+      updateLangUI();
+    }
+
+    function syncLogo(img){
+      if(!img) return;
+      const theme = document.documentElement.getAttribute("data-theme") || "dark";
+      const darkSrc = img.getAttribute("data-logo-dark");
+      const lightSrc = img.getAttribute("data-logo-light");
+      const useDark = theme === "dark";
+      img.src = useDark ? darkSrc : lightSrc;
+      img.classList.toggle("is-dark-logo", useDark);
+      img.classList.toggle("is-light-logo", !useDark);
+    }
+
+    function syncAllLogos(){
+      syncLogo(document.getElementById("brandLogo"));
+      syncLogo(document.getElementById("footerLogo"));
+    }
+
+    function setTheme(theme){
+      const next = theme === "light" ? "light" : "dark";
+      localStorage.setItem("themeMode", next);
+      document.documentElement.setAttribute("data-theme", next);
+      syncAllLogos();
+    }
+
+    function toggleTheme(){
+      setTheme(getTheme() === "dark" ? "light" : "dark");
+    }
+
+    function showStatus(type, message){
+      const box = document.getElementById("formStatus");
+      box.className = "status-box show " + type;
+      box.textContent = message;
+    }
+
+    function clearStatus(){
+      const box = document.getElementById("formStatus");
+      box.className = "status-box";
+      box.textContent = "";
+    }
+
+    async function handleContactSubmit(e){
+      e.preventDefault();
+
+      const form = document.getElementById("contactForm");
+      const submitBtn = document.getElementById("submitBtn");
+
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const subject = form.subject.value.trim();
+      const message = form.message.value.trim();
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      clearStatus();
+
+      if (!emailRegex.test(email)) {
+        showStatus("error", t("status.error.invalidEmail"));
+        return;
+      }
+
+      if (!message) {
+        showStatus("error", t("status.error.messageRequired"));
+        return;
+      }
+
+      submitBtn.disabled = true;
+      showStatus("success", t("status.sending"));
+
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, subject, message })
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          if (data && data.code === "INVALID" && !emailRegex.test(email)) {
+            throw new Error("INVALID_EMAIL");
+          }
+          if (data && data.code === "INVALID" && !message) {
+            throw new Error("MESSAGE_REQUIRED");
+          }
+          throw new Error(data && data.message ? data.message : "SEND_ERROR");
+        }
+
+        form.reset();
+        showStatus("success", t("status.success"));
+      } catch (err) {
+        if (err.message === "INVALID_EMAIL") {
+          showStatus("error", t("status.error.invalidEmail"));
+        } else if (err.message === "MESSAGE_REQUIRED") {
+          showStatus("error", t("status.error.messageRequired"));
+        } else {
+          showStatus("error", t("status.error.generic"));
+        }
+      } finally {
+        submitBtn.disabled = false;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setTheme(getTheme());
+      setLang(getLang());
+      syncAllLogos();
+
+      const langToggle = $("#langToggle");
+      const langMenu = $("#langMenu");
+
+      langToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const open = langMenu.classList.toggle("open");
+        langToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+
+      window.addEventListener("click", () => {
+        langMenu.classList.remove("open");
+        langToggle.setAttribute("aria-expanded", "false");
+      });
+
+      langMenu.querySelectorAll(".item").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          setLang(btn.getAttribute("data-lang"));
+          langMenu.classList.remove("open");
+          langToggle.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      $("#themeToggle").addEventListener("click", toggleTheme);
+      document.getElementById("contactForm").addEventListener("submit", handleContactSubmit);
+    });
+  </script>
+</body>
+</html>
