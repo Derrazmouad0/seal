@@ -45,6 +45,7 @@
 
     *{box-sizing:border-box}
     html,body{height:100%}
+    html{scroll-behavior:smooth}
     body{
       margin:0;
       font-family:Roboto,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
@@ -71,7 +72,8 @@
     html[dir="rtl"] .lang .menu{right:auto;left:0;}
     html[dir="rtl"] .chips,
     html[dir="rtl"] .feature-grid,
-    html[dir="rtl"] .use-cases{
+    html[dir="rtl"] .use-cases,
+    html[dir="rtl"] .mobile-menu-panel{
       direction:rtl;
     }
 
@@ -124,7 +126,7 @@
     header{
       position:sticky;
       top:0;
-      z-index:60;
+      z-index:80;
       backdrop-filter:blur(16px);
       background:color-mix(in srgb, var(--bg1) 72%, transparent);
       border-bottom:1px solid var(--line);
@@ -135,6 +137,7 @@
       justify-content:space-between;
       gap:16px;
       padding:14px 0;
+      position:relative;
     }
 
     .brand{
@@ -194,7 +197,8 @@
 
     .lang{position:relative}
     .lang button,
-    .theme-toggle{
+    .theme-toggle,
+    .menu-toggle{
       border:1px solid var(--line);
       background:color-mix(in srgb, var(--card-strong) 74%, transparent);
       color:var(--text);
@@ -211,7 +215,7 @@
       cursor:pointer;
       transition:transform .18s ease,border-color .18s ease;
     }
-    .lang button:hover,.theme-toggle:hover{
+    .lang button:hover,.theme-toggle:hover,.menu-toggle:hover{
       transform:translateY(-1px);
       border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
     }
@@ -227,7 +231,7 @@
       backdrop-filter:blur(14px);
       box-shadow:var(--shadow);
       display:none;
-      z-index:80;
+      z-index:100;
     }
     .lang .menu.open{display:block}
     .lang .item{
@@ -257,7 +261,8 @@
       white-space:nowrap;
     }
 
-    .theme-toggle{
+    .theme-toggle,
+    .menu-toggle{
       width:46px;height:46px;
       border-radius:999px;
       display:grid;
@@ -267,6 +272,42 @@
       overflow:hidden;
       transition:transform .18s ease,border-color .18s ease;
     }
+    .menu-toggle{
+      display:none;
+      padding:0;
+    }
+
+    .menu-icon{
+      width:18px;
+      height:14px;
+      position:relative;
+      display:block;
+    }
+    .menu-icon span{
+      position:absolute;
+      left:0;
+      width:100%;
+      height:2px;
+      border-radius:999px;
+      background:currentColor;
+      transition:transform .25s ease, opacity .2s ease, top .25s ease;
+    }
+    .menu-icon span:nth-child(1){top:0}
+    .menu-icon span:nth-child(2){top:6px}
+    .menu-icon span:nth-child(3){top:12px}
+
+    .menu-toggle.active .menu-icon span:nth-child(1){
+      top:6px;
+      transform:rotate(45deg);
+    }
+    .menu-toggle.active .menu-icon span:nth-child(2){
+      opacity:0;
+    }
+    .menu-toggle.active .menu-icon span:nth-child(3){
+      top:6px;
+      transform:rotate(-45deg);
+    }
+
     .sunmoon{
       width:22px;height:22px;display:block;
       transform-origin:50% 50%;
@@ -276,6 +317,43 @@
     .sun-core,.moon-core{transition:opacity .35s ease}
     html[data-theme="dark"] .sun-core{opacity:0}
     html[data-theme="light"] .moon-core{opacity:0}
+
+    .mobile-menu-panel{
+      display:none;
+      margin-top:12px;
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:color-mix(in srgb, var(--card-strong) 92%, transparent);
+      backdrop-filter:blur(14px);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .mobile-menu-panel.open{display:block}
+    .mobile-menu-links{
+      display:grid;
+      gap:0;
+      padding:10px;
+    }
+    .mobile-menu-links a{
+      color:var(--text);
+      text-decoration:none;
+      padding:14px 14px;
+      border-radius:14px;
+      font-size:15px;
+      font-weight:700;
+      opacity:.92;
+      transition:background .2s ease, color .2s ease, transform .2s ease;
+    }
+    .mobile-menu-links a:hover,
+    .mobile-menu-links a.active{
+      background:rgba(53,198,194,.10);
+      color:var(--text);
+      transform:translateX(2px);
+    }
+    html[dir="rtl"] .mobile-menu-links a:hover,
+    html[dir="rtl"] .mobile-menu-links a.active{
+      transform:translateX(-2px);
+    }
 
     main{padding:28px 0 56px}
 
@@ -708,13 +786,20 @@
       .feature.wide,.feature.full{grid-column:span 12}
       .footer-grid{grid-template-columns:1fr 1fr}
     }
-    @media (max-width: 820px){
+
+    @media (max-width: 920px){
       .navlinks{display:none}
+      .menu-toggle{display:grid}
       .brand img{height:64px}
       .stats,.use-cases{grid-template-columns:1fr}
       .feature{grid-column:span 12}
       .footer-grid{grid-template-columns:1fr}
     }
+
+    @media (min-width: 921px){
+      .mobile-menu-panel{display:none !important}
+    }
+
     @media (max-width: 640px){
       .hero-grid{padding:26px 16px 16px}
       .section-head,.feature-grid,.use-cases{padding:16px}
@@ -723,7 +808,16 @@
       .footer-grid{padding:20px 16px 14px}
       .footer-bottom{padding:0 16px 16px}
       .cta{padding:18px}
+      .controls{gap:8px}
+      .lang button{
+        padding:8px 10px;
+      }
+      .pill{
+        font-size:10px;
+        padding:3px 7px;
+      }
     }
+
     @media (prefers-reduced-motion: reduce){
       .bg-grid,.aurora,.aurora2,.aurora3{animation:none}
       *{scroll-behavior:auto}
@@ -814,8 +908,26 @@
               </defs>
             </svg>
           </button>
+
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu">
+            <span class="menu-icon" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
         </div>
       </div>
+
+      <nav class="mobile-menu-panel" id="mobileMenu" aria-label="Navigation mobile">
+        <div class="mobile-menu-links">
+          <a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a>
+          <a class="active" href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a>
+          <a href="a-propos.html" data-i18n="nav.about">À propos</a>
+          <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+          <a href="contact-public.html" data-i18n="nav.contact">Contact</a>
+        </div>
+      </nav>
     </div>
   </header>
 
@@ -996,17 +1108,17 @@
             </p>
 
             <div class="socials" aria-label="Réseaux sociaux">
-              <a class="social" href="#" aria-label="LinkedIn">
+              <a class="social" href="https://www.linkedin.com/company/secure-expiry-alert-logging" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.48 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4zM8.5 8h3.8v2.2h.05c.53-1 1.82-2.2 3.75-2.2 4.01 0 4.75 2.64 4.75 6.08V24h-4v-7.75c0-1.85-.03-4.23-2.58-4.23-2.59 0-2.99 2.02-2.99 4.1V24h-4V8z"/>
+                  <path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.48 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4V8zM8.5 8h3.8v2.2h.05c.53-1 1.82-2.2 3.75-2.2 4.01 0 4.75 2.64 4.75 6.08V24h-4v-7.75c0-1.85-.03-4.23-2.58-4.23-2.59 0-2.99 2.02-2.99 4.1V24h-4V8z"/>
                 </svg>
               </a>
-              <a class="social" href="#" aria-label="Instagram">
+              <a class="social" href="https://www.instagram.com/seal_security_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M7.75 2C4.57 2 2 4.57 2 7.75v8.5C2 19.43 4.57 22 7.75 22h8.5C19.43 22 22 19.43 22 16.25v-8.5C22 4.57 19.43 2 16.25 2h-8.5zm0 2h8.5C18.22 4 20 5.78 20 7.75v8.5c0 1.97-1.78 3.75-3.75 3.75h-8.5C5.78 20 4 18.22 4 16.25v-8.5C4 5.78 5.78 4 7.75 4zm8.75 1.5a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6z"/>
                 </svg>
               </a>
-              <a class="social" href="#" aria-label="X">
+              <a class="social" href="https://x.com/SEAL2026" target="_blank" rel="noopener noreferrer" aria-label="X">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M17.53 3H21l-7.39 8.44L22 21h-6.87l-5.38-7.04L3.9 21H.43l7.9-9.03L2 3h7.03l4.86 6.42L17.53 3zm-1.2 16h1.94L8.05 4.93H6.03L16.33 19z"/>
                 </svg>
@@ -1564,6 +1676,22 @@
       setTheme(getTheme() === "dark" ? "light" : "dark");
     }
 
+    function closeMobileMenu(){
+      const menu = $("#mobileMenu");
+      const toggle = $("#menuToggle");
+      menu.classList.remove("open");
+      toggle.classList.remove("active");
+      toggle.setAttribute("aria-expanded", "false");
+    }
+
+    function toggleMobileMenu(){
+      const menu = $("#mobileMenu");
+      const toggle = $("#menuToggle");
+      const open = menu.classList.toggle("open");
+      toggle.classList.toggle("active", open);
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       setTheme(getTheme());
       setLang(getLang());
@@ -1571,6 +1699,8 @@
 
       const langToggle = $("#langToggle");
       const langMenu = $("#langMenu");
+      const menuToggle = $("#menuToggle");
+      const mobileMenu = $("#mobileMenu");
 
       langToggle.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -1578,9 +1708,20 @@
         langToggle.setAttribute("aria-expanded", open ? "true" : "false");
       });
 
+      menuToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMobileMenu();
+      });
+
       window.addEventListener("click", () => {
         langMenu.classList.remove("open");
         langToggle.setAttribute("aria-expanded", "false");
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 920) {
+          closeMobileMenu();
+        }
       });
 
       langMenu.querySelectorAll(".item").forEach(btn => {
@@ -1590,6 +1731,10 @@
           langMenu.classList.remove("open");
           langToggle.setAttribute("aria-expanded", "false");
         });
+      });
+
+      mobileMenu.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", closeMobileMenu);
       });
 
       $("#themeToggle").addEventListener("click", toggleTheme);
