@@ -20,11 +20,13 @@
       --text:#EAF2FF;
       --muted:#A7B4D3;
       --line:rgba(148,163,184,.18);
+      --line-strong:rgba(148,163,184,.28);
       --accent:#35C6C2;
       --accent2:#6DBBFF;
       --accent3:#8A7CFF;
-      --success:#35C6A0;
-      --danger:#FF7E8A;
+      --ok:#22C55E;
+      --warn:#F59E0B;
+      --bad:#EF4444;
       --shadow:0 24px 70px rgba(0,0,0,.38);
       --max:1240px;
     }
@@ -39,6 +41,7 @@
       --text:#0B1630;
       --muted:#4B5B79;
       --line:rgba(15,23,42,.10);
+      --line-strong:rgba(15,23,42,.16);
       --shadow:0 22px 55px rgba(15,23,42,.10);
     }
 
@@ -61,7 +64,7 @@
     html[dir="rtl"] .controls,
     html[dir="rtl"] .hero-grid,
     html[dir="rtl"] .contact-layout,
-    html[dir="rtl"] .form-row,
+    html[dir="rtl"] .contact-meta,
     html[dir="rtl"] .footer-grid,
     html[dir="rtl"] .footer-bottom,
     html[dir="rtl"] .cta{
@@ -119,7 +122,7 @@
     header{
       position:sticky;
       top:0;
-      z-index:60;
+      z-index:90;
       backdrop-filter:blur(16px);
       background:color-mix(in srgb, var(--bg1) 72%, transparent);
       border-bottom:1px solid var(--line);
@@ -130,6 +133,7 @@
       justify-content:space-between;
       gap:16px;
       padding:14px 0;
+      position:relative;
     }
 
     .brand{
@@ -138,6 +142,7 @@
       text-decoration:none;
       color:var(--text);
       min-width:120px;
+      z-index:2;
     }
     .brand img{
       height:72px;
@@ -185,16 +190,19 @@
       display:flex;
       align-items:center;
       gap:10px;
+      z-index:2;
     }
 
     .lang{position:relative}
     .lang button,
-    .theme-toggle{
+    .theme-toggle,
+    .menu-toggle{
       border:1px solid var(--line);
       background:color-mix(in srgb, var(--card-strong) 74%, transparent);
       color:var(--text);
       box-shadow:0 12px 30px rgba(0,0,0,.15);
     }
+
     .lang button{
       display:flex;
       align-items:center;
@@ -206,7 +214,7 @@
       cursor:pointer;
       transition:transform .18s ease,border-color .18s ease;
     }
-    .lang button:hover,.theme-toggle:hover{
+    .lang button:hover,.theme-toggle:hover,.menu-toggle:hover{
       transform:translateY(-1px);
       border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
     }
@@ -222,7 +230,7 @@
       backdrop-filter:blur(14px);
       box-shadow:var(--shadow);
       display:none;
-      z-index:80;
+      z-index:100;
     }
     .lang .menu.open{display:block}
     .lang .item{
@@ -252,7 +260,7 @@
       white-space:nowrap;
     }
 
-    .theme-toggle{
+    .theme-toggle,.menu-toggle{
       width:46px;height:46px;
       border-radius:999px;
       display:grid;
@@ -262,6 +270,38 @@
       overflow:hidden;
       transition:transform .18s ease,border-color .18s ease;
     }
+
+    .menu-toggle{display:none}
+
+    .menu-icon{
+      width:18px;
+      height:14px;
+      position:relative;
+      display:block;
+    }
+    .menu-icon span{
+      position:absolute;
+      left:0;
+      width:100%;
+      height:2px;
+      border-radius:999px;
+      background:currentColor;
+      transition:.25s ease;
+    }
+    .menu-icon span:nth-child(1){top:0}
+    .menu-icon span:nth-child(2){top:6px}
+    .menu-icon span:nth-child(3){top:12px}
+
+    .menu-toggle.open .menu-icon span:nth-child(1){
+      top:6px; transform:rotate(45deg);
+    }
+    .menu-toggle.open .menu-icon span:nth-child(2){
+      opacity:0;
+    }
+    .menu-toggle.open .menu-icon span:nth-child(3){
+      top:6px; transform:rotate(-45deg);
+    }
+
     .sunmoon{
       width:22px;height:22px;display:block;
       transform-origin:50% 50%;
@@ -271,6 +311,33 @@
     .sun-core,.moon-core{transition:opacity .35s ease}
     html[data-theme="dark"] .sun-core{opacity:0}
     html[data-theme="light"] .moon-core{opacity:0}
+
+    .mobile-menu{
+      display:none;
+      margin-top:12px;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:10px;
+      background:color-mix(in srgb, var(--card-strong) 90%, transparent);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(14px);
+    }
+    .mobile-menu.open{display:grid}
+    .mobile-menu a{
+      text-decoration:none;
+      color:var(--text);
+      padding:12px 14px;
+      border-radius:14px;
+      font-weight:700;
+      font-size:14px;
+      opacity:.92;
+      transition:background .2s ease, opacity .2s ease;
+    }
+    .mobile-menu a:hover,
+    .mobile-menu a.active{
+      background:rgba(148,163,184,.10);
+      opacity:1;
+    }
 
     main{padding:28px 0 56px}
 
@@ -301,7 +368,7 @@
     .hero-grid{
       position:relative;
       display:grid;
-      grid-template-columns:1.02fr .98fr;
+      grid-template-columns:1.05fr .95fr;
       gap:20px;
       padding:34px 26px 26px;
       align-items:start;
@@ -352,6 +419,76 @@
       line-height:1.8;
     }
 
+    .hero-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:22px;
+    }
+
+    .glass-btn{
+      min-height:52px;
+      padding:0 18px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--text);
+      text-decoration:none;
+      font-weight:800;
+      font-size:14px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      cursor:pointer;
+      background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.20), inset 0 -1px 0 rgba(255,255,255,.06), 0 14px 34px rgba(0,0,0,.20);
+      backdrop-filter:blur(14px);
+      transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease;
+    }
+    .glass-btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(255,255,255,.22);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.25), inset 0 -1px 0 rgba(255,255,255,.08), 0 18px 42px rgba(0,0,0,.26);
+      filter:saturate(1.05);
+    }
+    .glass-btn.primary{
+      color:#05121E;
+      border-color:rgba(255,255,255,.16);
+      background:linear-gradient(90deg, rgba(53,198,194,.96), rgba(109,187,255,.96));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.30), 0 18px 40px rgba(53,198,194,.22);
+    }
+    .glass-btn .arrow{
+      width:9px;height:9px;
+      border-right:2px solid currentColor;
+      border-bottom:2px solid currentColor;
+      transform:rotate(-45deg);
+    }
+
+    .hero-side{
+      display:grid;
+      gap:14px;
+    }
+    .floating-card{
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:16px;
+      overflow:hidden;
+      background:rgba(255,255,255,.04);
+    }
+    .floating-card h3{
+      margin:0 0 8px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+    .floating-card p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.7;
+    }
+
     .contact-layout{
       display:grid;
       grid-template-columns:.9fr 1.1fr;
@@ -386,7 +523,7 @@
       font-size:12px;
     }
 
-    .contact-info{
+    .info-grid{
       padding:18px;
       display:grid;
       gap:14px;
@@ -410,168 +547,146 @@
       line-height:1.75;
     }
 
-    .info-list{
+    .contact-meta{
       display:grid;
+      grid-template-columns:1fr;
       gap:12px;
-      margin-top:12px;
+      margin-top:14px;
     }
-    .info-item{
+    .meta-pill{
       border:1px solid var(--line);
       border-radius:18px;
       padding:14px;
-      background:rgba(255,255,255,.04);
+      background:rgba(255,255,255,.03);
     }
-    .info-item strong{
+    .meta-pill strong{
       display:block;
-      font-size:14px;
-      margin-bottom:4px;
-      font-family:Montserrat,Roboto,sans-serif;
-    }
-    .info-item span{
+      margin-bottom:6px;
       color:var(--muted);
-      font-size:13px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+    .meta-pill span,
+    .meta-pill a{
+      color:var(--text);
+      text-decoration:none;
+      font-size:14px;
       line-height:1.7;
       word-break:break-word;
     }
 
-    .contact-form-wrap{
+    .form-wrap{
       padding:18px;
     }
 
-    .contact-form{
+    .form-card{
       border:1px solid var(--line);
-      border-radius:26px;
-      padding:20px;
+      border-radius:24px;
+      padding:18px;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
-        radial-gradient(320px 160px at 0% 0%, rgba(53,198,194,.08), transparent 60%);
-      display:grid;
-      gap:14px;
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)),
+        radial-gradient(260px 120px at 0% 0%, rgba(53,198,194,.06), transparent 60%);
     }
 
-    .form-row{
+    .form-intro{
+      margin-bottom:16px;
+    }
+    .form-intro h3{
+      margin:0 0 8px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:24px;
+      line-height:1.2;
+    }
+    .form-intro p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+    }
+
+    .form-grid{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:14px;
     }
-
     .field{
       display:grid;
       gap:8px;
     }
-
+    .field.full{grid-column:1 / -1}
     .field label{
       font-size:13px;
       font-weight:700;
       color:var(--text);
     }
-
-    .field input,
-    .field textarea{
+    .input-shell,
+    .textarea-shell{
+      position:relative;
+      border-radius:18px;
+      border:1px solid var(--line-strong);
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.10);
+      overflow:hidden;
+    }
+    .form-input,
+    .form-textarea{
       width:100%;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.05);
+      border:0;
+      outline:0;
+      background:transparent;
       color:var(--text);
-      border-radius:16px;
+      font-size:15px;
+      font-family:inherit;
+    }
+    .form-input{
+      height:54px;
+      padding:0 16px;
+    }
+    .form-textarea{
+      min-height:160px;
+      resize:vertical;
       padding:14px 16px;
-      font:inherit;
-      outline:none;
-      transition:border-color .2s ease, box-shadow .2s ease, background .2s ease;
-      resize:none;
+      line-height:1.7;
     }
-
-    .field input::placeholder,
-    .field textarea::placeholder{
-      color:var(--muted);
-      opacity:.9;
-    }
-
-    .field input:focus,
-    .field textarea:focus{
-      border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
-      box-shadow:0 0 0 4px rgba(109,187,255,.10);
-      background:rgba(255,255,255,.07);
-    }
-
-    .field textarea{
-      min-height:180px;
-    }
-
-    .helper{
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.6;
+    .form-input::placeholder,
+    .form-textarea::placeholder{
+      color:color-mix(in srgb, var(--muted) 82%, transparent);
     }
 
     .form-actions{
       display:flex;
       align-items:center;
-      gap:12px;
+      justify-content:space-between;
+      gap:14px;
       flex-wrap:wrap;
+      margin-top:18px;
     }
-
-    .glass-btn{
-      min-height:52px;
-      padding:0 18px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.10);
-      color:var(--text);
-      text-decoration:none;
-      font-weight:800;
-      font-size:14px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      cursor:pointer;
-      background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.20), inset 0 -1px 0 rgba(255,255,255,.06), 0 14px 34px rgba(0,0,0,.20);
-      backdrop-filter:blur(14px);
-      transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease;
-      border-width:1px;
-    }
-    .glass-btn:hover{
-      transform:translateY(-1px);
-      border-color:rgba(255,255,255,.22);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.25), inset 0 -1px 0 rgba(255,255,255,.08), 0 18px 42px rgba(0,0,0,.26);
-      filter:saturate(1.05);
-    }
-    .glass-btn.primary{
-      color:#05121E;
-      border-color:rgba(255,255,255,.16);
-      background:linear-gradient(90deg, rgba(53,198,194,.96), rgba(109,187,255,.96));
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.30), 0 18px 40px rgba(53,198,194,.22);
-    }
-    .glass-btn[disabled]{
-      opacity:.65;
-      cursor:not-allowed;
-      transform:none !important;
-    }
-    .glass-btn .arrow{
-      width:9px;height:9px;
-      border-right:2px solid currentColor;
-      border-bottom:2px solid currentColor;
-      transform:rotate(-45deg);
+    .helper-text{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.7;
+      max-width:620px;
     }
 
     .status-box{
+      margin-top:16px;
       display:none;
-      border-radius:16px;
+      border-radius:18px;
       padding:14px 16px;
       font-size:14px;
-      line-height:1.65;
+      line-height:1.7;
       border:1px solid var(--line);
-      background:rgba(255,255,255,.04);
     }
     .status-box.show{display:block}
     .status-box.success{
-      border-color:rgba(53,198,160,.30);
-      background:rgba(53,198,160,.10);
+      border-color:rgba(34,197,94,.35);
+      background:rgba(34,197,94,.10);
       color:var(--text);
     }
     .status-box.error{
-      border-color:rgba(255,126,138,.32);
-      background:rgba(255,126,138,.10);
+      border-color:rgba(239,68,68,.35);
+      background:rgba(239,68,68,.10);
       color:var(--text);
     }
 
@@ -710,22 +825,32 @@
       .hero-grid,.contact-layout{grid-template-columns:1fr}
       .footer-grid{grid-template-columns:1fr 1fr}
     }
-    @media (max-width: 820px){
+
+    @media (max-width: 900px){
       .navlinks{display:none}
+      .menu-toggle{display:grid}
       .brand img{height:64px}
+      .controls{gap:8px}
+      .lang button{padding:9px 10px}
+      .lang .pill{display:none}
       .footer-grid{grid-template-columns:1fr}
-      .form-row{grid-template-columns:1fr}
     }
+
+    @media (max-width: 700px){
+      .form-grid{grid-template-columns:1fr}
+    }
+
     @media (max-width: 640px){
       .hero-grid{padding:26px 16px 16px}
-      .section-head,.contact-info,.contact-form-wrap{padding:16px}
+      .section-head,.info-grid,.form-wrap{padding:16px}
       .brand img{height:58px}
       .hero h1{font-size:34px}
       .footer-grid{padding:20px 16px 14px}
       .footer-bottom{padding:0 16px 16px}
       .cta{padding:18px}
-      .contact-form{padding:16px}
+      .theme-toggle,.menu-toggle{width:42px;height:42px}
     }
+
     @media (prefers-reduced-motion: reduce){
       .bg-grid,.aurora,.aurora2,.aurora3{animation:none}
       *{scroll-behavior:auto}
@@ -816,8 +941,24 @@
               </defs>
             </svg>
           </button>
+
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+            <span class="menu-icon" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
         </div>
       </div>
+
+      <nav class="mobile-menu" id="mobileMenu" aria-label="Navigation mobile">
+        <a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a>
+        <a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a>
+        <a href="a-propos.html" data-i18n="nav.about">À propos</a>
+        <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+        <a class="active" href="contact-public.html" data-i18n="nav.contact">Contact</a>
+      </nav>
     </div>
   </header>
 
@@ -828,25 +969,42 @@
           <div>
             <span class="eyebrow">
               <i aria-hidden="true"></i>
-              <span data-i18n="hero.eyebrow">Entrer en contact</span>
+              <span data-i18n="hero.eyebrow">Parlons de votre besoin</span>
             </span>
 
             <h1>
-              <span class="hero-title-line" data-i18n="hero.title.l1">Parlons</span>
-              <span class="hero-title-line" data-i18n="hero.title.l2">de votre message</span>
-              <span class="hero-title-gradient" data-i18n="hero.title.l3">avec SEAL.</span>
+              <span class="hero-title-line" data-i18n="hero.title.l1">Contactez</span>
+              <span class="hero-title-line" data-i18n="hero.title.l2">l’équipe</span>
+              <span class="hero-title-gradient" data-i18n="hero.title.l3">SEAL.</span>
             </h1>
 
             <p class="lead" data-i18n="hero.subtitle">
-              Utilisez ce formulaire pour nous écrire. Votre message sera transmis à l’équipe SEAL via notre adresse de contact.
+              Vous avez une question sur le site, le checker SSL, le projet ou son fonctionnement ? Utilisez ce formulaire pour nous écrire simplement. Votre message sera transmis à l’équipe via le serveur du site.
             </p>
+
+            <div class="hero-actions">
+              <a class="glass-btn primary" href="#contactFormSection">
+                <span data-i18n="hero.ctaPrimary">Écrire un message</span>
+                <span class="arrow" aria-hidden="true"></span>
+              </a>
+              <a class="glass-btn" href="faq.html">
+                <span data-i18n="hero.ctaSecondary">Voir la FAQ</span>
+              </a>
+            </div>
           </div>
 
-          <div>
-            <div class="info-card">
-              <h3 data-i18n="hero.sideTitle">Réponse claire, formulaire simple</h3>
-              <p data-i18n="hero.sideText">
-                Cette page a été pensée pour offrir une prise de contact directe, lisible et agréable, dans le même esprit que le reste du site.
+          <div class="hero-side">
+            <div class="floating-card">
+              <h3 data-i18n="side.title">Pourquoi nous écrire ?</h3>
+              <p data-i18n="side.text">
+                Cette page permet de poser une question, faire une remarque, demander une précision ou partager un retour sur l’expérience du site public SEAL.
+              </p>
+            </div>
+
+            <div class="floating-card">
+              <h3 data-i18n="side2.title">Réponse simple</h3>
+              <p data-i18n="side2.text">
+                Le formulaire est directement connecté à l’API du serveur. Si le message est bien envoyé, un message de confirmation s’affiche à l’écran.
               </p>
             </div>
           </div>
@@ -857,100 +1015,116 @@
         <section class="section" aria-label="Informations de contact">
           <div class="section-head">
             <div>
-              <h2 data-i18n="info.title">Informations</h2>
-              <p data-i18n="info.subtitle">Quelques repères utiles avant de nous écrire.</p>
+              <h2 data-i18n="info.title">Informations utiles</h2>
+              <p data-i18n="info.subtitle">Quelques repères avant de nous écrire.</p>
             </div>
           </div>
 
-          <div class="contact-info">
+          <div class="info-grid">
             <div class="info-card">
-              <h3 data-i18n="info.card1.title">Contact principal</h3>
+              <h3 data-i18n="info.card1.title">Un formulaire simple</h3>
               <p data-i18n="info.card1.text">
-                Le formulaire de cette page transmet les messages à l’adresse de contact du projet.
+                Vous pouvez nous envoyer votre nom, votre adresse e-mail, un objet et votre message. Cela nous permet de comprendre plus facilement votre demande et d’y répondre.
+              </p>
+            </div>
+
+            <div class="info-card">
+              <h3 data-i18n="info.card2.title">À propos du projet</h3>
+              <p data-i18n="info.card2.text">
+                SEAL est un projet centré sur la lecture simple de l’expiration SSL. La page Contact sert aussi à recueillir des questions, idées d’amélioration et retours sur l’interface.
+              </p>
+            </div>
+
+            <div class="info-card">
+              <h3 data-i18n="info.card3.title">Canal principal</h3>
+              <p data-i18n="info.card3.text">
+                Le formulaire de cette page constitue le moyen principal pour transmettre une demande depuis le site public.
               </p>
 
-              <div class="info-list">
-                <div class="info-item">
-                  <strong data-i18n="info.email.label">Adresse de contact</strong>
+              <div class="contact-meta">
+                <div class="meta-pill">
+                  <strong data-i18n="info.emailLabel">Adresse de contact</strong>
                   <span>esaipseal@gmail.com</span>
                 </div>
-
-                <div class="info-item">
-                  <strong data-i18n="info.scope.label">Type de demandes</strong>
-                  <span data-i18n="info.scope.value">Questions générales, retours, échanges autour du projet et demandes liées au site public.</span>
+                <div class="meta-pill">
+                  <strong data-i18n="info.socialLabel">Réseaux</strong>
+                  <a href="https://www.linkedin.com/company/secure-expiry-alert-logging" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                 </div>
               </div>
-            </div>
-
-            <div class="info-card">
-              <h3 data-i18n="info.card2.title">Avant d’envoyer</h3>
-              <p data-i18n="info.card2.text">
-                Essayez de décrire votre demande avec un objet clair et un message précis. Cela nous aide à mieux comprendre votre besoin.
-              </p>
-            </div>
-
-            <div class="info-card">
-              <h3 data-i18n="info.card3.title">Confidentialité</h3>
-              <p data-i18n="info.card3.text">
-                Les informations envoyées via ce formulaire sont utilisées uniquement pour traiter votre message et vous répondre.
-              </p>
             </div>
           </div>
         </section>
 
-        <section class="section" aria-label="Formulaire de contact">
+        <section class="section" id="contactFormSection" aria-label="Formulaire de contact">
           <div class="section-head">
             <div>
               <h2 data-i18n="form.title">Formulaire</h2>
-              <p data-i18n="form.subtitle">Remplissez les champs ci-dessous pour envoyer votre message.</p>
+              <p data-i18n="form.subtitle">Votre message sera envoyé à l’API /api/contact du serveur.</p>
             </div>
           </div>
 
-          <div class="contact-form-wrap">
-            <form class="contact-form" id="contactForm" novalidate>
-              <div class="form-row">
-                <div class="field">
-                  <label for="name" data-i18n="form.name">Nom</label>
-                  <input type="text" id="name" name="name" data-i18n-placeholder="form.namePlaceholder" placeholder="Votre nom">
+          <div class="form-wrap">
+            <div class="form-card">
+              <div class="form-intro">
+                <h3 data-i18n="form.cardTitle">Envoyez-nous un message</h3>
+                <p data-i18n="form.cardText">
+                  Remplissez les champs ci-dessous. Une validation simple est faite côté interface avant l’envoi, puis le serveur traite votre demande.
+                </p>
+              </div>
+
+              <form id="contactForm" novalidate>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="name" data-i18n="form.name">Nom</label>
+                    <div class="input-shell">
+                      <input class="form-input" id="name" name="name" type="text" autocomplete="name" data-i18n-placeholder="form.namePlaceholder" placeholder="Votre nom" />
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label for="email" data-i18n="form.email">Adresse e-mail</label>
+                    <div class="input-shell">
+                      <input class="form-input" id="email" name="email" type="email" autocomplete="email" data-i18n-placeholder="form.emailPlaceholder" placeholder="vous@example.com" />
+                    </div>
+                  </div>
+
+                  <div class="field full">
+                    <label for="subject" data-i18n="form.subject">Objet</label>
+                    <div class="input-shell">
+                      <input class="form-input" id="subject" name="subject" type="text" autocomplete="off" data-i18n-placeholder="form.subjectPlaceholder" placeholder="Objet de votre message" />
+                    </div>
+                  </div>
+
+                  <div class="field full">
+                    <label for="message" data-i18n="form.message">Message</label>
+                    <div class="textarea-shell">
+                      <textarea class="form-textarea" id="message" name="message" data-i18n-placeholder="form.messagePlaceholder" placeholder="Décrivez votre demande..." ></textarea>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="field">
-                  <label for="email" data-i18n="form.email">Adresse e-mail</label>
-                  <input type="email" id="email" name="email" data-i18n-placeholder="form.emailPlaceholder" placeholder="vous@exemple.com">
+                <div class="form-actions">
+                  <div class="helper-text" data-i18n="form.helper">
+                    Le formulaire est relié au serveur SEAL. Une adresse e-mail valide et un message sont nécessaires pour l’envoi.
+                  </div>
+
+                  <button class="glass-btn primary" type="submit" id="sendBtn">
+                    <span data-i18n="form.button">Envoyer le message</span>
+                    <span class="arrow" aria-hidden="true"></span>
+                  </button>
                 </div>
-              </div>
+              </form>
 
-              <div class="field">
-                <label for="subject" data-i18n="form.subject">Objet</label>
-                <input type="text" id="subject" name="subject" data-i18n-placeholder="form.subjectPlaceholder" placeholder="Objet de votre message">
-              </div>
-
-              <div class="field">
-                <label for="message" data-i18n="form.message">Message</label>
-                <textarea id="message" name="message" data-i18n-placeholder="form.messagePlaceholder" placeholder="Écrivez votre message ici..."></textarea>
-              </div>
-
-              <div class="helper" data-i18n="form.helper">
-                Merci d’écrire un message suffisamment clair pour que nous puissions bien comprendre votre demande.
-              </div>
-
-              <div id="formStatus" class="status-box" aria-live="polite"></div>
-
-              <div class="form-actions">
-                <button class="glass-btn primary" id="submitBtn" type="submit">
-                  <span data-i18n="form.send">Envoyer</span>
-                  <span class="arrow" aria-hidden="true"></span>
-                </button>
-              </div>
-            </form>
+              <div class="status-box" id="statusBox" role="alert" aria-live="polite"></div>
+            </div>
           </div>
         </section>
       </div>
 
       <section class="cta" aria-label="Aide complémentaire">
         <div>
-          <h3 data-i18n="cta.title">Besoin d’aller plus loin ?</h3>
-          <p data-i18n="cta.text">Vous pouvez aussi consulter la FAQ ou revenir à l’accueil pour utiliser directement l’outil principal du site.</p>
+          <h3 data-i18n="cta.title">Avant de nous écrire</h3>
+          <p data-i18n="cta.text">Vous pouvez aussi consulter la FAQ, les fonctionnalités du site ou la page À propos pour trouver rapidement une première réponse.</p>
         </div>
 
         <a class="glass-btn primary" href="faq.html">
@@ -977,13 +1151,13 @@
 
             <div class="social-label" data-i18n="footer.socials">Réseaux</div>
             <div class="socials" aria-label="Réseaux sociaux">
-              <a class="social" href="#" aria-label="LinkedIn">
+              <a class="social" href="https://www.linkedin.com/company/secure-expiry-alert-logging" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.28 4.97 1.97 1.97 0 0 0 5.25 6.94 1.97 1.97 0 0 0 7.22 4.97 1.97 1.97 0 0 0 5.25 3ZM12.28 12.9c0-1.82.84-2.9 2.46-2.9 1.48 0 2.19 1.04 2.19 2.9V20h3.36v-8.22c0-3.48-1.97-5.16-4.71-5.16-2.2 0-3.17 1.21-3.72 2.05V8.5H8.62c.04.81 0 11.5 0 11.5h3.24v-7.1Z"/></svg>
               </a>
-              <a class="social" href="#" aria-label="Instagram">
+              <a class="social" href="https://www.instagram.com/seal_security_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.95 1.35a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
               </a>
-              <a class="social" href="#" aria-label="X">
+              <a class="social" href="https://x.com/SEAL2026" target="_blank" rel="noopener noreferrer" aria-label="X">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H21l-6.56 7.5L22 22h-5.96l-4.67-6.1L6.03 22H4l7-8L2 2h6.11l4.22 5.52L18.9 2Zm-1.04 18h1.65L7.2 3.9H5.42L17.86 20Z"/></svg>
               </a>
             </div>
@@ -1035,47 +1209,47 @@
         "nav.faq":"FAQ",
         "nav.contact":"Contact",
 
-        "hero.eyebrow":"Entrer en contact",
-        "hero.title.l1":"Parlons",
-        "hero.title.l2":"de votre message",
-        "hero.title.l3":"avec SEAL.",
-        "hero.subtitle":"Utilisez ce formulaire pour nous écrire. Votre message sera transmis à l’équipe SEAL via notre adresse de contact.",
-        "hero.sideTitle":"Réponse claire, formulaire simple",
-        "hero.sideText":"Cette page a été pensée pour offrir une prise de contact directe, lisible et agréable, dans le même esprit que le reste du site.",
+        "hero.eyebrow":"Parlons de votre besoin",
+        "hero.title.l1":"Contactez",
+        "hero.title.l2":"l’équipe",
+        "hero.title.l3":"SEAL.",
+        "hero.subtitle":"Vous avez une question sur le site, le checker SSL, le projet ou son fonctionnement ? Utilisez ce formulaire pour nous écrire simplement. Votre message sera transmis à l’équipe via le serveur du site.",
+        "hero.ctaPrimary":"Écrire un message",
+        "hero.ctaSecondary":"Voir la FAQ",
 
-        "info.title":"Informations",
-        "info.subtitle":"Quelques repères utiles avant de nous écrire.",
-        "info.card1.title":"Contact principal",
-        "info.card1.text":"Le formulaire de cette page transmet les messages à l’adresse de contact du projet.",
-        "info.email.label":"Adresse de contact",
-        "info.scope.label":"Type de demandes",
-        "info.scope.value":"Questions générales, retours, échanges autour du projet et demandes liées au site public.",
-        "info.card2.title":"Avant d’envoyer",
-        "info.card2.text":"Essayez de décrire votre demande avec un objet clair et un message précis. Cela nous aide à mieux comprendre votre besoin.",
-        "info.card3.title":"Confidentialité",
-        "info.card3.text":"Les informations envoyées via ce formulaire sont utilisées uniquement pour traiter votre message et vous répondre.",
+        "side.title":"Pourquoi nous écrire ?",
+        "side.text":"Cette page permet de poser une question, faire une remarque, demander une précision ou partager un retour sur l’expérience du site public SEAL.",
+        "side2.title":"Réponse simple",
+        "side2.text":"Le formulaire est directement connecté à l’API du serveur. Si le message est bien envoyé, un message de confirmation s’affiche à l’écran.",
+
+        "info.title":"Informations utiles",
+        "info.subtitle":"Quelques repères avant de nous écrire.",
+        "info.card1.title":"Un formulaire simple",
+        "info.card1.text":"Vous pouvez nous envoyer votre nom, votre adresse e-mail, un objet et votre message. Cela nous permet de comprendre plus facilement votre demande et d’y répondre.",
+        "info.card2.title":"À propos du projet",
+        "info.card2.text":"SEAL est un projet centré sur la lecture simple de l’expiration SSL. La page Contact sert aussi à recueillir des questions, idées d’amélioration et retours sur l’interface.",
+        "info.card3.title":"Canal principal",
+        "info.card3.text":"Le formulaire de cette page constitue le moyen principal pour transmettre une demande depuis le site public.",
+        "info.emailLabel":"Adresse de contact",
+        "info.socialLabel":"Réseaux",
 
         "form.title":"Formulaire",
-        "form.subtitle":"Remplissez les champs ci-dessous pour envoyer votre message.",
+        "form.subtitle":"Votre message sera envoyé à l’API /api/contact du serveur.",
+        "form.cardTitle":"Envoyez-nous un message",
+        "form.cardText":"Remplissez les champs ci-dessous. Une validation simple est faite côté interface avant l’envoi, puis le serveur traite votre demande.",
         "form.name":"Nom",
         "form.email":"Adresse e-mail",
         "form.subject":"Objet",
         "form.message":"Message",
         "form.namePlaceholder":"Votre nom",
-        "form.emailPlaceholder":"vous@exemple.com",
+        "form.emailPlaceholder":"vous@example.com",
         "form.subjectPlaceholder":"Objet de votre message",
-        "form.messagePlaceholder":"Écrivez votre message ici...",
-        "form.helper":"Merci d’écrire un message suffisamment clair pour que nous puissions bien comprendre votre demande.",
-        "form.send":"Envoyer",
+        "form.messagePlaceholder":"Décrivez votre demande...",
+        "form.helper":"Le formulaire est relié au serveur SEAL. Une adresse e-mail valide et un message sont nécessaires pour l’envoi.",
+        "form.button":"Envoyer le message",
 
-        "status.success":"Votre message a bien été envoyé.",
-        "status.error.generic":"Une erreur est survenue lors de l’envoi du message.",
-        "status.error.invalidEmail":"Veuillez entrer une adresse e-mail valide.",
-        "status.error.messageRequired":"Veuillez écrire un message avant d’envoyer.",
-        "status.sending":"Envoi en cours...",
-
-        "cta.title":"Besoin d’aller plus loin ?",
-        "cta.text":"Vous pouvez aussi consulter la FAQ ou revenir à l’accueil pour utiliser directement l’outil principal du site.",
+        "cta.title":"Avant de nous écrire",
+        "cta.text":"Vous pouvez aussi consulter la FAQ, les fonctionnalités du site ou la page À propos pour trouver rapidement une première réponse.",
         "cta.button":"Voir la FAQ",
 
         "footer.nav":"Navigation",
@@ -1087,7 +1261,15 @@
         "footer.privacy":"Politique de confidentialité",
         "footer.legal":"Mentions légales",
         "footer.terms":"Conditions d’utilisation",
-        "footer.bottomText":"Secure Expiry Alert & Logging"
+        "footer.bottomText":"Secure Expiry Alert & Logging",
+
+        "status.sending":"Envoi du message en cours...",
+        "status.success":"Votre message a bien été envoyé. Merci pour votre retour.",
+        "status.invalidEmail":"Merci d’entrer une adresse e-mail valide.",
+        "status.invalidMessage":"Merci d’écrire un message avant l’envoi.",
+        "status.mailConfig":"Le service e-mail n’est pas configuré sur le serveur.",
+        "status.mailFailed":"L’envoi a échoué côté serveur. Merci de réessayer plus tard.",
+        "status.generic":"Impossible d’envoyer le message pour le moment."
       },
 
       en: {
@@ -1097,28 +1279,34 @@
         "nav.faq":"FAQ",
         "nav.contact":"Contact",
 
-        "hero.eyebrow":"Get in touch",
-        "hero.title.l1":"Let’s talk",
-        "hero.title.l2":"about your message",
-        "hero.title.l3":"with SEAL.",
-        "hero.subtitle":"Use this form to write to us. Your message will be sent to the SEAL team through our contact address.",
-        "hero.sideTitle":"Clear response, simple form",
-        "hero.sideText":"This page was designed to offer a direct, readable, and pleasant way to get in touch, in the same spirit as the rest of the site.",
+        "hero.eyebrow":"Let’s talk about your need",
+        "hero.title.l1":"Contact",
+        "hero.title.l2":"the",
+        "hero.title.l3":"SEAL team.",
+        "hero.subtitle":"Do you have a question about the website, the SSL checker, the project, or how it works? Use this form to write to us easily. Your message will be sent to the team through the website server.",
+        "hero.ctaPrimary":"Write a message",
+        "hero.ctaSecondary":"See the FAQ",
 
-        "info.title":"Information",
-        "info.subtitle":"A few useful points before writing to us.",
-        "info.card1.title":"Main contact",
-        "info.card1.text":"The form on this page sends messages to the project contact address.",
-        "info.email.label":"Contact address",
-        "info.scope.label":"Request types",
-        "info.scope.value":"General questions, feedback, project-related exchanges, and requests related to the public site.",
-        "info.card2.title":"Before sending",
-        "info.card2.text":"Try to describe your request with a clear subject and a precise message. This helps us better understand your need.",
-        "info.card3.title":"Privacy",
-        "info.card3.text":"The information sent through this form is used only to process your message and reply to you.",
+        "side.title":"Why contact us?",
+        "side.text":"This page lets you ask a question, make a remark, request clarification, or share feedback about the SEAL public website experience.",
+        "side2.title":"Simple answer",
+        "side2.text":"The form is directly connected to the server API. If the message is successfully sent, a confirmation message appears on screen.",
+
+        "info.title":"Useful information",
+        "info.subtitle":"A few helpful points before writing to us.",
+        "info.card1.title":"A simple form",
+        "info.card1.text":"You can send us your name, email address, a subject, and your message. This helps us better understand your request and reply.",
+        "info.card2.title":"About the project",
+        "info.card2.text":"SEAL is a project centered on clear SSL expiration reading. The Contact page is also here to collect questions, improvement ideas, and interface feedback.",
+        "info.card3.title":"Main channel",
+        "info.card3.text":"The form on this page is the main way to send a request from the public website.",
+        "info.emailLabel":"Contact address",
+        "info.socialLabel":"Socials",
 
         "form.title":"Form",
-        "form.subtitle":"Fill in the fields below to send your message.",
+        "form.subtitle":"Your message will be sent to the server API /api/contact.",
+        "form.cardTitle":"Send us a message",
+        "form.cardText":"Fill in the fields below. A simple validation is done on the interface before sending, then the server processes your request.",
         "form.name":"Name",
         "form.email":"Email address",
         "form.subject":"Subject",
@@ -1126,19 +1314,13 @@
         "form.namePlaceholder":"Your name",
         "form.emailPlaceholder":"you@example.com",
         "form.subjectPlaceholder":"Subject of your message",
-        "form.messagePlaceholder":"Write your message here...",
-        "form.helper":"Please write a sufficiently clear message so that we can properly understand your request.",
-        "form.send":"Send",
+        "form.messagePlaceholder":"Describe your request...",
+        "form.helper":"The form is connected to the SEAL server. A valid email address and a message are required before sending.",
+        "form.button":"Send message",
 
-        "status.success":"Your message has been sent successfully.",
-        "status.error.generic":"An error occurred while sending the message.",
-        "status.error.invalidEmail":"Please enter a valid email address.",
-        "status.error.messageRequired":"Please write a message before sending.",
-        "status.sending":"Sending...",
-
-        "cta.title":"Need to go further?",
-        "cta.text":"You can also read the FAQ or return to the homepage to use the main tool directly.",
-        "cta.button":"View FAQ",
+        "cta.title":"Before writing to us",
+        "cta.text":"You can also read the FAQ, the features page, or the About page to quickly find a first answer.",
+        "cta.button":"See the FAQ",
 
         "footer.nav":"Navigation",
         "footer.support":"Support",
@@ -1149,7 +1331,15 @@
         "footer.privacy":"Privacy policy",
         "footer.legal":"Legal notice",
         "footer.terms":"Terms of use",
-        "footer.bottomText":"Secure Expiry Alert & Logging"
+        "footer.bottomText":"Secure Expiry Alert & Logging",
+
+        "status.sending":"Sending your message...",
+        "status.success":"Your message has been sent successfully. Thank you for your feedback.",
+        "status.invalidEmail":"Please enter a valid email address.",
+        "status.invalidMessage":"Please write a message before sending.",
+        "status.mailConfig":"The email service is not configured on the server.",
+        "status.mailFailed":"Sending failed on the server side. Please try again later.",
+        "status.generic":"Unable to send the message right now."
       },
 
       es: {
@@ -1159,59 +1349,67 @@
         "nav.faq":"FAQ",
         "nav.contact":"Contacto",
 
-        "hero.eyebrow":"Entrar en contacto",
-        "hero.title.l1":"Hablemos",
-        "hero.title.l2":"de tu mensaje",
-        "hero.title.l3":"con SEAL.",
-        "hero.subtitle":"Usa este formulario para escribirnos. Tu mensaje será enviado al equipo de SEAL a través de nuestra dirección de contacto.",
-        "hero.sideTitle":"Respuesta clara, formulario simple",
-        "hero.sideText":"Esta página ha sido diseñada para ofrecer un contacto directo, legible y agradable, en el mismo espíritu que el resto del sitio.",
+        "hero.eyebrow":"Hablemos de tu necesidad",
+        "hero.title.l1":"Contacta",
+        "hero.title.l2":"con el equipo",
+        "hero.title.l3":"SEAL.",
+        "hero.subtitle":"¿Tienes una pregunta sobre el sitio, el verificador SSL, el proyecto o su funcionamiento? Usa este formulario para escribirnos fácilmente. Tu mensaje será enviado al equipo a través del servidor del sitio.",
+        "hero.ctaPrimary":"Escribir un mensaje",
+        "hero.ctaSecondary":"Ver la FAQ",
 
-        "info.title":"Información",
-        "info.subtitle":"Algunas referencias útiles antes de escribirnos.",
-        "info.card1.title":"Contacto principal",
-        "info.card1.text":"El formulario de esta página transmite los mensajes a la dirección de contacto del proyecto.",
-        "info.email.label":"Dirección de contacto",
-        "info.scope.label":"Tipo de solicitudes",
-        "info.scope.value":"Preguntas generales, comentarios, intercambios sobre el proyecto y solicitudes relacionadas con el sitio público.",
-        "info.card2.title":"Antes de enviar",
-        "info.card2.text":"Intenta describir tu solicitud con un asunto claro y un mensaje preciso. Esto nos ayuda a comprender mejor tu necesidad.",
-        "info.card3.title":"Privacidad",
-        "info.card3.text":"La información enviada mediante este formulario se utiliza únicamente para procesar tu mensaje y responderte.",
+        "side.title":"¿Por qué escribirnos?",
+        "side.text":"Esta página permite hacer una pregunta, compartir una observación, pedir una aclaración o enviar una opinión sobre la experiencia del sitio público SEAL.",
+        "side2.title":"Respuesta simple",
+        "side2.text":"El formulario está conectado directamente a la API del servidor. Si el mensaje se envía correctamente, aparece un mensaje de confirmación en pantalla.",
+
+        "info.title":"Información útil",
+        "info.subtitle":"Algunas referencias antes de escribirnos.",
+        "info.card1.title":"Un formulario simple",
+        "info.card1.text":"Puedes enviarnos tu nombre, tu correo electrónico, un asunto y tu mensaje. Esto nos ayuda a comprender mejor tu solicitud y responderte.",
+        "info.card2.title":"Sobre el proyecto",
+        "info.card2.text":"SEAL es un proyecto centrado en la lectura clara de la expiración SSL. La página de Contacto también sirve para recoger preguntas, ideas de mejora y comentarios sobre la interfaz.",
+        "info.card3.title":"Canal principal",
+        "info.card3.text":"El formulario de esta página constituye el medio principal para transmitir una solicitud desde el sitio público.",
+        "info.emailLabel":"Dirección de contacto",
+        "info.socialLabel":"Redes",
 
         "form.title":"Formulario",
-        "form.subtitle":"Completa los campos siguientes para enviar tu mensaje.",
+        "form.subtitle":"Tu mensaje será enviado a la API /api/contact del servidor.",
+        "form.cardTitle":"Envíanos un mensaje",
+        "form.cardText":"Completa los campos siguientes. Se realiza una validación simple en la interfaz antes del envío, y luego el servidor procesa tu solicitud.",
         "form.name":"Nombre",
         "form.email":"Correo electrónico",
         "form.subject":"Asunto",
         "form.message":"Mensaje",
         "form.namePlaceholder":"Tu nombre",
-        "form.emailPlaceholder":"tu@ejemplo.com",
+        "form.emailPlaceholder":"tu@email.com",
         "form.subjectPlaceholder":"Asunto de tu mensaje",
-        "form.messagePlaceholder":"Escribe tu mensaje aquí...",
-        "form.helper":"Gracias por escribir un mensaje suficientemente claro para que podamos comprender bien tu solicitud.",
-        "form.send":"Enviar",
+        "form.messagePlaceholder":"Describe tu solicitud...",
+        "form.helper":"El formulario está conectado al servidor SEAL. Se requiere una dirección de correo válida y un mensaje antes de enviar.",
+        "form.button":"Enviar mensaje",
 
-        "status.success":"Tu mensaje ha sido enviado correctamente.",
-        "status.error.generic":"Se produjo un error al enviar el mensaje.",
-        "status.error.invalidEmail":"Por favor, introduce una dirección de correo válida.",
-        "status.error.messageRequired":"Por favor, escribe un mensaje antes de enviar.",
-        "status.sending":"Envío en curso...",
-
-        "cta.title":"¿Necesitas ir más lejos?",
-        "cta.text":"También puedes consultar la FAQ o volver a la página de inicio para utilizar directamente la herramienta principal.",
-        "cta.button":"Ver FAQ",
+        "cta.title":"Antes de escribirnos",
+        "cta.text":"También puedes consultar la FAQ, la página de funcionalidades o la página Acerca de para encontrar rápidamente una primera respuesta.",
+        "cta.button":"Ver la FAQ",
 
         "footer.nav":"Navegación",
         "footer.support":"Soporte",
-        "footer.supportText":"Para cualquier pregunta relacionada con el sitio público o con el uso del formulario de contacto.",
+        "footer.supportText":"Para cualquier pregunta relacionada con el sitio público o el formulario de contacto.",
         "footer.legalTitle":"Legal",
         "footer.brandText":"SEAL te ayuda a visualizar mejor la expiración de un certificado SSL con una interfaz clara, legible y accesible.",
         "footer.socials":"Redes",
         "footer.privacy":"Política de privacidad",
         "footer.legal":"Aviso legal",
         "footer.terms":"Condiciones de uso",
-        "footer.bottomText":"Secure Expiry Alert & Logging"
+        "footer.bottomText":"Secure Expiry Alert & Logging",
+
+        "status.sending":"Enviando tu mensaje...",
+        "status.success":"Tu mensaje se ha enviado correctamente. Gracias por tu comentario.",
+        "status.invalidEmail":"Introduce una dirección de correo válida.",
+        "status.invalidMessage":"Escribe un mensaje antes de enviarlo.",
+        "status.mailConfig":"El servicio de correo no está configurado en el servidor.",
+        "status.mailFailed":"El envío ha fallado en el servidor. Inténtalo de nuevo más tarde.",
+        "status.generic":"No se puede enviar el mensaje en este momento."
       },
 
       ru: {
@@ -1221,59 +1419,67 @@
         "nav.faq":"FAQ",
         "nav.contact":"Контакты",
 
-        "hero.eyebrow":"Связаться с нами",
-        "hero.title.l1":"Поговорим",
-        "hero.title.l2":"о вашем сообщении",
-        "hero.title.l3":"с SEAL.",
-        "hero.subtitle":"Используйте эту форму, чтобы написать нам. Ваше сообщение будет отправлено команде SEAL через наш контактный адрес.",
-        "hero.sideTitle":"Понятный ответ, простая форма",
-        "hero.sideText":"Эта страница создана для прямого, читаемого и приятного способа связи в том же духе, что и весь сайт.",
+        "hero.eyebrow":"Давайте обсудим ваш запрос",
+        "hero.title.l1":"Свяжитесь",
+        "hero.title.l2":"с командой",
+        "hero.title.l3":"SEAL.",
+        "hero.subtitle":"У вас есть вопрос о сайте, SSL checker, проекте или его работе? Используйте эту форму, чтобы написать нам. Ваше сообщение будет передано команде через сервер сайта.",
+        "hero.ctaPrimary":"Написать сообщение",
+        "hero.ctaSecondary":"Открыть FAQ",
 
-        "info.title":"Информация",
-        "info.subtitle":"Несколько полезных ориентиров перед тем, как написать нам.",
-        "info.card1.title":"Основной контакт",
-        "info.card1.text":"Форма на этой странице отправляет сообщения на контактный адрес проекта.",
-        "info.email.label":"Контактный адрес",
-        "info.scope.label":"Типы запросов",
-        "info.scope.value":"Общие вопросы, отзывы, обсуждение проекта и запросы, связанные с публичным сайтом.",
-        "info.card2.title":"Перед отправкой",
-        "info.card2.text":"Постарайтесь описать ваш запрос с понятной темой и точным сообщением. Это помогает нам лучше понять вашу потребность.",
-        "info.card3.title":"Конфиденциальность",
-        "info.card3.text":"Информация, отправленная через эту форму, используется только для обработки вашего сообщения и ответа вам.",
+        "side.title":"Почему стоит написать нам?",
+        "side.text":"Эта страница позволяет задать вопрос, оставить замечание, запросить уточнение или поделиться отзывом о публичном сайте SEAL.",
+        "side2.title":"Простой ответ",
+        "side2.text":"Форма напрямую подключена к API сервера. Если сообщение отправлено успешно, на экране появится подтверждение.",
+
+        "info.title":"Полезная информация",
+        "info.subtitle":"Несколько ориентиров перед отправкой сообщения.",
+        "info.card1.title":"Простая форма",
+        "info.card1.text":"Вы можете отправить нам своё имя, адрес электронной почты, тему и сообщение. Это помогает лучше понять ваш запрос и ответить на него.",
+        "info.card2.title":"О проекте",
+        "info.card2.text":"SEAL — это проект, ориентированный на понятное чтение срока действия SSL. Страница Контакты также служит для сбора вопросов, идей по улучшению и отзывов об интерфейсе.",
+        "info.card3.title":"Основной канал",
+        "info.card3.text":"Форма на этой странице является основным способом передать запрос с публичного сайта.",
+        "info.emailLabel":"Контактный адрес",
+        "info.socialLabel":"Соцсети",
 
         "form.title":"Форма",
-        "form.subtitle":"Заполните поля ниже, чтобы отправить сообщение.",
+        "form.subtitle":"Ваше сообщение будет отправлено в API сервера /api/contact.",
+        "form.cardTitle":"Отправьте нам сообщение",
+        "form.cardText":"Заполните поля ниже. Перед отправкой выполняется простая проверка на стороне интерфейса, затем сервер обрабатывает запрос.",
         "form.name":"Имя",
-        "form.email":"Адрес электронной почты",
+        "form.email":"Электронная почта",
         "form.subject":"Тема",
         "form.message":"Сообщение",
         "form.namePlaceholder":"Ваше имя",
         "form.emailPlaceholder":"you@example.com",
         "form.subjectPlaceholder":"Тема вашего сообщения",
-        "form.messagePlaceholder":"Напишите ваше сообщение здесь...",
-        "form.helper":"Пожалуйста, напишите достаточно понятное сообщение, чтобы мы могли правильно понять ваш запрос.",
-        "form.send":"Отправить",
+        "form.messagePlaceholder":"Опишите ваш запрос...",
+        "form.helper":"Форма подключена к серверу SEAL. Перед отправкой требуется действующий e-mail и сообщение.",
+        "form.button":"Отправить сообщение",
 
-        "status.success":"Ваше сообщение успешно отправлено.",
-        "status.error.generic":"Произошла ошибка при отправке сообщения.",
-        "status.error.invalidEmail":"Пожалуйста, введите корректный адрес электронной почты.",
-        "status.error.messageRequired":"Пожалуйста, напишите сообщение перед отправкой.",
-        "status.sending":"Отправка...",
-
-        "cta.title":"Нужно больше?",
-        "cta.text":"Вы также можете открыть FAQ или вернуться на главную страницу, чтобы сразу использовать основной инструмент сайта.",
-        "cta.button":"Смотреть FAQ",
+        "cta.title":"Перед тем как писать нам",
+        "cta.text":"Вы также можете открыть FAQ, страницу функций или страницу О нас, чтобы быстро найти первый ответ.",
+        "cta.button":"Открыть FAQ",
 
         "footer.nav":"Навигация",
         "footer.support":"Поддержка",
-        "footer.supportText":"По любым вопросам, связанным с публичным сайтом или использованием формы контакта.",
+        "footer.supportText":"По любым вопросам, связанным с публичным сайтом или формой контакта.",
         "footer.legalTitle":"Правовая информация",
         "footer.brandText":"SEAL помогает лучше видеть срок действия SSL-сертификата благодаря понятному, читаемому и доступному интерфейсу.",
         "footer.socials":"Соцсети",
         "footer.privacy":"Политика конфиденциальности",
         "footer.legal":"Юридическая информация",
         "footer.terms":"Условия использования",
-        "footer.bottomText":"Secure Expiry Alert & Logging"
+        "footer.bottomText":"Secure Expiry Alert & Logging",
+
+        "status.sending":"Отправка сообщения...",
+        "status.success":"Ваше сообщение успешно отправлено. Спасибо за ваш отзыв.",
+        "status.invalidEmail":"Введите корректный адрес электронной почты.",
+        "status.invalidMessage":"Введите сообщение перед отправкой.",
+        "status.mailConfig":"Почтовый сервис не настроен на сервере.",
+        "status.mailFailed":"Отправка не удалась на стороне сервера. Попробуйте позже.",
+        "status.generic":"Сейчас не удаётся отправить сообщение."
       },
 
       ar: {
@@ -1283,28 +1489,34 @@
         "nav.faq":"الأسئلة الشائعة",
         "nav.contact":"اتصال",
 
-        "hero.eyebrow":"تواصل معنا",
-        "hero.title.l1":"لنتحدث",
-        "hero.title.l2":"عن رسالتك",
-        "hero.title.l3":"مع SEAL.",
-        "hero.subtitle":"استخدم هذا النموذج لمراسلتنا. سيتم إرسال رسالتك إلى فريق SEAL عبر عنوان الاتصال الخاص بنا.",
-        "hero.sideTitle":"رد واضح ونموذج بسيط",
-        "hero.sideText":"تم تصميم هذه الصفحة لتقديم وسيلة تواصل مباشرة وواضحة ومريحة، بنفس روح بقية الموقع.",
+        "hero.eyebrow":"لنتحدث عن حاجتك",
+        "hero.title.l1":"تواصل مع",
+        "hero.title.l2":"فريق",
+        "hero.title.l3":"SEAL.",
+        "hero.subtitle":"هل لديك سؤال حول الموقع أو checker SSL أو المشروع أو طريقة عمله؟ استخدم هذا النموذج لمراسلتنا بسهولة. سيتم إرسال رسالتك إلى الفريق عبر خادم الموقع.",
+        "hero.ctaPrimary":"كتابة رسالة",
+        "hero.ctaSecondary":"عرض FAQ",
 
-        "info.title":"معلومات",
+        "side.title":"لماذا تراسلنا؟",
+        "side.text":"تسمح هذه الصفحة بطرح سؤال أو تقديم ملاحظة أو طلب توضيح أو مشاركة رأي حول تجربة الموقع العام SEAL.",
+        "side2.title":"رد بسيط",
+        "side2.text":"النموذج متصل مباشرة بواجهة API الخاصة بالخادم. وإذا تم إرسال الرسالة بنجاح، فستظهر رسالة تأكيد على الشاشة.",
+
+        "info.title":"معلومات مفيدة",
         "info.subtitle":"بعض النقاط المفيدة قبل مراسلتنا.",
-        "info.card1.title":"الاتصال الرئيسي",
-        "info.card1.text":"يقوم نموذج هذه الصفحة بإرسال الرسائل إلى عنوان الاتصال الخاص بالمشروع.",
-        "info.email.label":"عنوان الاتصال",
-        "info.scope.label":"نوع الطلبات",
-        "info.scope.value":"أسئلة عامة، ملاحظات، نقاشات حول المشروع، وطلبات مرتبطة بالموقع العام.",
-        "info.card2.title":"قبل الإرسال",
-        "info.card2.text":"حاول وصف طلبك بعنوان واضح ورسالة دقيقة. هذا يساعدنا على فهم حاجتك بشكل أفضل.",
-        "info.card3.title":"الخصوصية",
-        "info.card3.text":"تُستخدم المعلومات المرسلة عبر هذا النموذج فقط لمعالجة رسالتك والرد عليك.",
+        "info.card1.title":"نموذج بسيط",
+        "info.card1.text":"يمكنك إرسال اسمك وبريدك الإلكتروني وموضوع الرسالة ومحتواها. وهذا يساعدنا على فهم طلبك والرد عليه بشكل أفضل.",
+        "info.card2.title":"حول المشروع",
+        "info.card2.text":"SEAL هو مشروع يركز على قراءة واضحة لتاريخ انتهاء SSL. كما تُستخدم صفحة الاتصال لجمع الأسئلة وأفكار التحسين والملاحظات حول الواجهة.",
+        "info.card3.title":"القناة الرئيسية",
+        "info.card3.text":"يشكل نموذج هذه الصفحة الوسيلة الرئيسية لإرسال طلب من خلال الموقع العام.",
+        "info.emailLabel":"عنوان التواصل",
+        "info.socialLabel":"الشبكات",
 
         "form.title":"النموذج",
-        "form.subtitle":"املأ الحقول التالية لإرسال رسالتك.",
+        "form.subtitle":"سيتم إرسال رسالتك إلى /api/contact على الخادم.",
+        "form.cardTitle":"أرسل لنا رسالة",
+        "form.cardText":"املأ الحقول التالية. يتم إجراء تحقق بسيط في الواجهة قبل الإرسال، ثم يتولى الخادم معالجة الطلب.",
         "form.name":"الاسم",
         "form.email":"البريد الإلكتروني",
         "form.subject":"الموضوع",
@@ -1312,19 +1524,13 @@
         "form.namePlaceholder":"اسمك",
         "form.emailPlaceholder":"you@example.com",
         "form.subjectPlaceholder":"موضوع رسالتك",
-        "form.messagePlaceholder":"اكتب رسالتك هنا...",
-        "form.helper":"يرجى كتابة رسالة واضحة بما يكفي حتى نتمكن من فهم طلبك جيدًا.",
-        "form.send":"إرسال",
+        "form.messagePlaceholder":"اشرح طلبك...",
+        "form.helper":"النموذج متصل بخادم SEAL. يجب إدخال بريد إلكتروني صالح ورسالة قبل الإرسال.",
+        "form.button":"إرسال الرسالة",
 
-        "status.success":"تم إرسال رسالتك بنجاح.",
-        "status.error.generic":"حدث خطأ أثناء إرسال الرسالة.",
-        "status.error.invalidEmail":"يرجى إدخال عنوان بريد إلكتروني صالح.",
-        "status.error.messageRequired":"يرجى كتابة رسالة قبل الإرسال.",
-        "status.sending":"جارٍ الإرسال...",
-
-        "cta.title":"هل تحتاج إلى المزيد؟",
-        "cta.text":"يمكنك أيضًا الاطلاع على الأسئلة الشائعة أو العودة إلى الصفحة الرئيسية لاستخدام الأداة الأساسية للموقع مباشرة.",
-        "cta.button":"عرض الأسئلة الشائعة",
+        "cta.title":"قبل أن تراسلنا",
+        "cta.text":"يمكنك أيضًا الاطلاع على FAQ أو صفحة الميزات أو صفحة من نحن للعثور بسرعة على إجابة أولية.",
+        "cta.button":"عرض FAQ",
 
         "footer.nav":"التنقل",
         "footer.support":"الدعم",
@@ -1335,7 +1541,15 @@
         "footer.privacy":"سياسة الخصوصية",
         "footer.legal":"بيان قانوني",
         "footer.terms":"شروط الاستخدام",
-        "footer.bottomText":"Secure Expiry Alert & Logging"
+        "footer.bottomText":"Secure Expiry Alert & Logging",
+
+        "status.sending":"جاري إرسال الرسالة...",
+        "status.success":"تم إرسال رسالتك بنجاح. شكرًا على ملاحظتك.",
+        "status.invalidEmail":"يرجى إدخال عنوان بريد إلكتروني صالح.",
+        "status.invalidMessage":"يرجى كتابة رسالة قبل الإرسال.",
+        "status.mailConfig":"خدمة البريد غير مهيأة على الخادم.",
+        "status.mailFailed":"فشل الإرسال من جهة الخادم. حاول مرة أخرى لاحقًا.",
+        "status.generic":"يتعذر إرسال الرسالة في الوقت الحالي."
       },
 
       zh: {
@@ -1345,28 +1559,34 @@
         "nav.faq":"常见问题",
         "nav.contact":"联系",
 
-        "hero.eyebrow":"取得联系",
-        "hero.title.l1":"让我们谈谈",
-        "hero.title.l2":"你的消息",
-        "hero.title.l3":"与 SEAL。",
-        "hero.subtitle":"使用此表单给我们留言。你的消息将通过我们的联系邮箱发送给 SEAL 团队。",
-        "hero.sideTitle":"清晰回复，简洁表单",
-        "hero.sideText":"本页面旨在提供一种直接、清晰、舒适的联系体验，并与网站其余部分保持一致。",
+        "hero.eyebrow":"告诉我们你的需求",
+        "hero.title.l1":"联系",
+        "hero.title.l2":"SEAL",
+        "hero.title.l3":"团队。",
+        "hero.subtitle":"如果你对网站、SSL checker、项目本身或其运行方式有疑问，可以使用此表单直接联系我们。你的消息会通过网站服务器发送给团队。",
+        "hero.ctaPrimary":"写一条消息",
+        "hero.ctaSecondary":"查看 FAQ",
 
-        "info.title":"信息",
-        "info.subtitle":"在给我们留言前的一些有用提示。",
-        "info.card1.title":"主要联系",
-        "info.card1.text":"本页表单会将消息发送到项目联系邮箱。",
-        "info.email.label":"联系地址",
-        "info.scope.label":"请求类型",
-        "info.scope.value":"一般问题、反馈、围绕项目的交流以及与公开网站相关的请求。",
-        "info.card2.title":"发送前",
-        "info.card2.text":"请尽量用清晰的主题和准确的内容描述你的请求，这有助于我们更好理解你的需求。",
-        "info.card3.title":"隐私",
-        "info.card3.text":"通过此表单发送的信息仅用于处理你的消息并向你回复。",
+        "side.title":"为什么联系我们？",
+        "side.text":"本页面可用于提问、提出建议、请求说明，或分享你对 SEAL 公开网站体验的反馈。",
+        "side2.title":"简单回复流程",
+        "side2.text":"表单直接连接到服务器 API。如果消息发送成功，页面上会显示确认信息。",
+
+        "info.title":"实用信息",
+        "info.subtitle":"给我们写信前的一些提示。",
+        "info.card1.title":"简单表单",
+        "info.card1.text":"你可以向我们发送姓名、电子邮箱、主题和消息内容，这有助于我们更好地理解你的请求并回复你。",
+        "info.card2.title":"关于项目",
+        "info.card2.text":"SEAL 是一个专注于清晰读取 SSL 到期信息的项目。联系页面也用于收集问题、改进建议和界面反馈。",
+        "info.card3.title":"主要渠道",
+        "info.card3.text":"本页表单是从公开网站发送请求的主要方式。",
+        "info.emailLabel":"联系地址",
+        "info.socialLabel":"社交平台",
 
         "form.title":"表单",
-        "form.subtitle":"请填写以下字段以发送你的消息。",
+        "form.subtitle":"你的消息将发送到服务器 API /api/contact。",
+        "form.cardTitle":"给我们发送消息",
+        "form.cardText":"请填写以下字段。发送前会先在前端做简单验证，然后由服务器处理你的请求。",
         "form.name":"姓名",
         "form.email":"电子邮箱",
         "form.subject":"主题",
@@ -1374,18 +1594,12 @@
         "form.namePlaceholder":"你的姓名",
         "form.emailPlaceholder":"you@example.com",
         "form.subjectPlaceholder":"你的消息主题",
-        "form.messagePlaceholder":"在这里输入你的消息...",
-        "form.helper":"请尽量写清楚你的需求，以便我们更好地理解你的请求。",
-        "form.send":"发送",
+        "form.messagePlaceholder":"请描述你的需求...",
+        "form.helper":"该表单连接到 SEAL 服务器。发送前需要有效邮箱和消息内容。",
+        "form.button":"发送消息",
 
-        "status.success":"你的消息已成功发送。",
-        "status.error.generic":"发送消息时发生错误。",
-        "status.error.invalidEmail":"请输入有效的电子邮箱地址。",
-        "status.error.messageRequired":"请在发送前填写消息内容。",
-        "status.sending":"发送中...",
-
-        "cta.title":"还想继续了解？",
-        "cta.text":"你也可以查看 FAQ，或者返回首页直接使用网站的主要工具。",
+        "cta.title":"在联系我们之前",
+        "cta.text":"你也可以先查看 FAQ、功能页或关于我们页面，以更快找到初步答案。",
         "cta.button":"查看 FAQ",
 
         "footer.nav":"导航",
@@ -1397,7 +1611,15 @@
         "footer.privacy":"隐私政策",
         "footer.legal":"法律声明",
         "footer.terms":"使用条款",
-        "footer.bottomText":"Secure Expiry Alert & Logging"
+        "footer.bottomText":"Secure Expiry Alert & Logging",
+
+        "status.sending":"正在发送消息...",
+        "status.success":"你的消息已成功发送。感谢你的反馈。",
+        "status.invalidEmail":"请输入有效的电子邮箱地址。",
+        "status.invalidMessage":"请先填写消息内容再发送。",
+        "status.mailConfig":"服务器未配置邮件服务。",
+        "status.mailFailed":"服务器端发送失败，请稍后重试。",
+        "status.generic":"暂时无法发送消息。"
       }
     };
 
@@ -1478,77 +1700,86 @@
       setTheme(getTheme() === "dark" ? "light" : "dark");
     }
 
+    function toggleMobileMenu(force){
+      const menu = document.getElementById("mobileMenu");
+      const button = document.getElementById("menuToggle");
+      const isOpen = typeof force === "boolean" ? force : !menu.classList.contains("open");
+
+      menu.classList.toggle("open", isOpen);
+      button.classList.toggle("open", isOpen);
+      button.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    }
+
     function showStatus(type, message){
-      const box = document.getElementById("formStatus");
-      box.className = "status-box show " + type;
+      const box = document.getElementById("statusBox");
+      box.className = `status-box show ${type}`;
       box.textContent = message;
     }
 
     function clearStatus(){
-      const box = document.getElementById("formStatus");
+      const box = document.getElementById("statusBox");
       box.className = "status-box";
       box.textContent = "";
     }
 
+    function mapServerError(code){
+      switch(code){
+        case "INVALID": return t("status.invalidEmail");
+        case "MAIL_NOT_CONFIGURED": return t("status.mailConfig");
+        case "MAIL_FAILED": return t("status.mailFailed");
+        default: return t("status.generic");
+      }
+    }
+
     async function handleContactSubmit(e){
       e.preventDefault();
-
-      const form = document.getElementById("contactForm");
-      const submitBtn = document.getElementById("submitBtn");
-
-      const name = form.name.value.trim();
-      const email = form.email.value.trim();
-      const subject = form.subject.value.trim();
-      const message = form.message.value.trim();
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
       clearStatus();
 
-      if (!emailRegex.test(email)) {
-        showStatus("error", t("status.error.invalidEmail"));
+      const sendBtn = document.getElementById("sendBtn");
+      const form = document.getElementById("contactForm");
+
+      const name = String(document.getElementById("name").value || "").trim();
+      const email = String(document.getElementById("email").value || "").trim();
+      const subject = String(document.getElementById("subject").value || "").trim();
+      const message = String(document.getElementById("message").value || "").trim();
+
+      const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      if(!validEmail){
+        showStatus("error", t("status.invalidEmail"));
         return;
       }
 
-      if (!message) {
-        showStatus("error", t("status.error.messageRequired"));
+      if(!message || message.length < 2){
+        showStatus("error", t("status.invalidMessage"));
         return;
       }
 
-      submitBtn.disabled = true;
+      sendBtn.disabled = true;
+      sendBtn.style.opacity = ".75";
       showStatus("success", t("status.sending"));
 
-      try {
+      try{
         const res = await fetch("/api/contact", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method:"POST",
+          headers:{ "Content-Type":"application/json" },
           body: JSON.stringify({ name, email, subject, message })
         });
 
-        const data = await res.json().catch(() => ({}));
+        const data = await res.json();
 
-        if (!res.ok) {
-          if (data && data.code === "INVALID" && !emailRegex.test(email)) {
-            throw new Error("INVALID_EMAIL");
-          }
-          if (data && data.code === "INVALID" && !message) {
-            throw new Error("MESSAGE_REQUIRED");
-          }
-          throw new Error(data && data.message ? data.message : "SEND_ERROR");
+        if(!res.ok){
+          showStatus("error", mapServerError(data.code));
+          return;
         }
 
         form.reset();
         showStatus("success", t("status.success"));
-      } catch (err) {
-        if (err.message === "INVALID_EMAIL") {
-          showStatus("error", t("status.error.invalidEmail"));
-        } else if (err.message === "MESSAGE_REQUIRED") {
-          showStatus("error", t("status.error.messageRequired"));
-        } else {
-          showStatus("error", t("status.error.generic"));
-        }
-      } finally {
-        submitBtn.disabled = false;
+      }catch(err){
+        showStatus("error", t("status.generic"));
+      }finally{
+        sendBtn.disabled = false;
+        sendBtn.style.opacity = "1";
       }
     }
 
@@ -1566,9 +1797,11 @@
         langToggle.setAttribute("aria-expanded", open ? "true" : "false");
       });
 
-      window.addEventListener("click", () => {
-        langMenu.classList.remove("open");
-        langToggle.setAttribute("aria-expanded", "false");
+      window.addEventListener("click", (e) => {
+        if (!langMenu.contains(e.target) && !langToggle.contains(e.target)) {
+          langMenu.classList.remove("open");
+          langToggle.setAttribute("aria-expanded", "false");
+        }
       });
 
       langMenu.querySelectorAll(".item").forEach(btn => {
@@ -1581,6 +1814,21 @@
       });
 
       $("#themeToggle").addEventListener("click", toggleTheme);
+
+      const menuToggle = $("#menuToggle");
+      menuToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMobileMenu();
+      });
+
+      document.querySelectorAll("#mobileMenu a").forEach(link => {
+        link.addEventListener("click", () => toggleMobileMenu(false));
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 900) toggleMobileMenu(false);
+      });
+
       document.getElementById("contactForm").addEventListener("submit", handleContactSubmit);
     });
   </script>

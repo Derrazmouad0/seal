@@ -20,6 +20,7 @@
       --text:#EAF2FF;
       --muted:#A7B4D3;
       --line:rgba(148,163,184,.18);
+      --line-strong:rgba(148,163,184,.28);
       --accent:#35C6C2;
       --accent2:#6DBBFF;
       --accent3:#8A7CFF;
@@ -37,6 +38,7 @@
       --text:#0B1630;
       --muted:#4B5B79;
       --line:rgba(15,23,42,.10);
+      --line-strong:rgba(15,23,42,.16);
       --shadow:0 22px 55px rgba(15,23,42,.10);
     }
 
@@ -118,7 +120,7 @@
     header{
       position:sticky;
       top:0;
-      z-index:60;
+      z-index:90;
       backdrop-filter:blur(16px);
       background:color-mix(in srgb, var(--bg1) 72%, transparent);
       border-bottom:1px solid var(--line);
@@ -129,6 +131,7 @@
       justify-content:space-between;
       gap:16px;
       padding:14px 0;
+      position:relative;
     }
 
     .brand{
@@ -137,6 +140,7 @@
       text-decoration:none;
       color:var(--text);
       min-width:120px;
+      z-index:2;
     }
     .brand img{
       height:72px;
@@ -184,16 +188,19 @@
       display:flex;
       align-items:center;
       gap:10px;
+      z-index:2;
     }
 
     .lang{position:relative}
     .lang button,
-    .theme-toggle{
+    .theme-toggle,
+    .menu-toggle{
       border:1px solid var(--line);
       background:color-mix(in srgb, var(--card-strong) 74%, transparent);
       color:var(--text);
       box-shadow:0 12px 30px rgba(0,0,0,.15);
     }
+
     .lang button{
       display:flex;
       align-items:center;
@@ -205,7 +212,7 @@
       cursor:pointer;
       transition:transform .18s ease,border-color .18s ease;
     }
-    .lang button:hover,.theme-toggle:hover{
+    .lang button:hover,.theme-toggle:hover,.menu-toggle:hover{
       transform:translateY(-1px);
       border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
     }
@@ -221,7 +228,7 @@
       backdrop-filter:blur(14px);
       box-shadow:var(--shadow);
       display:none;
-      z-index:80;
+      z-index:100;
     }
     .lang .menu.open{display:block}
     .lang .item{
@@ -251,7 +258,7 @@
       white-space:nowrap;
     }
 
-    .theme-toggle{
+    .theme-toggle,.menu-toggle{
       width:46px;height:46px;
       border-radius:999px;
       display:grid;
@@ -261,6 +268,38 @@
       overflow:hidden;
       transition:transform .18s ease,border-color .18s ease;
     }
+
+    .menu-toggle{display:none}
+
+    .menu-icon{
+      width:18px;
+      height:14px;
+      position:relative;
+      display:block;
+    }
+    .menu-icon span{
+      position:absolute;
+      left:0;
+      width:100%;
+      height:2px;
+      border-radius:999px;
+      background:currentColor;
+      transition:.25s ease;
+    }
+    .menu-icon span:nth-child(1){top:0}
+    .menu-icon span:nth-child(2){top:6px}
+    .menu-icon span:nth-child(3){top:12px}
+
+    .menu-toggle.open .menu-icon span:nth-child(1){
+      top:6px; transform:rotate(45deg);
+    }
+    .menu-toggle.open .menu-icon span:nth-child(2){
+      opacity:0;
+    }
+    .menu-toggle.open .menu-icon span:nth-child(3){
+      top:6px; transform:rotate(-45deg);
+    }
+
     .sunmoon{
       width:22px;height:22px;display:block;
       transform-origin:50% 50%;
@@ -270,6 +309,33 @@
     .sun-core,.moon-core{transition:opacity .35s ease}
     html[data-theme="dark"] .sun-core{opacity:0}
     html[data-theme="light"] .moon-core{opacity:0}
+
+    .mobile-menu{
+      display:none;
+      margin-top:12px;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:10px;
+      background:color-mix(in srgb, var(--card-strong) 90%, transparent);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(14px);
+    }
+    .mobile-menu.open{display:grid}
+    .mobile-menu a{
+      text-decoration:none;
+      color:var(--text);
+      padding:12px 14px;
+      border-radius:14px;
+      font-weight:700;
+      font-size:14px;
+      opacity:.92;
+      transition:background .2s ease, opacity .2s ease;
+    }
+    .mobile-menu a:hover,
+    .mobile-menu a.active{
+      background:rgba(148,163,184,.10);
+      opacity:1;
+    }
 
     main{padding:28px 0 56px}
 
@@ -695,11 +761,17 @@
       .hero-grid,.faq-layout{grid-template-columns:1fr}
       .footer-grid{grid-template-columns:1fr 1fr}
     }
-    @media (max-width: 820px){
+
+    @media (max-width: 900px){
       .navlinks{display:none}
+      .menu-toggle{display:grid}
       .brand img{height:64px}
+      .controls{gap:8px}
+      .lang button{padding:9px 10px}
+      .lang .pill{display:none}
       .footer-grid{grid-template-columns:1fr}
     }
+
     @media (max-width: 640px){
       .hero-grid{padding:26px 16px 16px}
       .section-head,.faq-sidebar,.faq-list{padding:16px}
@@ -709,7 +781,9 @@
       .footer-bottom{padding:0 16px 16px}
       .cta{padding:18px}
       .faq-question{font-size:16px}
+      .theme-toggle,.menu-toggle{width:42px;height:42px}
     }
+
     @media (prefers-reduced-motion: reduce){
       .bg-grid,.aurora,.aurora2,.aurora3{animation:none}
       *{scroll-behavior:auto}
@@ -800,8 +874,24 @@
               </defs>
             </svg>
           </button>
+
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+            <span class="menu-icon" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
         </div>
       </div>
+
+      <nav class="mobile-menu" id="mobileMenu" aria-label="Navigation mobile">
+        <a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a>
+        <a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a>
+        <a href="a-propos.html" data-i18n="nav.about">À propos</a>
+        <a class="active" href="faq.html" data-i18n="nav.faq">FAQ</a>
+        <a href="contact-public.html" data-i18n="nav.contact">Contact</a>
+      </nav>
     </div>
   </header>
 
@@ -817,12 +907,12 @@
 
             <h1>
               <span class="hero-title-line" data-i18n="hero.title.l1">Toutes les réponses</span>
-              <span class="hero-title-line" data-i18n="hero.title.l2">à propos de</span>
+              <span class="hero-title-line" data-i18n="hero.title.l2">sur</span>
               <span class="hero-title-gradient" data-i18n="hero.title.l3">SEAL.</span>
             </h1>
 
             <p class="lead" data-i18n="hero.subtitle">
-              Cette page réunit les questions les plus fréquentes sur le fonctionnement du site, la vérification SSL, le formulaire de contact et l’expérience générale proposée par SEAL.
+              Cette page vous aide à mieux comprendre le rôle du site SEAL, son fonctionnement, la vérification SSL, les messages affichés, l’expérience proposée et les principales questions que l’on peut se poser avant ou pendant l’utilisation du service.
             </p>
 
             <div class="hero-actions">
@@ -838,16 +928,16 @@
 
           <div class="hero-side">
             <div class="floating-card">
-              <h3 data-i18n="side.title">Besoin d’une réponse rapide ?</h3>
+              <h3 data-i18n="side.title">Pourquoi cette page ?</h3>
               <p data-i18n="side.text">
-                Nous avons regroupé ici les points les plus utiles pour comprendre ce que fait SEAL, comment lire les informations affichées et comment nous écrire.
+                La FAQ permet de répondre rapidement aux questions les plus fréquentes sur l’utilité de SEAL, la manière d’utiliser le checker SSL et la lecture des résultats affichés à l’écran.
               </p>
             </div>
 
             <div class="floating-card">
-              <h3 data-i18n="side2.title">FAQ publique</h3>
+              <h3 data-i18n="side2.title">À qui s’adresse SEAL ?</h3>
               <p data-i18n="side2.text">
-                Les réponses ci-dessous concernent la version publique du site et son utilisation générale.
+                Le site peut être utile à des étudiants, développeurs, responsables de projet, équipes techniques ou toute personne souhaitant vérifier simplement l’état d’un certificat SSL.
               </p>
             </div>
           </div>
@@ -867,14 +957,14 @@
             <div class="mini-panel">
               <h3 data-i18n="panel1.title">À quoi sert SEAL ?</h3>
               <p data-i18n="panel1.text">
-                SEAL permet de consulter facilement la date d’expiration d’un certificat SSL à partir d’un domaine.
+                SEAL permet de vérifier rapidement l’expiration d’un certificat SSL à partir d’un domaine ou d’une URL, avec une lecture simple et visuelle du résultat.
               </p>
             </div>
 
             <div class="mini-panel">
-              <h3 data-i18n="panel2.title">Qui peut utiliser le site ?</h3>
+              <h3 data-i18n="panel2.title">Pourquoi c’est utile ?</h3>
               <p data-i18n="panel2.text">
-                Le site public est pensé pour être simple à utiliser, que vous soyez curieux, étudiant, membre d’une équipe technique ou professionnel.
+                Un certificat expiré peut créer des alertes navigateur, nuire à la confiance et perturber l’accès à un site. SEAL aide à repérer cela avant qu’un problème visible n’apparaisse.
               </p>
             </div>
 
@@ -912,19 +1002,19 @@
               </button>
               <div class="faq-answer" style="max-height:300px;">
                 <div class="faq-answer-inner" data-i18n="q1.a">
-                  SEAL permet de visualiser l’expiration d’un certificat SSL à partir d’un domaine. L’objectif est de présenter cette information de façon claire, lisible et accessible dans une interface moderne.
+                  SEAL permet d’analyser un domaine afin de lire la date d’expiration de son certificat SSL, le temps restant avant expiration, ainsi qu’un niveau visuel qui aide à comprendre rapidement si la situation est confortable, à surveiller ou urgente.
                 </div>
               </div>
             </div>
 
             <div class="faq-item">
               <button class="faq-question" type="button">
-                <span data-i18n="q2.q">Que dois-je entrer dans la page d’accueil ?</span>
+                <span data-i18n="q2.q">Que dois-je entrer dans le checker ?</span>
                 <span class="faq-icon">+</span>
               </button>
               <div class="faq-answer">
                 <div class="faq-answer-inner" data-i18n="q2.a">
-                  Vous devez entrer un nom de domaine, par exemple un site web ou une adresse de domaine valide. Le système analysera ensuite le certificat SSL associé si celui-ci est disponible.
+                  Vous pouvez entrer soit un nom de domaine simple, soit une URL complète. Par exemple : example.com ou https://example.com. Le système normalise ensuite la saisie pour lancer la vérification SSL.
                 </div>
               </div>
             </div>
@@ -936,67 +1026,91 @@
               </button>
               <div class="faq-answer">
                 <div class="faq-answer-inner" data-i18n="q3.a">
-                  Si le domaine n’existe pas, ou si aucune vérification exploitable ne peut être effectuée, le site affiche un message d’erreur clair au lieu de montrer un résultat incohérent.
+                  Si le domaine est invalide, introuvable ou si aucune connexion exploitable ne peut être faite, SEAL affiche un message d’erreur clair. L’objectif est de ne jamais inventer un résultat incohérent.
                 </div>
               </div>
             </div>
 
             <div class="faq-item">
               <button class="faq-question" type="button">
-                <span data-i18n="q4.q">Les couleurs affichées ont-elles une signification ?</span>
+                <span data-i18n="q4.q">À quoi correspondent les couleurs du résultat ?</span>
                 <span class="faq-icon">+</span>
               </button>
               <div class="faq-answer">
                 <div class="faq-answer-inner" data-i18n="q4.a">
-                  Oui. L’interface utilise un code visuel pour rendre l’information plus facile à lire. Selon le temps restant avant expiration, le résultat peut apparaître comme rassurant, à surveiller ou plus urgent.
+                  Le code couleur sert à rendre la lecture immédiate : vert pour une situation encore confortable, orange pour un certificat à surveiller, et rouge pour une expiration très proche ou critique.
                 </div>
               </div>
             </div>
 
             <div class="faq-item">
               <button class="faq-question" type="button">
-                <span data-i18n="q5.q">Puis-je contacter l’équipe depuis le site ?</span>
+                <span data-i18n="q5.q">Pourquoi vérifier un certificat SSL est-il important ?</span>
                 <span class="faq-icon">+</span>
               </button>
               <div class="faq-answer">
                 <div class="faq-answer-inner" data-i18n="q5.a">
-                  Oui. La page Contact permet d’envoyer un message à l’équipe via le formulaire prévu à cet effet. Le contenu est ensuite transmis à l’adresse de contact du projet.
+                  Un certificat SSL permet de sécuriser les échanges entre un site et ses visiteurs. Lorsqu’il approche de l’expiration ou expire, cela peut provoquer des alertes navigateur, réduire la confiance et créer une mauvaise expérience utilisateur.
                 </div>
               </div>
             </div>
 
             <div class="faq-item">
               <button class="faq-question" type="button">
-                <span data-i18n="q6.q">Le site garde-t-il mes préférences ?</span>
+                <span data-i18n="q6.q">SEAL remplace-t-il un outil de monitoring avancé ?</span>
                 <span class="faq-icon">+</span>
               </button>
               <div class="faq-answer">
                 <div class="faq-answer-inner" data-i18n="q6.a">
-                  Oui. Le site peut conserver localement certaines préférences comme la langue choisie ou le mode clair/sombre afin d’améliorer votre confort d’utilisation.
+                  Le site public SEAL met surtout l’accent sur la consultation rapide et la compréhension visuelle. Il ne prétend pas nécessairement remplacer une solution complète de supervision, mais il constitue une interface claire pour lire l’essentiel rapidement.
                 </div>
               </div>
             </div>
 
             <div class="faq-item">
               <button class="faq-question" type="button">
-                <span data-i18n="q7.q">Le site est-il adapté au mobile ?</span>
+                <span data-i18n="q7.q">Le site garde-t-il mes préférences ?</span>
                 <span class="faq-icon">+</span>
               </button>
               <div class="faq-answer">
                 <div class="faq-answer-inner" data-i18n="q7.a">
-                  Oui. L’interface a été pensée pour s’adapter aux ordinateurs, tablettes et smartphones afin de conserver une lecture claire sur tous les formats d’écran.
+                  Oui. Le site peut conserver localement certaines préférences comme la langue choisie ou le mode clair/sombre afin d’améliorer votre confort d’utilisation lors des prochaines visites.
                 </div>
               </div>
             </div>
 
             <div class="faq-item">
               <button class="faq-question" type="button">
-                <span data-i18n="q8.q">Où trouver les informations légales et de confidentialité ?</span>
+                <span data-i18n="q8.q">Le site est-il adapté aux petits écrans ?</span>
                 <span class="faq-icon">+</span>
               </button>
               <div class="faq-answer">
                 <div class="faq-answer-inner" data-i18n="q8.a">
-                  Les pages Politique de confidentialité, Mentions légales et Conditions d’utilisation sont accessibles depuis le footer du site.
+                  Oui. La page est conçue pour rester lisible sur ordinateur, tablette et smartphone. Sur petit écran, le menu principal passe en version hamburger pour garder une navigation simple et propre.
+                </div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span data-i18n="q9.q">Puis-je contacter l’équipe depuis le site ?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-answer">
+                <div class="faq-answer-inner" data-i18n="q9.a">
+                  Oui. La page Contact permet d’envoyer un message à l’équipe via le formulaire prévu à cet effet. Le message est ensuite transmis à l’adresse de contact du projet.
+                </div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span data-i18n="q10.q">Où trouver les informations légales et de confidentialité ?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-answer">
+                <div class="faq-answer-inner" data-i18n="q10.a">
+                  Les pages Politique de confidentialité, Mentions légales et Conditions d’utilisation sont accessibles depuis le pied de page du site.
                 </div>
               </div>
             </div>
@@ -1007,7 +1121,7 @@
       <section class="cta" aria-label="Appel à l’action">
         <div>
           <h3 data-i18n="cta.title">Vous ne trouvez pas votre réponse ?</h3>
-          <p data-i18n="cta.text">Vous pouvez utiliser la page Contact pour nous écrire directement. Nous pourrons vous répondre selon la nature de votre demande.</p>
+          <p data-i18n="cta.text">Vous pouvez utiliser la page Contact pour nous écrire directement. Nous pourrons vous répondre selon la nature de votre demande ou vous orienter vers la bonne page du site.</p>
         </div>
 
         <a class="glass-btn primary" href="contact-public.html">
@@ -1034,13 +1148,13 @@
 
             <div class="social-label" data-i18n="footer.socials">Réseaux</div>
             <div class="socials" aria-label="Réseaux sociaux">
-              <a class="social" href="#" aria-label="LinkedIn">
+              <a class="social" href="https://www.linkedin.com/company/secure-expiry-alert-logging" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.28 4.97 1.97 1.97 0 0 0 5.25 6.94 1.97 1.97 0 0 0 7.22 4.97 1.97 1.97 0 0 0 5.25 3ZM12.28 12.9c0-1.82.84-2.9 2.46-2.9 1.48 0 2.19 1.04 2.19 2.9V20h3.36v-8.22c0-3.48-1.97-5.16-4.71-5.16-2.2 0-3.17 1.21-3.72 2.05V8.5H8.62c.04.81 0 11.5 0 11.5h3.24v-7.1Z"/></svg>
               </a>
-              <a class="social" href="#" aria-label="Instagram">
+              <a class="social" href="https://www.instagram.com/seal_security_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.95 1.35a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
               </a>
-              <a class="social" href="#" aria-label="X">
+              <a class="social" href="https://x.com/SEAL2026" target="_blank" rel="noopener noreferrer" aria-label="X">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H21l-6.56 7.5L22 22h-5.96l-4.67-6.1L6.03 22H4l7-8L2 2h6.11l4.22 5.52L18.9 2Zm-1.04 18h1.65L7.2 3.9H5.42L17.86 20Z"/></svg>
               </a>
             </div>
@@ -1094,23 +1208,23 @@
 
         "hero.eyebrow":"Questions fréquentes",
         "hero.title.l1":"Toutes les réponses",
-        "hero.title.l2":"à propos de",
+        "hero.title.l2":"sur",
         "hero.title.l3":"SEAL.",
-        "hero.subtitle":"Cette page réunit les questions les plus fréquentes sur le fonctionnement du site, la vérification SSL, le formulaire de contact et l’expérience générale proposée par SEAL.",
+        "hero.subtitle":"Cette page vous aide à mieux comprendre le rôle du site SEAL, son fonctionnement, la vérification SSL, les messages affichés, l’expérience proposée et les principales questions que l’on peut se poser avant ou pendant l’utilisation du service.",
         "hero.ctaPrimary":"Tester un domaine",
         "hero.ctaSecondary":"Nous contacter",
 
-        "side.title":"Besoin d’une réponse rapide ?",
-        "side.text":"Nous avons regroupé ici les points les plus utiles pour comprendre ce que fait SEAL, comment lire les informations affichées et comment nous écrire.",
-        "side2.title":"FAQ publique",
-        "side2.text":"Les réponses ci-dessous concernent la version publique du site et son utilisation générale.",
+        "side.title":"Pourquoi cette page ?",
+        "side.text":"La FAQ permet de répondre rapidement aux questions les plus fréquentes sur l’utilité de SEAL, la manière d’utiliser le checker SSL et la lecture des résultats affichés à l’écran.",
+        "side2.title":"À qui s’adresse SEAL ?",
+        "side2.text":"Le site peut être utile à des étudiants, développeurs, responsables de projet, équipes techniques ou toute personne souhaitant vérifier simplement l’état d’un certificat SSL.",
 
         "help.title":"Aide rapide",
         "help.subtitle":"Quelques repères utiles avant de parcourir la FAQ complète.",
         "panel1.title":"À quoi sert SEAL ?",
-        "panel1.text":"SEAL permet de consulter facilement la date d’expiration d’un certificat SSL à partir d’un domaine.",
-        "panel2.title":"Qui peut utiliser le site ?",
-        "panel2.text":"Le site public est pensé pour être simple à utiliser, que vous soyez curieux, étudiant, membre d’une équipe technique ou professionnel.",
+        "panel1.text":"SEAL permet de vérifier rapidement l’expiration d’un certificat SSL à partir d’un domaine ou d’une URL, avec une lecture simple et visuelle du résultat.",
+        "panel2.title":"Pourquoi c’est utile ?",
+        "panel2.text":"Un certificat expiré peut créer des alertes navigateur, nuire à la confiance et perturber l’accès à un site. SEAL aide à repérer cela avant qu’un problème visible n’apparaisse.",
         "panel3.title":"Le site est-il multilingue ?",
         "panel3.text":"Oui. Le contenu principal du site peut être affiché dans les six langues proposées dans l’interface.",
 
@@ -1118,24 +1232,28 @@
         "faq.subtitle":"Cliquez sur une question pour afficher la réponse.",
 
         "q1.q":"Que fait exactement SEAL ?",
-        "q1.a":"SEAL permet de visualiser l’expiration d’un certificat SSL à partir d’un domaine. L’objectif est de présenter cette information de façon claire, lisible et accessible dans une interface moderne.",
-        "q2.q":"Que dois-je entrer dans la page d’accueil ?",
-        "q2.a":"Vous devez entrer un nom de domaine, par exemple un site web ou une adresse de domaine valide. Le système analysera ensuite le certificat SSL associé si celui-ci est disponible.",
+        "q1.a":"SEAL permet d’analyser un domaine afin de lire la date d’expiration de son certificat SSL, le temps restant avant expiration, ainsi qu’un niveau visuel qui aide à comprendre rapidement si la situation est confortable, à surveiller ou urgente.",
+        "q2.q":"Que dois-je entrer dans le checker ?",
+        "q2.a":"Vous pouvez entrer soit un nom de domaine simple, soit une URL complète. Par exemple : example.com ou https://example.com. Le système normalise ensuite la saisie pour lancer la vérification SSL.",
         "q3.q":"Que se passe-t-il si le domaine n’existe pas ?",
-        "q3.a":"Si le domaine n’existe pas, ou si aucune vérification exploitable ne peut être effectuée, le site affiche un message d’erreur clair au lieu de montrer un résultat incohérent.",
-        "q4.q":"Les couleurs affichées ont-elles une signification ?",
-        "q4.a":"Oui. L’interface utilise un code visuel pour rendre l’information plus facile à lire. Selon le temps restant avant expiration, le résultat peut apparaître comme rassurant, à surveiller ou plus urgent.",
-        "q5.q":"Puis-je contacter l’équipe depuis le site ?",
-        "q5.a":"Oui. La page Contact permet d’envoyer un message à l’équipe via le formulaire prévu à cet effet. Le contenu est ensuite transmis à l’adresse de contact du projet.",
-        "q6.q":"Le site garde-t-il mes préférences ?",
-        "q6.a":"Oui. Le site peut conserver localement certaines préférences comme la langue choisie ou le mode clair/sombre afin d’améliorer votre confort d’utilisation.",
-        "q7.q":"Le site est-il adapté au mobile ?",
-        "q7.a":"Oui. L’interface a été pensée pour s’adapter aux ordinateurs, tablettes et smartphones afin de conserver une lecture claire sur tous les formats d’écran.",
-        "q8.q":"Où trouver les informations légales et de confidentialité ?",
-        "q8.a":"Les pages Politique de confidentialité, Mentions légales et Conditions d’utilisation sont accessibles depuis le footer du site.",
+        "q3.a":"Si le domaine est invalide, introuvable ou si aucune connexion exploitable ne peut être faite, SEAL affiche un message d’erreur clair. L’objectif est de ne jamais inventer un résultat incohérent.",
+        "q4.q":"À quoi correspondent les couleurs du résultat ?",
+        "q4.a":"Le code couleur sert à rendre la lecture immédiate : vert pour une situation encore confortable, orange pour un certificat à surveiller, et rouge pour une expiration très proche ou critique.",
+        "q5.q":"Pourquoi vérifier un certificat SSL est-il important ?",
+        "q5.a":"Un certificat SSL permet de sécuriser les échanges entre un site et ses visiteurs. Lorsqu’il approche de l’expiration ou expire, cela peut provoquer des alertes navigateur, réduire la confiance et créer une mauvaise expérience utilisateur.",
+        "q6.q":"SEAL remplace-t-il un outil de monitoring avancé ?",
+        "q6.a":"Le site public SEAL met surtout l’accent sur la consultation rapide et la compréhension visuelle. Il ne prétend pas nécessairement remplacer une solution complète de supervision, mais il constitue une interface claire pour lire l’essentiel rapidement.",
+        "q7.q":"Le site garde-t-il mes préférences ?",
+        "q7.a":"Oui. Le site peut conserver localement certaines préférences comme la langue choisie ou le mode clair/sombre afin d’améliorer votre confort d’utilisation lors des prochaines visites.",
+        "q8.q":"Le site est-il adapté aux petits écrans ?",
+        "q8.a":"Oui. La page est conçue pour rester lisible sur ordinateur, tablette et smartphone. Sur petit écran, le menu principal passe en version hamburger pour garder une navigation simple et propre.",
+        "q9.q":"Puis-je contacter l’équipe depuis le site ?",
+        "q9.a":"Oui. La page Contact permet d’envoyer un message à l’équipe via le formulaire prévu à cet effet. Le message est ensuite transmis à l’adresse de contact du projet.",
+        "q10.q":"Où trouver les informations légales et de confidentialité ?",
+        "q10.a":"Les pages Politique de confidentialité, Mentions légales et Conditions d’utilisation sont accessibles depuis le pied de page du site.",
 
         "cta.title":"Vous ne trouvez pas votre réponse ?",
-        "cta.text":"Vous pouvez utiliser la page Contact pour nous écrire directement. Nous pourrons vous répondre selon la nature de votre demande.",
+        "cta.text":"Vous pouvez utiliser la page Contact pour nous écrire directement. Nous pourrons vous répondre selon la nature de votre demande ou vous orienter vers la bonne page du site.",
         "cta.button":"Aller vers Contact",
 
         "footer.nav":"Navigation",
@@ -1161,46 +1279,50 @@
         "hero.title.l1":"All the answers",
         "hero.title.l2":"about",
         "hero.title.l3":"SEAL.",
-        "hero.subtitle":"This page gathers the most common questions about the website, SSL checking, the contact form, and the overall experience offered by SEAL.",
+        "hero.subtitle":"This page helps you better understand the role of the SEAL website, how it works, SSL checking, displayed messages, the overall user experience, and the main questions people may have before or during usage.",
         "hero.ctaPrimary":"Test a domain",
         "hero.ctaSecondary":"Contact us",
 
-        "side.title":"Need a quick answer?",
-        "side.text":"We gathered here the most useful points to understand what SEAL does, how to read the displayed information, and how to contact us.",
-        "side2.title":"Public FAQ",
-        "side2.text":"The answers below concern the public version of the website and its general use.",
+        "side.title":"Why this page?",
+        "side.text":"The FAQ is here to answer the most common questions about SEAL, how to use the SSL checker, and how to read the displayed results.",
+        "side2.title":"Who is SEAL for?",
+        "side2.text":"The website can be useful for students, developers, project managers, technical teams, or anyone who wants to check the state of an SSL certificate in a simple way.",
 
         "help.title":"Quick help",
-        "help.subtitle":"A few useful points before reading the full FAQ.",
+        "help.subtitle":"A few useful points before browsing the full FAQ.",
         "panel1.title":"What is SEAL for?",
-        "panel1.text":"SEAL lets you easily view the expiration date of an SSL certificate from a domain.",
-        "panel2.title":"Who can use the site?",
-        "panel2.text":"The public site is designed to stay simple to use whether you are curious, a student, part of a technical team, or a professional.",
-        "panel3.title":"Is the site multilingual?",
+        "panel1.text":"SEAL allows you to quickly check SSL certificate expiration from a domain or URL, with a simple and visual reading of the result.",
+        "panel2.title":"Why is it useful?",
+        "panel2.text":"An expired certificate can trigger browser warnings, reduce trust, and disturb access to a website. SEAL helps spot that before a visible problem appears.",
+        "panel3.title":"Is the website multilingual?",
         "panel3.text":"Yes. The main content of the site can be displayed in the six languages available in the interface.",
 
         "faq.title":"Frequently asked questions",
         "faq.subtitle":"Click a question to display the answer.",
 
         "q1.q":"What exactly does SEAL do?",
-        "q1.a":"SEAL helps visualize the expiration of an SSL certificate from a domain. The goal is to present this information in a clear, readable, and accessible interface.",
-        "q2.q":"What should I enter on the home page?",
-        "q2.a":"You should enter a domain name, for example a website or a valid domain address. The system will then analyze the related SSL certificate when available.",
+        "q1.a":"SEAL analyzes a domain in order to read the expiration date of its SSL certificate, the time remaining before expiration, and a visual level that helps understand quickly whether the situation is comfortable, needs attention, or is urgent.",
+        "q2.q":"What should I enter in the checker?",
+        "q2.a":"You can enter either a simple domain name or a full URL. For example: example.com or https://example.com. The system then normalizes the input to launch the SSL verification.",
         "q3.q":"What happens if the domain does not exist?",
-        "q3.a":"If the domain does not exist, or if no usable check can be performed, the site displays a clear error message instead of showing an inconsistent result.",
-        "q4.q":"Do the displayed colors mean something?",
-        "q4.a":"Yes. The interface uses a visual code to make the information easier to read. Depending on the remaining time before expiration, the result may look reassuring, worth watching, or more urgent.",
-        "q5.q":"Can I contact the team from the website?",
-        "q5.a":"Yes. The Contact page lets you send a message to the team through the dedicated form. The content is then sent to the project contact address.",
-        "q6.q":"Does the site keep my preferences?",
-        "q6.a":"Yes. The site can keep some preferences locally, such as the selected language or light/dark mode, to improve your user comfort.",
-        "q7.q":"Is the site mobile-friendly?",
-        "q7.a":"Yes. The interface was designed to adapt to computers, tablets, and smartphones so the content stays readable on every screen size.",
-        "q8.q":"Where can I find the legal and privacy information?",
-        "q8.a":"The Privacy Policy, Legal Notice, and Terms of Use pages are accessible from the website footer.",
+        "q3.a":"If the domain is invalid, not found, or no usable connection can be made, SEAL displays a clear error message. The goal is never to invent an inconsistent result.",
+        "q4.q":"What do the result colors mean?",
+        "q4.a":"The color code is there to make the reading immediate: green for a still comfortable situation, orange for a certificate that should be watched, and red for a very near or critical expiration.",
+        "q5.q":"Why is checking an SSL certificate important?",
+        "q5.a":"An SSL certificate secures exchanges between a website and its visitors. When it is close to expiration or expires, it can trigger browser warnings, reduce trust, and create a poor user experience.",
+        "q6.q":"Does SEAL replace an advanced monitoring tool?",
+        "q6.a":"The public SEAL website mainly focuses on quick consultation and visual understanding. It does not necessarily replace a full monitoring solution, but it provides a clear interface to read the essentials quickly.",
+        "q7.q":"Does the site keep my preferences?",
+        "q7.a":"Yes. The site may locally keep some preferences such as the selected language or light/dark mode in order to improve your comfort during future visits.",
+        "q8.q":"Is the site adapted to small screens?",
+        "q8.a":"Yes. The page is designed to stay readable on desktop, tablet, and smartphone. On small screens, the main navigation switches to a hamburger menu to keep navigation simple and clean.",
+        "q9.q":"Can I contact the team from the website?",
+        "q9.a":"Yes. The Contact page lets you send a message to the team through the dedicated form. The message is then sent to the project contact address.",
+        "q10.q":"Where can I find legal and privacy information?",
+        "q10.a":"The Privacy Policy, Legal Notice, and Terms of Use pages are accessible from the website footer.",
 
         "cta.title":"Did not find your answer?",
-        "cta.text":"You can use the Contact page to write to us directly. We can reply depending on the nature of your request.",
+        "cta.text":"You can use the Contact page to write to us directly. We can answer depending on the nature of your request or guide you to the right page.",
         "cta.button":"Go to Contact",
 
         "footer.nav":"Navigation",
@@ -1226,21 +1348,21 @@
         "hero.title.l1":"Todas las respuestas",
         "hero.title.l2":"sobre",
         "hero.title.l3":"SEAL.",
-        "hero.subtitle":"Esta página reúne las preguntas más frecuentes sobre el funcionamiento del sitio, la verificación SSL, el formulario de contacto y la experiencia general que ofrece SEAL.",
+        "hero.subtitle":"Esta página te ayuda a comprender mejor el papel del sitio SEAL, su funcionamiento, la verificación SSL, los mensajes mostrados, la experiencia propuesta y las principales preguntas que pueden surgir antes o durante el uso.",
         "hero.ctaPrimary":"Probar un dominio",
         "hero.ctaSecondary":"Contactarnos",
 
-        "side.title":"¿Necesitas una respuesta rápida?",
-        "side.text":"Hemos reunido aquí los puntos más útiles para comprender qué hace SEAL, cómo leer la información mostrada y cómo escribirnos.",
-        "side2.title":"FAQ pública",
-        "side2.text":"Las respuestas siguientes se refieren a la versión pública del sitio y a su uso general.",
+        "side.title":"¿Por qué esta página?",
+        "side.text":"La FAQ responde a las preguntas más frecuentes sobre SEAL, cómo usar el verificador SSL y cómo leer los resultados mostrados.",
+        "side2.title":"¿A quién va dirigido SEAL?",
+        "side2.text":"El sitio puede ser útil para estudiantes, desarrolladores, responsables de proyecto, equipos técnicos o cualquier persona que quiera comprobar de forma simple el estado de un certificado SSL.",
 
         "help.title":"Ayuda rápida",
-        "help.subtitle":"Algunas referencias útiles antes de recorrer la FAQ completa.",
+        "help.subtitle":"Algunos puntos útiles antes de recorrer la FAQ completa.",
         "panel1.title":"¿Para qué sirve SEAL?",
-        "panel1.text":"SEAL permite consultar fácilmente la fecha de expiración de un certificado SSL a partir de un dominio.",
-        "panel2.title":"¿Quién puede usar el sitio?",
-        "panel2.text":"El sitio público está pensado para ser simple de usar, tanto si eres una persona curiosa, estudiante, miembro de un equipo técnico o profesional.",
+        "panel1.text":"SEAL permite verificar rápidamente la expiración de un certificado SSL a partir de un dominio o una URL, con una lectura simple y visual del resultado.",
+        "panel2.title":"¿Por qué es útil?",
+        "panel2.text":"Un certificado caducado puede generar alertas del navegador, reducir la confianza y afectar el acceso a un sitio. SEAL ayuda a detectar eso antes de que aparezca un problema visible.",
         "panel3.title":"¿El sitio es multilingüe?",
         "panel3.text":"Sí. El contenido principal del sitio puede mostrarse en los seis idiomas propuestos en la interfaz.",
 
@@ -1248,29 +1370,33 @@
         "faq.subtitle":"Haz clic en una pregunta para mostrar la respuesta.",
 
         "q1.q":"¿Qué hace exactamente SEAL?",
-        "q1.a":"SEAL permite visualizar la expiración de un certificado SSL a partir de un dominio. El objetivo es presentar esta información de forma clara, legible y accesible dentro de una interfaz moderna.",
-        "q2.q":"¿Qué debo introducir en la página de inicio?",
-        "q2.a":"Debes introducir un nombre de dominio, por ejemplo un sitio web o una dirección de dominio válida. El sistema analizará después el certificado SSL asociado si está disponible.",
+        "q1.a":"SEAL analiza un dominio para leer la fecha de expiración de su certificado SSL, el tiempo restante antes de la expiración y un nivel visual que ayuda a comprender rápidamente si la situación es cómoda, requiere atención o es urgente.",
+        "q2.q":"¿Qué debo introducir en el verificador?",
+        "q2.a":"Puedes introducir un nombre de dominio simple o una URL completa. Por ejemplo: example.com o https://example.com. El sistema normaliza después la entrada para lanzar la verificación SSL.",
         "q3.q":"¿Qué ocurre si el dominio no existe?",
-        "q3.a":"Si el dominio no existe, o si no se puede realizar una verificación utilizable, el sitio muestra un mensaje de error claro en lugar de un resultado incoherente.",
-        "q4.q":"¿Los colores mostrados tienen significado?",
-        "q4.a":"Sí. La interfaz usa un código visual para facilitar la lectura de la información. Según el tiempo restante antes de la expiración, el resultado puede parecer tranquilizador, a vigilar o más urgente.",
-        "q5.q":"¿Puedo contactar con el equipo desde el sitio?",
-        "q5.a":"Sí. La página Contacto permite enviar un mensaje al equipo mediante el formulario previsto para ello. El contenido se transmite después a la dirección de contacto del proyecto.",
-        "q6.q":"¿El sitio guarda mis preferencias?",
-        "q6.a":"Sí. El sitio puede conservar localmente algunas preferencias, como el idioma elegido o el modo claro/oscuro, para mejorar tu comodidad de uso.",
-        "q7.q":"¿El sitio está adaptado al móvil?",
-        "q7.a":"Sí. La interfaz ha sido pensada para adaptarse a ordenadores, tabletas y teléfonos inteligentes, con el fin de conservar una lectura clara en todos los formatos de pantalla.",
-        "q8.q":"¿Dónde encontrar la información legal y de privacidad?",
-        "q8.a":"Las páginas de Política de privacidad, Aviso legal y Condiciones de uso son accesibles desde el pie de página del sitio.",
+        "q3.a":"Si el dominio es inválido, no se encuentra o no se puede realizar una conexión utilizable, SEAL muestra un mensaje de error claro. El objetivo es no inventar nunca un resultado incoherente.",
+        "q4.q":"¿Qué significan los colores del resultado?",
+        "q4.a":"El código de color está pensado para hacer la lectura inmediata: verde para una situación todavía cómoda, naranja para un certificado que debe vigilarse y rojo para una expiración muy próxima o crítica.",
+        "q5.q":"¿Por qué es importante verificar un certificado SSL?",
+        "q5.a":"Un certificado SSL asegura los intercambios entre un sitio y sus visitantes. Cuando se acerca a la expiración o expira, puede generar alertas del navegador, reducir la confianza y crear una mala experiencia de usuario.",
+        "q6.q":"¿SEAL reemplaza una herramienta avanzada de monitorización?",
+        "q6.a":"El sitio público SEAL se centra sobre todo en la consulta rápida y la comprensión visual. No pretende necesariamente reemplazar una solución completa de supervisión, pero sí ofrece una interfaz clara para leer lo esencial rápidamente.",
+        "q7.q":"¿El sitio guarda mis preferencias?",
+        "q7.a":"Sí. El sitio puede conservar localmente algunas preferencias, como el idioma elegido o el modo claro/oscuro, para mejorar tu comodidad durante futuras visitas.",
+        "q8.q":"¿El sitio está adaptado a pantallas pequeñas?",
+        "q8.a":"Sí. La página está diseñada para seguir siendo legible en ordenador, tableta y smartphone. En pantallas pequeñas, la navegación principal pasa a un menú hamburguesa para mantener una navegación simple y limpia.",
+        "q9.q":"¿Puedo contactar con el equipo desde el sitio?",
+        "q9.a":"Sí. La página Contacto permite enviar un mensaje al equipo mediante el formulario previsto para ello. El mensaje se transmite después a la dirección de contacto del proyecto.",
+        "q10.q":"¿Dónde encontrar la información legal y de privacidad?",
+        "q10.a":"Las páginas de Política de privacidad, Aviso legal y Condiciones de uso son accesibles desde el pie de página del sitio.",
 
         "cta.title":"¿No encuentras tu respuesta?",
-        "cta.text":"Puedes utilizar la página de Contacto para escribirnos directamente. Podremos responderte según la naturaleza de tu solicitud.",
+        "cta.text":"Puedes usar la página de Contacto para escribirnos directamente. Podremos responderte según la naturaleza de tu solicitud o guiarte hacia la página correcta.",
         "cta.button":"Ir a Contacto",
 
         "footer.nav":"Navegación",
         "footer.support":"Soporte",
-        "footer.supportText":"Para cualquier pregunta relacionada con el sitio público o el uso del formulario de contacto.",
+        "footer.supportText":"Para cualquier pregunta relacionada con el sitio público o el formulario de contacto.",
         "footer.legalTitle":"Legal",
         "footer.brandText":"SEAL te ayuda a visualizar mejor la expiración de un certificado SSL con una interfaz clara, legible y accesible.",
         "footer.socials":"Redes",
@@ -1291,21 +1417,21 @@
         "hero.title.l1":"Все ответы",
         "hero.title.l2":"о",
         "hero.title.l3":"SEAL.",
-        "hero.subtitle":"На этой странице собраны самые частые вопросы о работе сайта, проверке SSL, форме обратной связи и общем пользовательском опыте SEAL.",
+        "hero.subtitle":"Эта страница помогает лучше понять роль сайта SEAL, его работу, проверку SSL, отображаемые сообщения, предлагаемый пользовательский опыт и основные вопросы, которые могут возникнуть до или во время использования.",
         "hero.ctaPrimary":"Проверить домен",
         "hero.ctaSecondary":"Связаться с нами",
 
-        "side.title":"Нужен быстрый ответ?",
-        "side.text":"Здесь собраны самые полезные пункты, чтобы понять, что делает SEAL, как читать отображаемую информацию и как написать нам.",
-        "side2.title":"Публичный FAQ",
-        "side2.text":"Приведённые ниже ответы относятся к публичной версии сайта и её общему использованию.",
+        "side.title":"Зачем эта страница?",
+        "side.text":"FAQ отвечает на самые частые вопросы о пользе SEAL, способе использования SSL checker и чтении результатов на экране.",
+        "side2.title":"Для кого SEAL?",
+        "side2.text":"Сайт может быть полезен студентам, разработчикам, руководителям проектов, техническим командам или любому человеку, который хочет просто проверить состояние SSL-сертификата.",
 
         "help.title":"Быстрая помощь",
         "help.subtitle":"Несколько полезных ориентиров перед чтением полной FAQ.",
         "panel1.title":"Для чего нужен SEAL?",
-        "panel1.text":"SEAL позволяет легко просматривать срок действия SSL-сертификата по домену.",
-        "panel2.title":"Кто может использовать сайт?",
-        "panel2.text":"Публичный сайт задуман так, чтобы оставаться простым в использовании для любопытных пользователей, студентов, технических команд и профессионалов.",
+        "panel1.text":"SEAL позволяет быстро проверять срок действия SSL-сертификата по домену или URL с простой и наглядной подачей результата.",
+        "panel2.title":"Почему это полезно?",
+        "panel2.text":"Истёкший сертификат может вызывать предупреждения браузера, снижать доверие и мешать доступу к сайту. SEAL помогает заметить это до появления видимой проблемы.",
         "panel3.title":"Сайт многоязычный?",
         "panel3.text":"Да. Основное содержимое сайта может отображаться на шести языках, доступных в интерфейсе.",
 
@@ -1313,29 +1439,33 @@
         "faq.subtitle":"Нажмите на вопрос, чтобы открыть ответ.",
 
         "q1.q":"Что именно делает SEAL?",
-        "q1.a":"SEAL помогает видеть срок действия SSL-сертификата по домену. Цель — представить эту информацию в ясном, читаемом и доступном интерфейсе.",
-        "q2.q":"Что нужно вводить на главной странице?",
-        "q2.a":"Нужно ввести доменное имя, например сайт или корректный доменный адрес. Затем система проанализирует связанный SSL-сертификат, если он доступен.",
+        "q1.a":"SEAL анализирует домен, чтобы показать дату окончания SSL-сертификата, оставшееся время до истечения и визуальный уровень, который помогает быстро понять, спокойная ситуация, требует внимания или уже срочна.",
+        "q2.q":"Что нужно вводить в checker?",
+        "q2.a":"Можно ввести либо простой домен, либо полный URL. Например: example.com или https://example.com. Затем система нормализует ввод для запуска SSL-проверки.",
         "q3.q":"Что происходит, если домен не существует?",
-        "q3.a":"Если домен не существует или невозможно выполнить пригодную проверку, сайт показывает понятное сообщение об ошибке вместо некорректного результата.",
-        "q4.q":"Имеют ли отображаемые цвета значение?",
-        "q4.a":"Да. Интерфейс использует визуальный код, чтобы сделать информацию более понятной. В зависимости от оставшегося времени до истечения результата он может выглядеть спокойным, требующим внимания или более срочным.",
-        "q5.q":"Можно ли связаться с командой через сайт?",
-        "q5.a":"Да. Страница Контакты позволяет отправить сообщение команде через специальную форму. Содержимое затем передаётся на контактный адрес проекта.",
-        "q6.q":"Сохраняет ли сайт мои предпочтения?",
-        "q6.a":"Да. Сайт может локально сохранять некоторые предпочтения, например выбранный язык или светлую/тёмную тему, чтобы улучшить удобство использования.",
-        "q7.q":"Подходит ли сайт для мобильных устройств?",
-        "q7.a":"Да. Интерфейс спроектирован так, чтобы адаптироваться к компьютерам, планшетам и смартфонам и сохранять читаемость на любых экранах.",
-        "q8.q":"Где найти правовую информацию и политику конфиденциальности?",
-        "q8.a":"Страницы политики конфиденциальности, юридической информации и условий использования доступны из футера сайта.",
+        "q3.a":"Если домен некорректен, не найден или невозможно выполнить пригодное соединение, SEAL показывает понятное сообщение об ошибке. Цель — никогда не выдавать нелогичный результат.",
+        "q4.q":"Что означают цвета результата?",
+        "q4.a":"Цветовой код нужен для мгновенного чтения: зелёный — ситуация ещё спокойная, оранжевый — сертификат нужно отслеживать, красный — истечение очень близко или критично.",
+        "q5.q":"Почему важно проверять SSL-сертификат?",
+        "q5.a":"SSL-сертификат защищает обмен между сайтом и его посетителями. Когда он близок к окончанию срока действия или истекает, это может вызывать предупреждения браузера, снижать доверие и создавать плохой пользовательский опыт.",
+        "q6.q":"Заменяет ли SEAL продвинутый инструмент мониторинга?",
+        "q6.a":"Публичный сайт SEAL в первую очередь делает упор на быстрый просмотр и визуальное понимание. Он не обязательно заменяет полное решение мониторинга, но даёт понятный интерфейс для быстрого чтения основного.",
+        "q7.q":"Сохраняет ли сайт мои предпочтения?",
+        "q7.a":"Да. Сайт может локально сохранять некоторые предпочтения, например выбранный язык или светлую/тёмную тему, чтобы сделать следующие посещения удобнее.",
+        "q8.q":"Подходит ли сайт для маленьких экранов?",
+        "q8.a":"Да. Страница спроектирована так, чтобы оставаться читаемой на компьютере, планшете и смартфоне. На маленьком экране основная навигация переключается в hamburger menu.",
+        "q9.q":"Можно ли связаться с командой через сайт?",
+        "q9.a":"Да. Страница Контакты позволяет отправить сообщение команде через специальную форму. Затем сообщение передаётся на контактный адрес проекта.",
+        "q10.q":"Где найти правовую информацию и политику конфиденциальности?",
+        "q10.a":"Страницы политики конфиденциальности, юридической информации и условий использования доступны из футера сайта.",
 
         "cta.title":"Не нашли ответ?",
-        "cta.text":"Вы можете воспользоваться страницей Контакты, чтобы написать нам напрямую. Мы сможем ответить в зависимости от характера вашего запроса.",
+        "cta.text":"Вы можете использовать страницу Контакты, чтобы написать нам напрямую. Мы сможем ответить в зависимости от вашего запроса или направить вас на нужную страницу.",
         "cta.button":"Перейти к Контактам",
 
         "footer.nav":"Навигация",
         "footer.support":"Поддержка",
-        "footer.supportText":"По любым вопросам о публичном сайте или использовании формы обратной связи.",
+        "footer.supportText":"По любым вопросам, связанным с публичным сайтом или использованием формы контакта.",
         "footer.legalTitle":"Правовая информация",
         "footer.brandText":"SEAL помогает лучше видеть срок действия SSL-сертификата благодаря понятному, читаемому и доступному интерфейсу.",
         "footer.socials":"Соцсети",
@@ -1356,21 +1486,21 @@
         "hero.title.l1":"كل الإجابات",
         "hero.title.l2":"حول",
         "hero.title.l3":"SEAL.",
-        "hero.subtitle":"تجمع هذه الصفحة أكثر الأسئلة شيوعًا حول عمل الموقع، والتحقق من SSL، ونموذج الاتصال، والتجربة العامة التي يقدمها SEAL.",
+        "hero.subtitle":"تساعدك هذه الصفحة على فهم دور موقع SEAL وطريقة عمله والتحقق من SSL والرسائل المعروضة والتجربة المقترحة وأهم الأسئلة التي قد تطرح قبل أو أثناء الاستخدام.",
         "hero.ctaPrimary":"اختبار نطاق",
         "hero.ctaSecondary":"اتصل بنا",
 
-        "side.title":"هل تحتاج إلى إجابة سريعة؟",
-        "side.text":"جمعنا هنا أهم النقاط المفيدة لفهم ما الذي يقدمه SEAL، وكيفية قراءة المعلومات المعروضة، وكيفية التواصل معنا.",
-        "side2.title":"الأسئلة الشائعة العامة",
-        "side2.text":"الإجابات أدناه تتعلق بالنسخة العامة من الموقع واستخدامها العام.",
+        "side.title":"لماذا هذه الصفحة؟",
+        "side.text":"تجيب صفحة الأسئلة الشائعة على أكثر الأسئلة تكرارًا حول فائدة SEAL وطريقة استخدام checker SSL وكيفية قراءة النتائج المعروضة.",
+        "side2.title":"لمن تم تصميم SEAL؟",
+        "side2.text":"قد يكون الموقع مفيدًا للطلاب والمطورين ومديري المشاريع والفرق التقنية أو لأي شخص يريد التحقق بسهولة من حالة شهادة SSL.",
 
         "help.title":"مساعدة سريعة",
         "help.subtitle":"بعض النقاط المفيدة قبل تصفح الأسئلة الشائعة الكاملة.",
         "panel1.title":"ما فائدة SEAL؟",
-        "panel1.text":"يتيح SEAL الاطلاع بسهولة على تاريخ انتهاء شهادة SSL انطلاقًا من نطاق.",
-        "panel2.title":"من يمكنه استخدام الموقع؟",
-        "panel2.text":"تم تصميم الموقع العام ليكون سهل الاستخدام سواء كنت مستخدمًا فضوليًا أو طالبًا أو عضوًا في فريق تقني أو محترفًا.",
+        "panel1.text":"يتيح SEAL التحقق سريعًا من انتهاء شهادة SSL انطلاقًا من نطاق أو رابط، مع قراءة بسيطة وبصرية للنتيجة.",
+        "panel2.title":"لماذا هذا مفيد؟",
+        "panel2.text":"قد تتسبب الشهادة المنتهية في ظهور تحذيرات في المتصفح وتقليل الثقة وتعطيل الوصول إلى الموقع. يساعد SEAL على اكتشاف ذلك قبل ظهور مشكلة واضحة.",
         "panel3.title":"هل الموقع متعدد اللغات؟",
         "panel3.text":"نعم. يمكن عرض المحتوى الرئيسي للموقع باللغات الست المتاحة في الواجهة.",
 
@@ -1378,29 +1508,33 @@
         "faq.subtitle":"اضغط على السؤال لعرض الإجابة.",
 
         "q1.q":"ماذا يفعل SEAL بالضبط؟",
-        "q1.a":"يساعد SEAL على عرض تاريخ انتهاء شهادة SSL انطلاقًا من نطاق. الهدف هو تقديم هذه المعلومة في واجهة واضحة وسهلة القراءة وسهلة الوصول.",
-        "q2.q":"ماذا يجب أن أكتب في الصفحة الرئيسية؟",
-        "q2.a":"يجب إدخال اسم نطاق، مثل موقع ويب أو عنوان نطاق صالح. بعد ذلك سيقوم النظام بتحليل شهادة SSL المرتبطة به إن كانت متاحة.",
+        "q1.a":"يقوم SEAL بتحليل نطاق لعرض تاريخ انتهاء شهادة SSL والوقت المتبقي قبل الانتهاء ومستوى بصري يساعد على فهم ما إذا كانت الحالة مريحة أو تحتاج متابعة أو أصبحت عاجلة.",
+        "q2.q":"ماذا يجب أن أكتب في checker؟",
+        "q2.a":"يمكنك إدخال اسم نطاق بسيط أو رابط كامل. مثلًا: example.com أو https://example.com. بعد ذلك يقوم النظام بتجهيز الإدخال لإطلاق التحقق من SSL.",
         "q3.q":"ماذا يحدث إذا كان النطاق غير موجود؟",
-        "q3.a":"إذا كان النطاق غير موجود، أو إذا تعذر إجراء تحقق قابل للاستخدام، فسيعرض الموقع رسالة خطأ واضحة بدلًا من نتيجة غير منطقية.",
-        "q4.q":"هل للألوان المعروضة معنى؟",
-        "q4.a":"نعم. تستخدم الواجهة ترميزًا بصريًا لجعل المعلومة أسهل قراءة. ووفقًا للوقت المتبقي قبل الانتهاء، قد تبدو النتيجة مطمئنة أو بحاجة إلى متابعة أو أكثر إلحاحًا.",
-        "q5.q":"هل يمكنني التواصل مع الفريق من خلال الموقع؟",
-        "q5.a":"نعم. تتيح صفحة الاتصال إرسال رسالة إلى الفريق عبر النموذج المخصص لذلك. ثم يتم إرسال المحتوى إلى عنوان الاتصال الخاص بالمشروع.",
-        "q6.q":"هل يحتفظ الموقع بتفضيلاتي؟",
-        "q6.a":"نعم. يمكن للموقع حفظ بعض التفضيلات محليًا، مثل اللغة المختارة أو الوضع الفاتح/الداكن، من أجل تحسين راحة الاستخدام.",
-        "q7.q":"هل الموقع مناسب للهاتف المحمول؟",
-        "q7.a":"نعم. تم تصميم الواجهة لتتكيف مع الحواسيب والأجهزة اللوحية والهواتف الذكية للحفاظ على وضوح القراءة على جميع الشاشات.",
-        "q8.q":"أين أجد المعلومات القانونية وسياسة الخصوصية؟",
-        "q8.a":"يمكن الوصول إلى صفحات سياسة الخصوصية والبيان القانوني وشروط الاستخدام من تذييل الموقع.",
+        "q3.a":"إذا كان النطاق غير صالح أو غير موجود أو لا يمكن إنشاء اتصال قابل للاستخدام، يعرض SEAL رسالة خطأ واضحة. الهدف هو عدم إعطاء نتيجة غير منطقية أبدًا.",
+        "q4.q":"ماذا تعني ألوان النتيجة؟",
+        "q4.a":"تم تصميم الترميز اللوني لجعل القراءة فورية: الأخضر لحالة لا تزال مريحة، والبرتقالي لشهادة يجب متابعتها، والأحمر لانتهاء قريب جدًا أو حالة حرجة.",
+        "q5.q":"لماذا من المهم التحقق من شهادة SSL؟",
+        "q5.a":"تؤمّن شهادة SSL التبادل بين الموقع وزواره. وعندما تقترب من الانتهاء أو تنتهي فعليًا، قد تظهر تحذيرات في المتصفح وتضعف الثقة وتسبب تجربة استخدام سيئة.",
+        "q6.q":"هل يعوض SEAL أداة مراقبة متقدمة؟",
+        "q6.a":"يركّز الموقع العام SEAL أساسًا على العرض السريع والفهم البصري. ولا يعني ذلك بالضرورة أنه يعوض حل مراقبة كامل، لكنه يقدم واجهة واضحة لقراءة الأساسيات بسرعة.",
+        "q7.q":"هل يحتفظ الموقع بتفضيلاتي؟",
+        "q7.a":"نعم. يمكن للموقع حفظ بعض التفضيلات محليًا مثل اللغة المختارة أو الوضع الفاتح/الداكن من أجل تحسين الراحة في الزيارات القادمة.",
+        "q8.q":"هل الموقع مناسب للشاشات الصغيرة؟",
+        "q8.a":"نعم. تم تصميم الصفحة لتظل مقروءة على الحاسوب واللوحي والهاتف. وعلى الشاشات الصغيرة تتحول القائمة الرئيسية إلى menu hamburger للحفاظ على تنقل بسيط ونظيف.",
+        "q9.q":"هل يمكنني التواصل مع الفريق من خلال الموقع؟",
+        "q9.a":"نعم. تتيح صفحة الاتصال إرسال رسالة إلى الفريق عبر النموذج المخصص. وبعد ذلك يتم تحويل الرسالة إلى عنوان الاتصال الخاص بالمشروع.",
+        "q10.q":"أين أجد المعلومات القانونية وسياسة الخصوصية؟",
+        "q10.a":"يمكن الوصول إلى صفحات سياسة الخصوصية والبيان القانوني وشروط الاستخدام من تذييل الموقع.",
 
         "cta.title":"لم تجد إجابتك؟",
-        "cta.text":"يمكنك استخدام صفحة الاتصال لمراسلتنا مباشرة. وسنتمكن من الرد وفقًا لطبيعة طلبك.",
+        "cta.text":"يمكنك استخدام صفحة الاتصال لمراسلتنا مباشرة. وسنتمكن من الرد وفقًا لطبيعة طلبك أو توجيهك إلى الصفحة المناسبة.",
         "cta.button":"الذهاب إلى الاتصال",
 
         "footer.nav":"التنقل",
         "footer.support":"الدعم",
-        "footer.supportText":"لأي سؤال يتعلق بالموقع العام أو باستخدام نموذج الاتصال.",
+        "footer.supportText":"لأي سؤال متعلق بالموقع العام أو باستخدام نموذج الاتصال.",
         "footer.legalTitle":"قانوني",
         "footer.brandText":"يساعدك SEAL على فهم تاريخ انتهاء شهادة SSL بشكل أفضل من خلال واجهة واضحة وسهلة القراءة.",
         "footer.socials":"الشبكات",
@@ -1421,21 +1555,21 @@
         "hero.title.l1":"关于",
         "hero.title.l2":"SEAL 的",
         "hero.title.l3":"全部答案。",
-        "hero.subtitle":"本页面汇总了关于网站运行方式、SSL 检查、联系表单以及 SEAL 整体使用体验的常见问题。",
+        "hero.subtitle":"本页面帮助你更好地理解 SEAL 网站的作用、运行方式、SSL 检查、页面显示的信息、整体体验，以及在使用前后常见的核心问题。",
         "hero.ctaPrimary":"测试一个域名",
         "hero.ctaSecondary":"联系我们",
 
-        "side.title":"需要快速答案？",
-        "side.text":"我们在这里整理了最有用的信息，帮助你理解 SEAL 的作用、如何阅读显示结果以及如何联系我们。",
-        "side2.title":"公开 FAQ",
-        "side2.text":"以下回答针对网站公开版本及其一般使用方式。",
+        "side.title":"为什么要有这页？",
+        "side.text":"FAQ 用来快速回答关于 SEAL 的常见问题，包括如何使用 SSL checker 以及如何理解页面上的结果。",
+        "side2.title":"SEAL 适合谁？",
+        "side2.text":"该网站适合学生、开发者、项目负责人、技术团队，或任何想要简单检查 SSL 证书状态的人。",
 
         "help.title":"快速帮助",
         "help.subtitle":"在查看完整 FAQ 前的几个有用提示。",
-        "panel1.title":"SEAL 有什么用途？",
-        "panel1.text":"SEAL 可以根据域名轻松查看 SSL 证书的到期日期。",
-        "panel2.title":"谁可以使用这个网站？",
-        "panel2.text":"公开网站设计得尽量简单，无论你是普通用户、学生、技术团队成员还是专业人士，都可以使用。",
+        "panel1.title":"SEAL 有什么作用？",
+        "panel1.text":"SEAL 可以通过域名或网址快速检查 SSL 证书到期情况，并以简单直观的方式展示结果。",
+        "panel2.title":"为什么这很有用？",
+        "panel2.text":"证书过期可能会触发浏览器警告、降低信任并影响网站访问。SEAL 帮助你在问题明显出现之前发现它。",
         "panel3.title":"网站支持多语言吗？",
         "panel3.text":"支持。网站主要内容可以通过界面中提供的六种语言显示。",
 
@@ -1443,24 +1577,28 @@
         "faq.subtitle":"点击问题即可显示答案。",
 
         "q1.q":"SEAL 具体做什么？",
-        "q1.a":"SEAL 可以根据域名展示 SSL 证书的到期情况。目标是通过清晰、易读、易访问的界面来呈现这一信息。",
-        "q2.q":"我需要在首页输入什么？",
-        "q2.a":"你需要输入一个域名，例如网站地址或有效的域名。系统随后会在可用的情况下分析与之关联的 SSL 证书。",
+        "q1.a":"SEAL 会分析一个域名，以显示其 SSL 证书的到期日期、距离到期的剩余时间，以及一个视觉级别，帮助你快速理解当前状态是安心、需要关注还是较为紧急。",
+        "q2.q":"我需要在 checker 中输入什么？",
+        "q2.a":"你可以输入简单域名或完整网址。例如：example.com 或 https://example.com。系统随后会规范化输入并启动 SSL 检查。",
         "q3.q":"如果域名不存在会怎样？",
-        "q3.a":"如果域名不存在，或无法进行有效检查，网站会显示清晰的错误信息，而不会给出不一致的结果。",
-        "q4.q":"显示的颜色有特殊含义吗？",
-        "q4.a":"有。界面使用视觉编码来帮助更轻松地阅读信息。根据距离到期的剩余时间，结果可能看起来比较安全、需要留意，或者更紧急。",
-        "q5.q":"我可以通过网站联系团队吗？",
-        "q5.a":"可以。联系页面允许你通过专门的表单向团队发送消息，随后内容会被发送到项目联系邮箱。",
-        "q6.q":"网站会保存我的偏好吗？",
-        "q6.a":"会。网站可以在本地保存一些偏好，例如所选语言或明暗模式，以提升使用舒适度。",
-        "q7.q":"网站适配手机吗？",
-        "q7.a":"适配。界面已考虑电脑、平板和手机，以便在各种屏幕尺寸上保持清晰可读。",
-        "q8.q":"在哪里可以找到法律信息和隐私内容？",
-        "q8.a":"隐私政策、法律声明和使用条款页面都可以从网站底部访问。",
+        "q3.a":"如果域名无效、找不到，或无法建立可用连接，SEAL 会显示清晰的错误信息。目标是绝不返回不一致或虚构的结果。",
+        "q4.q":"结果中的颜色代表什么？",
+        "q4.a":"颜色代码是为了让结果更容易理解：绿色表示当前较为安心，橙色表示需要关注，红色表示已经非常接近到期或属于严重情况。",
+        "q5.q":"为什么检查 SSL 证书很重要？",
+        "q5.a":"SSL 证书保护网站与访问者之间的通信。当它接近到期或已经到期时，可能会触发浏览器警告、降低信任，并带来不好的用户体验。",
+        "q6.q":"SEAL 能替代高级监控工具吗？",
+        "q6.a":"SEAL 公共网站主要强调快速查看和视觉理解。它不一定替代完整的监控解决方案，但它提供了一个清晰界面，用来快速阅读最重要的信息。",
+        "q7.q":"网站会保存我的偏好吗？",
+        "q7.a":"会。网站可以在本地保存某些偏好设置，例如所选语言或明暗模式，以提升之后访问时的使用舒适度。",
+        "q8.q":"网站适配小屏幕吗？",
+        "q8.a":"适配。页面设计保证在电脑、平板和手机上都保持清晰可读。在小屏幕上，主导航会切换成 hamburger menu，以保持导航简洁干净。",
+        "q9.q":"我可以通过网站联系团队吗？",
+        "q9.a":"可以。联系页面允许你通过专门表单向团队发送消息，随后消息会被传送到项目联系地址。",
+        "q10.q":"在哪里可以找到法律和隐私信息？",
+        "q10.a":"隐私政策、法律声明和使用条款页面都可以从网站底部访问。",
 
         "cta.title":"没有找到你的答案？",
-        "cta.text":"你可以通过联系页面直接给我们留言。我们会根据你的请求类型进行回复。",
+        "cta.text":"你可以通过联系页面直接给我们留言。我们会根据你的请求类型回复你，或引导你前往合适的页面。",
         "cta.button":"前往联系页面",
 
         "footer.nav":"导航",
@@ -1570,6 +1708,16 @@
       });
     }
 
+    function toggleMobileMenu(force){
+      const menu = document.getElementById("mobileMenu");
+      const button = document.getElementById("menuToggle");
+      const isOpen = typeof force === "boolean" ? force : !menu.classList.contains("open");
+
+      menu.classList.toggle("open", isOpen);
+      button.classList.toggle("open", isOpen);
+      button.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       setTheme(getTheme());
       setLang(getLang());
@@ -1585,9 +1733,11 @@
         langToggle.setAttribute("aria-expanded", open ? "true" : "false");
       });
 
-      window.addEventListener("click", () => {
-        langMenu.classList.remove("open");
-        langToggle.setAttribute("aria-expanded", "false");
+      window.addEventListener("click", (e) => {
+        if (!langMenu.contains(e.target) && !langToggle.contains(e.target)) {
+          langMenu.classList.remove("open");
+          langToggle.setAttribute("aria-expanded", "false");
+        }
       });
 
       langMenu.querySelectorAll(".item").forEach(btn => {
@@ -1600,6 +1750,20 @@
       });
 
       $("#themeToggle").addEventListener("click", toggleTheme);
+
+      const menuToggle = $("#menuToggle");
+      menuToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMobileMenu();
+      });
+
+      document.querySelectorAll("#mobileMenu a").forEach(link => {
+        link.addEventListener("click", () => toggleMobileMenu(false));
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 900) toggleMobileMenu(false);
+      });
     });
   </script>
 </body>

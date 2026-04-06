@@ -25,7 +25,6 @@
       --accent2:#6DBBFF;
       --accent3:#8A7CFF;
       --shadow:0 24px 70px rgba(0,0,0,.38);
-      --radius:24px;
       --max:1240px;
     }
 
@@ -45,6 +44,7 @@
 
     *{box-sizing:border-box}
     html,body{height:100%}
+
     body{
       margin:0;
       font-family:Roboto,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
@@ -72,8 +72,13 @@
       direction:rtl;
     }
     html[dir="rtl"] .lang .menu{right:auto;left:0;}
-    html[dir="rtl"] .timeline-item{padding-left:0;padding-right:22px}
     html[dir="rtl"] .footer-links a:hover{transform:translateX(-2px)}
+    html[dir="rtl"] .timeline-item{
+      padding-left:16px;
+      padding-right:44px;
+    }
+    html[dir="rtl"] .timeline-item::before{left:auto;right:18px}
+    html[dir="rtl"] .timeline::before{left:auto;right:24px}
 
     .bg-grid{
       position:fixed;
@@ -124,17 +129,19 @@
     header{
       position:sticky;
       top:0;
-      z-index:60;
+      z-index:90;
       backdrop-filter:blur(16px);
       background:color-mix(in srgb, var(--bg1) 72%, transparent);
       border-bottom:1px solid var(--line);
     }
+
     .nav{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:16px;
       padding:14px 0;
+      position:relative;
     }
 
     .brand{
@@ -143,7 +150,9 @@
       text-decoration:none;
       color:var(--text);
       min-width:120px;
+      z-index:2;
     }
+
     .brand img{
       height:72px;
       width:auto;
@@ -161,6 +170,7 @@
       margin:0;
       padding:0;
     }
+
     .navlinks a{
       text-decoration:none;
       color:var(--text);
@@ -171,7 +181,9 @@
       position:relative;
       transition:opacity .2s ease, transform .2s ease;
     }
+
     .navlinks a:hover{opacity:1;transform:translateY(-1px)}
+
     .navlinks a::after{
       content:"";
       position:absolute;
@@ -183,6 +195,7 @@
       transform-origin:left;
       transition:transform .22s ease;
     }
+
     .navlinks a:hover::after,.navlinks a.active::after{transform:scaleX(1)}
     .navlinks a.active{opacity:1}
 
@@ -190,16 +203,19 @@
       display:flex;
       align-items:center;
       gap:10px;
+      z-index:2;
     }
 
     .lang{position:relative}
     .lang button,
-    .theme-toggle{
+    .theme-toggle,
+    .menu-toggle{
       border:1px solid var(--line);
       background:color-mix(in srgb, var(--card-strong) 74%, transparent);
       color:var(--text);
       box-shadow:0 12px 30px rgba(0,0,0,.15);
     }
+
     .lang button{
       display:flex;
       align-items:center;
@@ -211,10 +227,12 @@
       cursor:pointer;
       transition:transform .18s ease,border-color .18s ease;
     }
-    .lang button:hover,.theme-toggle:hover{
+
+    .lang button:hover,.theme-toggle:hover,.menu-toggle:hover{
       transform:translateY(-1px);
       border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
     }
+
     .lang .menu{
       position:absolute;
       top:110%;
@@ -227,9 +245,11 @@
       backdrop-filter:blur(14px);
       box-shadow:var(--shadow);
       display:none;
-      z-index:80;
+      z-index:100;
     }
+
     .lang .menu.open{display:block}
+
     .lang .item{
       width:100%;
       display:flex;
@@ -245,6 +265,7 @@
       font-size:13px;
       opacity:.92;
     }
+
     .lang .item:hover{background:rgba(148,163,184,.10);opacity:1}
     .lang .item.active{background:rgba(53,198,194,.12)}
 
@@ -257,7 +278,7 @@
       white-space:nowrap;
     }
 
-    .theme-toggle{
+    .theme-toggle,.menu-toggle{
       width:46px;height:46px;
       border-radius:999px;
       display:grid;
@@ -267,6 +288,38 @@
       overflow:hidden;
       transition:transform .18s ease,border-color .18s ease;
     }
+
+    .menu-toggle{display:none}
+
+    .menu-icon{
+      width:18px;
+      height:14px;
+      position:relative;
+      display:block;
+    }
+    .menu-icon span{
+      position:absolute;
+      left:0;
+      width:100%;
+      height:2px;
+      border-radius:999px;
+      background:currentColor;
+      transition:.25s ease;
+    }
+    .menu-icon span:nth-child(1){top:0}
+    .menu-icon span:nth-child(2){top:6px}
+    .menu-icon span:nth-child(3){top:12px}
+
+    .menu-toggle.open .menu-icon span:nth-child(1){
+      top:6px; transform:rotate(45deg);
+    }
+    .menu-toggle.open .menu-icon span:nth-child(2){
+      opacity:0;
+    }
+    .menu-toggle.open .menu-icon span:nth-child(3){
+      top:6px; transform:rotate(-45deg);
+    }
+
     .sunmoon{
       width:22px;height:22px;display:block;
       transform-origin:50% 50%;
@@ -277,9 +330,37 @@
     html[data-theme="dark"] .sun-core{opacity:0}
     html[data-theme="light"] .moon-core{opacity:0}
 
+    .mobile-menu{
+      display:none;
+      margin-top:12px;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:10px;
+      background:color-mix(in srgb, var(--card-strong) 90%, transparent);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(14px);
+    }
+
+    .mobile-menu.open{display:grid}
+    .mobile-menu a{
+      text-decoration:none;
+      color:var(--text);
+      padding:12px 14px;
+      border-radius:14px;
+      font-weight:700;
+      font-size:14px;
+      opacity:.92;
+      transition:background .2s ease, opacity .2s ease;
+    }
+    .mobile-menu a:hover,
+    .mobile-menu a.active{
+      background:rgba(148,163,184,.10);
+      opacity:1;
+    }
+
     main{padding:28px 0 56px}
 
-    .hero,.section,footer{
+    .hero,.section,footer,.cta{
       border:1px solid var(--line);
       background:color-mix(in srgb, var(--card-strong) 88%, transparent);
       box-shadow:var(--shadow);
@@ -295,6 +376,7 @@
         radial-gradient(900px 420px at 8% 0%, rgba(53,198,194,.12), transparent 62%),
         radial-gradient(820px 360px at 100% 0%, rgba(109,187,255,.14), transparent 58%);
     }
+
     .hero::before{
       content:"";
       position:absolute;
@@ -306,7 +388,7 @@
     .hero-grid{
       position:relative;
       display:grid;
-      grid-template-columns:1.06fr .94fr;
+      grid-template-columns:1.05fr .95fr;
       gap:20px;
       padding:34px 26px 26px;
       align-items:start;
@@ -335,12 +417,13 @@
     .hero h1{
       margin:18px 0 12px 0;
       font-family:Montserrat,Roboto,sans-serif;
-      font-size:clamp(34px,4.6vw,66px);
+      font-size:clamp(34px,4.8vw,66px);
       line-height:1.02;
       letter-spacing:-.045em;
       font-weight:800;
       max-width:760px;
     }
+
     .hero-title-line{display:block}
     .hero-title-gradient{
       display:block;
@@ -349,6 +432,7 @@
       background-clip:text;
       color:transparent;
     }
+
     .hero p.lead{
       margin:0;
       max-width:760px;
@@ -357,17 +441,248 @@
       line-height:1.8;
     }
 
-    .hero-actions{
+    .hero-side{
+      display:grid;
+      gap:14px;
+    }
+
+    .floating-card{
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:16px;
+      overflow:hidden;
+      background:rgba(255,255,255,.04);
+    }
+
+    .floating-card h3{
+      margin:0 0 8px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+
+    .floating-card p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.7;
+    }
+
+    .section{
+      margin-top:18px;
+      border-radius:28px;
+      overflow:hidden;
+    }
+
+    .section-head{
       display:flex;
-      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:18px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(148,163,184,.06), transparent);
       flex-wrap:wrap;
-      margin-top:22px;
+    }
+
+    .section-head h2{
+      margin:0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:15px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+
+    .section-head p{
+      margin:0;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .story-grid,
+    .values-grid{
+      display:grid;
+      gap:14px;
+      padding:18px;
+    }
+
+    .story-grid{grid-template-columns:1fr 1fr}
+    .values-grid{grid-template-columns:repeat(3,1fr)}
+
+    .story-card,
+    .value-card{
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    }
+
+    .story-card h3,
+    .value-card h3{
+      margin:0 0 10px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:18px;
+    }
+
+    .story-card p,
+    .value-card p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    .timeline{
+      position:relative;
+      padding:18px;
+      display:grid;
+      gap:14px;
+      overflow:hidden;
+    }
+
+    .timeline::before{
+      content:"";
+      position:absolute;
+      left:24px;
+      top:22px;
+      bottom:22px;
+      width:2px;
+      background:linear-gradient(180deg, rgba(53,198,194,.9), rgba(109,187,255,.22));
+      opacity:.5;
+      pointer-events:none;
+    }
+
+    .timeline-item{
+      position:relative;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:16px 16px 16px 44px;
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      min-width:0;
+    }
+
+    .timeline-item::before{
+      content:"";
+      position:absolute;
+      left:18px;
+      top:22px;
+      width:12px;
+      height:12px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      box-shadow:0 0 0 8px rgba(53,198,194,.10);
+    }
+
+    .timeline-item strong{
+      display:block;
+      margin-bottom:8px;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:16px;
+      line-height:1.4;
+      word-break:break-word;
+    }
+
+    .timeline-item p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+      word-break:break-word;
+    }
+
+    .team-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
+      padding:18px;
+    }
+
+    .team-card{
+      position:relative;
+      border:1px solid var(--line-strong);
+      border-radius:26px;
+      padding:16px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025)),
+        radial-gradient(280px 140px at 0% 0%, rgba(53,198,194,.08), transparent 60%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 18px 36px rgba(0,0,0,.16);
+      display:flex;
+      flex-direction:column;
+      min-height:100%;
+      transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+    }
+
+    .team-card:hover{
+      transform:translateY(-2px);
+      border-color:color-mix(in srgb, var(--accent2) 40%, var(--line));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.10),
+        0 24px 46px rgba(0,0,0,.20);
+    }
+
+    .team-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:flex-start;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .team-photo{
+      width:120px;
+      height:120px;
+      border-radius:24px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      flex:0 0 auto;
+    }
+
+    .team-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .team-card h3{
+      margin:0 0 6px 0;
+      font-family:Montserrat,Roboto,sans-serif;
+      font-size:18px;
+      line-height:1.35;
+    }
+
+    .team-role{
+      margin:0 0 14px 0;
+      color:#77E1C8;
+      font-weight:700;
+      font-size:14px;
+      line-height:1.55;
+      min-height:52px;
+    }
+
+    html[data-theme="light"] .team-role{
+      color:#0F9F92;
+    }
+
+    .team-card p{
+      margin:0;
+      color:var(--text);
+      opacity:.92;
+      font-size:14px;
+      line-height:1.8;
+      flex:1;
+    }
+
+    .team-actions{
+      margin-top:18px;
     }
 
     .glass-btn{
-      position:relative;
-      isolation:isolate;
-      min-height:52px;
+      min-height:50px;
       padding:0 18px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,.10);
@@ -385,18 +700,27 @@
       backdrop-filter:blur(14px);
       transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease;
     }
+
     .glass-btn:hover{
       transform:translateY(-1px);
       border-color:rgba(255,255,255,.22);
       box-shadow:inset 0 1px 0 rgba(255,255,255,.25), inset 0 -1px 0 rgba(255,255,255,.08), 0 18px 42px rgba(0,0,0,.26);
       filter:saturate(1.05);
     }
+
     .glass-btn.primary{
       color:#05121E;
       border-color:rgba(255,255,255,.16);
       background:linear-gradient(90deg, rgba(53,198,194,.96), rgba(109,187,255,.96));
       box-shadow:inset 0 1px 0 rgba(255,255,255,.30), 0 18px 40px rgba(53,198,194,.22);
     }
+
+    .glass-btn.team-link{
+      width:100%;
+      justify-content:center;
+      min-height:48px;
+    }
+
     .glass-btn .arrow{
       width:9px;height:9px;
       border-right:2px solid currentColor;
@@ -404,382 +728,26 @@
       transform:rotate(-45deg);
     }
 
-    .hero-side{
-      display:grid;
-      gap:14px;
-    }
-    .floating-card{
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:16px;
-      overflow:hidden;
-      background:rgba(255,255,255,.04);
-    }
-    .floating-card h3{
-      margin:0 0 8px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:14px;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-    }
-    .floating-card p{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.7;
-    }
-
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:10px;
-      margin-top:14px;
-    }
-    .stat{
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:12px;
-      background:var(--card-soft);
-    }
-    .stat strong{
-      display:block;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:18px;
-      margin-bottom:4px;
-    }
-    .stat span{
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.5;
-    }
-
-    .section{
-      margin-top:18px;
-      border-radius:28px;
-      overflow:hidden;
-    }
-    .section-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      padding:18px 18px;
-      border-bottom:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(148,163,184,.06), transparent);
-      flex-wrap:wrap;
-    }
-    .section-head h2{
-      margin:0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:15px;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-    }
-    .section-head p{
-      margin:0;
-      color:var(--muted);
-      font-size:12px;
-    }
-
-    .story-grid{
-      display:grid;
-      grid-template-columns:1.05fr .95fr;
-      gap:18px;
-      padding:18px;
-    }
-    .story-card,.portrait-card,.value-card,.team-card{
-      border:1px solid var(--line);
-      border-radius:24px;
-      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      overflow:hidden;
-    }
-    .story-card,.portrait-card{padding:18px}
-    .story-card h3,.portrait-card h3,.value-card h3,.team-card h3{
-      margin:0 0 10px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:20px;
-      line-height:1.3;
-    }
-    .story-card p,.portrait-card p,.value-card p,.team-card p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.8;
-    }
-    .story-card .copy{
-      display:grid;
-      gap:12px;
-    }
-
-    .portrait-card{
-      position:relative;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)),
-        radial-gradient(500px 200px at 0% 0%, rgba(53,198,194,.10), transparent 55%);
-    }
-
-    .portrait-panel{
-      margin-top:14px;
-      min-height:auto;
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:16px;
-      background:
-        radial-gradient(200px 120px at 20% 20%, rgba(109,187,255,.10), transparent 55%),
-        radial-gradient(220px 160px at 80% 30%, rgba(53,198,194,.08), transparent 58%),
-        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      position:relative;
-      overflow:hidden;
-    }
-    .portrait-panel::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(to right, rgba(148,163,184,.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(148,163,184,.05) 1px, transparent 1px);
-      background-size:24px 24px;
-      opacity:.20;
-      pointer-events:none;
-    }
-    .portrait-mini-grid{
-      position:relative;
-      z-index:1;
-      display:grid;
-      gap:14px;
-    }
-    .mini-card{
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:16px;
-      background:rgba(10,18,34,.38);
-      backdrop-filter:blur(12px);
-    }
-    html[data-theme="light"] .mini-card{
-      background:rgba(255,255,255,.68);
-    }
-    .mini-card strong{
-      display:block;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:20px;
-      margin-bottom:8px;
-    }
-    .mini-card span{
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-    }
-    .mini-stats{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-    }
-    .mini-stat{
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px;
-      background:rgba(255,255,255,.04);
-    }
-    .mini-stat strong{
-      display:block;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:15px;
-      margin-bottom:6px;
-    }
-    .mini-stat span{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.65;
-    }
-
-    .values-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:14px;
-      padding:18px;
-    }
-    .value-card{
-      padding:18px;
-      transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
-    }
-    .value-card:hover{
-      transform:translateY(-2px);
-      border-color:color-mix(in srgb, var(--accent2) 40%, var(--line));
-      box-shadow:0 18px 40px rgba(0,0,0,.18);
-    }
-    .value-icon{
-      width:48px;height:48px;border-radius:16px;
-      border:1px solid var(--line);
-      display:grid;place-items:center;
-      margin-bottom:12px;
-      background:rgba(255,255,255,.05);
-      font-size:20px;
-      font-weight:800;
-      font-family:Montserrat,Roboto,sans-serif;
-    }
-
-    .timeline{
-      position:relative;
-      display:grid;
-      gap:16px;
-      padding:20px 18px 18px 18px;
-    }
-    .timeline::before{
-      content:none;
-    }
-    .timeline-item{
-      position:relative;
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:16px 16px 16px 22px;
-      background:rgba(255,255,255,.04);
-    }
-    .timeline-item strong{
-      display:block;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:16px;
-      margin-bottom:6px;
-    }
-    .timeline-item p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-    }
-
-    .team-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:16px;
-      padding:18px;
-    }
-    .team-card{
-      position:relative;
-      padding:20px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025)),
-        radial-gradient(220px 120px at 15% 0%, rgba(53,198,194,.10), transparent 60%);
-      transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;
-    }
-    .team-card:hover{
-      transform:translateY(-3px);
-      border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
-      box-shadow:0 20px 44px rgba(0,0,0,.22);
-    }
-    .team-card::after{
-      content:"";
-      position:absolute;
-      inset:auto 0 0 0;
-      height:3px;
-      background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));
-      opacity:.9;
-    }
-    .team-top{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .team-avatar{
-      width:86px;height:86px;
-      border-radius:22px;
-      border:1px solid var(--line);
-      overflow:hidden;
-      background:rgba(255,255,255,.06);
-      box-shadow:0 14px 30px rgba(0,0,0,.20);
-      flex:0 0 auto;
-    }
-    .team-avatar img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-    .team-social{
-      width:38px;height:38px;border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.05);
-      color:var(--text);
-      display:grid;
-      place-items:center;
-      text-decoration:none;
-      transition:transform .18s ease,border-color .18s ease,background .18s ease;
-      flex:0 0 auto;
-    }
-    .team-social:hover{
-      transform:translateY(-1px);
-      border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
-      background:rgba(53,198,194,.10);
-    }
-    .team-social svg{
-      width:18px;height:18px;fill:currentColor;display:block;
-    }
-    .team-meta strong{
-      display:block;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:18px;
-      margin-bottom:5px;
-    }
-    .team-role{
-      color:color-mix(in srgb, var(--accent) 75%, var(--muted));
-      font-size:13px;
-      font-weight:700;
-      line-height:1.5;
-    }
-    .team-bio{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.75;
-      flex:1 1 auto;
-    }
-    .team-link{
-      margin-top:auto;
-      width:100%;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      text-decoration:none;
-      padding:11px 12px;
-      border-radius:14px;
-      border:1px solid rgba(148,163,184,.22);
-      background:rgba(148,163,184,.08);
-      color:var(--text);
-      font-weight:800;
-      font-size:12px;
-      letter-spacing:.02em;
-      transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease;
-    }
-    .team-link:hover{
-      transform:translateY(-1px);
-      border-color:color-mix(in srgb, var(--accent2) 55%, rgba(148,163,184,.22));
-      box-shadow:0 18px 40px rgba(0,0,0,.18);
-      background:rgba(53,198,194,.10);
-    }
-
     .cta{
       margin-top:18px;
-      border:1px solid var(--line);
       border-radius:28px;
       padding:22px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
       background:
         linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 86%, transparent), color-mix(in srgb, var(--card) 95%, transparent)),
         radial-gradient(700px 240px at 0% 0%, rgba(53,198,194,.10), transparent 55%);
-      box-shadow:var(--shadow);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      flex-wrap:wrap;
     }
+
     .cta h3{
       margin:0 0 8px 0;
       font-family:Montserrat,Roboto,sans-serif;
       font-size:24px;
     }
+
     .cta p{
       margin:0;
       color:var(--muted);
@@ -796,17 +764,20 @@
         linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 86%, transparent), color-mix(in srgb, var(--card) 95%, transparent)),
         radial-gradient(700px 220px at 0% 0%, rgba(53,198,194,.10), transparent 55%);
     }
+
     .footer-grid{
       display:grid;
       grid-template-columns:1.2fr .8fr .8fr .9fr;
       gap:18px;
       padding:24px 22px 20px;
     }
+
     .footer-brand{
       display:flex;
       flex-direction:column;
       gap:14px;
     }
+
     .footer-brand img{
       height:88px;
       width:auto;
@@ -815,7 +786,9 @@
       object-fit:contain;
       transform-origin:left center;
     }
+
     .footer-brand img.is-dark-logo{transform:scale(1.12)}
+
     .footer-brand p{
       margin:0;
       color:var(--muted);
@@ -831,10 +804,12 @@
       text-transform:uppercase;
       letter-spacing:.06em;
     }
+
     .footer-links{
       display:grid;
       gap:10px;
     }
+
     .footer-links a,.footer-links span{
       color:var(--muted);
       text-decoration:none;
@@ -842,6 +817,7 @@
       line-height:1.6;
       transition:color .2s ease, transform .2s ease;
     }
+
     .footer-links a:hover{color:var(--text);transform:translateX(2px)}
 
     .social-label{
@@ -854,6 +830,7 @@
       text-transform:uppercase;
       letter-spacing:.05em;
     }
+
     .social-label::before{
       content:"";
       width:18px;height:1px;
@@ -866,6 +843,7 @@
       gap:10px;
       margin-top:12px;
     }
+
     .social{
       width:42px;height:42px;border-radius:999px;
       border:1px solid var(--line);
@@ -875,14 +853,14 @@
       display:grid;place-items:center;
       transition:transform .18s ease,border-color .18s ease,background .18s ease;
     }
+
     .social:hover{
       transform:translateY(-1px);
       border-color:color-mix(in srgb, var(--accent2) 42%, var(--line));
       background:rgba(53,198,194,.09);
     }
-    .social svg{
-      width:18px;height:18px;fill:currentColor;display:block;
-    }
+
+    .social svg{width:18px;height:18px;fill:currentColor;display:block}
 
     .footer-bottom{
       display:flex;
@@ -897,19 +875,20 @@
 
     @media (max-width: 1180px){
       .team-grid{grid-template-columns:repeat(2,1fr)}
-    }
-    @media (max-width: 1080px){
-      .hero-grid,.story-grid{grid-template-columns:1fr}
-      .values-grid{grid-template-columns:1fr 1fr}
       .footer-grid{grid-template-columns:1fr 1fr}
+      .hero-grid,.story-grid,.values-grid{grid-template-columns:1fr}
     }
-    @media (max-width: 820px){
+
+    @media (max-width: 900px){
       .navlinks{display:none}
+      .menu-toggle{display:grid}
       .brand img{height:64px}
-      .stats{grid-template-columns:1fr}
-      .values-grid,.team-grid,.mini-stats{grid-template-columns:1fr}
+      .controls{gap:8px}
+      .lang button{padding:9px 10px}
+      .lang .pill{display:none}
       .footer-grid{grid-template-columns:1fr}
     }
+
     @media (max-width: 640px){
       .hero-grid{padding:26px 16px 16px}
       .section-head,.story-grid,.values-grid,.timeline,.team-grid{padding:16px}
@@ -918,7 +897,48 @@
       .footer-grid{padding:20px 16px 14px}
       .footer-bottom{padding:0 16px 16px}
       .cta{padding:18px}
+      .team-grid{grid-template-columns:1fr}
+      .team-role{min-height:auto}
+      .theme-toggle,.menu-toggle{width:42px;height:42px}
+
+      .timeline{
+        padding:16px;
+      }
+
+      .timeline::before{
+        left:22px;
+        top:20px;
+        bottom:20px;
+      }
+
+      .timeline-item{
+        padding:14px 14px 14px 40px;
+        border-radius:20px;
+      }
+
+      .timeline-item::before{
+        left:16px;
+        top:20px;
+        width:10px;
+        height:10px;
+        box-shadow:0 0 0 7px rgba(53,198,194,.09);
+      }
+
+      html[dir="rtl"] .timeline::before{
+        right:22px;
+        left:auto;
+      }
+
+      html[dir="rtl"] .timeline-item{
+        padding:14px 40px 14px 14px;
+      }
+
+      html[dir="rtl"] .timeline-item::before{
+        right:16px;
+        left:auto;
+      }
     }
+
     @media (prefers-reduced-motion: reduce){
       .bg-grid,.aurora,.aurora2,.aurora3{animation:none}
       *{scroll-behavior:auto}
@@ -1009,8 +1029,24 @@
               </defs>
             </svg>
           </button>
+
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+            <span class="menu-icon" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
         </div>
       </div>
+
+      <nav class="mobile-menu" id="mobileMenu" aria-label="Navigation mobile">
+        <a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a>
+        <a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a>
+        <a class="active" href="a-propos.html" data-i18n="nav.about">À propos</a>
+        <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+        <a href="contact-public.html" data-i18n="nav.contact">Contact</a>
+      </nav>
     </div>
   </header>
 
@@ -1021,57 +1057,32 @@
           <div>
             <span class="eyebrow">
               <i aria-hidden="true"></i>
-              <span data-i18n="hero.eyebrow">Une idée née d’un besoin réel</span>
+              <span data-i18n="hero.eyebrow">À propos du projet</span>
             </span>
 
             <h1>
-              <span class="hero-title-line" data-i18n="hero.title.l1">À propos</span>
-              <span class="hero-title-line" data-i18n="hero.title.l2">de</span>
-              <span class="hero-title-gradient" data-i18n="hero.title.l3">SEAL.</span>
+              <span class="hero-title-line" data-i18n="hero.title.l1">Comprendre</span>
+              <span class="hero-title-line" data-i18n="hero.title.l2">la vision</span>
+              <span class="hero-title-gradient" data-i18n="hero.title.l3">de SEAL.</span>
             </h1>
 
             <p class="lead" data-i18n="hero.subtitle">
-              SEAL est né d’une demande concrète en entreprise, puis s’est transformé en un projet plus large : proposer une lecture simple, claire et moderne de l’expiration SSL pour un plus grand nombre d’organisations.
+              SEAL a été pensé comme une interface claire et accessible pour visualiser simplement l’expiration des certificats SSL, tout en offrant une expérience moderne, lisible et rassurante.
             </p>
-
-            <div class="hero-actions">
-              <a class="glass-btn primary" href="SEAL_page_accueil.html">
-                <span data-i18n="hero.ctaPrimary">Revenir à l’accueil</span>
-                <span class="arrow" aria-hidden="true"></span>
-              </a>
-              <a class="glass-btn" href="contact-public.html">
-                <span data-i18n="hero.ctaSecondary">Écrire à SEAL</span>
-              </a>
-            </div>
           </div>
 
           <div class="hero-side">
             <div class="floating-card">
-              <h3 data-i18n="side.title">Ce que nous développons</h3>
-              <p data-i18n="side.text">
-                Une plateforme pensée pour rendre plus lisible une information importante : la date d’expiration d’un certificat SSL et son niveau de priorité.
+              <h3 data-i18n="hero.sideTitle">Notre intention</h3>
+              <p data-i18n="hero.sideText">
+                Rendre compréhensible une information technique importante, sans surcharger l’utilisateur ni complexifier l’expérience.
               </p>
-
-              <div class="stats">
-                <div class="stat">
-                  <strong data-i18n="side.s1v">Lisibilité</strong>
-                  <span data-i18n="side.s1t">des informations affichées</span>
-                </div>
-                <div class="stat">
-                  <strong data-i18n="side.s2v">Simplicité</strong>
-                  <span data-i18n="side.s2t">dans l’expérience utilisateur</span>
-                </div>
-                <div class="stat">
-                  <strong data-i18n="side.s3v">Utilité</strong>
-                  <span data-i18n="side.s3t">pour les organisations</span>
-                </div>
-              </div>
             </div>
 
             <div class="floating-card">
-              <h3 data-i18n="side2.title">Vision</h3>
-              <p data-i18n="side2.text">
-                Transformer un besoin technique identifié sur le terrain en un outil plus accessible, plus clair et plus agréable à utiliser au quotidien.
+              <h3 data-i18n="hero.sideTitle2">Notre approche</h3>
+              <p data-i18n="hero.sideText2">
+                Une interface soignée, une lecture directe, un design cohérent, et une attention particulière à l’accessibilité et au confort visuel.
               </p>
             </div>
           </div>
@@ -1081,62 +1092,24 @@
       <section class="section" aria-label="Notre histoire">
         <div class="section-head">
           <div>
-            <h2 data-i18n="story.title">L’histoire du projet</h2>
-            <p data-i18n="story.subtitle">Comment une demande réelle a donné naissance à SEAL.</p>
+            <h2 data-i18n="story.title">Le projet</h2>
+            <p data-i18n="story.subtitle">Pourquoi SEAL existe et ce qu’il cherche à apporter.</p>
           </div>
         </div>
 
         <div class="story-grid">
           <article class="story-card">
-            <h3 data-i18n="story.card1.title">Une idée née d’une situation concrète</h3>
-
-            <div class="copy">
-              <p data-i18n="story.card1.p1">
-                Le projet SEAL est né dans un contexte réel. Lors de son stage dans une entreprise, le chef de notre équipe a reçu une demande claire : développer une solution permettant de vérifier facilement la date d’expiration des certificats SSL.
-              </p>
-
-              <p data-i18n="story.card1.p2">
-                Cette demande répondait à un besoin pratique de l’entreprise, afin d’éviter les oublis liés au renouvellement des certificats et de garder une meilleure visibilité sur l’état de sécurité des services web.
-              </p>
-
-              <p data-i18n="story.card1.p3">
-                En avançant sur cette solution, nous avons compris que ce besoin dépassait le cadre d’une seule structure. Beaucoup d’organisations utilisent des certificats SSL et peuvent rencontrer les mêmes contraintes de suivi.
-              </p>
-
-              <p data-i18n="story.card1.p4">
-                C’est ainsi que l’idée de SEAL s’est développée : transformer une demande d’entreprise en une plateforme plus accessible, avec une interface claire, moderne et pensée pour un usage plus large.
-              </p>
-            </div>
+            <h3 data-i18n="story.card1.title">Une réponse simple à un vrai besoin</h3>
+            <p data-i18n="story.card1.text">
+              L’expiration d’un certificat SSL est une information importante, mais elle reste souvent peu visible ou trop technique à lire. SEAL vise à rendre cette lecture plus naturelle et immédiate.
+            </p>
           </article>
 
-          <article class="portrait-card">
-            <h3 data-i18n="story.card2.title">Une solution pensée pour être simple</h3>
+          <article class="story-card">
+            <h3 data-i18n="story.card2.title">Une interface publique claire</h3>
             <p data-i18n="story.card2.text">
-              SEAL a été conçu pour rendre une information technique plus lisible et plus accessible. L’objectif est de proposer une expérience claire, où l’utilisateur peut comprendre rapidement la situation d’un certificat SSL sans devoir parcourir des outils complexes.
+              Le site public a été conçu pour permettre une consultation rapide, lisible et agréable, avec une expérience qui reste cohérente sur ordinateur comme sur mobile.
             </p>
-
-            <div class="portrait-panel">
-              <div class="portrait-mini-grid">
-                <div class="mini-card">
-                  <strong data-i18n="story.badge.title">SEAL</strong>
-                  <span data-i18n="story.badge.text">
-                    Une interface pensée pour mieux comprendre l’expiration SSL, dans un environnement visuel lisible, fluide et cohérent.
-                  </span>
-                </div>
-
-                <div class="mini-stats">
-                  <div class="mini-stat">
-                    <strong data-i18n="story.stat1.title">Lisible</strong>
-                    <span data-i18n="story.stat1.text">Des informations mises en avant clairement.</span>
-                  </div>
-
-                  <div class="mini-stat">
-                    <strong data-i18n="story.stat2.title">Simple</strong>
-                    <span data-i18n="story.stat2.text">Une lecture rapide sans complexité inutile.</span>
-                  </div>
-                </div>
-              </div>
-            </div>
           </article>
         </div>
       </section>
@@ -1145,58 +1118,55 @@
         <div class="section-head">
           <div>
             <h2 data-i18n="values.title">Nos valeurs</h2>
-            <p data-i18n="values.subtitle">Les principes qui structurent le projet.</p>
+            <p data-i18n="values.subtitle">Les principes qui guident la conception du site.</p>
           </div>
         </div>
 
         <div class="values-grid">
           <article class="value-card">
-            <div class="value-icon" aria-hidden="true">01</div>
-            <h3 data-i18n="v1.title">La clarté avant tout</h3>
-            <p data-i18n="v1.text">Chaque information importante doit pouvoir être lue rapidement, sans effort et sans surcharge visuelle.</p>
+            <h3 data-i18n="values.v1.title">Clarté</h3>
+            <p data-i18n="values.v1.text">Présenter l’essentiel avec des formulations simples, une hiérarchie visuelle nette et une lecture accessible.</p>
           </article>
 
           <article class="value-card">
-            <div class="value-icon" aria-hidden="true">02</div>
-            <h3 data-i18n="v2.title">Une esthétique utile</h3>
-            <p data-i18n="v2.text">Le style visuel soutient l’expérience. Il accompagne la compréhension au lieu de détourner l’attention.</p>
+            <h3 data-i18n="values.v2.title">Accessibilité</h3>
+            <p data-i18n="values.v2.text">Permettre à différents profils d’utilisateurs de comprendre le résultat, même sans expertise technique avancée.</p>
           </article>
 
           <article class="value-card">
-            <div class="value-icon" aria-hidden="true">03</div>
-            <h3 data-i18n="v3.title">Un besoin concret</h3>
-            <p data-i18n="v3.text">SEAL ne part pas d’une idée abstraite : il répond à un besoin observé dans un contexte professionnel réel.</p>
+            <h3 data-i18n="values.v3.title">Cohérence</h3>
+            <p data-i18n="values.v3.text">Maintenir une identité visuelle homogène sur toutes les pages, avec le même niveau de qualité, de lisibilité et de fluidité.</p>
           </article>
         </div>
       </section>
 
-      <section class="section" aria-label="Repères du projet">
+      <section class="section" aria-label="Quelques repères">
         <div class="section-head">
           <div>
-            <h2 data-i18n="timeline.title">Repères du projet</h2>
-            <p data-i18n="timeline.subtitle">Les grandes étapes qui ont guidé la création de SEAL.</p>
+            <h2 data-i18n="timeline.title">Repères</h2>
+            <p data-i18n="timeline.subtitle">Quelques idées-clés qui structurent le projet SEAL.</p>
           </div>
         </div>
 
         <div class="timeline">
-          <article class="timeline-item">
-            <strong data-i18n="t1.title">Identifier un besoin réel</strong>
-            <p data-i18n="t1.text">Le point de départ a été une demande d’entreprise autour du suivi de l’expiration des certificats SSL.</p>
-          </article>
+          <div class="timeline-item">
+            <strong data-i18n="timeline.i1.title">Comprendre avant tout</strong>
+            <p data-i18n="timeline.i1.text">SEAL a été pensé pour rendre une donnée technique immédiatement lisible grâce à une présentation visuelle plus intuitive.</p>
+          </div>
 
-          <article class="timeline-item">
-            <strong data-i18n="t2.title">Transformer l’idée en solution</strong>
-            <p data-i18n="t2.text">Le projet a ensuite évolué vers une interface plus claire, capable de présenter l’information de manière simple et compréhensible.</p>
-          </article>
+          <div class="timeline-item">
+            <strong data-i18n="timeline.i2.title">Conserver une expérience douce</strong>
+            <p data-i18n="timeline.i2.text">Le site privilégie une interface élégante, structurée et rassurante, afin de rendre l’usage plus agréable au quotidien.</p>
+          </div>
 
-          <article class="timeline-item">
-            <strong data-i18n="t3.title">Ouvrir le projet à un public plus large</strong>
-            <p data-i18n="t3.text">SEAL a été pensé comme une plateforme pouvant répondre à des besoins similaires dans d’autres organisations et pour d’autres utilisateurs.</p>
-          </article>
+          <div class="timeline-item">
+            <strong data-i18n="timeline.i3.title">S’ouvrir à plusieurs contextes</strong>
+            <p data-i18n="timeline.i3.text">SEAL a été pensé comme une plateforme pouvant répondre à des besoins similaires dans d’autres organisations et pour d’autres utilisateurs.</p>
+          </div>
         </div>
       </section>
 
-      <section class="section" aria-label="Équipe">
+      <section class="section" aria-label="L’équipe">
         <div class="section-head">
           <div>
             <h2 data-i18n="team.title">L’équipe</h2>
@@ -1207,95 +1177,79 @@
         <div class="team-grid">
           <article class="team-card">
             <div class="team-top">
-              <div class="team-avatar">
-                <img src="yanis.jpeg" alt="Photo de Yanis Gely">
+              <div class="team-photo">
+                <img src="yanis.jpeg" alt="Yanis Gely">
               </div>
-              <a class="team-social" href="https://www.linkedin.com/in/yanis-gely/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Yanis Gely">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.28 4.97 1.97 1.97 0 0 0 5.25 6.94 1.97 1.97 0 0 0 7.22 4.97 1.97 1.97 0 0 0 5.25 3ZM12.28 12.9c0-1.82.84-2.9 2.46-2.9 1.48 0 2.19 1.04 2.19 2.9V20h3.36v-8.22c0-3.48-1.97-5.16-4.71-5.16-2.2 0-3.17 1.21-3.72 2.05V8.5H8.62c.04.81 0 11.5 0 11.5h3.24v-7.1Z"/></svg>
+            </div>
+
+            <h3>Yanis Gely</h3>
+            <div class="team-role" data-i18n="team.yanis.role">Chef de projet & responsable architecture</div>
+            <p data-i18n="team.yanis.text">Coordonne l’équipe, définit l’architecture du projet et assure le bon déroulement des étapes.</p>
+
+            <div class="team-actions">
+              <a class="glass-btn team-link" href="https://www.linkedin.com/in/yanis-gely/" target="_blank" rel="noopener noreferrer">
+                <span data-i18n="team.linkedin">Voir LinkedIn</span>
               </a>
             </div>
-
-            <div class="team-meta">
-              <strong>Yanis Gely</strong>
-              <div class="team-role" data-i18n="team.yanis.role">Chef de projet & responsable architecture</div>
-            </div>
-
-            <div class="team-bio" data-i18n="team.yanis.bio">
-              Coordonne l’équipe, définit l’architecture du projet et assure le bon déroulement des étapes.
-            </div>
-
-            <a class="team-link" href="https://www.linkedin.com/in/yanis-gely/" target="_blank" rel="noopener noreferrer" data-i18n="team.linkedin">Voir LinkedIn</a>
           </article>
 
           <article class="team-card">
             <div class="team-top">
-              <div class="team-avatar">
-                <img src="emmeline.jpeg" alt="Photo de Emmeline Wagner">
+              <div class="team-photo">
+                <img src="emmeline.jpeg" alt="Emmeline Wagner">
               </div>
-              <a class="team-social" href="https://www.linkedin.com/in/emmeline-wagner/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Emmeline Wagner">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.28 4.97 1.97 1.97 0 0 0 5.25 6.94 1.97 1.97 0 0 0 7.22 4.97 1.97 1.97 0 0 0 5.25 3ZM12.28 12.9c0-1.82.84-2.9 2.46-2.9 1.48 0 2.19 1.04 2.19 2.9V20h3.36v-8.22c0-3.48-1.97-5.16-4.71-5.16-2.2 0-3.17 1.21-3.72 2.05V8.5H8.62c.04.81 0 11.5 0 11.5h3.24v-7.1Z"/></svg>
+            </div>
+
+            <h3>Emmeline Wagner</h3>
+            <div class="team-role" data-i18n="team.emmeline.role">Développeuse web & responsable UI/UX</div>
+            <p data-i18n="team.emmeline.text">Se concentre sur l’expérience utilisateur et un design moderne, clair et intuitif.</p>
+
+            <div class="team-actions">
+              <a class="glass-btn team-link" href="https://www.linkedin.com/in/emmeline-wagner/" target="_blank" rel="noopener noreferrer">
+                <span data-i18n="team.linkedin">Voir LinkedIn</span>
               </a>
             </div>
-
-            <div class="team-meta">
-              <strong>Emmeline Wagner</strong>
-              <div class="team-role" data-i18n="team.emmeline.role">Développeuse web & responsable UI/UX</div>
-            </div>
-
-            <div class="team-bio" data-i18n="team.emmeline.bio">
-              Se concentre sur l’expérience utilisateur et un design moderne, clair et intuitif.
-            </div>
-
-            <a class="team-link" href="https://www.linkedin.com/in/emmeline-wagner/" target="_blank" rel="noopener noreferrer" data-i18n="team.linkedin">Voir LinkedIn</a>
           </article>
 
           <article class="team-card">
             <div class="team-top">
-              <div class="team-avatar">
-                <img src="mouad.jpeg" alt="Photo de Mouad Derraz">
+              <div class="team-photo">
+                <img src="mouad.jpeg" alt="Mouad Derraz">
               </div>
-              <a class="team-social" href="https://www.linkedin.com/in/mouad-derraz/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Mouad Derraz">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.28 4.97 1.97 1.97 0 0 0 5.25 6.94 1.97 1.97 0 0 0 7.22 4.97 1.97 1.97 0 0 0 5.25 3ZM12.28 12.9c0-1.82.84-2.9 2.46-2.9 1.48 0 2.19 1.04 2.19 2.9V20h3.36v-8.22c0-3.48-1.97-5.16-4.71-5.16-2.2 0-3.17 1.21-3.72 2.05V8.5H8.62c.04.81 0 11.5 0 11.5h3.24v-7.1Z"/></svg>
+            </div>
+
+            <h3>Mouad Derraz</h3>
+            <div class="team-role" data-i18n="team.mouad.role">Développeur web & responsable communication</div>
+            <p data-i18n="team.mouad.text">Développement, documentation et valorisation des résultats du projet.</p>
+
+            <div class="team-actions">
+              <a class="glass-btn team-link" href="https://www.linkedin.com/in/mouad-derraz/" target="_blank" rel="noopener noreferrer">
+                <span data-i18n="team.linkedin">Voir LinkedIn</span>
               </a>
             </div>
-
-            <div class="team-meta">
-              <strong>Mouad Derraz</strong>
-              <div class="team-role" data-i18n="team.mouad.role">Développeur web & responsable communication</div>
-            </div>
-
-            <div class="team-bio" data-i18n="team.mouad.bio">
-              Développement, documentation et valorisation des résultats du projet.
-            </div>
-
-            <a class="team-link" href="https://www.linkedin.com/in/mouad-derraz/" target="_blank" rel="noopener noreferrer" data-i18n="team.linkedin">Voir LinkedIn</a>
           </article>
 
           <article class="team-card">
             <div class="team-top">
-              <div class="team-avatar">
-                <img src="mayron.jpeg" alt="Photo de Mayron Bejjaj">
+              <div class="team-photo">
+                <img src="mayron.jpeg" alt="Mayron Bejjaj">
               </div>
-              <a class="team-social" href="https://www.linkedin.com/in/mayron-bejjaj/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Mayron Bejjaj">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.28 4.97 1.97 1.97 0 0 0 5.25 6.94 1.97 1.97 0 0 0 7.22 4.97 1.97 1.97 0 0 0 5.25 3ZM12.28 12.9c0-1.82.84-2.9 2.46-2.9 1.48 0 2.19 1.04 2.19 2.9V20h3.36v-8.22c0-3.48-1.97-5.16-4.71-5.16-2.2 0-3.17 1.21-3.72 2.05V8.5H8.62c.04.81 0 11.5 0 11.5h3.24v-7.1Z"/></svg>
+            </div>
+
+            <h3>Mayron Bejjaj</h3>
+            <div class="team-role" data-i18n="team.mayron.role">Développeur web & responsable tests/qualité</div>
+            <p data-i18n="team.mayron.text">Mise en place des tests, vérification des performances et garantie de fiabilité.</p>
+
+            <div class="team-actions">
+              <a class="glass-btn team-link" href="https://www.linkedin.com/in/mayron-bejjaj/" target="_blank" rel="noopener noreferrer">
+                <span data-i18n="team.linkedin">Voir LinkedIn</span>
               </a>
             </div>
-
-            <div class="team-meta">
-              <strong>Mayron Bejjaj</strong>
-              <div class="team-role" data-i18n="team.mayron.role">Développeur web & responsable tests/qualité</div>
-            </div>
-
-            <div class="team-bio" data-i18n="team.mayron.bio">
-              Mise en place des tests, vérification des performances et garantie de fiabilité.
-            </div>
-
-            <a class="team-link" href="https://www.linkedin.com/in/mayron-bejjaj/" target="_blank" rel="noopener noreferrer" data-i18n="team.linkedin">Voir LinkedIn</a>
           </article>
         </div>
       </section>
 
-      <section class="cta" aria-label="Appel à l’action">
+      <section class="cta" aria-label="Continuer la découverte">
         <div>
           <h3 data-i18n="cta.title">Continuer la découverte de SEAL</h3>
           <p data-i18n="cta.text">Vous pouvez maintenant explorer les fonctionnalités, consulter la FAQ, ou revenir à l’accueil pour tester directement un domaine.</p>
@@ -1325,13 +1279,13 @@
 
             <div class="social-label" data-i18n="footer.socials">Réseaux</div>
             <div class="socials" aria-label="Réseaux sociaux">
-              <a class="social" href="#" aria-label="LinkedIn">
+              <a class="social" href="https://www.linkedin.com/company/secure-expiry-alert-logging" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.28 4.97 1.97 1.97 0 0 0 5.25 6.94 1.97 1.97 0 0 0 7.22 4.97 1.97 1.97 0 0 0 5.25 3ZM12.28 12.9c0-1.82.84-2.9 2.46-2.9 1.48 0 2.19 1.04 2.19 2.9V20h3.36v-8.22c0-3.48-1.97-5.16-4.71-5.16-2.2 0-3.17 1.21-3.72 2.05V8.5H8.62c.04.81 0 11.5 0 11.5h3.24v-7.1Z"/></svg>
               </a>
-              <a class="social" href="#" aria-label="Instagram">
+              <a class="social" href="https://www.instagram.com/seal_security_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.95 1.35a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
               </a>
-              <a class="social" href="#" aria-label="X">
+              <a class="social" href="https://x.com/SEAL2026" target="_blank" rel="noopener noreferrer" aria-label="X">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H21l-6.56 7.5L22 22h-5.96l-4.67-6.1L6.03 22H4l7-8L2 2h6.11l4.22 5.52L18.9 2Zm-1.04 18h1.65L7.2 3.9H5.42L17.86 20Z"/></svg>
               </a>
             </div>
@@ -1383,71 +1337,52 @@
         "nav.faq":"FAQ",
         "nav.contact":"Contact",
 
-        "hero.eyebrow":"Une idée née d’un besoin réel",
-        "hero.title.l1":"À propos",
-        "hero.title.l2":"de",
-        "hero.title.l3":"SEAL.",
-        "hero.subtitle":"SEAL est né d’une demande concrète en entreprise, puis s’est transformé en un projet plus large : proposer une lecture simple, claire et moderne de l’expiration SSL pour un plus grand nombre d’organisations.",
-        "hero.ctaPrimary":"Revenir à l’accueil",
-        "hero.ctaSecondary":"Écrire à SEAL",
+        "hero.eyebrow":"À propos du projet",
+        "hero.title.l1":"Comprendre",
+        "hero.title.l2":"la vision",
+        "hero.title.l3":"de SEAL.",
+        "hero.subtitle":"SEAL a été pensé comme une interface claire et accessible pour visualiser simplement l’expiration des certificats SSL, tout en offrant une expérience moderne, lisible et rassurante.",
+        "hero.sideTitle":"Notre intention",
+        "hero.sideText":"Rendre compréhensible une information technique importante, sans surcharger l’utilisateur ni complexifier l’expérience.",
+        "hero.sideTitle2":"Notre approche",
+        "hero.sideText2":"Une interface soignée, une lecture directe, un design cohérent, et une attention particulière à l’accessibilité et au confort visuel.",
 
-        "side.title":"Ce que nous développons",
-        "side.text":"Une plateforme pensée pour rendre plus lisible une information importante : la date d’expiration d’un certificat SSL et son niveau de priorité.",
-        "side.s1v":"Lisibilité",
-        "side.s1t":"des informations affichées",
-        "side.s2v":"Simplicité",
-        "side.s2t":"dans l’expérience utilisateur",
-        "side.s3v":"Utilité",
-        "side.s3t":"pour les organisations",
-
-        "side2.title":"Vision",
-        "side2.text":"Transformer un besoin technique identifié sur le terrain en un outil plus accessible, plus clair et plus agréable à utiliser au quotidien.",
-
-        "story.title":"L’histoire du projet",
-        "story.subtitle":"Comment une demande réelle a donné naissance à SEAL.",
-        "story.card1.title":"Une idée née d’une situation concrète",
-        "story.card1.p1":"Le projet SEAL est né dans un contexte réel. Lors de son stage dans une entreprise, le chef de notre équipe a reçu une demande claire : développer une solution permettant de vérifier facilement la date d’expiration des certificats SSL.",
-        "story.card1.p2":"Cette demande répondait à un besoin pratique de l’entreprise, afin d’éviter les oublis liés au renouvellement des certificats et de garder une meilleure visibilité sur l’état de sécurité des services web.",
-        "story.card1.p3":"En avançant sur cette solution, nous avons compris que ce besoin dépassait le cadre d’une seule structure. Beaucoup d’organisations utilisent des certificats SSL et peuvent rencontrer les mêmes contraintes de suivi.",
-        "story.card1.p4":"C’est ainsi que l’idée de SEAL s’est développée : transformer une demande d’entreprise en une plateforme plus accessible, avec une interface claire, moderne et pensée pour un usage plus large.",
-        "story.card2.title":"Une solution pensée pour être simple",
-        "story.card2.text":"SEAL a été conçu pour rendre une information technique plus lisible et plus accessible. L’objectif est de proposer une expérience claire, où l’utilisateur peut comprendre rapidement la situation d’un certificat SSL sans devoir parcourir des outils complexes.",
-        "story.badge.title":"SEAL",
-        "story.badge.text":"Une interface pensée pour mieux comprendre l’expiration SSL, dans un environnement visuel lisible, fluide et cohérent.",
-        "story.stat1.title":"Lisible",
-        "story.stat1.text":"Des informations mises en avant clairement.",
-        "story.stat2.title":"Simple",
-        "story.stat2.text":"Une lecture rapide sans complexité inutile.",
+        "story.title":"Le projet",
+        "story.subtitle":"Pourquoi SEAL existe et ce qu’il cherche à apporter.",
+        "story.card1.title":"Une réponse simple à un vrai besoin",
+        "story.card1.text":"L’expiration d’un certificat SSL est une information importante, mais elle reste souvent peu visible ou trop technique à lire. SEAL vise à rendre cette lecture plus naturelle et immédiate.",
+        "story.card2.title":"Une interface publique claire",
+        "story.card2.text":"Le site public a été conçu pour permettre une consultation rapide, lisible et agréable, avec une expérience qui reste cohérente sur ordinateur comme sur mobile.",
 
         "values.title":"Nos valeurs",
-        "values.subtitle":"Les principes qui structurent le projet.",
-        "v1.title":"La clarté avant tout",
-        "v1.text":"Chaque information importante doit pouvoir être lue rapidement, sans effort et sans surcharge visuelle.",
-        "v2.title":"Une esthétique utile",
-        "v2.text":"Le style visuel soutient l’expérience. Il accompagne la compréhension au lieu de détourner l’attention.",
-        "v3.title":"Un besoin concret",
-        "v3.text":"SEAL ne part pas d’une idée abstraite : il répond à un besoin observé dans un contexte professionnel réel.",
+        "values.subtitle":"Les principes qui guident la conception du site.",
+        "values.v1.title":"Clarté",
+        "values.v1.text":"Présenter l’essentiel avec des formulations simples, une hiérarchie visuelle nette et une lecture accessible.",
+        "values.v2.title":"Accessibilité",
+        "values.v2.text":"Permettre à différents profils d’utilisateurs de comprendre le résultat, même sans expertise technique avancée.",
+        "values.v3.title":"Cohérence",
+        "values.v3.text":"Maintenir une identité visuelle homogène sur toutes les pages, avec le même niveau de qualité, de lisibilité et de fluidité.",
 
-        "timeline.title":"Repères du projet",
-        "timeline.subtitle":"Les grandes étapes qui ont guidé la création de SEAL.",
-        "t1.title":"Identifier un besoin réel",
-        "t1.text":"Le point de départ a été une demande d’entreprise autour du suivi de l’expiration des certificats SSL.",
-        "t2.title":"Transformer l’idée en solution",
-        "t2.text":"Le projet a ensuite évolué vers une interface plus claire, capable de présenter l’information de manière simple et compréhensible.",
-        "t3.title":"Ouvrir le projet à un public plus large",
-        "t3.text":"SEAL a été pensé comme une plateforme pouvant répondre à des besoins similaires dans d’autres organisations et pour d’autres utilisateurs.",
+        "timeline.title":"Repères",
+        "timeline.subtitle":"Quelques idées-clés qui structurent le projet SEAL.",
+        "timeline.i1.title":"Comprendre avant tout",
+        "timeline.i1.text":"SEAL a été pensé pour rendre une donnée technique immédiatement lisible grâce à une présentation visuelle plus intuitive.",
+        "timeline.i2.title":"Conserver une expérience douce",
+        "timeline.i2.text":"Le site privilégie une interface élégante, structurée et rassurante, afin de rendre l’usage plus agréable au quotidien.",
+        "timeline.i3.title":"S’ouvrir à plusieurs contextes",
+        "timeline.i3.text":"SEAL a été pensé comme une plateforme pouvant répondre à des besoins similaires dans d’autres organisations et pour d’autres utilisateurs.",
 
         "team.title":"L’équipe",
         "team.subtitle":"Les personnes qui portent le projet SEAL.",
-        "team.yanis.role":"Chef de projet & responsable architecture",
-        "team.yanis.bio":"Coordonne l’équipe, définit l’architecture du projet et assure le bon déroulement des étapes.",
-        "team.emmeline.role":"Développeuse web & responsable UI/UX",
-        "team.emmeline.bio":"Se concentre sur l’expérience utilisateur et un design moderne, clair et intuitif.",
-        "team.mouad.role":"Développeur web & responsable communication",
-        "team.mouad.bio":"Développement, documentation et valorisation des résultats du projet.",
-        "team.mayron.role":"Développeur web & responsable tests/qualité",
-        "team.mayron.bio":"Mise en place des tests, vérification des performances et garantie de fiabilité.",
         "team.linkedin":"Voir LinkedIn",
+        "team.yanis.role":"Chef de projet & responsable architecture",
+        "team.yanis.text":"Coordonne l’équipe, définit l’architecture du projet et assure le bon déroulement des étapes.",
+        "team.emmeline.role":"Développeuse web & responsable UI/UX",
+        "team.emmeline.text":"Se concentre sur l’expérience utilisateur et un design moderne, clair et intuitif.",
+        "team.mouad.role":"Développeur web & responsable communication",
+        "team.mouad.text":"Développement, documentation et valorisation des résultats du projet.",
+        "team.mayron.role":"Développeur web & responsable tests/qualité",
+        "team.mayron.text":"Mise en place des tests, vérification des performances et garantie de fiabilité.",
 
         "cta.title":"Continuer la découverte de SEAL",
         "cta.text":"Vous pouvez maintenant explorer les fonctionnalités, consulter la FAQ, ou revenir à l’accueil pour tester directement un domaine.",
@@ -1472,73 +1407,54 @@
         "nav.faq":"FAQ",
         "nav.contact":"Contact",
 
-        "hero.eyebrow":"An idea born from a real need",
-        "hero.title.l1":"About",
-        "hero.title.l2":"",
-        "hero.title.l3":"SEAL.",
-        "hero.subtitle":"SEAL was born from a concrete business request and then evolved into a broader project: offering a simple, clear, and modern way to read SSL expiration for more organizations.",
-        "hero.ctaPrimary":"Back to home",
-        "hero.ctaSecondary":"Write to SEAL",
+        "hero.eyebrow":"About the project",
+        "hero.title.l1":"Understand",
+        "hero.title.l2":"the vision",
+        "hero.title.l3":"of SEAL.",
+        "hero.subtitle":"SEAL was designed as a clear and accessible interface to visualize SSL certificate expiration in a simple way, while offering a modern, readable, and reassuring experience.",
+        "hero.sideTitle":"Our intention",
+        "hero.sideText":"Make an important technical piece of information easier to understand, without overwhelming the user or complicating the experience.",
+        "hero.sideTitle2":"Our approach",
+        "hero.sideText2":"A polished interface, direct reading, a consistent design, and special attention to accessibility and visual comfort.",
 
-        "side.title":"What we are building",
-        "side.text":"A platform designed to make one important piece of information easier to read: the expiration date of an SSL certificate and its priority level.",
-        "side.s1v":"Readability",
-        "side.s1t":"of displayed information",
-        "side.s2v":"Simplicity",
-        "side.s2t":"in the user experience",
-        "side.s3v":"Usefulness",
-        "side.s3t":"for organizations",
-
-        "side2.title":"Vision",
-        "side2.text":"Turn a technical need identified in the field into a tool that is more accessible, clearer, and more pleasant to use every day.",
-
-        "story.title":"The story behind the project",
-        "story.subtitle":"How a real request gave birth to SEAL.",
-        "story.card1.title":"An idea born from a concrete situation",
-        "story.card1.p1":"SEAL was born in a real context. During an internship in a company, our team leader received a clear request: develop a solution to easily check the expiration date of SSL certificates.",
-        "story.card1.p2":"This request responded to a practical company need, helping avoid oversights in certificate renewal and providing better visibility over the security status of web services.",
-        "story.card1.p3":"As we worked on the solution, we realized that this need extended far beyond a single company. Many organizations use SSL certificates and may face the same monitoring constraints.",
-        "story.card1.p4":"This is how the SEAL idea evolved: turning a company request into a more accessible platform, with a clear, modern interface designed for broader use.",
-        "story.card2.title":"A solution designed to stay simple",
-        "story.card2.text":"SEAL was designed to make technical information easier to read and more accessible. The goal is to offer a clear experience where users can quickly understand the status of an SSL certificate without having to navigate complex tools.",
-        "story.badge.title":"SEAL",
-        "story.badge.text":"An interface built to better understand SSL expiration in a readable, smooth, and consistent visual environment.",
-        "story.stat1.title":"Readable",
-        "story.stat1.text":"Important information highlighted clearly.",
-        "story.stat2.title":"Simple",
-        "story.stat2.text":"Quick reading without unnecessary complexity.",
+        "story.title":"The project",
+        "story.subtitle":"Why SEAL exists and what it aims to bring.",
+        "story.card1.title":"A simple answer to a real need",
+        "story.card1.text":"SSL certificate expiration is important information, but it often remains difficult to see or too technical to read. SEAL aims to make this reading more natural and immediate.",
+        "story.card2.title":"A clear public interface",
+        "story.card2.text":"The public website was designed to allow fast, readable, and pleasant consultation, with an experience that stays consistent on desktop and mobile.",
 
         "values.title":"Our values",
-        "values.subtitle":"The principles shaping the project.",
-        "v1.title":"Clarity first",
-        "v1.text":"Every important piece of information should be readable quickly, effortlessly, and without visual overload.",
-        "v2.title":"Useful aesthetics",
-        "v2.text":"Visual style supports the experience. It helps understanding instead of distracting attention.",
-        "v3.title":"A concrete need",
-        "v3.text":"SEAL does not come from an abstract idea: it answers a need observed in a real professional context.",
+        "values.subtitle":"The principles that guide the website design.",
+        "values.v1.title":"Clarity",
+        "values.v1.text":"Present the essentials with simple wording, a clear visual hierarchy, and accessible reading.",
+        "values.v2.title":"Accessibility",
+        "values.v2.text":"Allow different types of users to understand the result, even without advanced technical expertise.",
+        "values.v3.title":"Consistency",
+        "values.v3.text":"Maintain a homogeneous visual identity across all pages, with the same level of quality, readability, and fluidity.",
 
-        "timeline.title":"Project milestones",
-        "timeline.subtitle":"The main steps that guided the creation of SEAL.",
-        "t1.title":"Identify a real need",
-        "t1.text":"The starting point was a business request related to tracking SSL certificate expiration.",
-        "t2.title":"Turn the idea into a solution",
-        "t2.text":"The project then evolved into a clearer interface able to present information in a simple and understandable way.",
-        "t3.title":"Open the project to a wider audience",
-        "t3.text":"SEAL was designed as a platform that could address similar needs in other organizations and for other users.",
+        "timeline.title":"Key points",
+        "timeline.subtitle":"A few core ideas that structure the SEAL project.",
+        "timeline.i1.title":"Understanding first",
+        "timeline.i1.text":"SEAL was designed to make technical data immediately readable through a more intuitive visual presentation.",
+        "timeline.i2.title":"Keeping a soft experience",
+        "timeline.i2.text":"The website favors an elegant, structured, and reassuring interface to make everyday use more pleasant.",
+        "timeline.i3.title":"Opening to several contexts",
+        "timeline.i3.text":"SEAL was designed as a platform that could answer similar needs in other organizations and for other users.",
 
         "team.title":"The team",
         "team.subtitle":"The people behind the SEAL project.",
-        "team.yanis.role":"Project lead & architecture lead",
-        "team.yanis.bio":"Coordinates the team, defines the project architecture, and ensures smooth progress across every stage.",
-        "team.emmeline.role":"Web developer & UI/UX lead",
-        "team.emmeline.bio":"Focuses on user experience and a modern, clear, intuitive design.",
-        "team.mouad.role":"Web developer & communication lead",
-        "team.mouad.bio":"Development, documentation, and showcasing project outcomes.",
-        "team.mayron.role":"Web developer & testing/quality lead",
-        "team.mayron.bio":"Testing setup, performance checks, and reliability assurance.",
         "team.linkedin":"View LinkedIn",
+        "team.yanis.role":"Project lead & architecture manager",
+        "team.yanis.text":"Coordinates the team, defines the project architecture, and ensures the smooth progress of the different stages.",
+        "team.emmeline.role":"Web developer & UI/UX manager",
+        "team.emmeline.text":"Focuses on user experience and a modern, clear, and intuitive design.",
+        "team.mouad.role":"Web developer & communication manager",
+        "team.mouad.text":"Development, documentation, and promotion of the project results.",
+        "team.mayron.role":"Web developer & testing/quality manager",
+        "team.mayron.text":"Implements tests, verifies performance, and ensures reliability.",
 
-        "cta.title":"Continue exploring SEAL",
+        "cta.title":"Continue discovering SEAL",
         "cta.text":"You can now explore the features, read the FAQ, or return to the homepage to test a domain directly.",
         "cta.button":"View features",
 
@@ -1561,79 +1477,60 @@
         "nav.faq":"FAQ",
         "nav.contact":"Contacto",
 
-        "hero.eyebrow":"Una idea nacida de una necesidad real",
-        "hero.title.l1":"Acerca de",
-        "hero.title.l2":"",
-        "hero.title.l3":"SEAL.",
-        "hero.subtitle":"SEAL nació de una solicitud concreta en empresa y luego evolucionó hacia un proyecto más amplio: ofrecer una lectura simple, clara y moderna de la expiración SSL para más organizaciones.",
-        "hero.ctaPrimary":"Volver al inicio",
-        "hero.ctaSecondary":"Escribir a SEAL",
+        "hero.eyebrow":"Sobre el proyecto",
+        "hero.title.l1":"Comprender",
+        "hero.title.l2":"la visión",
+        "hero.title.l3":"de SEAL.",
+        "hero.subtitle":"SEAL fue diseñado como una interfaz clara y accesible para visualizar fácilmente la expiración de certificados SSL, ofreciendo al mismo tiempo una experiencia moderna, legible y tranquilizadora.",
+        "hero.sideTitle":"Nuestra intención",
+        "hero.sideText":"Hacer comprensible una información técnica importante sin sobrecargar al usuario ni complicar la experiencia.",
+        "hero.sideTitle2":"Nuestro enfoque",
+        "hero.sideText2":"Una interfaz cuidada, una lectura directa, un diseño coherente y una atención especial a la accesibilidad y al confort visual.",
 
-        "side.title":"Lo que estamos desarrollando",
-        "side.text":"Una plataforma pensada para hacer más legible una información importante: la fecha de expiración de un certificado SSL y su nivel de prioridad.",
-        "side.s1v":"Legibilidad",
-        "side.s1t":"de la información mostrada",
-        "side.s2v":"Simplicidad",
-        "side.s2t":"en la experiencia de usuario",
-        "side.s3v":"Utilidad",
-        "side.s3t":"para las organizaciones",
-
-        "side2.title":"Visión",
-        "side2.text":"Transformar una necesidad técnica identificada sobre el terreno en una herramienta más accesible, más clara y más agradable de usar cada día.",
-
-        "story.title":"La historia del proyecto",
-        "story.subtitle":"Cómo una necesidad real dio origen a SEAL.",
-        "story.card1.title":"Una idea nacida de una situación concreta",
-        "story.card1.p1":"El proyecto SEAL nació en un contexto real. Durante unas prácticas en una empresa, el jefe de nuestro equipo recibió una solicitud clara: desarrollar una solución para comprobar fácilmente la fecha de expiración de los certificados SSL.",
-        "story.card1.p2":"Esa solicitud respondía a una necesidad práctica de la empresa: evitar olvidos en la renovación de certificados y mantener una mejor visibilidad sobre el estado de seguridad de los servicios web.",
-        "story.card1.p3":"Al avanzar en la solución, comprendimos que esta necesidad iba más allá de una sola estructura. Muchas organizaciones utilizan certificados SSL y pueden enfrentarse a las mismas limitaciones de seguimiento.",
-        "story.card1.p4":"Así fue como la idea de SEAL evolucionó: transformar una solicitud empresarial en una plataforma más accesible, con una interfaz clara, moderna y pensada para un uso más amplio.",
-        "story.card2.title":"Una solución pensada para ser simple",
-        "story.card2.text":"SEAL fue diseñado para hacer que una información técnica sea más legible y accesible. El objetivo es ofrecer una experiencia clara, en la que el usuario pueda comprender rápidamente la situación de un certificado SSL sin recurrir a herramientas complejas.",
-        "story.badge.title":"SEAL",
-        "story.badge.text":"Una interfaz pensada para comprender mejor la expiración SSL en un entorno visual legible, fluido y coherente.",
-        "story.stat1.title":"Legible",
-        "story.stat1.text":"Información importante presentada con claridad.",
-        "story.stat2.title":"Simple",
-        "story.stat2.text":"Lectura rápida sin complejidad innecesaria.",
+        "story.title":"El proyecto",
+        "story.subtitle":"Por qué existe SEAL y qué busca aportar.",
+        "story.card1.title":"Una respuesta simple a una necesidad real",
+        "story.card1.text":"La expiración de un certificado SSL es una información importante, pero a menudo sigue siendo poco visible o demasiado técnica de leer. SEAL busca hacer esta lectura más natural e inmediata.",
+        "story.card2.title":"Una interfaz pública clara",
+        "story.card2.text":"El sitio público fue diseñado para permitir una consulta rápida, legible y agradable, con una experiencia coherente en ordenador y móvil.",
 
         "values.title":"Nuestros valores",
-        "values.subtitle":"Los principios que estructuran el proyecto.",
-        "v1.title":"La claridad ante todo",
-        "v1.text":"Toda información importante debe poder leerse rápidamente, sin esfuerzo y sin sobrecarga visual.",
-        "v2.title":"Una estética útil",
-        "v2.text":"El estilo visual apoya la experiencia. Acompaña la comprensión en lugar de desviar la atención.",
-        "v3.title":"Una necesidad concreta",
-        "v3.text":"SEAL no nace de una idea abstracta: responde a una necesidad observada en un contexto profesional real.",
+        "values.subtitle":"Los principios que guían el diseño del sitio.",
+        "values.v1.title":"Claridad",
+        "values.v1.text":"Presentar lo esencial con formulaciones simples, una jerarquía visual clara y una lectura accesible.",
+        "values.v2.title":"Accesibilidad",
+        "values.v2.text":"Permitir que distintos perfiles de usuarios comprendan el resultado, incluso sin conocimientos técnicos avanzados.",
+        "values.v3.title":"Coherencia",
+        "values.v3.text":"Mantener una identidad visual homogénea en todas las páginas, con el mismo nivel de calidad, legibilidad y fluidez.",
 
-        "timeline.title":"Referencias del proyecto",
-        "timeline.subtitle":"Las grandes etapas que guiaron la creación de SEAL.",
-        "t1.title":"Identificar una necesidad real",
-        "t1.text":"El punto de partida fue una solicitud empresarial relacionada con el seguimiento de la expiración de certificados SSL.",
-        "t2.title":"Transformar la idea en solución",
-        "t2.text":"Después, el proyecto evolucionó hacia una interfaz más clara, capaz de presentar la información de manera simple y comprensible.",
-        "t3.title":"Abrir el proyecto a un público más amplio",
-        "t3.text":"SEAL fue pensado como una plataforma capaz de responder a necesidades similares en otras organizaciones y para otros usuarios.",
+        "timeline.title":"Referencias",
+        "timeline.subtitle":"Algunas ideas clave que estructuran el proyecto SEAL.",
+        "timeline.i1.title":"Comprender ante todo",
+        "timeline.i1.text":"SEAL fue diseñado para hacer que un dato técnico sea inmediatamente legible mediante una presentación visual más intuitiva.",
+        "timeline.i2.title":"Mantener una experiencia suave",
+        "timeline.i2.text":"El sitio favorece una interfaz elegante, estructurada y tranquilizadora para hacer el uso cotidiano más agradable.",
+        "timeline.i3.title":"Abrirse a varios contextos",
+        "timeline.i3.text":"SEAL fue pensado como una plataforma capaz de responder a necesidades similares en otras organizaciones y para otros usuarios.",
 
         "team.title":"El equipo",
-        "team.subtitle":"Las personas que impulsan el proyecto SEAL.",
-        "team.yanis.role":"Jefe de proyecto y responsable de arquitectura",
-        "team.yanis.bio":"Coordina el equipo, define la arquitectura del proyecto y asegura el buen desarrollo de cada etapa.",
-        "team.emmeline.role":"Desarrolladora web y responsable UI/UX",
-        "team.emmeline.bio":"Se centra en la experiencia de usuario y en un diseño moderno, claro e intuitivo.",
-        "team.mouad.role":"Desarrollador web y responsable de comunicación",
-        "team.mouad.bio":"Desarrollo, documentación y puesta en valor de los resultados del proyecto.",
-        "team.mayron.role":"Desarrollador web y responsable de pruebas/calidad",
-        "team.mayron.bio":"Implementación de pruebas, verificación del rendimiento y garantía de fiabilidad.",
+        "team.subtitle":"Las personas que llevan el proyecto SEAL.",
         "team.linkedin":"Ver LinkedIn",
+        "team.yanis.role":"Jefe de proyecto y responsable de arquitectura",
+        "team.yanis.text":"Coordina el equipo, define la arquitectura del proyecto y asegura el buen desarrollo de las etapas.",
+        "team.emmeline.role":"Desarrolladora web y responsable UI/UX",
+        "team.emmeline.text":"Se centra en la experiencia del usuario y en un diseño moderno, claro e intuitivo.",
+        "team.mouad.role":"Desarrollador web y responsable de comunicación",
+        "team.mouad.text":"Desarrollo, documentación y valorización de los resultados del proyecto.",
+        "team.mayron.role":"Desarrollador web y responsable de pruebas/calidad",
+        "team.mayron.text":"Implementación de pruebas, verificación del rendimiento y garantía de fiabilidad.",
 
         "cta.title":"Seguir descubriendo SEAL",
-        "cta.text":"Ahora puedes explorar las funcionalidades, consultar la FAQ o volver al inicio para probar un dominio directamente.",
+        "cta.text":"Ahora puedes explorar las funcionalidades, consultar la FAQ o volver a la página principal para probar directamente un dominio.",
         "cta.button":"Ver funcionalidades",
 
         "footer.nav":"Navegación",
         "footer.support":"Soporte",
-        "footer.supportText":"Para cualquier pregunta relacionada con el sitio público o el formulario de contacto.",
+        "footer.supportText":"Para cualquier pregunta relacionada con el sitio público o con el uso del formulario de contacto.",
         "footer.legalTitle":"Legal",
         "footer.brandText":"SEAL te ayuda a visualizar mejor la expiración de un certificado SSL con una interfaz clara, legible y accesible.",
         "footer.socials":"Redes",
@@ -1650,79 +1547,60 @@
         "nav.faq":"FAQ",
         "nav.contact":"Контакты",
 
-        "hero.eyebrow":"Идея, рождённая из реальной потребности",
-        "hero.title.l1":"О",
-        "hero.title.l2":"",
+        "hero.eyebrow":"О проекте",
+        "hero.title.l1":"Понять",
+        "hero.title.l2":"видение",
         "hero.title.l3":"SEAL.",
-        "hero.subtitle":"SEAL родился из конкретного запроса компании, а затем превратился в более широкий проект: предложить простой, ясный и современный способ чтения срока действия SSL для большего числа организаций.",
-        "hero.ctaPrimary":"Вернуться на главную",
-        "hero.ctaSecondary":"Написать в SEAL",
+        "hero.subtitle":"SEAL был задуман как понятный и доступный интерфейс для простого отображения срока действия SSL-сертификатов, при этом предлагая современный, читаемый и спокойный пользовательский опыт.",
+        "hero.sideTitle":"Наше намерение",
+        "hero.sideText":"Сделать важную техническую информацию понятной, не перегружая пользователя и не усложняя опыт.",
+        "hero.sideTitle2":"Наш подход",
+        "hero.sideText2":"Аккуратный интерфейс, прямое чтение, цельный дизайн и особое внимание к доступности и визуальному комфорту.",
 
-        "side.title":"Что мы создаём",
-        "side.text":"Платформу, которая делает более понятной важную информацию: дату окончания SSL-сертификата и уровень приоритета.",
-        "side.s1v":"Читаемость",
-        "side.s1t":"отображаемой информации",
-        "side.s2v":"Простота",
-        "side.s2t":"в пользовательском опыте",
-        "side.s3v":"Полезность",
-        "side.s3t":"для организаций",
-
-        "side2.title":"Видение",
-        "side2.text":"Превратить техническую потребность, выявленную на практике, в инструмент, который более доступен, более ясен и приятнее в ежедневном использовании.",
-
-        "story.title":"История проекта",
-        "story.subtitle":"Как реальный запрос дал жизнь SEAL.",
-        "story.card1.title":"Идея, рождённая из конкретной ситуации",
-        "story.card1.p1":"Проект SEAL появился в реальном контексте. Во время стажировки в компании лидер нашей команды получил чёткий запрос: разработать решение для удобной проверки срока действия SSL-сертификатов.",
-        "story.card1.p2":"Этот запрос отвечал практической потребности компании: избежать пропусков при продлении сертификатов и лучше видеть состояние безопасности веб-сервисов.",
-        "story.card1.p3":"Продвигаясь в разработке, мы поняли, что эта потребность выходит далеко за рамки одной компании. Многие организации используют SSL-сертификаты и могут сталкиваться с теми же задачами контроля.",
-        "story.card1.p4":"Так и развилась идея SEAL: превратить запрос компании в более доступную платформу с ясным, современным интерфейсом, рассчитанным на более широкое использование.",
-        "story.card2.title":"Решение, задуманное как простое",
-        "story.card2.text":"SEAL был создан для того, чтобы сделать техническую информацию более читаемой и доступной. Цель — предложить ясный опыт, в котором пользователь может быстро понять состояние SSL-сертификата без необходимости обращаться к сложным инструментам.",
-        "story.badge.title":"SEAL",
-        "story.badge.text":"Интерфейс, созданный для лучшего понимания срока действия SSL в читаемой, плавной и цельной визуальной среде.",
-        "story.stat1.title":"Понятно",
-        "story.stat1.text":"Важная информация выделена ясно.",
-        "story.stat2.title":"Просто",
-        "story.stat2.text":"Быстрое чтение без лишней сложности.",
+        "story.title":"Проект",
+        "story.subtitle":"Почему SEAL существует и что он стремится дать.",
+        "story.card1.title":"Простой ответ на реальную потребность",
+        "story.card1.text":"Срок действия SSL-сертификата — важная информация, но её часто трудно заметить или она слишком техническая для чтения. SEAL стремится сделать это чтение более естественным и мгновенным.",
+        "story.card2.title":"Понятный публичный интерфейс",
+        "story.card2.text":"Публичный сайт был создан для быстрого, понятного и приятного просмотра, сохраняя согласованный опыт на компьютере и на мобильных устройствах.",
 
         "values.title":"Наши ценности",
-        "values.subtitle":"Принципы, которые формируют проект.",
-        "v1.title":"Ясность прежде всего",
-        "v1.text":"Любая важная информация должна считываться быстро, без усилий и без визуальной перегрузки.",
-        "v2.title":"Полезная эстетика",
-        "v2.text":"Визуальный стиль поддерживает опыт. Он помогает пониманию, а не отвлекает от него.",
-        "v3.title":"Конкретная потребность",
-        "v3.text":"SEAL вырос не из абстрактной идеи: он отвечает на потребность, замеченную в реальном профессиональном контексте.",
+        "values.subtitle":"Принципы, которые направляют разработку сайта.",
+        "values.v1.title":"Ясность",
+        "values.v1.text":"Представлять главное простыми формулировками, с чёткой визуальной иерархией и доступным чтением.",
+        "values.v2.title":"Доступность",
+        "values.v2.text":"Позволять пользователям разных профилей понимать результат даже без продвинутых технических знаний.",
+        "values.v3.title":"Согласованность",
+        "values.v3.text":"Поддерживать единую визуальную идентичность на всех страницах с одинаковым уровнем качества, читаемости и плавности.",
 
-        "timeline.title":"Ориентиры проекта",
-        "timeline.subtitle":"Основные этапы, которые направляли создание SEAL.",
-        "t1.title":"Определить реальную потребность",
-        "t1.text":"Отправной точкой стал запрос компании, связанный с контролем срока действия SSL-сертификатов.",
-        "t2.title":"Преобразовать идею в решение",
-        "t2.text":"Затем проект развился в более ясный интерфейс, способный представлять информацию просто и понятно.",
-        "t3.title":"Открыть проект для более широкой аудитории",
-        "t3.text":"SEAL был задуман как платформа, способная отвечать на похожие потребности в других организациях и для других пользователей.",
+        "timeline.title":"Ориентиры",
+        "timeline.subtitle":"Несколько ключевых идей, которые структурируют проект SEAL.",
+        "timeline.i1.title":"Сначала понимание",
+        "timeline.i1.text":"SEAL был разработан, чтобы сделать технические данные сразу читаемыми благодаря более интуитивной визуальной подаче.",
+        "timeline.i2.title":"Сохранить мягкий опыт",
+        "timeline.i2.text":"Сайт делает ставку на элегантный, структурированный и спокойный интерфейс, чтобы повседневное использование было приятнее.",
+        "timeline.i3.title":"Открытость к разным контекстам",
+        "timeline.i3.text":"SEAL был задуман как платформа, которая может отвечать на схожие потребности в других организациях и для других пользователей.",
 
         "team.title":"Команда",
-        "team.subtitle":"Люди, которые развивают проект SEAL.",
-        "team.yanis.role":"Руководитель проекта и архитектор",
-        "team.yanis.bio":"Координирует команду, определяет архитектуру проекта и следит за ходом всех этапов.",
-        "team.emmeline.role":"Веб-разработчик и UI/UX",
-        "team.emmeline.bio":"Фокусируется на пользовательском опыте и современном, понятном и интуитивном дизайне.",
-        "team.mouad.role":"Веб-разработчик и коммуникации",
-        "team.mouad.bio":"Разработка, документация и представление результатов проекта.",
-        "team.mayron.role":"Веб-разработчик и тестирование/качество",
-        "team.mayron.bio":"Настройка тестов, проверка производительности и обеспечение надёжности.",
-        "team.linkedin":"Посмотреть LinkedIn",
+        "team.subtitle":"Люди, которые несут проект SEAL.",
+        "team.linkedin":"Смотреть LinkedIn",
+        "team.yanis.role":"Руководитель проекта и ответственный за архитектуру",
+        "team.yanis.text":"Координирует команду, определяет архитектуру проекта и обеспечивает хорошее выполнение этапов.",
+        "team.emmeline.role":"Веб-разработчица и ответственная за UI/UX",
+        "team.emmeline.text":"Сосредоточена на пользовательском опыте и современном, ясном и интуитивном дизайне.",
+        "team.mouad.role":"Веб-разработчик и ответственный за коммуникацию",
+        "team.mouad.text":"Разработка, документация и представление результатов проекта.",
+        "team.mayron.role":"Веб-разработчик и ответственный за тесты/качество",
+        "team.mayron.text":"Настройка тестов, проверка производительности и обеспечение надёжности.",
 
-        "cta.title":"Продолжайте знакомство с SEAL",
-        "cta.text":"Теперь вы можете изучить функции, открыть FAQ или вернуться на главную, чтобы сразу проверить домен.",
+        "cta.title":"Продолжить знакомство с SEAL",
+        "cta.text":"Теперь вы можете изучить функции, посмотреть FAQ или вернуться на главную страницу, чтобы сразу проверить домен.",
         "cta.button":"Смотреть функции",
 
         "footer.nav":"Навигация",
         "footer.support":"Поддержка",
-        "footer.supportText":"По любым вопросам о публичном сайте или форме связи.",
+        "footer.supportText":"По любым вопросам, связанным с публичным сайтом или использованием формы контакта.",
         "footer.legalTitle":"Правовая информация",
         "footer.brandText":"SEAL помогает лучше видеть срок действия SSL-сертификата благодаря понятному, читаемому и доступному интерфейсу.",
         "footer.socials":"Соцсети",
@@ -1739,79 +1617,60 @@
         "nav.faq":"الأسئلة الشائعة",
         "nav.contact":"اتصال",
 
-        "hero.eyebrow":"فكرة وُلدت من حاجة حقيقية",
-        "hero.title.l1":"حول",
-        "hero.title.l2":"",
+        "hero.eyebrow":"حول المشروع",
+        "hero.title.l1":"فهم",
+        "hero.title.l2":"رؤية",
         "hero.title.l3":"SEAL.",
-        "hero.subtitle":"وُلد SEAL من طلب عملي داخل شركة، ثم تطور إلى مشروع أوسع يهدف إلى تقديم قراءة بسيطة وواضحة وعصرية لانتهاء SSL لعدد أكبر من الجهات.",
-        "hero.ctaPrimary":"العودة إلى الرئيسية",
-        "hero.ctaSecondary":"مراسلة SEAL",
+        "hero.subtitle":"تم تصميم SEAL كواجهة واضحة وسهلة الوصول لعرض انتهاء شهادات SSL بطريقة بسيطة، مع تقديم تجربة حديثة ومقروءة ومطمئنة.",
+        "hero.sideTitle":"هدفنا",
+        "hero.sideText":"جعل معلومة تقنية مهمة مفهومة دون إرباك المستخدم أو تعقيد التجربة.",
+        "hero.sideTitle2":"منهجنا",
+        "hero.sideText2":"واجهة متقنة، قراءة مباشرة، تصميم متناسق، واهتمام خاص بسهولة الوصول والراحة البصرية.",
 
-        "side.title":"ما الذي نطوره",
-        "side.text":"منصة تهدف إلى جعل معلومة مهمة أكثر وضوحًا: تاريخ انتهاء شهادة SSL ومستوى الأولوية المرتبط بها.",
-        "side.s1v":"الوضوح",
-        "side.s1t":"في المعلومات المعروضة",
-        "side.s2v":"البساطة",
-        "side.s2t":"في تجربة الاستخدام",
-        "side.s3v":"الفائدة",
-        "side.s3t":"للمؤسسات",
-
-        "side2.title":"الرؤية",
-        "side2.text":"تحويل حاجة تقنية تم تحديدها على أرض الواقع إلى أداة أكثر سهولة ووضوحًا وأكثر راحة في الاستخدام اليومي.",
-
-        "story.title":"قصة المشروع",
-        "story.subtitle":"كيف أدى طلب حقيقي إلى ولادة SEAL.",
-        "story.card1.title":"فكرة وُلدت من وضع واقعي",
-        "story.card1.p1":"وُلد مشروع SEAL في سياق حقيقي. خلال فترة تدريب داخل شركة، تلقى قائد فريقنا طلبًا واضحًا: تطوير حل يتيح التحقق بسهولة من تاريخ انتهاء شهادات SSL.",
-        "story.card1.p2":"كان هذا الطلب يستجيب لحاجة عملية لدى الشركة، من أجل تجنب نسيان تجديد الشهادات والحفاظ على رؤية أوضح لحالة أمان الخدمات الإلكترونية.",
-        "story.card1.p3":"ومع تقدم العمل على هذا الحل، أدركنا أن هذه الحاجة لا تخص مؤسسة واحدة فقط. فالكثير من الجهات تستخدم شهادات SSL وقد تواجه التحديات نفسها في المتابعة.",
-        "story.card1.p4":"وهكذا تطورت فكرة SEAL: تحويل طلب شركة إلى منصة أكثر سهولة، بواجهة واضحة وحديثة ومصممة لاستخدام أوسع.",
-        "story.card2.title":"حل مصمم ليبقى بسيطًا",
-        "story.card2.text":"تم تصميم SEAL لجعل المعلومات التقنية أكثر قابلية للقراءة وأكثر سهولة في الوصول. الهدف هو تقديم تجربة واضحة يفهم فيها المستخدم بسرعة حالة شهادة SSL من دون الحاجة إلى أدوات معقدة.",
-        "story.badge.title":"SEAL",
-        "story.badge.text":"واجهة صُممت لفهم انتهاء SSL بشكل أفضل داخل بيئة بصرية واضحة وسلسة ومتناسقة.",
-        "story.stat1.title":"واضح",
-        "story.stat1.text":"معلومات مهمة معروضة بشكل واضح.",
-        "story.stat2.title":"بسيط",
-        "story.stat2.text":"قراءة سريعة دون تعقيد غير ضروري.",
+        "story.title":"المشروع",
+        "story.subtitle":"لماذا يوجد SEAL وما الذي يسعى إلى تقديمه.",
+        "story.card1.title":"استجابة بسيطة لحاجة حقيقية",
+        "story.card1.text":"تاريخ انتهاء شهادة SSL معلومة مهمة، لكنها غالبًا ما تبقى غير واضحة أو تقنية أكثر من اللازم. يهدف SEAL إلى جعل قراءتها أكثر طبيعية وفورية.",
+        "story.card2.title":"واجهة عامة واضحة",
+        "story.card2.text":"تم تصميم الموقع العام ليوفر قراءة سريعة وواضحة ومريحة، مع تجربة متناسقة على الحاسوب والهاتف.",
 
         "values.title":"قيمنا",
-        "values.subtitle":"المبادئ التي تنظّم المشروع.",
-        "v1.title":"الوضوح أولًا",
-        "v1.text":"يجب أن تكون كل معلومة مهمة قابلة للقراءة بسرعة ومن دون جهد أو ازدحام بصري.",
-        "v2.title":"جمالية مفيدة",
-        "v2.text":"الأسلوب البصري يدعم التجربة. إنه يساعد على الفهم بدل أن يشتت الانتباه.",
-        "v3.title":"حاجة ملموسة",
-        "v3.text":"لا ينطلق SEAL من فكرة نظرية، بل من حاجة لوحظت داخل سياق مهني حقيقي.",
+        "values.subtitle":"المبادئ التي توجه تصميم الموقع.",
+        "values.v1.title":"الوضوح",
+        "values.v1.text":"عرض الأساسي بصياغة بسيطة، وتسلسل بصري واضح، وقراءة سهلة الوصول.",
+        "values.v2.title":"سهولة الوصول",
+        "values.v2.text":"تمكين مستخدمين من خلفيات مختلفة من فهم النتيجة حتى بدون خبرة تقنية متقدمة.",
+        "values.v3.title":"الانسجام",
+        "values.v3.text":"الحفاظ على هوية بصرية موحدة عبر جميع الصفحات مع نفس مستوى الجودة والوضوح والانسيابية.",
 
-        "timeline.title":"محطات المشروع",
-        "timeline.subtitle":"الخطوات الأساسية التي وجّهت إنشاء SEAL.",
-        "t1.title":"تحديد حاجة حقيقية",
-        "t1.text":"كانت نقطة البداية طلبًا من شركة متعلقًا بمتابعة انتهاء شهادات SSL.",
-        "t2.title":"تحويل الفكرة إلى حل",
-        "t2.text":"بعد ذلك تطور المشروع إلى واجهة أكثر وضوحًا قادرة على تقديم المعلومة بطريقة بسيطة ومفهومة.",
-        "t3.title":"فتح المشروع أمام جمهور أوسع",
-        "t3.text":"تم التفكير في SEAL كمنصة يمكنها تلبية احتياجات مشابهة داخل مؤسسات أخرى ولمستخدمين آخرين.",
+        "timeline.title":"مرجعيات",
+        "timeline.subtitle":"بعض الأفكار الأساسية التي تبني مشروع SEAL.",
+        "timeline.i1.title":"الفهم أولًا",
+        "timeline.i1.text":"تم تصميم SEAL لجعل البيانات التقنية قابلة للقراءة فورًا من خلال عرض بصري أكثر حدسية.",
+        "timeline.i2.title":"الحفاظ على تجربة هادئة",
+        "timeline.i2.text":"يعتمد الموقع على واجهة أنيقة ومنظمة ومطمئنة لجعل الاستخدام اليومي أكثر راحة.",
+        "timeline.i3.title":"الانفتاح على سياقات متعددة",
+        "timeline.i3.text":"تم التفكير في SEAL كمنصة يمكنها الاستجابة لاحتياجات مشابهة داخل منظمات أخرى ولمستخدمين آخرين.",
 
         "team.title":"الفريق",
-        "team.subtitle":"الأشخاص الذين يقفون وراء مشروع SEAL.",
-        "team.yanis.role":"قائد المشروع ومسؤول الهندسة",
-        "team.yanis.bio":"ينسق الفريق ويحدد معمارية المشروع ويضمن حسن سير المراحل.",
-        "team.emmeline.role":"مطورة ويب ومسؤولة UI/UX",
-        "team.emmeline.bio":"تركز على تجربة المستخدم وتصميم حديث وواضح وبديهي.",
-        "team.mouad.role":"مطور ويب ومسؤول التواصل",
-        "team.mouad.bio":"التطوير والتوثيق وإبراز نتائج المشروع.",
-        "team.mayron.role":"مطور ويب ومسؤول الاختبارات/الجودة",
-        "team.mayron.bio":"إعداد الاختبارات والتحقق من الأداء وضمان الموثوقية.",
+        "team.subtitle":"الأشخاص الذين يقودون مشروع SEAL.",
         "team.linkedin":"عرض LinkedIn",
+        "team.yanis.role":"رئيس المشروع ومسؤول البنية المعمارية",
+        "team.yanis.text":"ينسق الفريق، ويحدد بنية المشروع، ويضمن حسن سير المراحل.",
+        "team.emmeline.role":"مطورة ويب ومسؤولة UI/UX",
+        "team.emmeline.text":"تركز على تجربة المستخدم وتصميم حديث وواضح وسهل الاستخدام.",
+        "team.mouad.role":"مطور ويب ومسؤول التواصل",
+        "team.mouad.text":"التطوير، التوثيق، وإبراز نتائج المشروع.",
+        "team.mayron.role":"مطور ويب ومسؤول الاختبارات/الجودة",
+        "team.mayron.text":"إعداد الاختبارات، التحقق من الأداء، وضمان الموثوقية.",
 
         "cta.title":"واصل اكتشاف SEAL",
-        "cta.text":"يمكنك الآن استكشاف الميزات أو مراجعة الأسئلة الشائعة أو العودة إلى الصفحة الرئيسية لاختبار نطاق مباشرة.",
+        "cta.text":"يمكنك الآن استكشاف الميزات أو الاطلاع على الأسئلة الشائعة أو العودة إلى الصفحة الرئيسية لتجربة نطاق مباشرة.",
         "cta.button":"عرض الميزات",
 
         "footer.nav":"التنقل",
         "footer.support":"الدعم",
-        "footer.supportText":"لأي سؤال متعلق بالموقع العام أو نموذج الاتصال.",
+        "footer.supportText":"لأي سؤال متعلق بالموقع العام أو باستخدام نموذج الاتصال.",
         "footer.legalTitle":"قانوني",
         "footer.brandText":"يساعدك SEAL على فهم تاريخ انتهاء شهادة SSL بشكل أفضل من خلال واجهة واضحة وسهلة القراءة.",
         "footer.socials":"الشبكات",
@@ -1828,74 +1687,55 @@
         "nav.faq":"常见问题",
         "nav.contact":"联系",
 
-        "hero.eyebrow":"一个源于真实需求的想法",
-        "hero.title.l1":"关于",
-        "hero.title.l2":"",
-        "hero.title.l3":"SEAL.",
-        "hero.subtitle":"SEAL 起初源于企业中的一个实际需求，后来逐渐发展为一个更广泛的项目：为更多组织提供一种简单、清晰、现代的 SSL 到期阅读方式。",
-        "hero.ctaPrimary":"返回首页",
-        "hero.ctaSecondary":"联系 SEAL",
+        "hero.eyebrow":"关于项目",
+        "hero.title.l1":"理解",
+        "hero.title.l2":"SEAL 的",
+        "hero.title.l3":"愿景。",
+        "hero.subtitle":"SEAL 被设计为一个清晰且易于访问的界面，用来简单展示 SSL 证书到期情况，同时提供现代、易读、令人安心的体验。",
+        "hero.sideTitle":"我们的目标",
+        "hero.sideText":"让一项重要的技术信息更容易理解，而不会让用户感到负担或使体验变复杂。",
+        "hero.sideTitle2":"我们的方法",
+        "hero.sideText2":"精致的界面、直接的阅读方式、一致的设计，以及对可访问性和视觉舒适度的特别关注。",
 
-        "side.title":"我们正在构建什么",
-        "side.text":"一个平台，用更清晰的方式展示重要信息：SSL 证书到期日期以及对应的优先级。",
-        "side.s1v":"可读性",
-        "side.s1t":"体现在信息展示上",
-        "side.s2v":"简洁性",
-        "side.s2t":"体现在使用体验上",
-        "side.s3v":"实用性",
-        "side.s3t":"体现在组织场景中",
-
-        "side2.title":"愿景",
-        "side2.text":"把在真实场景中发现的技术需求，转化为一个更易理解、更清晰、也更适合日常使用的工具。",
-
-        "story.title":"项目的故事",
-        "story.subtitle":"一个真实需求如何催生了 SEAL。",
-        "story.card1.title":"一个源于真实情境的想法",
-        "story.card1.p1":"SEAL 诞生于真实情境。我们的团队负责人在企业实习期间，收到了一个明确需求：开发一种可以方便查看 SSL 证书到期日期的解决方案。",
-        "story.card1.p2":"这一需求回应了企业中的实际问题：避免因证书续期被忽略而带来的风险，并更清楚地掌握各类 Web 服务的安全状态。",
-        "story.card1.p3":"在推进这套方案的过程中，我们意识到，这种需求并不只属于一家公司。许多组织都在使用 SSL 证书，也可能面临同样的跟踪问题。",
-        "story.card1.p4":"因此，SEAL 的想法逐渐成形：把一个企业需求转化为一个更易访问的平台，并通过清晰、现代的界面服务更广泛的使用场景。",
-        "story.card2.title":"为简洁而设计的解决方案",
-        "story.card2.text":"SEAL 的设计目标是让技术信息更容易阅读、更容易理解。用户无需依赖复杂工具，也能快速了解 SSL 证书当前的状态。",
-        "story.badge.title":"SEAL",
-        "story.badge.text":"一个用于更好理解 SSL 到期状态的界面，拥有清晰、流畅且一致的视觉体验。",
-        "story.stat1.title":"清晰",
-        "story.stat1.text":"重要信息展示更清楚。",
-        "story.stat2.title":"简单",
-        "story.stat2.text":"快速阅读，没有多余复杂性。",
+        "story.title":"项目",
+        "story.subtitle":"SEAL 为什么存在，以及它想带来什么。",
+        "story.card1.title":"对真实需求的简单回应",
+        "story.card1.text":"SSL 证书到期是一项重要信息，但它通常不够直观，或阅读起来太技术化。SEAL 旨在让这种阅读更自然、更直接。",
+        "story.card2.title":"清晰的公开界面",
+        "story.card2.text":"公开网站旨在提供快速、易读且舒适的查看体验，并在电脑和手机上保持一致。",
 
         "values.title":"我们的价值观",
-        "values.subtitle":"构成项目的核心原则。",
-        "v1.title":"清晰优先",
-        "v1.text":"所有重要信息都应当能被快速读取，无需额外负担，也不造成视觉拥挤。",
-        "v2.title":"有用的美感",
-        "v2.text":"视觉风格服务于体验本身。它帮助理解，而不是分散注意。",
-        "v3.title":"真实需求",
-        "v3.text":"SEAL 并非源于抽象构想，而是回应了在真实职业环境中观察到的需求。",
+        "values.subtitle":"指导网站设计的原则。",
+        "values.v1.title":"清晰",
+        "values.v1.text":"用简单表达、清楚的视觉层级和易于理解的方式呈现核心内容。",
+        "values.v2.title":"可访问性",
+        "values.v2.text":"让不同背景的用户即使没有高级技术知识，也能理解结果。",
+        "values.v3.title":"一致性",
+        "values.v3.text":"在所有页面保持统一的视觉识别，以及同等水平的质量、可读性和流畅度。",
 
-        "timeline.title":"项目脉络",
-        "timeline.subtitle":"引导 SEAL 形成的几个关键阶段。",
-        "t1.title":"识别真实需求",
-        "t1.text":"项目的起点，是企业中关于 SSL 证书到期跟踪的一个实际请求。",
-        "t2.title":"把想法变成解决方案",
-        "t2.text":"随后，项目演变为一个更清晰的界面，以简单、易懂的方式展示核心信息。",
-        "t3.title":"面向更广泛的用户",
-        "t3.text":"SEAL 被设计成一个能够服务于更多组织、更多用户相似需求的平台。",
+        "timeline.title":"关键点",
+        "timeline.subtitle":"构成 SEAL 项目的几个核心想法。",
+        "timeline.i1.title":"先理解，再行动",
+        "timeline.i1.text":"SEAL 的设计目标，是通过更直观的视觉呈现让技术数据可以被立即理解。",
+        "timeline.i2.title":"保持柔和体验",
+        "timeline.i2.text":"网站采用优雅、有结构且令人安心的界面，让日常使用更加舒适。",
+        "timeline.i3.title":"面向更多场景",
+        "timeline.i3.text":"SEAL 被设想为一个平台，能够在其他组织和其他用户场景中满足类似需求。",
 
         "team.title":"团队",
-        "team.subtitle":"推动 SEAL 项目的成员。",
-        "team.yanis.role":"项目负责人与架构负责人",
-        "team.yanis.bio":"负责协调团队、定义项目架构并确保各阶段顺利推进。",
-        "team.emmeline.role":"Web 开发与 UI/UX 负责人",
-        "team.emmeline.bio":"专注于用户体验以及现代、清晰、直观的设计。",
-        "team.mouad.role":"Web 开发与沟通负责人",
-        "team.mouad.bio":"负责开发、文档与项目成果展示。",
-        "team.mayron.role":"Web 开发与测试/质量负责人",
-        "team.mayron.bio":"负责测试搭建、性能验证与整体可靠性保障。",
+        "team.subtitle":"推动 SEAL 项目的人。",
         "team.linkedin":"查看 LinkedIn",
+        "team.yanis.role":"项目负责人兼架构负责人",
+        "team.yanis.text":"协调团队，定义项目架构，并确保各阶段顺利推进。",
+        "team.emmeline.role":"Web 开发者兼 UI/UX 负责人",
+        "team.emmeline.text":"专注于用户体验以及现代、清晰、直观的设计。",
+        "team.mouad.role":"Web 开发者兼传播负责人",
+        "team.mouad.text":"负责开发、文档以及项目成果展示。",
+        "team.mayron.role":"Web 开发者兼测试/质量负责人",
+        "team.mayron.text":"负责测试实施、性能检查和可靠性保障。",
 
         "cta.title":"继续了解 SEAL",
-        "cta.text":"你现在可以继续查看功能页、阅读 FAQ，或者回到首页直接测试一个域名。",
+        "cta.text":"现在你可以继续探索功能页面、查看 FAQ，或返回首页直接测试一个域名。",
         "cta.button":"查看功能",
 
         "footer.nav":"导航",
@@ -1983,6 +1823,16 @@
       setTheme(getTheme() === "dark" ? "light" : "dark");
     }
 
+    function toggleMobileMenu(force){
+      const menu = document.getElementById("mobileMenu");
+      const button = document.getElementById("menuToggle");
+      const isOpen = typeof force === "boolean" ? force : !menu.classList.contains("open");
+
+      menu.classList.toggle("open", isOpen);
+      button.classList.toggle("open", isOpen);
+      button.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       setTheme(getTheme());
       setLang(getLang());
@@ -1997,9 +1847,11 @@
         langToggle.setAttribute("aria-expanded", open ? "true" : "false");
       });
 
-      window.addEventListener("click", () => {
-        langMenu.classList.remove("open");
-        langToggle.setAttribute("aria-expanded", "false");
+      window.addEventListener("click", (e) => {
+        if (!langMenu.contains(e.target) && !langToggle.contains(e.target)) {
+          langMenu.classList.remove("open");
+          langToggle.setAttribute("aria-expanded", "false");
+        }
       });
 
       langMenu.querySelectorAll(".item").forEach(btn => {
@@ -2012,6 +1864,20 @@
       });
 
       $("#themeToggle").addEventListener("click", toggleTheme);
+
+      const menuToggle = $("#menuToggle");
+      menuToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMobileMenu();
+      });
+
+      document.querySelectorAll("#mobileMenu a").forEach(link => {
+        link.addEventListener("click", () => toggleMobileMenu(false));
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 900) toggleMobileMenu(false);
+      });
     });
   </script>
 </body>

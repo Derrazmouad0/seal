@@ -69,13 +69,13 @@
     html[dir="rtl"] .search-row,
     html[dir="rtl"] .section-head,
     html[dir="rtl"] .footer-grid,
-    html[dir="rtl"] .footer-bottom{
+    html[dir="rtl"] .footer-bottom,
+    html[dir="rtl"] .mobile-menu{
       direction:rtl;
     }
     html[dir="rtl"] .lang .menu{right:auto; left:0;}
     html[dir="rtl"] .result-meta,
-    html[dir="rtl"] .quick-stats,
-    html[dir="rtl"] .mini-grid,
+    html[dir="rtl"] .quick-read-badges,
     html[dir="rtl"] .socials{
       direction:rtl;
     }
@@ -199,7 +199,8 @@
 
     .lang{position:relative}
     .lang button,
-    .theme-toggle{
+    .theme-toggle,
+    .menu-toggle{
       border:1px solid var(--line);
       background:color-mix(in srgb, var(--card-strong) 74%, transparent);
       color:var(--text);
@@ -216,7 +217,7 @@
       cursor:pointer;
       transition:transform .18s ease,border-color .18s ease;
     }
-    .lang button:hover,.theme-toggle:hover{
+    .lang button:hover,.theme-toggle:hover,.menu-toggle:hover{
       transform:translateY(-1px);
       border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
     }
@@ -281,6 +282,63 @@
     .sun-core,.moon-core{transition:opacity .35s ease}
     html[data-theme="dark"] .sun-core{opacity:0}
     html[data-theme="light"] .moon-core{opacity:0}
+
+    .menu-toggle{
+      display:none;
+      width:46px;
+      height:46px;
+      border-radius:999px;
+      cursor:pointer;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap:5px;
+      transition:transform .18s ease,border-color .18s ease;
+    }
+    .menu-toggle span{
+      display:block;
+      width:18px;
+      height:2px;
+      border-radius:999px;
+      background:var(--text);
+      transition:transform .22s ease, opacity .22s ease;
+    }
+    .menu-toggle.open span:nth-child(1){
+      transform:translateY(7px) rotate(45deg);
+    }
+    .menu-toggle.open span:nth-child(2){
+      opacity:0;
+    }
+    .menu-toggle.open span:nth-child(3){
+      transform:translateY(-7px) rotate(-45deg);
+    }
+
+    .mobile-menu{
+      display:none;
+      margin-top:0;
+      margin-bottom:14px;
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:color-mix(in srgb, var(--card-strong) 92%, transparent);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .mobile-menu.open{
+      display:grid;
+    }
+    .mobile-menu a{
+      padding:14px 16px;
+      text-decoration:none;
+      color:var(--text);
+      font-weight:700;
+      border-bottom:1px solid var(--line);
+      transition:background .18s ease, color .18s ease;
+    }
+    .mobile-menu a:last-child{border-bottom:none}
+    .mobile-menu a:hover,
+    .mobile-menu a.active{
+      background:rgba(53,198,194,.10);
+    }
 
     main{padding:28px 0 56px}
 
@@ -429,7 +487,6 @@
     }
     .floating-card,
     .result-card,
-    .soft-card,
     .section{
       border:1px solid var(--line);
       background:color-mix(in srgb, var(--card-strong) 88%, transparent);
@@ -506,54 +563,18 @@
       box-shadow:0 0 0 6px rgba(255,107,138,.12);
     }
 
-    .quick-badge-ok{
-      color:#5CE0C9;
-    }
-    .quick-badge-warn{
-      color:#F4C256;
-    }
-    .quick-badge-bad{
-      color:#FF8CA5;
-    }
+    .quick-badge-ok{color:#5CE0C9;}
+    .quick-badge-warn{color:#F4C256;}
+    .quick-badge-bad{color:#FF8CA5;}
 
     html[data-theme="light"] .quick-badge{
       background:
         linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.75));
     }
 
-    html[data-theme="light"] .quick-badge-ok{
-      color:#0F9F92;
-    }
-    html[data-theme="light"] .quick-badge-warn{
-      color:#B7791F;
-    }
-    html[data-theme="light"] .quick-badge-bad{
-      color:#D6456B;
-    }
-
-    .quick-stats{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:10px;
-      margin-top:14px;
-    }
-    .mini-stat{
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:12px;
-      background:var(--card-soft);
-    }
-    .mini-stat strong{
-      display:block;
-      font-size:18px;
-      font-family:Montserrat,Roboto,sans-serif;
-      margin-bottom:4px;
-    }
-    .mini-stat span{
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.5;
-    }
+    html[data-theme="light"] .quick-badge-ok{color:#0F9F92;}
+    html[data-theme="light"] .quick-badge-warn{color:#B7791F;}
+    html[data-theme="light"] .quick-badge-bad{color:#D6456B;}
 
     .section{
       margin-top:18px;
@@ -786,72 +807,6 @@
     }
     .error-box.show{display:block}
 
-    .mini-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:14px;
-      padding:18px;
-      border-top:1px solid var(--line);
-    }
-    .soft-card{
-      border-radius:20px;
-      padding:16px;
-      background:rgba(255,255,255,.04);
-    }
-    .soft-card h3{
-      margin:0 0 8px 0;
-      font-size:16px;
-      font-family:Montserrat,Roboto,sans-serif;
-    }
-    .soft-card p{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.7;
-    }
-
-    .feature-grid{
-      display:grid;
-      grid-template-columns:repeat(12,1fr);
-      gap:14px;
-      padding:18px;
-    }
-    .feature{
-      grid-column:span 4;
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:18px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      position:relative;
-      overflow:hidden;
-      transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
-    }
-    .feature:hover{
-      transform:translateY(-2px);
-      border-color:color-mix(in srgb, var(--accent2) 40%, var(--line));
-      box-shadow:0 18px 40px rgba(0,0,0,.18);
-    }
-    .feature .icon{
-      width:46px;height:46px;border-radius:16px;
-      border:1px solid var(--line);
-      display:grid;place-items:center;
-      margin-bottom:12px;
-      background:rgba(255,255,255,.05);
-      font-size:20px;
-    }
-    .feature h3{
-      margin:0 0 8px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:18px;
-    }
-    .feature p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-    }
-
     footer{
       margin-top:18px;
       border:1px solid var(--line);
@@ -952,25 +907,33 @@
 
     @media (max-width: 1080px){
       .hero-grid{grid-template-columns:1fr}
-      .feature{grid-column:span 6}
       .footer-grid{grid-template-columns:1fr 1fr}
     }
     @media (max-width: 820px){
       .navlinks{display:none}
+      .menu-toggle{display:flex}
       .brand img{height:64px}
       .search-row{grid-template-columns:1fr}
       .search-btn{width:100%}
-      .result-metrics,.result-meta,.mini-grid,.quick-stats{grid-template-columns:1fr}
-      .feature{grid-column:span 12}
+      .result-metrics,.result-meta{grid-template-columns:1fr}
       .footer-grid{grid-template-columns:1fr}
+      .controls{
+        gap:8px;
+      }
+      .lang .pill{
+        display:none;
+      }
     }
     @media (max-width: 640px){
       .hero-grid{padding:26px 16px 16px}
-      .section-head,.checker,.feature-grid,.mini-grid{padding:16px}
+      .section-head,.checker{padding:16px}
       .brand img{height:58px}
       .hero h1{font-size:34px}
       .footer-grid{padding:20px 16px 14px}
       .footer-bottom{padding:0 16px 16px}
+      .quick-read-badges{
+        display:grid;
+      }
     }
     @media (prefers-reduced-motion: reduce){
       .bg-grid,.aurora,.aurora2,.aurora3{animation:none}
@@ -997,7 +960,7 @@
           >
         </a>
 
-        <ul class="navlinks">
+        <ul class="navlinks" id="navLinks">
           <li><a class="active" href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a></li>
           <li><a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a></li>
           <li><a href="a-propos.html" data-i18n="nav.about">À propos</a></li>
@@ -1062,7 +1025,21 @@
               </defs>
             </svg>
           </button>
+
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
+      </div>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <a class="active" href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a>
+        <a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a>
+        <a href="a-propos.html" data-i18n="nav.about">À propos</a>
+        <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+        <a href="contact-public.html" data-i18n="nav.contact">Contact</a>
       </div>
     </div>
   </header>
@@ -1107,23 +1084,8 @@
             <div class="floating-card">
               <h3 data-i18n="side.title">Pourquoi SEAL</h3>
               <p data-i18n="side.text">
-                Un certificat expiré peut faire fuir des visiteurs, afficher des alertes dans le navigateur et nuire à l’image d’un site. SEAL vous aide à voir l’essentiel sans complexité.
+                Vérifiez rapidement la date d’expiration d’un certificat SSL, le temps restant et le niveau de priorité, dans une interface claire et simple.
               </p>
-
-              <div class="quick-stats">
-                <div class="mini-stat">
-                  <strong data-i18n="side.s1v">1 recherche</strong>
-                  <span data-i18n="side.s1t">pour obtenir une réponse claire</span>
-                </div>
-                <div class="mini-stat">
-                  <strong data-i18n="side.s2v">3 niveaux</strong>
-                  <span data-i18n="side.s2t">pour repérer la priorité</span>
-                </div>
-                <div class="mini-stat">
-                  <strong data-i18n="side.s3v">6 langues</strong>
-                  <span data-i18n="side.s3t">pour une lecture plus accessible</span>
-                </div>
-              </div>
             </div>
 
             <div class="floating-card quick-read-card">
@@ -1237,50 +1199,6 @@
             </div>
           </div>
         </div>
-
-        <div class="mini-grid">
-          <div class="soft-card">
-            <h3 data-i18n="mini.1t">Simple à lire</h3>
-            <p data-i18n="mini.1d">Même sans connaissances techniques, vous comprenez immédiatement si la situation est confortable ou urgente.</p>
-          </div>
-          <div class="soft-card">
-            <h3 data-i18n="mini.2t">Pensé pour le quotidien</h3>
-            <p data-i18n="mini.2d">Pratique pour vérifier un site, rassurer un client, ou préparer un renouvellement avant qu’il ne soit trop tard.</p>
-          </div>
-          <div class="soft-card">
-            <h3 data-i18n="mini.3t">Messages clairs</h3>
-            <p data-i18n="mini.3d">Si le domaine n’existe pas, si HTTPS n’est pas disponible ou si la vérification échoue, SEAL vous le dit simplement.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" aria-label="Points forts">
-        <div class="section-head">
-          <div>
-            <h2 data-i18n="features.title">Ce que vous retrouvez sur le site</h2>
-            <p data-i18n="features.subtitle">Une expérience claire, douce et structurée pour consulter l’essentiel rapidement.</p>
-          </div>
-        </div>
-
-        <div class="feature-grid">
-          <article class="feature">
-            <div class="icon" aria-hidden="true">✦</div>
-            <h3 data-i18n="features.f1t">Vérification rapide</h3>
-            <p data-i18n="features.f1d">Un champ, un clic, et une lecture compréhensible de l’état du certificat SSL du domaine renseigné.</p>
-          </article>
-
-          <article class="feature">
-            <div class="icon" aria-hidden="true">◐</div>
-            <h3 data-i18n="features.f2t">Code couleur clair</h3>
-            <p data-i18n="features.f2d">Vert, orange, rouge : un repère visuel simple pour comprendre la priorité sans ambiguïté.</p>
-          </article>
-
-          <article class="feature">
-            <div class="icon" aria-hidden="true">◎</div>
-            <h3 data-i18n="features.f3t">Interface traduisible</h3>
-            <p data-i18n="features.f3d">Le site reste cohérent en français, anglais, espagnol, russe, arabe et chinois.</p>
-          </article>
-        </div>
       </section>
 
       <footer>
@@ -1300,17 +1218,17 @@
             </p>
 
             <div class="socials" aria-label="Réseaux sociaux">
-              <a class="social" href="#" aria-label="LinkedIn">
+              <a class="social" href="https://www.linkedin.com/company/secure-expiry-alert-logging" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.48 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4zM8.5 8h3.8v2.2h.05c.53-1 1.82-2.2 3.75-2.2 4.01 0 4.75 2.64 4.75 6.08V24h-4v-7.75c0-1.85-.03-4.23-2.58-4.23-2.59 0-2.99 2.02-2.99 4.1V24h-4V8z"/>
                 </svg>
               </a>
-              <a class="social" href="#" aria-label="Instagram">
+              <a class="social" href="https://www.instagram.com/seal_security_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M7.75 2C4.57 2 2 4.57 2 7.75v8.5C2 19.43 4.57 22 7.75 22h8.5C19.43 22 22 19.43 22 16.25v-8.5C22 4.57 19.43 2 16.25 2h-8.5zm0 2h8.5C18.22 4 20 5.78 20 7.75v8.5c0 1.97-1.78 3.75-3.75 3.75h-8.5C5.78 20 4 18.22 4 16.25v-8.5C4 5.78 5.78 4 7.75 4zm8.75 1.5a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6z"/>
                 </svg>
               </a>
-              <a class="social" href="#" aria-label="X">
+              <a class="social" href="https://x.com/SEAL2026" target="_blank" rel="noopener noreferrer" aria-label="X">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M17.53 3H21l-7.39 8.44L22 21h-6.87l-5.38-7.04L3.9 21H.43l7.9-9.03L2 3h7.03l4.86 6.42L17.53 3zm-1.2 16h1.94L8.05 4.93H6.03L16.33 19z"/>
                 </svg>
@@ -1375,13 +1293,7 @@
         "hero.note":"Pensé pour être utile à tous : lecture simple, design clair, et informations faciles à comprendre.",
 
         "side.title":"Pourquoi SEAL",
-        "side.text":"Un certificat expiré peut faire fuir des visiteurs, afficher des alertes dans le navigateur et nuire à l’image d’un site. SEAL vous aide à voir l’essentiel sans complexité.",
-        "side.s1v":"1 recherche",
-        "side.s1t":"pour obtenir une réponse claire",
-        "side.s2v":"3 niveaux",
-        "side.s2t":"pour repérer la priorité",
-        "side.s3v":"6 langues",
-        "side.s3t":"pour une lecture plus accessible",
+        "side.text":"Vérifiez rapidement la date d’expiration d’un certificat SSL, le temps restant et le niveau de priorité, dans une interface claire et simple.",
 
         "side2.title":"Lecture rapide",
         "side2.ok":"Vert : situation confortable",
@@ -1405,22 +1317,6 @@
         "result.levelSub":"Lecture basée sur le code couleur",
         "result.issuer":"Émetteur",
         "result.validFrom":"Valide depuis",
-
-        "mini.1t":"Simple à lire",
-        "mini.1d":"Même sans connaissances techniques, vous comprenez immédiatement si la situation est confortable ou urgente.",
-        "mini.2t":"Pensé pour le quotidien",
-        "mini.2d":"Pratique pour vérifier un site, rassurer un client, ou préparer un renouvellement avant qu’il ne soit trop tard.",
-        "mini.3t":"Messages clairs",
-        "mini.3d":"Si le domaine n’existe pas, si HTTPS n’est pas disponible ou si la vérification échoue, SEAL vous le dit simplement.",
-
-        "features.title":"Ce que vous retrouvez sur le site",
-        "features.subtitle":"Une expérience claire, douce et structurée pour consulter l’essentiel rapidement.",
-        "features.f1t":"Vérification rapide",
-        "features.f1d":"Un champ, un clic, et une lecture compréhensible de l’état du certificat SSL du domaine renseigné.",
-        "features.f2t":"Code couleur clair",
-        "features.f2d":"Vert, orange, rouge : un repère visuel simple pour comprendre la priorité sans ambiguïté.",
-        "features.f3t":"Interface traduisible",
-        "features.f3d":"Le site reste cohérent en français, anglais, espagnol, russe, arabe et chinois.",
 
         "footer.nav":"Navigation",
         "footer.support":"Support",
@@ -1472,13 +1368,7 @@
         "hero.note":"Designed to be useful for everyone: simple reading, clear design, and easy-to-understand information.",
 
         "side.title":"Why SEAL",
-        "side.text":"An expired certificate can scare visitors away, trigger browser warnings, and hurt a website’s image. SEAL helps you see what matters without unnecessary complexity.",
-        "side.s1v":"1 search",
-        "side.s1t":"to get a clear answer",
-        "side.s2v":"3 levels",
-        "side.s2t":"to spot priority",
-        "side.s3v":"6 languages",
-        "side.s3t":"for more accessible reading",
+        "side.text":"Quickly check an SSL certificate expiration date, the time remaining, and the priority level in a clear and simple interface.",
 
         "side2.title":"Quick reading",
         "side2.ok":"Green: comfortable situation",
@@ -1502,22 +1392,6 @@
         "result.levelSub":"Reading based on the color code",
         "result.issuer":"Issuer",
         "result.validFrom":"Valid from",
-
-        "mini.1t":"Easy to read",
-        "mini.1d":"Even without technical knowledge, you can quickly understand whether the situation is comfortable or urgent.",
-        "mini.2t":"Built for everyday use",
-        "mini.2d":"Useful to check a website, reassure a client, or prepare a renewal before it becomes urgent.",
-        "mini.3t":"Clear messages",
-        "mini.3d":"If the domain does not exist, if HTTPS is unavailable, or if the check fails, SEAL tells you clearly.",
-
-        "features.title":"What you find on the website",
-        "features.subtitle":"A clear, soft, structured experience to read the essentials quickly.",
-        "features.f1t":"Fast checking",
-        "features.f1d":"One field, one click, and a readable view of the SSL certificate status for the entered domain.",
-        "features.f2t":"Clear color code",
-        "features.f2d":"Green, orange, red: a simple visual guide to understand priority at a glance.",
-        "features.f3t":"Translatable interface",
-        "features.f3d":"The website stays consistent in French, English, Spanish, Russian, Arabic, and Chinese.",
 
         "footer.nav":"Navigation",
         "footer.support":"Support",
@@ -1569,13 +1443,7 @@
         "hero.note":"Pensado para ser útil para todos: lectura simple, diseño claro e información fácil de entender.",
 
         "side.title":"Por qué SEAL",
-        "side.text":"Un certificado caducado puede asustar a los visitantes, activar alertas del navegador y perjudicar la imagen de un sitio. SEAL te ayuda a ver lo esencial sin complejidad innecesaria.",
-        "side.s1v":"1 búsqueda",
-        "side.s1t":"para obtener una respuesta clara",
-        "side.s2v":"3 niveles",
-        "side.s2t":"para identificar la prioridad",
-        "side.s3v":"6 idiomas",
-        "side.s3t":"para una lectura más accesible",
+        "side.text":"Comprueba rápidamente la fecha de expiración de un certificado SSL, el tiempo restante y el nivel de prioridad en una interfaz clara y simple.",
 
         "side2.title":"Lectura rápida",
         "side2.ok":"Verde: situación cómoda",
@@ -1599,22 +1467,6 @@
         "result.levelSub":"Lectura basada en el código de color",
         "result.issuer":"Emisor",
         "result.validFrom":"Válido desde",
-
-        "mini.1t":"Fácil de leer",
-        "mini.1d":"Incluso sin conocimientos técnicos, puedes entender rápidamente si la situación es cómoda o urgente.",
-        "mini.2t":"Pensado para el día a día",
-        "mini.2d":"Útil para comprobar un sitio, tranquilizar a un cliente o preparar una renovación antes de que sea urgente.",
-        "mini.3t":"Mensajes claros",
-        "mini.3d":"Si el dominio no existe, si HTTPS no está disponible o si la verificación falla, SEAL te lo dice claramente.",
-
-        "features.title":"Lo que encuentras en el sitio",
-        "features.subtitle":"Una experiencia clara, suave y estructurada para ver lo esencial rápidamente.",
-        "features.f1t":"Verificación rápida",
-        "features.f1d":"Un campo, un clic y una lectura comprensible del estado del certificado SSL del dominio indicado.",
-        "features.f2t":"Código de color claro",
-        "features.f2d":"Verde, naranja, rojo: una guía visual simple para entender la prioridad de un vistazo.",
-        "features.f3t":"Interfaz traducible",
-        "features.f3d":"El sitio mantiene coherencia en francés, inglés, español, ruso, árabe y chino.",
 
         "footer.nav":"Navegación",
         "footer.support":"Soporte",
@@ -1666,13 +1518,7 @@
         "hero.note":"Сайт сделан так, чтобы быть полезным всем: простое чтение, понятный дизайн и доступная информация.",
 
         "side.title":"Почему SEAL",
-        "side.text":"Просроченный сертификат может отпугнуть посетителей, вызвать предупреждения браузера и навредить репутации сайта. SEAL помогает увидеть главное без лишней сложности.",
-        "side.s1v":"1 поиск",
-        "side.s1t":"чтобы получить понятный ответ",
-        "side.s2v":"3 уровня",
-        "side.s2t":"чтобы увидеть приоритет",
-        "side.s3v":"6 языков",
-        "side.s3t":"для более доступного чтения",
+        "side.text":"Быстро проверьте дату окончания SSL-сертификата, оставшееся время и уровень приоритета в понятном и простом интерфейсе.",
 
         "side2.title":"Быстрое чтение",
         "side2.ok":"Зелёный: спокойная ситуация",
@@ -1696,22 +1542,6 @@
         "result.levelSub":"Оценка по цветовому коду",
         "result.issuer":"Издатель",
         "result.validFrom":"Действует с",
-
-        "mini.1t":"Легко читать",
-        "mini.1d":"Даже без технических знаний вы быстро поймёте, спокойная ситуация или срочная.",
-        "mini.2t":"Для повседневного использования",
-        "mini.2d":"Удобно проверить сайт, успокоить клиента или заранее подготовить продление.",
-        "mini.3t":"Понятные сообщения",
-        "mini.3d":"Если домен не существует, HTTPS недоступен или проверка не удалась, SEAL скажет об этом прямо.",
-
-        "features.title":"Что есть на сайте",
-        "features.subtitle":"Понятный, мягкий и структурированный интерфейс для быстрого чтения самого важного.",
-        "features.f1t":"Быстрая проверка",
-        "features.f1d":"Одно поле, один клик — и понятная картина статуса SSL-сертификата указанного домена.",
-        "features.f2t":"Понятный цветовой код",
-        "features.f2d":"Зелёный, оранжевый, красный — простая визуальная подсказка для понимания приоритета.",
-        "features.f3t":"Переводимый интерфейс",
-        "features.f3d":"Сайт остаётся согласованным на французском, английском, испанском, русском, арабском и китайском.",
 
         "footer.nav":"Навигация",
         "footer.support":"Поддержка",
@@ -1763,13 +1593,7 @@
         "hero.note":"مصمم ليكون مفيدًا للجميع: قراءة بسيطة، تصميم واضح، ومعلومات سهلة الفهم.",
 
         "side.title":"لماذا SEAL",
-        "side.text":"قد تؤدي الشهادة المنتهية إلى تنفير الزوار، وظهور تحذيرات في المتصفح، والإضرار بصورة الموقع. يساعدك SEAL على رؤية المهم بدون تعقيد.",
-        "side.s1v":"بحث واحد",
-        "side.s1t":"للحصول على إجابة واضحة",
-        "side.s2v":"3 مستويات",
-        "side.s2t":"لتحديد الأولوية",
-        "side.s3v":"6 لغات",
-        "side.s3t":"لقراءة أكثر سهولة",
+        "side.text":"تحقق بسرعة من تاريخ انتهاء شهادة SSL والوقت المتبقي ومستوى الأولوية ضمن واجهة واضحة وبسيطة.",
 
         "side2.title":"قراءة سريعة",
         "side2.ok":"الأخضر: وضع مريح",
@@ -1793,22 +1617,6 @@
         "result.levelSub":"قراءة مبنية على الألوان",
         "result.issuer":"الجهة المصدرة",
         "result.validFrom":"صالح منذ",
-
-        "mini.1t":"سهل القراءة",
-        "mini.1d":"حتى بدون معرفة تقنية، يمكنك فهم ما إذا كان الوضع مريحًا أو عاجلًا بسرعة.",
-        "mini.2t":"مناسب للاستخدام اليومي",
-        "mini.2d":"مفيد لفحص موقع، أو طمأنة عميل، أو التحضير للتجديد قبل أن يصبح الأمر عاجلًا.",
-        "mini.3t":"رسائل واضحة",
-        "mini.3d":"إذا لم يكن النطاق موجودًا، أو لم يتوفر HTTPS، أو فشل الفحص، فإن SEAL يوضح ذلك ببساطة.",
-
-        "features.title":"ما الذي ستجده في الموقع",
-        "features.subtitle":"تجربة واضحة وهادئة ومنظمة لقراءة الأمور الأساسية بسرعة.",
-        "features.f1t":"تحقق سريع",
-        "features.f1d":"حقل واحد ونقرة واحدة ثم قراءة مفهومة لحالة شهادة SSL الخاصة بالنطاق المدخل.",
-        "features.f2t":"ترميز لوني واضح",
-        "features.f2d":"أخضر وبرتقالي وأحمر: دليل بصري بسيط لفهم الأولوية بسرعة.",
-        "features.f3t":"واجهة قابلة للترجمة",
-        "features.f3d":"يبقى الموقع متناسقًا بالفرنسية والإنجليزية والإسبانية والروسية والعربية والصينية.",
 
         "footer.nav":"التنقل",
         "footer.support":"الدعم",
@@ -1860,13 +1668,7 @@
         "hero.note":"为所有人设计：阅读简单、界面清晰、信息易懂。",
 
         "side.title":"为什么选择 SEAL",
-        "side.text":"证书过期可能会吓跑访问者、触发浏览器警告，并影响网站形象。SEAL 帮你快速看到最重要的信息，而不会增加复杂度。",
-        "side.s1v":"1 次查询",
-        "side.s1t":"即可获得清晰答案",
-        "side.s2v":"3 个级别",
-        "side.s2t":"帮助判断优先级",
-        "side.s3v":"6 种语言",
-        "side.s3t":"让阅读更加方便",
+        "side.text":"快速查看 SSL 证书到期日期、剩余时间和优先级，界面清晰简单。",
 
         "side2.title":"快速理解",
         "side2.ok":"绿色：情况较为安心",
@@ -1890,22 +1692,6 @@
         "result.levelSub":"基于颜色的阅读方式",
         "result.issuer":"颁发者",
         "result.validFrom":"生效时间",
-
-        "mini.1t":"易于阅读",
-        "mini.1d":"即使没有技术背景，也能快速判断当前情况是安心还是紧急。",
-        "mini.2t":"适合日常使用",
-        "mini.2d":"适合检查网站、让客户安心，或提前准备续期，避免临近到期时手忙脚乱。",
-        "mini.3t":"提示清楚",
-        "mini.3d":"如果域名不存在、没有 HTTPS，或检查失败，SEAL 都会直接告诉你。",
-
-        "features.title":"网站提供的内容",
-        "features.subtitle":"清晰、柔和、结构化的体验，让你快速看到关键内容。",
-        "features.f1t":"快速检查",
-        "features.f1d":"一个输入框，一次点击，即可看到所填域名的 SSL 证书状态。",
-        "features.f2t":"清晰颜色提示",
-        "features.f2d":"绿色、橙色、红色：简单直观地帮助你理解优先级。",
-        "features.f3t":"可翻译界面",
-        "features.f3d":"网站在法语、英语、西班牙语、俄语、阿拉伯语和中文之间保持一致。",
 
         "footer.nav":"导航",
         "footer.support":"支持",
@@ -2062,7 +1848,7 @@
       if(lastResult.daysLeft < 0){
         daysEl.textContent = t("days.expired");
       } else if(lastResult.daysLeft === 1){
-        daysEl.textContent = `1 ${t("days.singular")}`;
+        daysEl.textContent = `${lastResult.daysLeft} ${t("days.singular")}`;
       } else {
         daysEl.textContent = `${lastResult.daysLeft} ${t("days.plural")}`;
       }
@@ -2147,6 +1933,8 @@
 
       const langToggle = $("#langToggle");
       const langMenu = $("#langMenu");
+      const menuToggle = $("#menuToggle");
+      const mobileMenu = $("#mobileMenu");
 
       langToggle.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -2154,9 +1942,24 @@
         langToggle.setAttribute("aria-expanded", open ? "true" : "false");
       });
 
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const open = mobileMenu.classList.toggle("open");
+          menuToggle.classList.toggle("open", open);
+          menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      }
+
       window.addEventListener("click", () => {
         langMenu.classList.remove("open");
         langToggle.setAttribute("aria-expanded", "false");
+
+        if (mobileMenu && menuToggle) {
+          mobileMenu.classList.remove("open");
+          menuToggle.classList.remove("open");
+          menuToggle.setAttribute("aria-expanded", "false");
+        }
       });
 
       langMenu.querySelectorAll(".item").forEach(btn => {
@@ -2165,6 +1968,14 @@
           setLang(btn.getAttribute("data-lang"));
           langMenu.classList.remove("open");
           langToggle.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      mobileMenu.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+          mobileMenu.classList.remove("open");
+          menuToggle.classList.remove("open");
+          menuToggle.setAttribute("aria-expanded", "false");
         });
       });
 
