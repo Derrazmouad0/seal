@@ -213,3 +213,16 @@ LANCEMENT DU SERVEUR
 app.listen(PORT, () => {
   console.log(`[OK] Serveur SEAL démarré sur le port ${PORT}`);
 });
+/*
+================================
+LANCEMENT DU SERVEUR & VERCEL
+================================
+*/
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`[OK] Serveur SEAL démarré sur le port ${PORT}`);
+  });
+}
+
+// LIGNE INDISPENSABLE POUR VERCEL
+module.exports = app;
