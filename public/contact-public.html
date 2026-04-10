@@ -871,7 +871,7 @@
 
       $("#themeToggle").addEventListener("click", toggleTheme);
 
-      // --- LOGIQUE DU FORMULAIRE DE CONTACT (VRAIE CONNEXION SERVEUR) ---
+      // --- LOGIQUE DU FORMULAIRE DE CONTACT (CONNEXION API SERVEUR NODE.JS) ---
       const contactForm = document.getElementById("contactForm");
       const submitBtn = document.getElementById("submitBtn");
       const btnTextSpan = submitBtn.querySelector("span");
@@ -879,15 +879,14 @@
 
       if(contactForm) {
         contactForm.addEventListener("submit", async (e) => {
-          e.preventDefault(); // Empêche le rechargement de la page
+          e.preventDefault(); 
           
           const originalText = btnTextSpan.textContent;
-          btnTextSpan.textContent = t("contact.form.sending"); // Affiche "Envoi en cours..."
+          btnTextSpan.textContent = t("contact.form.sending"); 
           submitBtn.disabled = true;
           formStatus.className = "form-status";
           formStatus.textContent = "";
 
-          // On récupère ce que l'utilisateur a tapé
           const formData = {
             name: document.getElementById("name").value,
             email: document.getElementById("email").value,
@@ -896,7 +895,6 @@
           };
 
           try {
-            // --- VRAI APPEL VERS TON SERVEUR NODE.JS ---
             const response = await fetch("/api/contact", {
               method: "POST",
               body: JSON.stringify(formData),
@@ -905,27 +903,25 @@
 
             const data = await response.json();
 
-            // Vérification de la réponse du serveur
             if (!response.ok) {
               throw new Error(data.message || "Erreur serveur");
             }
 
-            // Succès ! Le mail est parti.
+            // Affiche le succès si l'API a bien envoyé le mail
             formStatus.textContent = t("contact.form.success");
             formStatus.classList.add("success");
-            contactForm.reset(); // On vide le formulaire
+            contactForm.reset(); 
 
           } catch (error) {
-            // Erreur ! (Ex: Problème SMTP sur le serveur)
-            console.error("Erreur d'envoi:", error);
+            console.error("Détail de l'erreur :", error.message);
+            // On affiche le message d'erreur générique traduit (ou l'erreur serveur si besoin)
             formStatus.textContent = t("contact.form.error");
             formStatus.classList.add("error");
           } finally {
-            // On remet le bouton à son état normal
             btnTextSpan.textContent = originalText;
             submitBtn.disabled = false;
-            // Fait disparaître le message après 5 secondes
-            setTimeout(() => { formStatus.className = "form-status"; formStatus.textContent = ""; }, 5000);
+            // Disparition du message après 6 secondes
+            setTimeout(() => { formStatus.className = "form-status"; formStatus.textContent = ""; }, 6000);
           }
         });
       }
