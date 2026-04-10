@@ -291,7 +291,7 @@
     }
     html[data-theme="light"] .glass-btn.primary { box-shadow: none; background: rgba(2, 132, 199, 0.05); }
     .glass-btn.primary:hover { background: var(--neon-blue); color: #fff; box-shadow: 0 0 25px var(--neon-blue); }
-    html[data-theme="light"] .glass-btn.primary:hover { background: #0284C7; border-color: #0284C7; }
+    html[data-theme="light"] .glass-btn.primary:hover { background: #0284C7; border-color: #0284C7; color:#fff;}
     .glass-btn.primary:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
 
     /* Messages de succès/erreur du formulaire */
@@ -311,13 +311,15 @@
     .footer-brand { display: flex; flex-direction: column; gap: 15px; }
     .footer-brand p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0;}
     
-    /* ICONES SOCIALES PARFAITES */
-    .socials { display: flex; gap: 15px; margin-top: 10px; }
+    /* ICONES SOCIALES : CORRECTION CERCLE PARFAIT */
+    .socials { display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap;}
     .social { 
-      width: 46px; height: 46px; min-width: 46px; min-height: 46px; flex-shrink: 0;
-      border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
       display: flex; justify-content: center; align-items: center; 
+      width: 46px; height: 46px; 
+      flex: 0 0 46px; /* Bloque la taille pour éviter l'écrasement en ovale */
+      border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
       background: transparent; color: var(--text); transition: all 0.3s ease; 
+      box-sizing: border-box;
     }
     html[data-theme="light"] .social { border: 1px solid #CBD5E1; background: #FFFFFF; color: #0F172A; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
     .social:hover { border-color: var(--neon-blue); color: #fff; background: var(--neon-blue); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,240,255,0.3); }
@@ -901,26 +903,25 @@
               headers: { 'Content-Type': 'application/json' }
             });
 
-            const data = await response.json();
-
             if (!response.ok) {
-              throw new Error(data.message || "Erreur serveur");
+              const errorData = await response.json().catch(() => ({}));
+              throw new Error(errorData.message || "Erreur serveur");
             }
 
-            // Affiche le succès si l'API a bien envoyé le mail
             formStatus.textContent = t("contact.form.success");
             formStatus.classList.add("success");
             contactForm.reset(); 
 
           } catch (error) {
             console.error("Détail de l'erreur :", error.message);
-            // On affiche le message d'erreur générique traduit (ou l'erreur serveur si besoin)
-            formStatus.textContent = t("contact.form.error");
+            // On affiche le message d'erreur depuis le serveur Node.js ou une erreur par défaut.
+            formStatus.textContent = error.message.includes("configuré") || error.message.includes("fournisseur") 
+              ? error.message 
+              : t("contact.form.error");
             formStatus.classList.add("error");
           } finally {
             btnTextSpan.textContent = originalText;
             submitBtn.disabled = false;
-            // Disparition du message après 6 secondes
             setTimeout(() => { formStatus.className = "form-status"; formStatus.textContent = ""; }, 6000);
           }
         });
