@@ -11,14 +11,12 @@ const path = require("path");
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
 
-// Permet au rate limiter de fonctionner correctement si tu es derrière un proxy/hébergeur
+// Indispensable pour Vercel
 app.set("trust proxy", 1);
 
-/*
-================================
-CONFIGURATIONS
-================================
-*/
+/* ================================
+   CONFIGURATIONS EMAIL
+================================ */
 const SSL_TIMEOUT_MS = 8000;
 const SMTP_HOST = process.env.EMAIL_HOST || "smtp.gmail.com";
 const SMTP_PORT = Number(process.env.EMAIL_PORT || 465);
@@ -28,50 +26,32 @@ const SMTP_PASS = process.env.EMAIL_PASS || "";
 const CONTACT_TO = process.env.CONTACT_TO || "";
 const CONTACT_FROM = process.env.CONTACT_FROM || SMTP_USER || CONTACT_TO;
 
-/*
-================================
-MIDDLEWARES & SÉCURITÉ
-================================
-*/
+/* ================================
+   SÉCURITÉ & MIDDLEWARES
+================================ */
 app.use(helmet({ contentSecurityPolicy: false }));
-app.use(cors());
+app.use(cors({ origin: '*', methods: ['GET', 'POST'] }));
 app.use(express.json({ limit: "256kb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// Sert tous les fichiers de ton dossier "public" (HTML, CSS, JS, Images)
-app.use(express.static(path.join(__dirname, "public")));
-
-/*
-================================
-ANTI-SPAM (RATE LIMITING)
-================================
-*/
+/* ================================
+   ANTI-SPAM
+================================ */
 const sslLimiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 30, // 30 requêtes max
-  message: { code: "TOO_MANY_REQUESTS", message: "Trop de requêtes. Veuillez patienter." }
+  windowMs: 1 * 60 * 1000, 
+  max: 30, 
+  message: { code: "TOO_MANY_REQUESTS", message: "Trop de requêtes. Veuillez patienter une minute." }
 });
 
 const contactLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 heure
-  max: 5, // 5 emails max par heure par IP
+  windowMs: 60 * 60 * 1000,
+  max: 5,
   message: { code: "TOO_MANY_REQUESTS", message: "Limite de messages atteinte. Réessayez plus tard." }
 });
 
-/*
-================================
-HEALTH CHECK
-================================
-*/
-app.get("/healthz", (_req, res) => {
-  res.status(200).send("ok");
-});
-
-/*
-================================
-FONCTIONS UTILITAIRES
-================================
-*/
+/* ================================
+   UTILS SSL & SANITIZE
+================================ */
 function normalizeDomain(input) {
   if (!input || typeof input !== "string") return null;
   let value = input.trim().replace(/^https?:\/\//i, "").split("/")[0].replace(/:\d+$/, "").toLowerCase();
@@ -92,23 +72,27 @@ function mapSslError(error) {
   const code = error?.code || error?.message || "SSL_CHECK_FAILED";
   if (code === "INVALID_DOMAIN") return { http: 400, body: { code: "INVALID", message: "Invalid domain." } };
   if (code === "ENOTFOUND" || code === "EAI_AGAIN" || code === "ENOTDIR") return { http: 404, body: { code: "NOT_FOUND", message: "Domain not found." } };
-  if (code === "ECONNREFUSED" || code === "NO_CERTIFICATE") return { http: 400, body: { code: "NO_TLS", message: "No TLS certificate detected." } };
-  if (code === "TIMEOUT" || code === "ETIMEDOUT") return { http: 504, body: { code: "TIMEOUT", message: "Timeout while checking SSL." } };
-  return { http: 500, body: { code: "CHECK_FAILED", message: "Unable to analyze this domain right now." } };
+  if (code === "ECONNREFUSED" || code === "NO_CERTIFICATE") return { http: 400, body: { code: "NO_TLS", message: "No TLS certificate." } };
+  if (code === "TIMEOUT" || code === "ETIMEDOUT") return { http: 504, body: { code: "TIMEOUT", message: "Timeout." } };
+  return { http: 500, body: { code: "CHECK_FAILED", message: "Analysis failed." } };
 }
 
 function sanitizeText(str) {
   return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-/*
-================================
-API : VERIFICATION SSL
-================================
-*/
-function checkSSL(domain) {
-  return new Promise((resolve, reject) => {
-    const socket = tls.connect({ host: domain, port: 443, servername: domain, rejectUnauthorized: false }, () => {
+/* ================================
+   ROUTES API (/api/...)
+================================ */
+
+// 1. L'API SSL
+app.post("/api/ssl-check", sslLimiter, async (req, res) => {
+  const domain = normalizeDomain(req.body.input || req.body.domain || req.body.url);
+  if (!domain) return res.status(400).json({ code: "INVALID", message: "Invalid domain." });
+
+  try {
+    const result = await new Promise((resolve, reject) => {
+      const socket = tls.connect({ host: domain, port: 443, servername: domain, rejectUnauthorized: false }, () => {
         try {
           const cert = socket.getPeerCertificate(true);
           if (!cert || !cert.valid_to) throw new Error("NO_CERTIFICATE");
@@ -121,8 +105,7 @@ function checkSSL(domain) {
           const diffMs = expDate.getTime() - now.getTime();
           const daysLeft = Math.floor(diffMs / (1000 * 60 * 60 * 24));
           
-          let issuer = "Unknown";
-          if (cert.issuer) issuer = typeof cert.issuer === "string" ? cert.issuer : (cert.issuer.O || cert.issuer.CN || "Unknown");
+          let issuer = typeof cert.issuer === "string" ? cert.issuer : (cert.issuer?.O || cert.issuer?.CN || "Unknown");
 
           socket.end();
           resolve({
@@ -132,18 +115,10 @@ function checkSSL(domain) {
           });
         } catch (err) { socket.destroy(); reject(err); }
       });
-    socket.setTimeout(SSL_TIMEOUT_MS);
-    socket.on("timeout", () => { socket.destroy(); reject(Object.assign(new Error("TIMEOUT"), { code: "TIMEOUT" })); });
-    socket.on("error", (error) => reject(error));
-  });
-}
-
-app.post("/api/ssl-check", sslLimiter, async (req, res) => {
-  const domain = normalizeDomain(req.body.input || req.body.domain || req.body.url);
-  if (!domain) return res.status(400).json({ code: "INVALID", message: "Invalid domain." });
-
-  try {
-    const result = await checkSSL(domain);
+      socket.setTimeout(SSL_TIMEOUT_MS);
+      socket.on("timeout", () => { socket.destroy(); reject(Object.assign(new Error("TIMEOUT"), { code: "TIMEOUT" })); });
+      socket.on("error", (error) => reject(error));
+    });
     return res.status(200).json(result);
   } catch (error) {
     const mapped = mapSslError(error);
@@ -151,15 +126,9 @@ app.post("/api/ssl-check", sslLimiter, async (req, res) => {
   }
 });
 
-/*
-================================
-API : FORMULAIRE DE CONTACT
-================================
-*/
+// 2. L'API Mails
 const transporter = nodemailer.createTransport({
-  host: SMTP_HOST,
-  port: SMTP_PORT,
-  secure: SMTP_SECURE,
+  host: SMTP_HOST, port: SMTP_PORT, secure: SMTP_SECURE,
   auth: { user: SMTP_USER, pass: SMTP_PASS }
 });
 
@@ -169,24 +138,16 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
   const subject = sanitizeText(String(req.body.subject || "").trim());
   const message = sanitizeText(String(req.body.message || "").trim());
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return res.status(400).json({ message: "Adresse email invalide." });
-  }
-  if (!message || message.length < 2) {
-    return res.status(400).json({ message: "Le message est requis." });
-  }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ message: "Adresse email invalide." });
+  if (!message || message.length < 2) return res.status(400).json({ message: "Le message est requis." });
 
-  // Vérifie que tu as bien mis les variables d'environnement sur ton hébergeur
   if (!SMTP_USER || !SMTP_PASS) {
-    console.error("[SEAL ERREUR] Identifiants mail manquants dans les variables d'environnement !");
-    return res.status(500).json({ message: "Le serveur mail n'est pas configuré." });
+    return res.status(500).json({ message: "Le serveur mail n'est pas configuré sur Vercel." });
   }
 
   try {
     await transporter.sendMail({
-      from: CONTACT_FROM,
-      to: CONTACT_TO,
-      replyTo: email,
+      from: CONTACT_FROM, to: CONTACT_TO, replyTo: email,
       subject: subject ? `[SEAL Contact] ${subject}` : "[SEAL Contact] Nouveau message",
       text: `Nouveau message reçu via SEAL\n\nNom: ${name}\nEmail: ${email}\nSujet: ${subject}\n\nMessage:\n${message}\n`,
     });
@@ -197,32 +158,29 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
   }
 });
 
-/*
-================================
-ROUTES DE FALLBACK (404)
-================================
-*/
-app.use("/api", (_req, res) => res.status(404).json({ message: "API non trouvée." }));
-app.use((_req, res) => res.status(404).send("404 - Page introuvable"));
+/* ================================
+   ROUTAGE LOCAL & FALLBACK
+================================ */
 
-/*
-================================
-LANCEMENT DU SERVEUR
-================================
-*/
-app.listen(PORT, () => {
-  console.log(`[OK] Serveur SEAL démarré sur le port ${PORT}`);
+// Permet de tester en local sur son PC, mais Vercel l'ignorera grâce au vercel.json
+if (process.env.NODE_ENV !== 'production') {
+  app.use(express.static(path.join(__dirname, "public")));
+  app.get("/", (_req, res) => res.sendFile(path.join(__dirname, "public", "SEAL_page_accueil.html")));
+}
+
+// L'erreur 404 de l'API
+app.use((_req, res) => {
+  res.status(404).json({ error: "Route API introuvable." });
 });
-/*
-================================
-LANCEMENT DU SERVEUR & VERCEL
-================================
-*/
+
+/* ================================
+   DÉMARRAGE & EXPORT VERCEL
+================================ */
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
-    console.log(`[OK] Serveur SEAL démarré sur le port ${PORT}`);
+    console.log(`[OK] Serveur SEAL démarré en local sur le port ${PORT}`);
   });
 }
 
-// LIGNE INDISPENSABLE POUR VERCEL
+// CRUCIAL POUR VERCEL
 module.exports = app;
