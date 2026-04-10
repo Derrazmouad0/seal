@@ -39,19 +39,19 @@
       --max: 1240px;
     }
 
-    /* --- MODE CLAIR (RÉPARÉ : BLANC PUR, SANS GRIS MOCHE) --- */
+    /* --- MODE CLAIR (PROPRE, BLANC PUR) --- */
     html[data-theme="light"]{
-      --bg-dark: #F8FAFC; /* Un blanc/bleu très pur et doux */
+      --bg-dark: #F8FAFC; 
       --glass-bg: rgba(255, 255, 255, 0.85);
       --glass-strong: rgba(255, 255, 255, 0.98);
-      --glass-border: rgba(0, 0, 0, 0.05);
+      --glass-border: rgba(0, 0, 0, 0.08);
       
-      --control-bg: #FFFFFF; /* Remplace les boutons gris par du blanc pur */
-      --card-bg: #FFFFFF;    /* Cartes blanches */
+      --control-bg: #FFFFFF;
+      --card-bg: #FFFFFF;
 
       --text: #0F172A;
       --muted: #475569;
-      --line: #E2E8F0; /* Bordures grises très claires et douces */
+      --line: #E2E8F0;
       
       --neon-blue: #0284C7; 
       --neon-green: #059669;
@@ -90,7 +90,6 @@
       animation: gridMove 20s linear infinite;
     }
     html[data-theme="light"] .bg-grid { opacity: 0.5; }
-    
     @keyframes gridMove { from{transform:translateY(0)} to{transform:translateY(50px)} }
 
     .aurora, .aurora2, .aurora3 {
@@ -194,14 +193,15 @@
 
     main { padding: 40px 0 60px; }
 
-    /* --- GLASS CONTAINERS --- */
+    /* --- GLASS CONTAINERS GENERAUX --- */
     .hero, .floating-card, .result-card, .section, footer {
       background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
       border: 1px solid var(--glass-border); box-shadow: var(--shadow); position: relative; transition: background 0.3s, border 0.3s;
+      border-radius: var(--radius);
     }
 
     /* --- HERO SECTION --- */
-    .hero { border-radius: var(--radius); overflow: hidden; padding: 40px;}
+    .hero { overflow: hidden; padding: 40px;}
     .terminal-header {
       display: flex; align-items: center; gap: 10px; font-family: 'Fira Code', monospace;
       font-size: 12px; color: var(--muted); margin-bottom: 25px; border-bottom: 1px dashed var(--line); padding-bottom: 10px;
@@ -211,7 +211,6 @@
 
     .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; }
 
-    /* Correction de l'Eyebrow gris en mode clair */
     .eyebrow {
       display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 4px; padding: 6px 12px;
       background: var(--control-bg); color: var(--neon-green); font-family: 'Fira Code', monospace; font-size: 11px; text-transform: uppercase;
@@ -229,7 +228,7 @@
     .hero p.lead { color: var(--muted); font-size: 16px; line-height: 1.7; max-width: 600px; }
     .ghost-note { margin-top: 20px; font-family: 'Fira Code', monospace; font-size: 11px; color: var(--muted); opacity: 0.8; }
 
-    /* BOUTONS CYBER (Correction du bouton gris en mode clair) */
+    /* BOUTONS CYBER */
     .hero-actions { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 30px; }
     .glass-btn {
       position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
@@ -237,9 +236,7 @@
       text-transform: uppercase; text-decoration: none; cursor: pointer; transition: 0.3s;
       background: var(--control-bg); border: 1px solid var(--line); color: var(--text);
     }
-    html[data-theme="light"] .glass-btn:not(.primary) {
-      background: #FFFFFF; border: 1px solid #CBD5E1; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
+    html[data-theme="light"] .glass-btn:not(.primary) { background: #FFFFFF; border: 1px solid #CBD5E1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
     html[data-theme="light"] .glass-btn:not(.primary):hover { background: #F8FAFC; border-color: #94A3B8; }
     .glass-btn:hover { border-color: var(--neon-blue); }
     
@@ -249,16 +246,18 @@
     }
     html[data-theme="light"] .glass-btn.primary { box-shadow: none; background: rgba(2, 132, 199, 0.05); }
     .glass-btn.primary:hover { background: var(--neon-blue); color: #fff; box-shadow: 0 0 25px var(--neon-blue); }
+    .glass-btn.primary:disabled { opacity: 0.5; pointer-events: none; }
     .glass-btn .arrow { width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); }
 
     /* SIDE CARDS */
     .hero-side { display: grid; gap: 20px; }
     .floating-card { border-radius: var(--radius-sm); padding: 24px; transition: 0.4s ease; border-left: 2px solid transparent; background: var(--card-bg); border: 1px solid var(--line);}
-    .floating-card:hover { transform: translateX(5px); border-left: 2px solid var(--neon-blue); }
-    .floating-card h3 { margin: 0 0 10px 0; font-family: 'Space Grotesk', sans-serif; font-size: 16px; color: var(--text); }
-    .floating-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .floating-card:hover { transform: translateX(5px); border-left: 2px solid var(--neon-blue); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);}
+    html[data-theme="light"] .floating-card:hover { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); }
+    .floating-card h3 { margin: 0 0 10px 0; font-family: 'Space Grotesk', sans-serif; font-size: 16px; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em;}
+    .floating-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
 
-    /* CORRECTION DES BADGES GRIS EN MODE CLAIR (Remplacés par des couleurs pastel) */
+    /* BADGES (Mode Clair Corrigé) */
     .quick-read-badges { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
     .quick-badge {
       display: inline-flex; align-items: center; gap: 10px; padding: 10px 15px; border-radius: 4px; border: 1px solid var(--line);
@@ -266,7 +265,6 @@
     }
     .quick-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
     
-    /* Dark Mode Badges */
     .quick-badge-ok { border-color: rgba(0, 255, 204, 0.3); background: rgba(0, 255, 204, 0.05); color: var(--ok); } 
     .quick-badge-ok .quick-dot { background: var(--ok); box-shadow: 0 0 8px var(--ok); }
     
@@ -276,7 +274,6 @@
     .quick-badge-bad { border-color: rgba(255, 42, 95, 0.3); background: rgba(255, 42, 95, 0.05); color: var(--bad); } 
     .quick-badge-bad .quick-dot { background: var(--bad); box-shadow: 0 0 8px var(--bad); }
 
-    /* Light Mode Badges (Fini le gris !) */
     html[data-theme="light"] .quick-badge-ok { background: #ECFDF5; border-color: #A7F3D0; color: #059669; }
     html[data-theme="light"] .quick-badge-warn { background: #FFFBEB; border-color: #FDE68A; color: #D97706; }
     html[data-theme="light"] .quick-badge-bad { background: #FFF1F2; border-color: #FECDD3; color: #E11D48; }
@@ -336,45 +333,22 @@
     .error-box.show { display: block; }
 
     /* --- FOOTER --- */
-    footer { margin-top: 40px; border-radius: var(--radius); padding: 40px 30px 20px; }
+    footer { margin-top: 40px; padding: 40px 30px 20px;}
     .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 30px; margin-bottom: 40px; }
     .footer-brand { display: flex; flex-direction: column; gap: 15px; }
     .footer-brand p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0;}
     
     /* --- RÉSOLUTION DU PROBLÈME DES ICÔNES SOCIALES (CERCLES PARFAITS) --- */
     .socials { display: flex; gap: 15px; margin-top: 10px; }
-    
     .social { 
-      /* Forcer la forme circulaire */
-      width: 46px; height: 46px; 
-      min-width: 46px; min-height: 46px; /* Empêche l'écrasement en ovale */
-      flex-shrink: 0;
-      
-      border-radius: 50%; 
-      border: 1px solid rgba(255,255,255,0.15); /* Cercle fin et léger */
-      
+      width: 46px; height: 46px; min-width: 46px; min-height: 46px; flex-shrink: 0;
+      border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
       display: flex; justify-content: center; align-items: center; 
-      background: transparent; /* Fond transparent pour voir à travers */
-      color: var(--text);
-      transition: all 0.3s ease; 
+      background: transparent; color: var(--text); transition: all 0.3s ease; 
     }
-    
-    html[data-theme="light"] .social {
-      border: 1px solid #CBD5E1;
-      background: #FFFFFF;
-      color: #0F172A;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-    }
-
-    .social:hover { 
-      border-color: var(--neon-blue); color: #fff; background: var(--neon-blue); 
-      transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,240,255,0.3);
-    }
-    html[data-theme="light"] .social:hover {
-        background: #0284C7; border-color: #0284C7; color: #fff;
-        box-shadow: 0 5px 15px rgba(2, 132, 199, 0.3);
-    }
-
+    html[data-theme="light"] .social { border: 1px solid #CBD5E1; background: #FFFFFF; color: #0F172A; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    .social:hover { border-color: var(--neon-blue); color: #fff; background: var(--neon-blue); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,240,255,0.3); }
+    html[data-theme="light"] .social:hover { background: #0284C7; border-color: #0284C7; color: #fff; box-shadow: 0 5px 15px rgba(2, 132, 199, 0.3); }
     .social svg { width: 18px; height: 18px; fill: currentColor; }
 
     .footer-col h3 { color: var(--text); font-family: 'Fira Code', monospace; font-size: 13px; margin-bottom: 15px; text-transform: uppercase; }
@@ -382,7 +356,7 @@
     .footer-links a, .footer-links span { color: var(--muted); text-decoration: none; font-size: 13px; transition: 0.2s; line-height: 1.5;}
     .footer-links a:hover { color: var(--neon-blue); padding-left: 5px; }
     
-    /* --- BOUTON EMAIL SUPPORT --- */
+    /* BOUTON EMAIL SUPPORT */
     .support-email {
       display: inline-flex; align-items: center; gap: 10px; padding: 10px 15px; margin-top: 5px;
       border-radius: 8px; background: var(--control-bg); border: 1px solid var(--line);
@@ -390,11 +364,7 @@
       transition: all 0.3s ease; text-decoration: none; width: fit-content;
     }
     html[data-theme="light"] .support-email { background: #FFFFFF; border: 1px solid #CBD5E1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); color: #0F172A !important;}
-    
-    .support-email:hover {
-      background: var(--neon-blue); color: #fff !important; border-color: var(--neon-blue);
-      box-shadow: 0 8px 15px rgba(0, 240, 255, 0.25); transform: translateY(-2px);
-    }
+    .support-email:hover { background: var(--neon-blue); color: #fff !important; border-color: var(--neon-blue); box-shadow: 0 8px 15px rgba(0, 240, 255, 0.25); transform: translateY(-2px); }
     html[data-theme="light"] .support-email:hover { box-shadow: 0 8px 15px rgba(2, 132, 199, 0.25); background: #0284C7; border-color:#0284C7;}
     .support-email svg { width: 18px; height: 18px; fill: currentColor; }
 
@@ -700,22 +670,27 @@
   </main>
 
   <script>
-    // DICTIONNAIRE COMPLET DES TRADUCTIONS (SANS RIEN TRONQUER)
+    // DICTIONNAIRE DE TRADUCTION COMPLET
     const I18N = {
       fr: {
         "nav.home":"Accueil", "nav.features":"Fonctionnalités", "nav.about":"À propos", "nav.faq":"FAQ", "nav.contact":"Contact",
+        
         "hero.eyebrow":"Surveillance Continue SSL", "hero.title.l1":"Vérifiez", "hero.title.l2":"l’expiration SSL", "hero.title.l3":"en quelques", "hero.title.l4":"secondes.",
         "hero.subtitle":"Entrez un domaine ou une URL, puis obtenez une lecture claire : date d’expiration, temps restant et niveau de priorité. En cas d’erreur, SEAL vous l’indique simplement.",
         "hero.ctaPrimary":"Exécuter_Scan()", "hero.ctaSecondary":"Voir_Documentation", "hero.note":"// Pensé pour la performance : lecture simple, requêtes optimisées.",
         "side.title":"/> Pourquoi SEAL ?", "side.text":"Vérifiez rapidement la date d’expiration d’un certificat SSL, le temps restant et le niveau de priorité, dans une interface de monitoring précise et sans friction.",
         "side2.title":"/> Niveaux d'Alerte", "side2.ok":"Safe : Situation stable", "side2.warn":"Warning : Renouvellement proche", "side2.bad":"Critical : Action immédiate",
+        
         "check.title":"Analyseur de Domaine", "check.subtitle":"Target : Entrez un domaine ou une URL complète.", "check.pill":"Statut : En attente d'input",
         "check.cardTitle":"Initialiser le scan TLS/SSL", "check.cardText":"SEAL interroge le serveur distant pour extraire la chaîne de certification et évalue le niveau de risque d'expiration.",
-        "check.placeholder":"Ex : example.com", "check.button":"Lancer_Scan", "check.help1":"# Formats acceptés : domaine nu ou URL HTTP(S).", "check.help2":"",
+        "check.placeholder":"Ex : example.com", "check.button":"Lancer_Scan", "check.help1":"# Formats acceptés : domaine nu ou URL HTTP(S).",
+        
         "result.expiration":"Expiration", "result.expirationSub":"Fin de validité", "result.days":"TTL (Temps Restant)", "result.level":"Niveau de menace", "result.levelSub":"Évaluation SEAL",
         "result.issuer":"Autorité de Certification", "result.validFrom":"Date de Création",
+        
         "footer.nav":"Système", "footer.support":"Support", "footer.supportText":"Pour toute question liée au site, contactez-nous via la page Contact ou par email.", "footer.legalTitle":"Sécurité & Légal", "footer.brandText":"SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.",
         "footer.privacy":"Politique de confidentialité", "footer.legal":"Mentions légales", "footer.terms":"Conditions d’utilisation", "footer.bottomText":"Secure Expiry Alert & Logging",
+        
         "status.ok":"Confortable", "status.warn":"À surveiller", "status.bad":"Urgent", "status.okBadge":"OK", "status.warnBadge":"Alerte", "status.badBadge":"Critique",
         "days.singular":"jour restant", "days.plural":"jours restants", "days.expired":"expiré",
         "state.ok":"Le certificat semble encore confortable.", "state.warn":"Le certificat approche de son expiration.", "state.bad":"Le certificat doit être traité rapidement.",
@@ -723,18 +698,23 @@
       },
       en: {
         "nav.home":"Home", "nav.features":"Features", "nav.about":"About", "nav.faq":"FAQ", "nav.contact":"Contact",
+        
         "hero.eyebrow":"Continuous SSL Monitoring", "hero.title.l1":"Check", "hero.title.l2":"SSL expiration", "hero.title.l3":"in just a few", "hero.title.l4":"seconds.",
         "hero.subtitle":"Enter a domain or a URL and get a clear reading: expiration date, time remaining, and priority level.",
         "hero.ctaPrimary":"Execute_Scan()", "hero.ctaSecondary":"View_Docs", "hero.note":"// Built for performance: simple reading, optimized requests.",
         "side.title":"/> Why SEAL?", "side.text":"Quickly check an SSL certificate expiration date, time remaining, and priority level in a precise monitoring interface.",
         "side2.title":"/> Alert Levels", "side2.ok":"Safe: Stable situation", "side2.warn":"Warning: Renewal near", "side2.bad":"Critical: Immediate action",
+        
         "check.title":"Domain Analyzer", "check.subtitle":"Target: Enter a full domain or URL.", "check.pill":"Status: Awaiting input",
         "check.cardTitle":"Initialize TLS/SSL Scan", "check.cardText":"SEAL queries the remote server to extract the certification chain.",
-        "check.placeholder":"Example: example.com", "check.button":"Start_Scan", "check.help1":"# Accepted: naked domain or HTTP(S) URL.", "check.help2":"",
+        "check.placeholder":"Example: example.com", "check.button":"Start_Scan", "check.help1":"# Accepted: naked domain or HTTP(S) URL.",
+        
         "result.expiration":"Expiration", "result.expirationSub":"End of validity", "result.days":"TTL (Time Left)", "result.level":"Threat Level", "result.levelSub":"SEAL Evaluation",
         "result.issuer":"Certificate Authority", "result.validFrom":"Creation Date",
+        
         "footer.nav":"System", "footer.support":"Support", "footer.supportText":"For any questions related to the site, contact us via the Contact page or by email.", "footer.legalTitle":"Security & Legal", "footer.brandText":"SEAL helps you better visualize SSL certificate expiration with a clear interface.",
         "footer.privacy":"Privacy policy", "footer.legal":"Legal notice", "footer.terms":"Terms of use", "footer.bottomText":"Secure Expiry Alert & Logging",
+        
         "status.ok":"Comfortable", "status.warn":"Watch closely", "status.bad":"Urgent", "status.okBadge":"OK", "status.warnBadge":"Warning", "status.badBadge":"Critical",
         "days.singular":"day left", "days.plural":"days left", "days.expired":"expired",
         "state.ok":"The certificate still looks comfortable.", "state.warn":"The certificate is getting close to expiration.", "state.bad":"The certificate needs attention soon.",
@@ -749,7 +729,7 @@
         "side2.title":"/> Niveles de Alerta", "side2.ok":"Safe: Situación estable", "side2.warn":"Warning: Renovación cercana", "side2.bad":"Critical: Acción inmediata",
         "check.title":"Analizador de Dominio", "check.subtitle":"Target: Introduce un dominio o URL completa.", "check.pill":"Estado: Esperando input",
         "check.cardTitle":"Inicializar Escaneo TLS/SSL", "check.cardText":"SEAL consulta el servidor remoto para extraer la cadena de certificación.",
-        "check.placeholder":"Ejemplo: example.com", "check.button":"Iniciar_Scan", "check.help1":"# Aceptado: dominio desnudo o URL HTTP(S).", "check.help2":"",
+        "check.placeholder":"Ejemplo: example.com", "check.button":"Iniciar_Scan", "check.help1":"# Aceptado: dominio desnudo o URL HTTP(S).",
         "result.expiration":"Expiración", "result.expirationSub":"Fin de validez", "result.days":"TTL (Tiempo Restante)", "result.level":"Nivel de Amenaza", "result.levelSub":"Evaluación SEAL",
         "result.issuer":"Autoridad de Certificación", "result.validFrom":"Fecha de Creación",
         "footer.nav":"Sistema", "footer.support":"Soporte", "footer.supportText":"Para cualquier pregunta relacionada con el sitio, contáctenos a través de la página de Contacto o por correo electrónico.", "footer.legalTitle":"Seguridad y Legal", "footer.brandText":"SEAL te ayuda a visualizar la expiración de certificados SSL.",
@@ -768,7 +748,7 @@
         "side2.title":"/> Уровни оповещения", "side2.ok":"Safe: Стабильно", "side2.warn":"Warning: Скоро обновление", "side2.bad":"Critical: Срочно",
         "check.title":"Анализатор домена", "check.subtitle":"Target: Введите домен.", "check.pill":"Статус: Ожидание",
         "check.cardTitle":"Запуск проверки TLS/SSL", "check.cardText":"SEAL опрашивает удаленный сервер для извлечения сертификата.",
-        "check.placeholder":"Например: example.com", "check.button":"Начать_Scan", "check.help1":"# Принимается: домен или HTTP(S).", "check.help2":"",
+        "check.placeholder":"Например: example.com", "check.button":"Начать_Scan", "check.help1":"# Принимается: домен или HTTP(S).",
         "result.expiration":"Окончание", "result.expirationSub":"Конец действия", "result.days":"TTL (Осталось)", "result.level":"Уровень угрозы", "result.levelSub":"Оценка SEAL",
         "result.issuer":"Центр сертификации", "result.validFrom":"Дата создания",
         "footer.nav":"Система", "footer.support":"Поддержка", "footer.supportText":"По любым вопросам, связанным с сайтом, обращайтесь через страницу контактов или по электронной почте.", "footer.legalTitle":"Безопасность и право", "footer.brandText":"SEAL помогает визуализировать истечение срока SSL.",
@@ -787,7 +767,7 @@
         "side2.title":"/> مستويات التنبيه", "side2.ok":"آمن: وضع مستقر", "side2.warn":"تحذير: التجديد قريب", "side2.bad":"حرج: تدخل فوري",
         "check.title":"محلل النطاقات", "check.subtitle":"الهدف: أدخل نطاقًا كاملًا.", "check.pill":"الحالة: في انتظار الإدخال",
         "check.cardTitle":"بدء فحص TLS/SSL", "check.cardText":"يستعلم SEAL من الخادم البعيد لاستخراج سلسلة الشهادات.",
-        "check.placeholder":"مثال: example.com", "check.button":"تشغيل_الفحص", "check.help1":"# التنسيقات: نطاق أو رابط HTTP(S).", "check.help2":"",
+        "check.placeholder":"مثال: example.com", "check.button":"تشغيل_الفحص", "check.help1":"# التنسيقات: نطاق أو رابط HTTP(S).",
         "result.expiration":"الانتهاء", "result.expirationSub":"نهاية الصلاحية", "result.days":"الوقت المتبقي", "result.level":"مستوى التهديد", "result.levelSub":"تقييم SEAL",
         "result.issuer":"جهة الإصدار", "result.validFrom":"تاريخ الإنشاء",
         "footer.nav":"النظام", "footer.support":"الدعم", "footer.supportText":"لأي أسئلة متعلقة بالموقع، اتصل بنا عبر صفحة الاتصال أو عبر البريد الإلكتروني.", "footer.legalTitle":"الأمان والقانون", "footer.brandText":"أداة مراقبة شهادات SSL.",
@@ -806,7 +786,7 @@
         "side2.title":"/> 警报级别", "side2.ok":"安全: 状态稳定", "side2.warn":"警告: 即将需要续期", "side2.bad":"严重: 需要立即采取行动",
         "check.title":"域名分析器", "check.subtitle":"目标: 输入完整域名或 URL。", "check.pill":"状态: 等待输入",
         "check.cardTitle":"初始化 TLS/SSL 扫描", "check.cardText":"SEAL 查询远程服务器以提取认证链。",
-        "check.placeholder":"例如：example.com", "check.button":"开始_扫描", "check.help1":"# 接受的格式：裸域名或 HTTP(S)。", "check.help2":"",
+        "check.placeholder":"例如：example.com", "check.button":"开始_扫描", "check.help1":"# 接受的格式：裸域名或 HTTP(S)。",
         "result.expiration":"到期", "result.expirationSub":"有效期结束", "result.days":"剩余时间 (TTL)", "result.level":"威胁级别", "result.levelSub":"SEAL 评估",
         "result.issuer":"证书颁发机构", "result.validFrom":"创建日期",
         "footer.nav":"系统", "footer.support":"支持", "footer.supportText":"如有任何与网站相关的问题，请通过“联系”页面或电子邮件与我们联系。", "footer.legalTitle":"安全与法律", "footer.brandText":"SSL 证书监控工具。",
@@ -840,7 +820,7 @@
     function applyI18n(){
       document.querySelectorAll("[data-i18n]").forEach(el => {
         const key = el.getAttribute("data-i18n");
-        el.textContent = t(key);
+        el.innerHTML = t(key);
       });
       document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
         const key = el.getAttribute("data-i18n-placeholder");
@@ -936,6 +916,7 @@
     function showError(message){ hideResult(); const box = $("#errorBox"); box.textContent = message; box.classList.add("show"); }
     function hideError(){ $("#errorBox").classList.remove("show"); $("#errorBox").textContent = ""; }
 
+    // --- LA CONNEXION À L'API REELLE ---
     async function handleSSLCheck(e){
       e.preventDefault(); hideError(); hideResult();
       const btn = $("#checkBtn"); const input = $("#domainInput").value.trim();
@@ -944,24 +925,28 @@
       btn.disabled = true; btn.style.opacity = ".75";
       
       try{
-        /* --- APPEL API ORIGINAL À DÉCOMMENTER POUR LA PROD --- 
+        // Envoi de la requête au backend Node.js
         const res = await fetch("/api/ssl-check", {
-          method:"POST", headers:{ "Content-Type":"application/json" },
-          body: JSON.stringify({ input })
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ input: input })
         });
+        
         const data = await res.json();
-        if(!res.ok){ showError(mapServerError(data.code)); return; }
-        */
+        
+        // Si le backend renvoie une erreur
+        if(!res.ok){ 
+          showError(data.message || t("err.generic")); 
+          return; 
+        }
 
-        // --- SIMULATION POUR LE TEST VISUEL ---
-        await new Promise(r => setTimeout(r, 800)); 
-        const data = { severity: "ok", daysLeft: 45, expiresAt: "2026-05-20T00:00:00Z", issuer: "Let's Encrypt Authority X3", validFrom: "2026-02-20T00:00:00Z", domain: input };
-        // --------------------------------------
-
+        // Si succès, affichage des données
         lastResult = data;
         refreshResultTexts();
         $("#resultCard").classList.add("show");
+
       } catch(err){
+        console.error("Erreur:", err);
         showError(t("err.generic"));
       } finally {
         btn.disabled = false; btn.style.opacity = "1";
@@ -1007,7 +992,10 @@
       });
 
       $("#themeToggle").addEventListener("click", toggleTheme);
-      $("#sslForm").addEventListener("submit", handleSSLCheck);
+      
+      // Branchement du formulaire au JavaScript
+      const form = $("#sslForm");
+      if(form) form.addEventListener("submit", handleSSLCheck);
     });
   </script>
 </body>
