@@ -7,786 +7,348 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&family=Space+Grotesk:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
+    /* --- VARIABLES CYBER-GLASS (MODE SOMBRE) --- */
     :root{
-      --bg0:#07111F;
-      --bg1:#0A1426;
-      --bg2:#0D1A31;
-      --card:rgba(10,18,34,.72);
-      --card-strong:rgba(10,18,34,.88);
-      --card-soft:rgba(255,255,255,.05);
-      --text:#EAF2FF;
-      --muted:#A7B4D3;
-      --line:rgba(148,163,184,.18);
-      --line-strong:rgba(148,163,184,.28);
-      --accent:#35C6C2;
-      --accent2:#6DBBFF;
-      --accent3:#8A7CFF;
-      --shadow:0 24px 70px rgba(0,0,0,.38);
-      --max:1240px;
+      --bg-dark: #030305;
+      --glass-bg: rgba(15, 15, 20, 0.45);
+      --glass-strong: rgba(10, 10, 15, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-blur: blur(24px);
+      
+      --control-bg: rgba(0, 0, 0, 0.4);
+      --card-bg: rgba(0, 0, 0, 0.25);
+
+      --text: #EAF2FF;
+      --muted: #8A9BBD;
+      --line: rgba(255, 255, 255, 0.1);
+      
+      --neon-blue: #00f0ff;
+      --neon-green: #00ffcc;
+      --neon-purple: #b026ff;
+      
+      --ok: #00ffcc;
+      --warn: #F59E0B;
+      --bad: #ff2a5f;
+      
+      --shadow: 0 24px 70px rgba(0,0,0, 0.6);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --max: 1240px;
     }
 
+    /* --- MODE CLAIR (PROPRE, BLANC PUR) --- */
     html[data-theme="light"]{
-      --bg0:#EEF5FF;
-      --bg1:#F8FBFF;
-      --bg2:#FFFFFF;
-      --card:rgba(255,255,255,.82);
-      --card-strong:rgba(255,255,255,.94);
-      --card-soft:rgba(15,23,42,.035);
-      --text:#0B1630;
-      --muted:#4B5B79;
-      --line:rgba(15,23,42,.10);
-      --line-strong:rgba(15,23,42,.16);
-      --shadow:0 22px 55px rgba(15,23,42,.10);
+      --bg-dark: #F8FAFC; 
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-strong: rgba(255, 255, 255, 0.98);
+      --glass-border: rgba(0, 0, 0, 0.08);
+      
+      --control-bg: #FFFFFF;
+      --card-bg: #FFFFFF;
+
+      --text: #0F172A;
+      --muted: #475569;
+      --line: #E2E8F0;
+      
+      --neon-blue: #0284C7; 
+      --neon-green: #059669;
+      --neon-purple: #7C3AED;
+      
+      --ok: #059669;
+      --warn: #D97706;
+      --bad: #E11D48;
+      
+      --shadow: 0 8px 30px rgba(0,0,0, 0.04);
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family:Roboto,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(900px 520px at 10% -10%, rgba(53,198,194,.18), transparent 60%),
-        radial-gradient(700px 420px at 90% 0%, rgba(109,187,255,.18), transparent 55%),
-        radial-gradient(760px 520px at 50% 120%, rgba(138,124,255,.14), transparent 55%),
-        linear-gradient(180deg, var(--bg0), var(--bg1) 48%, var(--bg2));
-      overflow-x:hidden;
+      font-family: Roboto, system-ui, sans-serif;
+      color: var(--text);
+      background-color: var(--bg-dark);
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     html[dir="rtl"] body{direction:rtl;}
-    html[dir="rtl"] .nav,
-    html[dir="rtl"] .controls,
-    html[dir="rtl"] .hero-grid,
-    html[dir="rtl"] .faq-layout,
-    html[dir="rtl"] .footer-grid,
-    html[dir="rtl"] .footer-bottom,
-    html[dir="rtl"] .cta{
-      direction:rtl;
-    }
-    html[dir="rtl"] .lang .menu{right:auto;left:0;}
+    html[dir="rtl"] .nav, html[dir="rtl"] .controls, html[dir="rtl"] .hero-grid, html[dir="rtl"] .faq-layout, html[dir="rtl"] .section-head, html[dir="rtl"] .footer-grid, html[dir="rtl"] .footer-bottom, html[dir="rtl"] .mobile-menu, html[dir="rtl"] .cta{ direction:rtl; }
+    html[dir="rtl"] .lang .menu{right:auto; left:0;}
     html[dir="rtl"] .faq-question{padding:18px 22px 18px 58px}
     html[dir="rtl"] .faq-icon{right:auto;left:18px}
     html[dir="rtl"] .footer-links a:hover{transform:translateX(-2px)}
 
-    .bg-grid{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      opacity:.28;
-      background:
-        linear-gradient(to right, rgba(148,163,184,.08) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(148,163,184,.08) 1px, transparent 1px);
-      background-size:52px 52px;
-      mask-image: radial-gradient(circle at 50% 25%, rgba(0,0,0,.9) 0, rgba(0,0,0,.55) 45%, rgba(0,0,0,0) 82%);
-      animation:gridMove 18s linear infinite;
+    /* --- ARRIÈRE-PLAN --- */
+    .bg-grid {
+      position: fixed; inset: 0; pointer-events: none; opacity: .15;
+      background: linear-gradient(to right, rgba(150,150,150,.1) 1px, transparent 1px),
+                  linear-gradient(to bottom, rgba(150,150,150,.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(circle at 50% 30%, rgba(0,0,0,1) 0, rgba(0,0,0,0) 80%);
+      animation: gridMove 20s linear infinite;
     }
-    @keyframes gridMove{
-      from{transform:translate3d(0,0,0)}
-      to{transform:translate3d(-52px,52px,0)}
+    html[data-theme="light"] .bg-grid { opacity: 0.5; }
+    
+    @keyframes gridMove { from{transform:translateY(0)} to{transform:translateY(50px)} }
+
+    .aurora, .aurora2, .aurora3 {
+      position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: -1;
+      animation: floatA 15s ease-in-out infinite alternate;
+    }
+    .aurora { width: 45vw; height: 45vw; left: -10%; top: -10%; background: rgba(0, 240, 255, 0.12); }
+    .aurora2 { width: 40vw; height: 40vw; right: -5%; bottom: -5%; background: rgba(0, 255, 204, 0.1); animation-delay: -5s; }
+    .aurora3 { width: 35vw; height: 35vw; left: 30%; top: 40%; background: rgba(176, 38, 255, 0.08); animation-delay: -10s; }
+    @keyframes floatA{ 0% {transform: translate(0,0) scale(1);} 100% {transform: translate(50px, 30px) scale(1.1);} }
+
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 18px; }
+
+    /* --- HEADER & NAV --- */
+    header {
+      position: sticky; top: 0; z-index: 60;
+      background: var(--glass-strong);
+      backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+      border-bottom: 1px solid var(--glass-border);
+      transition: 0.3s;
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; }
+    
+    .brand, .footer-brand a { display: flex; align-items: center; text-decoration: none; min-width: 120px; }
+    .brand img, .footer-brand img { 
+      height: 50px; width: auto; display: block; 
+      transform-origin: left center; transition: transform 0.3s ease; 
+    }
+    .brand img.is-dark-logo, .footer-brand img.is-dark-logo { transform: scale(1.6); }
+    .brand img.is-light-logo, .footer-brand img.is-light-logo { transform: scale(1.08); }
+
+    .navlinks { display: flex; align-items: center; gap: 25px; list-style: none; margin: 0; padding: 0; }
+    .navlinks a {
+      text-decoration: none; color: var(--text); font-family: 'Fira Code', monospace;
+      font-size: 13px; opacity: .7; transition: 0.3s;
+    }
+    .navlinks a:hover, .navlinks a.active { opacity: 1; color: var(--neon-blue); text-shadow: 0 0 10px rgba(0, 240, 255, 0.4); }
+
+    /* --- CONTROLS & TRADUCTION --- */
+    .controls { display: flex; align-items: center; gap: 10px; }
+    
+    .lang button, .theme-toggle, .menu-toggle {
+      border: 1px solid var(--line); background: var(--control-bg); color: var(--text);
+      backdrop-filter: blur(10px); cursor: pointer; transition: 0.3s; border-radius: 999px;
+    }
+    .lang button {
+      display: flex; align-items: center; gap: 8px; padding: 8px 14px;
+      font-family: 'Fira Code', monospace; font-size: 12px; font-weight: 600;
+    }
+    .lang button:hover, .theme-toggle:hover, .menu-toggle:hover {
+      border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); 
+    }
+    html[data-theme="light"] .lang button:hover, html[data-theme="light"] .theme-toggle:hover {
+      box-shadow: 0 0 15px rgba(2, 132, 199, 0.2);
+    }
+    
+    .pill { font-size: 10px; padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--neon-green); }
+    
+    .lang { position: relative; }
+    .lang .menu {
+      position: absolute; top: 120%; right: 0; min-width: 190px; padding: 10px;
+      border-radius: var(--radius-sm); border: 1px solid var(--neon-blue);
+      background: var(--glass-strong); backdrop-filter: var(--glass-blur);
+      box-shadow: 0 10px 30px rgba(0, 240, 255, 0.1); display: none; z-index: 80;
+    }
+    .lang .menu.open { display: block; }
+    .lang .item {
+      width: 100%; display: flex; align-items: center; justify-content: space-between; gap:10px;
+      border: 0; background: transparent; color: var(--text); border-radius: 6px; padding: 10px;
+      cursor: pointer; font-family: 'Fira Code', monospace; font-size: 12px; transition: 0.2s;
+    }
+    .lang .item:hover, .lang .item.active { background: var(--control-bg); color: var(--neon-blue); }
+
+    /* SOLEIL / LUNE */
+    .theme-toggle { width: 44px; height: 44px; display: grid; place-items: center; padding: 0;}
+    .sunmoon { width: 22px; height: 22px; display: block; transform-origin: 50% 50%; transition: transform 0.5s cubic-bezier(.2,.9,.2,1); }
+    html[data-theme="dark"] .sunmoon { transform: rotate(180deg); }
+    .sun-core, .moon-core { transition: opacity 0.35s ease; }
+    html[data-theme="dark"] .sun-core { opacity: 0; }
+    html[data-theme="light"] .moon-core { opacity: 0; }
+
+    /* MENU HAMBURGER (Mobile) */
+    .menu-toggle { display: none; width: 44px; height: 44px; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+    .menu-toggle span { display: block; width: 18px; height: 2px; border-radius: 2px; background: var(--text); transition: transform 0.3s ease, opacity 0.3s ease; }
+    .menu-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--neon-blue);}
+    .menu-toggle.open span:nth-child(2) { opacity: 0; }
+    .menu-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--neon-blue);}
+
+    .mobile-menu {
+      display: none; flex-direction: column; padding: 10px; border-radius: var(--radius-sm); margin-bottom: 20px;
+      background: var(--glass-strong); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border);
+    }
+    .mobile-menu.open { display: flex; animation: slideDown 0.3s ease forwards; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .mobile-menu a {
+      padding: 15px; color: var(--text); text-decoration: none; font-family: 'Fira Code', monospace;
+      border-bottom: 1px solid var(--line); font-size: 14px; transition: 0.3s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover, .mobile-menu a.active { color: var(--neon-blue); background: var(--control-bg); }
+
+    main { padding: 40px 0 60px; }
+
+    /* --- GLASS CONTAINERS GENERAUX --- */
+    .hero, .section, footer, .cta {
+      background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border); box-shadow: var(--shadow); position: relative; transition: background 0.3s, border 0.3s;
+      border-radius: var(--radius);
     }
 
-    .aurora,.aurora2,.aurora3{
-      position:fixed;
-      border-radius:999px;
-      filter:blur(36px);
-      pointer-events:none;
-      opacity:.22;
-      mix-blend-mode:screen;
-    }
-    .aurora{
-      width:420px;height:420px;left:-80px;top:120px;
-      background:radial-gradient(circle at 35% 35%, rgba(53,198,194,.92), transparent 60%);
-      animation:floatA 12s ease-in-out infinite;
-    }
-    .aurora2{
-      width:460px;height:460px;right:-120px;top:80px;
-      background:radial-gradient(circle at 60% 40%, rgba(109,187,255,.90), transparent 60%);
-      animation:floatB 14s ease-in-out infinite;
-    }
-    .aurora3{
-      width:360px;height:360px;left:50%;bottom:-110px;transform:translateX(-50%);
-      background:radial-gradient(circle at 50% 50%, rgba(138,124,255,.75), transparent 62%);
-      animation:floatC 16s ease-in-out infinite;
-    }
-    @keyframes floatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)}}
-    @keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(20px)}}
-    @keyframes floatC{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.06)}}
+    /* --- HERO FAQ --- */
+    .hero { overflow: hidden; padding: 40px;}
+    .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: start; }
 
-    .wrap{max-width:var(--max);margin:0 auto;padding:0 18px}
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 4px; padding: 6px 12px;
+      background: var(--control-bg); color: var(--neon-green); font-family: 'Fira Code', monospace; font-size: 11px; text-transform: uppercase;
+    }
+    html[data-theme="light"] .eyebrow { background: #ECFDF5; border-color: #A7F3D0; color: #059669; }
 
-    header{
-      position:sticky;
-      top:0;
-      z-index:90;
-      backdrop-filter:blur(16px);
-      background:color-mix(in srgb, var(--bg1) 72%, transparent);
-      border-bottom:1px solid var(--line);
+    .hero h1 { margin: 20px 0 15px; font-family: 'Space Grotesk', sans-serif; font-size: clamp(34px, 4.8vw, 66px); line-height: 1.02; font-weight: 800; color: var(--text); }
+    .hero-title-line { display: block; }
+    .hero-title-gradient {
+      display: inline-block; background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
+      -webkit-background-clip: text; color: transparent; text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
     }
-    .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      padding:14px 0;
-      position:relative;
-    }
+    html[data-theme="light"] .hero-title-gradient { text-shadow: none; }
+    
+    .hero p.lead { color: var(--muted); font-size: 16px; line-height: 1.8; max-width: 760px; }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      text-decoration:none;
-      color:var(--text);
-      min-width:120px;
-      z-index:2;
+    .hero-actions { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 30px; }
+    .glass-btn {
+      position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 48px; padding: 0 24px; border-radius: 4px; font-family: 'Fira Code', monospace; font-size: 13px;
+      text-transform: uppercase; text-decoration: none; cursor: pointer; transition: 0.3s;
+      background: var(--control-bg); border: 1px solid var(--line); color: var(--text);
     }
-    .brand img{
-      height:72px;
-      width:auto;
-      display:block;
-      transform-origin:left center;
+    html[data-theme="light"] .glass-btn:not(.primary) { background: #FFFFFF; border: 1px solid #CBD5E1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    html[data-theme="light"] .glass-btn:not(.primary):hover { background: #F8FAFC; border-color: #94A3B8; }
+    .glass-btn:hover { border-color: var(--neon-blue); }
+    
+    .glass-btn.primary {
+      background: transparent; color: var(--neon-blue); border: 1px solid var(--neon-blue);
+      box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.1), 0 0 15px rgba(0, 240, 255, 0.2);
     }
-    .brand img.is-dark-logo{transform:scale(1.6)}
-    .brand img.is-light-logo{transform:scale(1.08)}
+    html[data-theme="light"] .glass-btn.primary { box-shadow: none; background: rgba(2, 132, 199, 0.05); }
+    .glass-btn.primary:hover { background: var(--neon-blue); color: #fff; box-shadow: 0 0 25px var(--neon-blue); }
+    .glass-btn .arrow { width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); }
 
-    .navlinks{
-      display:flex;
-      align-items:center;
-      gap:22px;
-      list-style:none;
-      margin:0;
-      padding:0;
-    }
-    .navlinks a{
-      text-decoration:none;
-      color:var(--text);
-      opacity:.88;
-      font-size:14px;
-      font-weight:600;
-      padding:8px 2px;
-      position:relative;
-      transition:opacity .2s ease, transform .2s ease;
-    }
-    .navlinks a:hover{opacity:1;transform:translateY(-1px)}
-    .navlinks a::after{
-      content:"";
-      position:absolute;
-      left:0;right:0;bottom:0;
-      height:2px;
-      border-radius:999px;
-      background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));
-      transform:scaleX(0);
-      transform-origin:left;
-      transition:transform .22s ease;
-    }
-    .navlinks a:hover::after,.navlinks a.active::after{transform:scaleX(1)}
-    .navlinks a.active{opacity:1}
+    /* SIDE CARDS */
+    .hero-side { display: grid; gap: 20px; }
+    .floating-card { border-radius: var(--radius-sm); padding: 24px; transition: 0.4s ease; border-left: 2px solid transparent; background: var(--card-bg); border: 1px solid var(--line);}
+    .floating-card:hover { transform: translateX(5px); border-left: 2px solid var(--neon-blue); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);}
+    html[data-theme="light"] .floating-card:hover { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); }
+    .floating-card h3 { margin: 0 0 10px 0; font-family: 'Space Grotesk', sans-serif; font-size: 16px; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em;}
+    .floating-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
 
-    .controls{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      z-index:2;
-    }
+    /* --- LAYOUT FAQ --- */
+    .faq-layout { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 30px; margin-top: 40px; }
 
-    .lang{position:relative}
-    .lang button,
-    .theme-toggle,
-    .menu-toggle{
-      border:1px solid var(--line);
-      background:color-mix(in srgb, var(--card-strong) 74%, transparent);
-      color:var(--text);
-      box-shadow:0 12px 30px rgba(0,0,0,.15);
-    }
+    /* PANELS LATERAUX */
+    .section { overflow: hidden; }
+    .section-head { display: flex; align-items: center; justify-content: space-between; padding: 20px 30px; border-bottom: 1px dashed var(--line); flex-wrap: wrap; gap: 15px; }
+    .section-head h2 { margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 18px; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 0.05em;}
+    .section-head p { margin: 5px 0 0; color: var(--muted); font-size: 13px; font-family: 'Fira Code', monospace; }
 
-    .lang button{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      border-radius:999px;
-      padding:9px 12px;
-      font-size:12px;
-      font-weight:700;
-      cursor:pointer;
-      transition:transform .18s ease,border-color .18s ease;
-    }
-    .lang button:hover,.theme-toggle:hover,.menu-toggle:hover{
-      transform:translateY(-1px);
-      border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
-    }
-    .lang .menu{
-      position:absolute;
-      top:110%;
-      right:0;
-      min-width:190px;
-      padding:8px;
-      border-radius:18px;
-      border:1px solid var(--line);
-      background:color-mix(in srgb, var(--card-strong) 90%, transparent);
-      backdrop-filter:blur(14px);
-      box-shadow:var(--shadow);
-      display:none;
-      z-index:100;
-    }
-    .lang .menu.open{display:block}
-    .lang .item{
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      border:0;
-      background:transparent;
-      color:var(--text);
-      border-radius:12px;
-      padding:10px;
-      cursor:pointer;
-      font-size:13px;
-      opacity:.92;
-    }
-    .lang .item:hover{background:rgba(148,163,184,.10);opacity:1}
-    .lang .item.active{background:rgba(53,198,194,.12)}
+    .faq-sidebar { padding: 30px; display: grid; gap: 20px; }
+    .mini-panel { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 25px; background: var(--card-bg); }
+    .mini-panel h3 { margin: 0 0 15px 0; font-family: 'Space Grotesk', sans-serif; font-size: 18px; color: var(--text); }
+    .mini-panel p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.8; }
 
-    .pill{
-      font-size:11px;
-      padding:4px 8px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      color:var(--muted);
-      white-space:nowrap;
-    }
+    .faq-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .faq-tag { border: 1px solid var(--line); border-radius: 999px; padding: 8px 15px; font-size: 12px; color: var(--muted); background: var(--control-bg); font-family: 'Fira Code', monospace;}
 
-    .theme-toggle,.menu-toggle{
-      width:46px;height:46px;
-      border-radius:999px;
-      display:grid;
-      place-items:center;
-      cursor:pointer;
-      position:relative;
-      overflow:hidden;
-      transition:transform .18s ease,border-color .18s ease;
+    /* LISTE ACCORDEON FAQ */
+    .faq-list { padding: 30px; display: flex; flex-direction: column; gap: 15px; }
+    
+    .faq-item {
+      border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--card-bg); overflow: hidden;
+      transition: all 0.3s ease;
     }
+    .faq-item:hover { border-color: var(--neon-blue); transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0, 240, 255, 0.05); }
+    html[data-theme="light"] .faq-item:hover { box-shadow: 0 10px 25px rgba(2, 132, 199, 0.05); }
 
-    .menu-toggle{display:none}
+    .faq-item.open {
+      border-color: var(--neon-blue); background: var(--control-bg);
+      box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.05);
+    }
+    html[data-theme="light"] .faq-item.open { box-shadow: none; border-color: var(--neon-blue); }
 
-    .menu-icon{
-      width:18px;
-      height:14px;
-      position:relative;
-      display:block;
+    .faq-question {
+      width: 100%; border: 0; background: transparent; color: var(--text); text-align: left;
+      padding: 20px 60px 20px 25px; font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700;
+      cursor: pointer; position: relative; line-height: 1.5; transition: color 0.3s;
     }
-    .menu-icon span{
-      position:absolute;
-      left:0;
-      width:100%;
-      height:2px;
-      border-radius:999px;
-      background:currentColor;
-      transition:.25s ease;
-    }
-    .menu-icon span:nth-child(1){top:0}
-    .menu-icon span:nth-child(2){top:6px}
-    .menu-icon span:nth-child(3){top:12px}
+    .faq-item.open .faq-question { color: var(--neon-blue); }
 
-    .menu-toggle.open .menu-icon span:nth-child(1){
-      top:6px; transform:rotate(45deg);
+    .faq-icon {
+      position: absolute; top: 50%; right: 20px; width: 28px; height: 28px; transform: translateY(-50%);
+      border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center;
+      color: var(--muted); font-size: 20px; font-weight: 300; transition: all 0.3s ease;
     }
-    .menu-toggle.open .menu-icon span:nth-child(2){
-      opacity:0;
-    }
-    .menu-toggle.open .menu-icon span:nth-child(3){
-      top:6px; transform:rotate(-45deg);
-    }
+    .faq-item.open .faq-icon { transform: translateY(-50%) rotate(45deg); color: #fff; background: var(--neon-blue); border-color: var(--neon-blue); }
 
-    .sunmoon{
-      width:22px;height:22px;display:block;
-      transform-origin:50% 50%;
-      transition:transform .55s cubic-bezier(.2,.9,.2,1);
-    }
-    html[data-theme="dark"] .sunmoon{transform:rotate(180deg)}
-    .sun-core,.moon-core{transition:opacity .35s ease}
-    html[data-theme="dark"] .sun-core{opacity:0}
-    html[data-theme="light"] .moon-core{opacity:0}
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+    .faq-answer-inner { padding: 0 25px 25px 25px; color: var(--muted); font-size: 14px; line-height: 1.8; }
 
-    .mobile-menu{
-      display:none;
-      margin-top:12px;
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:10px;
-      background:color-mix(in srgb, var(--card-strong) 90%, transparent);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(14px);
-    }
-    .mobile-menu.open{display:grid}
-    .mobile-menu a{
-      text-decoration:none;
-      color:var(--text);
-      padding:12px 14px;
-      border-radius:14px;
-      font-weight:700;
-      font-size:14px;
-      opacity:.92;
-      transition:background .2s ease, opacity .2s ease;
-    }
-    .mobile-menu a:hover,
-    .mobile-menu a.active{
-      background:rgba(148,163,184,.10);
-      opacity:1;
-    }
+    /* CTA BOTTOM */
+    .cta { margin-top: 40px; padding: 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; border: 1px dashed var(--neon-blue); border-radius: var(--radius); }
+    .cta h3 { margin: 0 0 10px 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px; color: var(--text); }
+    .cta p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.7; max-width: 600px; }
 
-    main{padding:28px 0 56px}
+    /* --- FOOTER --- */
+    footer { margin-top: 40px; padding: 40px 30px 20px; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 30px; margin-bottom: 40px; }
+    .footer-brand { display: flex; flex-direction: column; gap: 15px; }
+    .footer-brand p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0;}
+    
+    /* ICONES SOCIALES PARFAITES */
+    .socials { display: flex; gap: 15px; margin-top: 10px; }
+    .social { 
+      width: 46px; height: 46px; min-width: 46px; min-height: 46px; flex-shrink: 0;
+      border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
+      display: flex; justify-content: center; align-items: center; 
+      background: transparent; color: var(--text); transition: all 0.3s ease; 
+    }
+    html[data-theme="light"] .social { border: 1px solid #CBD5E1; background: #FFFFFF; color: #0F172A; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    .social:hover { border-color: var(--neon-blue); color: #fff; background: var(--neon-blue); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,240,255,0.3); }
+    html[data-theme="light"] .social:hover { background: #0284C7; border-color: #0284C7; color: #fff; box-shadow: 0 5px 15px rgba(2, 132, 199, 0.3); }
+    .social svg { width: 18px; height: 18px; fill: currentColor; }
 
-    .hero,.section,footer,.cta{
-      border:1px solid var(--line);
-      background:color-mix(in srgb, var(--card-strong) 88%, transparent);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(16px);
+    .footer-col h3 { color: var(--text); font-family: 'Fira Code', monospace; font-size: 13px; margin-bottom: 15px; text-transform: uppercase; }
+    .footer-links { display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a, .footer-links span { color: var(--muted); text-decoration: none; font-size: 13px; transition: 0.2s; line-height: 1.5;}
+    .footer-links a:hover { color: var(--neon-blue); padding-left: 5px; }
+    
+    /* BOUTON EMAIL SUPPORT */
+    .support-email {
+      display: inline-flex; align-items: center; gap: 10px; padding: 10px 15px; margin-top: 5px;
+      border-radius: 8px; background: var(--control-bg); border: 1px solid var(--line);
+      color: var(--text) !important; font-family: 'Fira Code', monospace; font-size: 13px; font-weight: 600;
+      transition: all 0.3s ease; text-decoration: none; width: fit-content;
     }
+    html[data-theme="light"] .support-email { background: #FFFFFF; border: 1px solid #CBD5E1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); color: #0F172A !important;}
+    .support-email:hover { background: var(--neon-blue); color: #fff !important; border-color: var(--neon-blue); box-shadow: 0 8px 15px rgba(0, 240, 255, 0.25); transform: translateY(-2px); }
+    html[data-theme="light"] .support-email:hover { box-shadow: 0 8px 15px rgba(2, 132, 199, 0.25); background: #0284C7; border-color:#0284C7;}
+    .support-email svg { width: 18px; height: 18px; fill: currentColor; }
 
-    .hero{
-      position:relative;
-      overflow:hidden;
-      border-radius:32px;
-      background:
-        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 88%, transparent), color-mix(in srgb, var(--card) 92%, transparent)),
-        radial-gradient(900px 420px at 8% 0%, rgba(53,198,194,.12), transparent 62%),
-        radial-gradient(820px 360px at 100% 0%, rgba(109,187,255,.14), transparent 58%);
-    }
-    .hero::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(120deg, rgba(255,255,255,.06), transparent 25%, transparent 74%, rgba(255,255,255,.04));
-      pointer-events:none;
-    }
+    .footer-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-top: 1px dashed var(--line); padding-top: 20px; font-family: 'Fira Code', monospace; font-size: 11px; color: var(--muted); }
 
-    .hero-grid{
-      position:relative;
-      display:grid;
-      grid-template-columns:1.05fr .95fr;
-      gap:20px;
-      padding:34px 26px 26px;
-      align-items:start;
-    }
-
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      padding:10px 14px;
-      background:rgba(255,255,255,.05);
-      color:var(--muted);
-      font-size:12px;
-      font-weight:700;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-    }
-    .eyebrow i{
-      width:8px;height:8px;border-radius:999px;
-      background:linear-gradient(90deg,var(--accent),var(--accent2));
-      box-shadow:0 0 0 6px rgba(53,198,194,.12);
-    }
-
-    .hero h1{
-      margin:18px 0 12px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:clamp(34px,4.8vw,66px);
-      line-height:1.02;
-      letter-spacing:-.045em;
-      font-weight:800;
-      max-width:760px;
-    }
-    .hero-title-line{display:block}
-    .hero-title-gradient{
-      display:block;
-      background:linear-gradient(90deg, #9FD8FF 0%, #6DBBFF 28%, #67D6D2 72%, #35C6C2 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    .hero p.lead{
-      margin:0;
-      max-width:760px;
-      color:var(--muted);
-      font-size:16px;
-      line-height:1.8;
-    }
-
-    .hero-actions{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:22px;
-    }
-
-    .glass-btn{
-      min-height:52px;
-      padding:0 18px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.10);
-      color:var(--text);
-      text-decoration:none;
-      font-weight:800;
-      font-size:14px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      cursor:pointer;
-      background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.20), inset 0 -1px 0 rgba(255,255,255,.06), 0 14px 34px rgba(0,0,0,.20);
-      backdrop-filter:blur(14px);
-      transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease;
-    }
-    .glass-btn:hover{
-      transform:translateY(-1px);
-      border-color:rgba(255,255,255,.22);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.25), inset 0 -1px 0 rgba(255,255,255,.08), 0 18px 42px rgba(0,0,0,.26);
-      filter:saturate(1.05);
-    }
-    .glass-btn.primary{
-      color:#05121E;
-      border-color:rgba(255,255,255,.16);
-      background:linear-gradient(90deg, rgba(53,198,194,.96), rgba(109,187,255,.96));
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.30), 0 18px 40px rgba(53,198,194,.22);
-    }
-    .glass-btn .arrow{
-      width:9px;height:9px;
-      border-right:2px solid currentColor;
-      border-bottom:2px solid currentColor;
-      transform:rotate(-45deg);
-    }
-
-    .hero-side{
-      display:grid;
-      gap:14px;
-    }
-    .floating-card{
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:16px;
-      overflow:hidden;
-      background:rgba(255,255,255,.04);
-    }
-    .floating-card h3{
-      margin:0 0 8px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:14px;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-    }
-    .floating-card p{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.7;
-    }
-
-    .faq-layout{
-      display:grid;
-      grid-template-columns:.9fr 1.1fr;
-      gap:18px;
-      margin-top:18px;
-    }
-
-    .section{
-      border-radius:28px;
-      overflow:hidden;
-    }
-    .section-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      padding:18px;
-      border-bottom:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(148,163,184,.06), transparent);
-      flex-wrap:wrap;
-    }
-    .section-head h2{
-      margin:0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:15px;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-    }
-    .section-head p{
-      margin:0;
-      color:var(--muted);
-      font-size:12px;
-    }
-
-    .faq-sidebar{
-      padding:18px;
-      display:grid;
-      gap:14px;
-    }
-
-    .mini-panel{
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:18px;
-      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-    }
-    .mini-panel h3{
-      margin:0 0 8px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:18px;
-    }
-    .mini-panel p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-    }
-
-    .faq-tags{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:14px;
-    }
-    .faq-tag{
-      border:1px solid var(--line);
-      border-radius:999px;
-      padding:8px 12px;
-      font-size:12px;
-      color:var(--muted);
-      background:rgba(255,255,255,.04);
-    }
-
-    .faq-list{
-      padding:18px;
-      display:grid;
-      gap:12px;
-    }
-
-    .faq-item{
-      border:1px solid var(--line);
-      border-radius:22px;
-      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      overflow:hidden;
-      transition:border-color .2s ease, box-shadow .2s ease, transform .2s ease;
-    }
-    .faq-item:hover{
-      border-color:color-mix(in srgb, var(--accent2) 35%, var(--line));
-      box-shadow:0 16px 36px rgba(0,0,0,.16);
-      transform:translateY(-1px);
-    }
-
-    .faq-question{
-      width:100%;
-      border:0;
-      background:transparent;
-      color:var(--text);
-      text-align:left;
-      padding:18px 58px 18px 22px;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:18px;
-      font-weight:700;
-      cursor:pointer;
-      position:relative;
-      line-height:1.45;
-    }
-
-    .faq-icon{
-      position:absolute;
-      top:50%;
-      right:18px;
-      width:26px;height:26px;
-      transform:translateY(-50%);
-      border-radius:999px;
-      border:1px solid var(--line);
-      display:grid;
-      place-items:center;
-      color:var(--muted);
-      font-size:16px;
-      transition:transform .22s ease, color .22s ease, border-color .22s ease;
-    }
-    .faq-item.open .faq-icon{
-      transform:translateY(-50%) rotate(45deg);
-      color:var(--accent2);
-      border-color:color-mix(in srgb, var(--accent2) 40%, var(--line));
-    }
-
-    .faq-answer{
-      max-height:0;
-      overflow:hidden;
-      transition:max-height .28s ease;
-    }
-    .faq-answer-inner{
-      padding:0 22px 20px 22px;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.8;
-    }
-
-    .cta{
-      margin-top:18px;
-      border-radius:28px;
-      padding:22px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      flex-wrap:wrap;
-      background:
-        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 86%, transparent), color-mix(in srgb, var(--card) 95%, transparent)),
-        radial-gradient(700px 240px at 0% 0%, rgba(53,198,194,.10), transparent 55%);
-    }
-    .cta h3{
-      margin:0 0 8px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:24px;
-    }
-    .cta p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-      max-width:760px;
-    }
-
-    footer{
-      margin-top:18px;
-      border-radius:32px;
-      overflow:hidden;
-      background:
-        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 86%, transparent), color-mix(in srgb, var(--card) 95%, transparent)),
-        radial-gradient(700px 220px at 0% 0%, rgba(53,198,194,.10), transparent 55%);
-    }
-    .footer-grid{
-      display:grid;
-      grid-template-columns:1.2fr .8fr .8fr .9fr;
-      gap:18px;
-      padding:24px 22px 20px;
-    }
-    .footer-brand{
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-    .footer-brand img{
-      height:88px;
-      width:auto;
-      display:block;
-      max-width:100%;
-      object-fit:contain;
-      transform-origin:left center;
-    }
-    .footer-brand img.is-dark-logo{transform:scale(1.12)}
-    .footer-brand p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-      max-width:420px;
-    }
-
-    .footer-col h3{
-      margin:0 0 12px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:14px;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-    }
-    .footer-links{
-      display:grid;
-      gap:10px;
-    }
-    .footer-links a,.footer-links span{
-      color:var(--muted);
-      text-decoration:none;
-      font-size:14px;
-      line-height:1.6;
-      transition:color .2s ease, transform .2s ease;
-    }
-    .footer-links a:hover{color:var(--text);transform:translateX(2px)}
-
-    .social-label{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      color:var(--muted);
-      font-size:12px;
-      font-weight:700;
-      text-transform:uppercase;
-      letter-spacing:.05em;
-    }
-    .social-label::before{
-      content:"";
-      width:18px;height:1px;
-      background:linear-gradient(90deg,var(--accent),transparent);
-    }
-
-    .socials{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:12px;
-    }
-    .social{
-      width:42px;height:42px;border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.05);
-      color:var(--text);
-      text-decoration:none;
-      display:grid;place-items:center;
-      transition:transform .18s ease,border-color .18s ease,background .18s ease;
-    }
-    .social:hover{
-      transform:translateY(-1px);
-      border-color:color-mix(in srgb, var(--accent2) 42%, var(--line));
-      background:rgba(53,198,194,.09);
-    }
-    .social svg{width:18px;height:18px;fill:currentColor;display:block}
-
-    .footer-bottom{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      flex-wrap:wrap;
-      padding:0 22px 20px;
-      color:var(--muted);
-      font-size:13px;
-    }
-
-    @media (max-width: 1080px){
-      .hero-grid,.faq-layout{grid-template-columns:1fr}
-      .footer-grid{grid-template-columns:1fr 1fr}
-    }
-
-    @media (max-width: 900px){
-      .navlinks{display:none}
-      .menu-toggle{display:grid}
-      .brand img{height:64px}
-      .controls{gap:8px}
-      .lang button{padding:9px 10px}
-      .lang .pill{display:none}
-      .footer-grid{grid-template-columns:1fr}
-    }
-
-    @media (max-width: 640px){
-      .hero-grid{padding:26px 16px 16px}
-      .section-head,.faq-sidebar,.faq-list{padding:16px}
-      .brand img{height:58px}
-      .hero h1{font-size:34px}
-      .footer-grid{padding:20px 16px 14px}
-      .footer-bottom{padding:0 16px 16px}
-      .cta{padding:18px}
-      .faq-question{font-size:16px}
-      .theme-toggle,.menu-toggle{width:42px;height:42px}
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      .bg-grid,.aurora,.aurora2,.aurora3{animation:none}
-      *{scroll-behavior:auto}
+    /* RESPONSIVE */
+    @media (max-width: 1080px){ .hero-grid, .faq-layout {grid-template-columns:1fr;} .footer-grid{grid-template-columns:1fr 1fr;} }
+    @media (max-width: 820px){ 
+      .navlinks { display:none; } .menu-toggle { display:flex; } 
+      .footer-grid{grid-template-columns:1fr;} .lang .pill { display: none; } 
+      .cta { flex-direction: column; text-align: center; } .cta .glass-btn { width: 100%; }
     }
   </style>
 </head>
@@ -800,16 +362,10 @@
     <div class="wrap">
       <div class="nav">
         <a class="brand" href="SEAL_page_accueil.html" aria-label="SEAL">
-          <img
-            id="brandLogo"
-            src="SEAL-logo-sombre.png"
-            data-logo-dark="SEAL-logo-sombre.png"
-            data-logo-light="SEAL-logo-clair.png"
-            alt="SEAL Logo"
-          >
+          <img id="brandLogo" src="SEAL-logo-sombre.png" data-logo-dark="SEAL-logo-sombre.png" data-logo-light="SEAL-logo-clair.png" alt="SEAL Logo">
         </a>
 
-        <ul class="navlinks">
+        <ul class="navlinks" id="navLinks">
           <li><a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a></li>
           <li><a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a></li>
           <li><a href="a-propos.html" data-i18n="nav.about">À propos</a></li>
@@ -823,8 +379,8 @@
               <span id="langLabel">FR</span>
               <span class="pill" id="langName">Français</span>
             </button>
-            <div class="menu" id="langMenu" role="menu" aria-label="Langues">
-              <button class="item" data-lang="fr" role="menuitem"><span>Français</span><span class="pill">FR</span></button>
+            <div class="menu" id="langMenu" role="menu">
+              <button class="item active" data-lang="fr" role="menuitem"><span>Français</span><span class="pill">FR</span></button>
               <button class="item" data-lang="en" role="menuitem"><span>English</span><span class="pill">EN</span></button>
               <button class="item" data-lang="es" role="menuitem"><span>Español</span><span class="pill">ES</span></button>
               <button class="item" data-lang="ru" role="menuitem"><span>Русский</span><span class="pill">RU</span></button>
@@ -832,7 +388,7 @@
               <button class="item" data-lang="zh" role="menuitem"><span>中文</span><span class="pill">ZH</span></button>
             </div>
           </div>
-
+          
           <button class="theme-toggle" id="themeToggle" type="button" aria-label="Basculer clair/sombre">
             <svg class="sunmoon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <g class="sun-core">
@@ -852,20 +408,16 @@
                 <g mask="url(#crescentMaskClean)">
                   <circle cx="12" cy="12" r="7.35" fill="url(#gMoon)"/>
                 </g>
-                <path d="M7.9 12.2c.2-3.5 2.6-6.4 6.0-7.0"
-                      stroke="rgba(255,255,255,.55)"
-                      stroke-width="1.2"
-                      stroke-linecap="round"
-                      opacity=".35"/>
+                <path d="M7.9 12.2c.2-3.5 2.6-6.4 6.0-7.0" stroke="rgba(255,255,255,.55)" stroke-width="1.2" stroke-linecap="round" opacity=".35"/>
               </g>
               <defs>
                 <linearGradient id="gSun" x1="6" y1="6" x2="19" y2="19" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#35C6C2"/>
-                  <stop offset="1" stop-color="#6DBBFF"/>
+                  <stop stop-color="#00f0ff"/>
+                  <stop offset="1" stop-color="#00ffcc"/>
                 </linearGradient>
                 <linearGradient id="gMoon" x1="7" y1="7" x2="19" y2="19" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#6DBBFF"/>
-                  <stop offset="1" stop-color="#8A7CFF"/>
+                  <stop stop-color="#00f0ff"/>
+                  <stop offset="1" stop-color="#b026ff"/>
                 </linearGradient>
                 <mask id="crescentMaskClean">
                   <rect x="0" y="0" width="24" height="24" fill="white"/>
@@ -876,32 +428,29 @@
           </button>
 
           <button class="menu-toggle" id="menuToggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
-            <span class="menu-icon" aria-hidden="true">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
+            <span></span><span></span><span></span>
           </button>
         </div>
       </div>
 
-      <nav class="mobile-menu" id="mobileMenu" aria-label="Navigation mobile">
+      <div class="mobile-menu" id="mobileMenu">
         <a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a>
         <a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a>
         <a href="a-propos.html" data-i18n="nav.about">À propos</a>
         <a class="active" href="faq.html" data-i18n="nav.faq">FAQ</a>
         <a href="contact-public.html" data-i18n="nav.contact">Contact</a>
-      </nav>
+      </div>
     </div>
   </header>
 
   <main>
     <div class="wrap">
+      
       <section class="hero" aria-label="FAQ SEAL">
         <div class="hero-grid">
           <div>
             <span class="eyebrow">
-              <i aria-hidden="true"></i>
+              <i aria-hidden="true" style="width:6px;height:6px;background:var(--neon-green);border-radius:50%;"></i>
               <span data-i18n="hero.eyebrow">Questions fréquentes</span>
             </span>
 
@@ -929,22 +478,18 @@
           <div class="hero-side">
             <div class="floating-card">
               <h3 data-i18n="side.title">Pourquoi cette page ?</h3>
-              <p data-i18n="side.text">
-                La FAQ permet de répondre rapidement aux questions les plus fréquentes sur l’utilité de SEAL, la manière d’utiliser le checker SSL et la lecture des résultats affichés à l’écran.
-              </p>
+              <p data-i18n="side.text">La FAQ permet de répondre rapidement aux questions les plus fréquentes sur l’utilité de SEAL, la manière d’utiliser le checker SSL et la lecture des résultats affichés à l’écran.</p>
             </div>
-
             <div class="floating-card">
               <h3 data-i18n="side2.title">À qui s’adresse SEAL ?</h3>
-              <p data-i18n="side2.text">
-                Le site peut être utile à des étudiants, développeurs, responsables de projet, équipes techniques ou toute personne souhaitant vérifier simplement l’état d’un certificat SSL.
-              </p>
+              <p data-i18n="side2.text">Le site peut être utile à des étudiants, développeurs, responsables de projet, équipes techniques ou toute personne souhaitant vérifier simplement l’état d’un certificat SSL.</p>
             </div>
           </div>
         </div>
       </section>
 
       <div class="faq-layout">
+        
         <section class="section" aria-label="Aide rapide">
           <div class="section-head">
             <div>
@@ -952,35 +497,21 @@
               <p data-i18n="help.subtitle">Quelques repères utiles avant de parcourir la FAQ complète.</p>
             </div>
           </div>
-
           <div class="faq-sidebar">
             <div class="mini-panel">
               <h3 data-i18n="panel1.title">À quoi sert SEAL ?</h3>
-              <p data-i18n="panel1.text">
-                SEAL permet de vérifier rapidement l’expiration d’un certificat SSL à partir d’un domaine ou d’une URL, avec une lecture simple et visuelle du résultat.
-              </p>
+              <p data-i18n="panel1.text">SEAL permet de vérifier rapidement l’expiration d’un certificat SSL à partir d’un domaine ou d’une URL, avec une lecture simple et visuelle du résultat.</p>
             </div>
-
             <div class="mini-panel">
               <h3 data-i18n="panel2.title">Pourquoi c’est utile ?</h3>
-              <p data-i18n="panel2.text">
-                Un certificat expiré peut créer des alertes navigateur, nuire à la confiance et perturber l’accès à un site. SEAL aide à repérer cela avant qu’un problème visible n’apparaisse.
-              </p>
+              <p data-i18n="panel2.text">Un certificat expiré peut créer des alertes navigateur, nuire à la confiance et perturber l’accès à un site. SEAL aide à repérer cela avant qu’un problème visible n’apparaisse.</p>
             </div>
-
             <div class="mini-panel">
               <h3 data-i18n="panel3.title">Le site est-il multilingue ?</h3>
-              <p data-i18n="panel3.text">
-                Oui. Le contenu principal du site peut être affiché dans les six langues proposées dans l’interface.
-              </p>
-
+              <p data-i18n="panel3.text">Oui. Le contenu principal du site peut être affiché dans les six langues proposées dans l’interface.</p>
               <div class="faq-tags">
-                <span class="faq-tag">FR</span>
-                <span class="faq-tag">EN</span>
-                <span class="faq-tag">ES</span>
-                <span class="faq-tag">RU</span>
-                <span class="faq-tag">AR</span>
-                <span class="faq-tag">ZH</span>
+                <span class="faq-tag">FR</span><span class="faq-tag">EN</span><span class="faq-tag">ES</span>
+                <span class="faq-tag">RU</span><span class="faq-tag">AR</span><span class="faq-tag">ZH</span>
               </div>
             </div>
           </div>
@@ -995,6 +526,7 @@
           </div>
 
           <div class="faq-list">
+            
             <div class="faq-item open">
               <button class="faq-question" type="button">
                 <span data-i18n="q1.q">Que fait exactement SEAL ?</span>
@@ -1114,6 +646,7 @@
                 </div>
               </div>
             </div>
+
           </div>
         </section>
       </div>
@@ -1123,7 +656,6 @@
           <h3 data-i18n="cta.title">Vous ne trouvez pas votre réponse ?</h3>
           <p data-i18n="cta.text">Vous pouvez utiliser la page Contact pour nous écrire directement. Nous pourrons vous répondre selon la nature de votre demande ou vous orienter vers la bonne page du site.</p>
         </div>
-
         <a class="glass-btn primary" href="contact-public.html">
           <span data-i18n="cta.button">Aller vers Contact</span>
           <span class="arrow" aria-hidden="true"></span>
@@ -1134,53 +666,47 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="SEAL_page_accueil.html" aria-label="SEAL">
-              <img
-                id="footerLogo"
-                src="SEAL-logo-sombre.png"
-                data-logo-dark="SEAL-logo-sombre.png"
-                data-logo-light="SEAL-logo-clair.png"
-                alt="SEAL Logo"
-              >
+              <img id="footerLogo" src="SEAL-logo-sombre.png" data-logo-dark="SEAL-logo-sombre.png" data-logo-light="SEAL-logo-clair.png" alt="SEAL Logo">
             </a>
-            <p data-i18n="footer.brandText">
-              SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.
-            </p>
-
-            <div class="social-label" data-i18n="footer.socials">Réseaux</div>
+            <p data-i18n="footer.brandText">SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.</p>
+            
             <div class="socials" aria-label="Réseaux sociaux">
               <a class="social" href="https://www.linkedin.com/company/secure-expiry-alert-logging" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.28 4.97 1.97 1.97 0 0 0 5.25 6.94 1.97 1.97 0 0 0 7.22 4.97 1.97 1.97 0 0 0 5.25 3ZM12.28 12.9c0-1.82.84-2.9 2.46-2.9 1.48 0 2.19 1.04 2.19 2.9V20h3.36v-8.22c0-3.48-1.97-5.16-4.71-5.16-2.2 0-3.17 1.21-3.72 2.05V8.5H8.62c.04.81 0 11.5 0 11.5h3.24v-7.1Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.848-3.037-1.85 0-2.133 1.445-2.133 2.94v5.666H9.356V9h3.414v1.566h.049c.475-.9 1.636-1.848 3.367-1.848 3.604 0 4.261 2.372 4.261 5.455v6.279zM5.337 7.433c-1.144 0-2.072-.927-2.072-2.07 0-1.143.928-2.072 2.072-2.072 1.145 0 2.073.929 2.073 2.072 0 1.143-.928 2.07-2.073 2.07zM7.119 20.452H3.554V9h3.565v11.452z"/></svg>
               </a>
               <a class="social" href="https://www.instagram.com/seal_security_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.95 1.35a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849s-.011 3.584-.069 4.849c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.849-.07c-3.26-.149-4.771-1.699-4.919-4.919-.058-1.265-.069-1.645-.069-4.849s.012-3.584.069-4.849c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.058-1.281.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
               </a>
               <a class="social" href="https://x.com/SEAL2026" target="_blank" rel="noopener noreferrer" aria-label="X">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H21l-6.56 7.5L22 22h-5.96l-4.67-6.1L6.03 22H4l7-8L2 2h6.11l4.22 5.52L18.9 2Zm-1.04 18h1.65L7.2 3.9H5.42L17.86 20Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.25 2.25h6.863l4.488 6.15L18.244 2.25zm-1.16 17.52h1.833L7.084 4.126H5.117L17.084 19.77z"/></svg>
               </a>
             </div>
           </div>
 
           <div class="footer-col">
-            <h3 data-i18n="footer.nav">Navigation</h3>
+            <h3 data-i18n="footer.nav">Système</h3>
             <div class="footer-links">
-              <a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a>
-              <a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a>
+              <a href="SEAL_page_accueil.html" data-i18n="nav.home">Dashboard</a>
+              <a href="fonctionnalites.html" data-i18n="nav.features">Modules</a>
               <a href="a-propos.html" data-i18n="nav.about">À propos</a>
               <a href="faq.html" data-i18n="nav.faq">FAQ</a>
               <a href="contact-public.html" data-i18n="nav.contact">Contact</a>
             </div>
           </div>
-
+          
           <div class="footer-col">
             <h3 data-i18n="footer.support">Support</h3>
             <div class="footer-links">
-              <span>esaipseal@gmail.com</span>
-              <span data-i18n="footer.supportText">Pour toute question liée au site public ou à l’utilisation du formulaire de contact.</span>
+              <span data-i18n="footer.supportText">Pour toute question liée au site, contactez-nous via la page Contact ou par email.</span>
+              <a href="mailto:esaipseal@gmail.com" class="support-email">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                <span>esaipseal@gmail.com</span>
+              </a>
             </div>
           </div>
-
+          
           <div class="footer-col">
-            <h3 data-i18n="footer.legalTitle">Légal</h3>
+            <h3 data-i18n="footer.legalTitle">Sécurité & Légal</h3>
             <div class="footer-links">
               <a href="politique-confidentialite-public.html" data-i18n="footer.privacy">Politique de confidentialité</a>
               <a href="mentions-legales-public.html" data-i18n="footer.legal">Mentions légales</a>
@@ -1188,7 +714,6 @@
             </div>
           </div>
         </div>
-
         <div class="footer-bottom">
           <div>© 2026 SEAL</div>
           <div data-i18n="footer.bottomText">Secure Expiry Alert & Logging</div>
@@ -1198,419 +723,163 @@
   </main>
 
   <script>
+    // DICTIONNAIRE COMPLET (6 LANGUES)
     const I18N = {
       fr: {
-        "nav.home":"Accueil",
-        "nav.features":"Fonctionnalités",
-        "nav.about":"À propos",
-        "nav.faq":"FAQ",
-        "nav.contact":"Contact",
-
-        "hero.eyebrow":"Questions fréquentes",
-        "hero.title.l1":"Toutes les réponses",
-        "hero.title.l2":"sur",
-        "hero.title.l3":"SEAL.",
+        "nav.home":"Accueil", "nav.features":"Fonctionnalités", "nav.about":"À propos", "nav.faq":"FAQ", "nav.contact":"Contact",
+        "hero.eyebrow":"Questions fréquentes", "hero.title.l1":"Toutes les réponses", "hero.title.l2":"sur", "hero.title.l3":"SEAL.",
         "hero.subtitle":"Cette page vous aide à mieux comprendre le rôle du site SEAL, son fonctionnement, la vérification SSL, les messages affichés, l’expérience proposée et les principales questions que l’on peut se poser avant ou pendant l’utilisation du service.",
-        "hero.ctaPrimary":"Tester un domaine",
-        "hero.ctaSecondary":"Nous contacter",
-
-        "side.title":"Pourquoi cette page ?",
-        "side.text":"La FAQ permet de répondre rapidement aux questions les plus fréquentes sur l’utilité de SEAL, la manière d’utiliser le checker SSL et la lecture des résultats affichés à l’écran.",
-        "side2.title":"À qui s’adresse SEAL ?",
-        "side2.text":"Le site peut être utile à des étudiants, développeurs, responsables de projet, équipes techniques ou toute personne souhaitant vérifier simplement l’état d’un certificat SSL.",
-
-        "help.title":"Aide rapide",
-        "help.subtitle":"Quelques repères utiles avant de parcourir la FAQ complète.",
-        "panel1.title":"À quoi sert SEAL ?",
-        "panel1.text":"SEAL permet de vérifier rapidement l’expiration d’un certificat SSL à partir d’un domaine ou d’une URL, avec une lecture simple et visuelle du résultat.",
-        "panel2.title":"Pourquoi c’est utile ?",
-        "panel2.text":"Un certificat expiré peut créer des alertes navigateur, nuire à la confiance et perturber l’accès à un site. SEAL aide à repérer cela avant qu’un problème visible n’apparaisse.",
-        "panel3.title":"Le site est-il multilingue ?",
-        "panel3.text":"Oui. Le contenu principal du site peut être affiché dans les six langues proposées dans l’interface.",
-
-        "faq.title":"Questions fréquentes",
-        "faq.subtitle":"Cliquez sur une question pour afficher la réponse.",
-
-        "q1.q":"Que fait exactement SEAL ?",
-        "q1.a":"SEAL permet d’analyser un domaine afin de lire la date d’expiration de son certificat SSL, le temps restant avant expiration, ainsi qu’un niveau visuel qui aide à comprendre rapidement si la situation est confortable, à surveiller ou urgente.",
-        "q2.q":"Que dois-je entrer dans le checker ?",
-        "q2.a":"Vous pouvez entrer soit un nom de domaine simple, soit une URL complète. Par exemple : example.com ou https://example.com. Le système normalise ensuite la saisie pour lancer la vérification SSL.",
-        "q3.q":"Que se passe-t-il si le domaine n’existe pas ?",
-        "q3.a":"Si le domaine est invalide, introuvable ou si aucune connexion exploitable ne peut être faite, SEAL affiche un message d’erreur clair. L’objectif est de ne jamais inventer un résultat incohérent.",
-        "q4.q":"À quoi correspondent les couleurs du résultat ?",
-        "q4.a":"Le code couleur sert à rendre la lecture immédiate : vert pour une situation encore confortable, orange pour un certificat à surveiller, et rouge pour une expiration très proche ou critique.",
-        "q5.q":"Pourquoi vérifier un certificat SSL est-il important ?",
-        "q5.a":"Un certificat SSL permet de sécuriser les échanges entre un site et ses visiteurs. Lorsqu’il approche de l’expiration ou expire, cela peut provoquer des alertes navigateur, réduire la confiance et créer une mauvaise expérience utilisateur.",
-        "q6.q":"SEAL remplace-t-il un outil de monitoring avancé ?",
-        "q6.a":"Le site public SEAL met surtout l’accent sur la consultation rapide et la compréhension visuelle. Il ne prétend pas nécessairement remplacer une solution complète de supervision, mais il constitue une interface claire pour lire l’essentiel rapidement.",
-        "q7.q":"Le site garde-t-il mes préférences ?",
-        "q7.a":"Oui. Le site peut conserver localement certaines préférences comme la langue choisie ou le mode clair/sombre afin d’améliorer votre confort d’utilisation lors des prochaines visites.",
-        "q8.q":"Le site est-il adapté aux petits écrans ?",
-        "q8.a":"Oui. La page est conçue pour rester lisible sur ordinateur, tablette et smartphone. Sur petit écran, le menu principal passe en version hamburger pour garder une navigation simple et propre.",
-        "q9.q":"Puis-je contacter l’équipe depuis le site ?",
-        "q9.a":"Oui. La page Contact permet d’envoyer un message à l’équipe via le formulaire prévu à cet effet. Le message est ensuite transmis à l’adresse de contact du projet.",
-        "q10.q":"Où trouver les informations légales et de confidentialité ?",
-        "q10.a":"Les pages Politique de confidentialité, Mentions légales et Conditions d’utilisation sont accessibles depuis le pied de page du site.",
-
-        "cta.title":"Vous ne trouvez pas votre réponse ?",
-        "cta.text":"Vous pouvez utiliser la page Contact pour nous écrire directement. Nous pourrons vous répondre selon la nature de votre demande ou vous orienter vers la bonne page du site.",
-        "cta.button":"Aller vers Contact",
-
-        "footer.nav":"Navigation",
-        "footer.support":"Support",
-        "footer.supportText":"Pour toute question liée au site public ou à l’utilisation du formulaire de contact.",
-        "footer.legalTitle":"Légal",
-        "footer.brandText":"SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.",
-        "footer.socials":"Réseaux",
-        "footer.privacy":"Politique de confidentialité",
-        "footer.legal":"Mentions légales",
-        "footer.terms":"Conditions d’utilisation",
-        "footer.bottomText":"Secure Expiry Alert & Logging"
+        "hero.ctaPrimary":"Tester un domaine", "hero.ctaSecondary":"Nous contacter",
+        "side.title":"Pourquoi cette page ?", "side.text":"La FAQ permet de répondre rapidement aux questions les plus fréquentes sur l’utilité de SEAL, la manière d’utiliser le checker SSL et la lecture des résultats affichés à l’écran.",
+        "side2.title":"À qui s’adresse SEAL ?", "side2.text":"Le site peut être utile à des étudiants, développeurs, responsables de projet, équipes techniques ou toute personne souhaitant vérifier simplement l’état d’un certificat SSL.",
+        "help.title":"Aide rapide", "help.subtitle":"Quelques repères utiles avant de parcourir la FAQ complète.",
+        "panel1.title":"À quoi sert SEAL ?", "panel1.text":"SEAL permet de vérifier rapidement l’expiration d’un certificat SSL à partir d’un domaine ou d’une URL, avec une lecture simple et visuelle du résultat.",
+        "panel2.title":"Pourquoi c’est utile ?", "panel2.text":"Un certificat expiré peut créer des alertes navigateur, nuire à la confiance et perturber l’accès à un site. SEAL aide à repérer cela avant qu’un problème visible n’apparaisse.",
+        "panel3.title":"Le site est-il multilingue ?", "panel3.text":"Oui. Le contenu principal du site peut être affiché dans les six langues proposées dans l’interface.",
+        "faq.title":"Questions fréquentes", "faq.subtitle":"Cliquez sur une question pour afficher la réponse.",
+        "q1.q":"Que fait exactement SEAL ?", "q1.a":"SEAL permet d’analyser un domaine afin de lire la date d’expiration de son certificat SSL, le temps restant avant expiration, ainsi qu’un niveau visuel qui aide à comprendre rapidement si la situation est confortable, à surveiller ou urgente.",
+        "q2.q":"Que dois-je entrer dans le checker ?", "q2.a":"Vous pouvez entrer soit un nom de domaine simple, soit une URL complète. Par exemple : example.com ou https://example.com. Le système normalise ensuite la saisie pour lancer la vérification SSL.",
+        "q3.q":"Que se passe-t-il si le domaine n’existe pas ?", "q3.a":"Si le domaine est invalide, introuvable ou si aucune connexion exploitable ne peut être faite, SEAL affiche un message d’erreur clair. L’objectif est de ne jamais inventer un résultat incohérent.",
+        "q4.q":"À quoi correspondent les couleurs du résultat ?", "q4.a":"Le code couleur sert à rendre la lecture immédiate : vert pour une situation encore confortable, orange pour un certificat à surveiller, et rouge pour une expiration très proche ou critique.",
+        "q5.q":"Pourquoi vérifier un certificat SSL est-il important ?", "q5.a":"Un certificat SSL permet de sécuriser les échanges entre un site et ses visiteurs. Lorsqu’il approche de l’expiration ou expire, cela peut provoquer des alertes navigateur, réduire la confiance et créer une mauvaise expérience utilisateur.",
+        "q6.q":"SEAL remplace-t-il un outil de monitoring avancé ?", "q6.a":"Le site public SEAL met surtout l’accent sur la consultation rapide et la compréhension visuelle. Il ne prétend pas nécessairement remplacer une solution complète de supervision, mais il constitue une interface claire pour lire l’essentiel rapidement.",
+        "q7.q":"Le site garde-t-il mes préférences ?", "q7.a":"Oui. Le site peut conserver localement certaines préférences comme la langue choisie ou le mode clair/sombre afin d’améliorer votre confort d’utilisation lors des prochaines visites.",
+        "q8.q":"Le site est-il adapté aux petits écrans ?", "q8.a":"Oui. La page est conçue pour rester lisible sur ordinateur, tablette et smartphone. Sur petit écran, le menu principal passe en version hamburger pour garder une navigation simple et propre.",
+        "q9.q":"Puis-je contacter l’équipe depuis le site ?", "q9.a":"Oui. La page Contact permet d’envoyer un message à l’équipe via le formulaire prévu à cet effet. Le message est ensuite transmis à l’adresse de contact du projet.",
+        "q10.q":"Où trouver les informations légales et de confidentialité ?", "q10.a":"Les pages Politique de confidentialité, Mentions légales et Conditions d’utilisation sont accessibles depuis le pied de page du site.",
+        "cta.title":"Vous ne trouvez pas votre réponse ?", "cta.text":"Vous pouvez utiliser la page Contact pour nous écrire directement. Nous pourrons vous répondre selon la nature de votre demande ou vous orienter vers la bonne page du site.", "cta.button":"Aller vers Contact",
+        "footer.nav":"Système", "footer.support":"Support", "footer.supportText":"Pour toute question liée au site, contactez-nous via la page Contact ou par email.", "footer.legalTitle":"Sécurité & Légal", "footer.brandText":"SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.",
+        "footer.privacy":"Politique de confidentialité", "footer.legal":"Mentions légales", "footer.terms":"Conditions d’utilisation", "footer.bottomText":"Secure Expiry Alert & Logging"
       },
-
       en: {
-        "nav.home":"Home",
-        "nav.features":"Features",
-        "nav.about":"About",
-        "nav.faq":"FAQ",
-        "nav.contact":"Contact",
-
-        "hero.eyebrow":"Frequently asked questions",
-        "hero.title.l1":"All the answers",
-        "hero.title.l2":"about",
-        "hero.title.l3":"SEAL.",
+        "nav.home":"Home", "nav.features":"Features", "nav.about":"About", "nav.faq":"FAQ", "nav.contact":"Contact",
+        "hero.eyebrow":"Frequently asked questions", "hero.title.l1":"All the answers", "hero.title.l2":"about", "hero.title.l3":"SEAL.",
         "hero.subtitle":"This page helps you better understand the role of the SEAL website, how it works, SSL checking, displayed messages, the overall user experience, and the main questions people may have before or during usage.",
-        "hero.ctaPrimary":"Test a domain",
-        "hero.ctaSecondary":"Contact us",
-
-        "side.title":"Why this page?",
-        "side.text":"The FAQ is here to answer the most common questions about SEAL, how to use the SSL checker, and how to read the displayed results.",
-        "side2.title":"Who is SEAL for?",
-        "side2.text":"The website can be useful for students, developers, project managers, technical teams, or anyone who wants to check the state of an SSL certificate in a simple way.",
-
-        "help.title":"Quick help",
-        "help.subtitle":"A few useful points before browsing the full FAQ.",
-        "panel1.title":"What is SEAL for?",
-        "panel1.text":"SEAL allows you to quickly check SSL certificate expiration from a domain or URL, with a simple and visual reading of the result.",
-        "panel2.title":"Why is it useful?",
-        "panel2.text":"An expired certificate can trigger browser warnings, reduce trust, and disturb access to a website. SEAL helps spot that before a visible problem appears.",
-        "panel3.title":"Is the website multilingual?",
-        "panel3.text":"Yes. The main content of the site can be displayed in the six languages available in the interface.",
-
-        "faq.title":"Frequently asked questions",
-        "faq.subtitle":"Click a question to display the answer.",
-
-        "q1.q":"What exactly does SEAL do?",
-        "q1.a":"SEAL analyzes a domain in order to read the expiration date of its SSL certificate, the time remaining before expiration, and a visual level that helps understand quickly whether the situation is comfortable, needs attention, or is urgent.",
-        "q2.q":"What should I enter in the checker?",
-        "q2.a":"You can enter either a simple domain name or a full URL. For example: example.com or https://example.com. The system then normalizes the input to launch the SSL verification.",
-        "q3.q":"What happens if the domain does not exist?",
-        "q3.a":"If the domain is invalid, not found, or no usable connection can be made, SEAL displays a clear error message. The goal is never to invent an inconsistent result.",
-        "q4.q":"What do the result colors mean?",
-        "q4.a":"The color code is there to make the reading immediate: green for a still comfortable situation, orange for a certificate that should be watched, and red for a very near or critical expiration.",
-        "q5.q":"Why is checking an SSL certificate important?",
-        "q5.a":"An SSL certificate secures exchanges between a website and its visitors. When it is close to expiration or expires, it can trigger browser warnings, reduce trust, and create a poor user experience.",
-        "q6.q":"Does SEAL replace an advanced monitoring tool?",
-        "q6.a":"The public SEAL website mainly focuses on quick consultation and visual understanding. It does not necessarily replace a full monitoring solution, but it provides a clear interface to read the essentials quickly.",
-        "q7.q":"Does the site keep my preferences?",
-        "q7.a":"Yes. The site may locally keep some preferences such as the selected language or light/dark mode in order to improve your comfort during future visits.",
-        "q8.q":"Is the site adapted to small screens?",
-        "q8.a":"Yes. The page is designed to stay readable on desktop, tablet, and smartphone. On small screens, the main navigation switches to a hamburger menu to keep navigation simple and clean.",
-        "q9.q":"Can I contact the team from the website?",
-        "q9.a":"Yes. The Contact page lets you send a message to the team through the dedicated form. The message is then sent to the project contact address.",
-        "q10.q":"Where can I find legal and privacy information?",
-        "q10.a":"The Privacy Policy, Legal Notice, and Terms of Use pages are accessible from the website footer.",
-
-        "cta.title":"Did not find your answer?",
-        "cta.text":"You can use the Contact page to write to us directly. We can answer depending on the nature of your request or guide you to the right page.",
-        "cta.button":"Go to Contact",
-
-        "footer.nav":"Navigation",
-        "footer.support":"Support",
-        "footer.supportText":"For any question related to the public website or the contact form.",
-        "footer.legalTitle":"Legal",
-        "footer.brandText":"SEAL helps you better visualize SSL certificate expiration with a clear, readable, and accessible interface.",
-        "footer.socials":"Socials",
-        "footer.privacy":"Privacy policy",
-        "footer.legal":"Legal notice",
-        "footer.terms":"Terms of use",
-        "footer.bottomText":"Secure Expiry Alert & Logging"
+        "hero.ctaPrimary":"Test a domain", "hero.ctaSecondary":"Contact us",
+        "side.title":"Why this page?", "side.text":"The FAQ is here to answer the most common questions about SEAL, how to use the SSL checker, and how to read the displayed results.",
+        "side2.title":"Who is SEAL for?", "side2.text":"The website can be useful for students, developers, project managers, technical teams, or anyone who wants to check the state of an SSL certificate in a simple way.",
+        "help.title":"Quick help", "help.subtitle":"A few useful points before browsing the full FAQ.",
+        "panel1.title":"What is SEAL for?", "panel1.text":"SEAL allows you to quickly check SSL certificate expiration from a domain or URL, with a simple and visual reading of the result.",
+        "panel2.title":"Why is it useful?", "panel2.text":"An expired certificate can trigger browser warnings, reduce trust, and disturb access to a website. SEAL helps spot that before a visible problem appears.",
+        "panel3.title":"Is the website multilingual?", "panel3.text":"Yes. The main content of the site can be displayed in the six languages available in the interface.",
+        "faq.title":"Frequently asked questions", "faq.subtitle":"Click a question to display the answer.",
+        "q1.q":"What exactly does SEAL do?", "q1.a":"SEAL analyzes a domain in order to read the expiration date of its SSL certificate, the time remaining before expiration, and a visual level that helps understand quickly whether the situation is comfortable, needs attention, or is urgent.",
+        "q2.q":"What should I enter in the checker?", "q2.a":"You can enter either a simple domain name or a full URL. For example: example.com or https://example.com. The system then normalizes the input to launch the SSL verification.",
+        "q3.q":"What happens if the domain does not exist?", "q3.a":"If the domain is invalid, not found, or no usable connection can be made, SEAL displays a clear error message. The goal is never to invent an inconsistent result.",
+        "q4.q":"What do the result colors mean?", "q4.a":"The color code is there to make the reading immediate: green for a still comfortable situation, orange for a certificate that should be watched, and red for a very near or critical expiration.",
+        "q5.q":"Why is checking an SSL certificate important?", "q5.a":"An SSL certificate secures exchanges between a website and its visitors. When it is close to expiration or expires, it can trigger browser warnings, reduce trust, and create a poor user experience.",
+        "q6.q":"Does SEAL replace an advanced monitoring tool?", "q6.a":"The public SEAL website mainly focuses on quick consultation and visual understanding. It does not necessarily replace a full monitoring solution, but it provides a clear interface to read the essentials quickly.",
+        "q7.q":"Does the site keep my preferences?", "q7.a":"Yes. The site may locally keep some preferences such as the selected language or light/dark mode in order to improve your comfort during future visits.",
+        "q8.q":"Is the site adapted to small screens?", "q8.a":"Yes. The page is designed to stay readable on desktop, tablet, and smartphone. On small screens, the main navigation switches to a hamburger menu to keep navigation simple and clean.",
+        "q9.q":"Can I contact the team from the website?", "q9.a":"Yes. The Contact page lets you send a message to the team through the dedicated form. The message is then sent to the project contact address.",
+        "q10.q":"Where can I find legal and privacy information?", "q10.a":"The Privacy Policy, Legal Notice, and Terms of Use pages are accessible from the website footer.",
+        "cta.title":"Did not find your answer?", "cta.text":"You can use the Contact page to write to us directly. We can answer depending on the nature of your request or guide you to the right page.", "cta.button":"Go to Contact",
+        "footer.nav":"System", "footer.support":"Support", "footer.supportText":"For any questions related to the site, contact us via the Contact page or by email.", "footer.legalTitle":"Security & Legal", "footer.brandText":"SEAL helps you better visualize SSL certificate expiration with a clear interface.",
+        "footer.privacy":"Privacy policy", "footer.legal":"Legal notice", "footer.terms":"Terms of use", "footer.bottomText":"Secure Expiry Alert & Logging"
       },
-
       es: {
-        "nav.home":"Inicio",
-        "nav.features":"Funcionalidades",
-        "nav.about":"Acerca de",
-        "nav.faq":"FAQ",
-        "nav.contact":"Contacto",
-
-        "hero.eyebrow":"Preguntas frecuentes",
-        "hero.title.l1":"Todas las respuestas",
-        "hero.title.l2":"sobre",
-        "hero.title.l3":"SEAL.",
-        "hero.subtitle":"Esta página te ayuda a comprender mejor el papel del sitio SEAL, su funcionamiento, la verificación SSL, los mensajes mostrados, la experiencia propuesta y las principales preguntas que pueden surgir antes o durante el uso.",
-        "hero.ctaPrimary":"Probar un dominio",
-        "hero.ctaSecondary":"Contactarnos",
-
-        "side.title":"¿Por qué esta página?",
-        "side.text":"La FAQ responde a las preguntas más frecuentes sobre SEAL, cómo usar el verificador SSL y cómo leer los resultados mostrados.",
-        "side2.title":"¿A quién va dirigido SEAL?",
-        "side2.text":"El sitio puede ser útil para estudiantes, desarrolladores, responsables de proyecto, equipos técnicos o cualquier persona que quiera comprobar de forma simple el estado de un certificado SSL.",
-
-        "help.title":"Ayuda rápida",
-        "help.subtitle":"Algunos puntos útiles antes de recorrer la FAQ completa.",
-        "panel1.title":"¿Para qué sirve SEAL?",
-        "panel1.text":"SEAL permite verificar rápidamente la expiración de un certificado SSL a partir de un dominio o una URL, con una lectura simple y visual del resultado.",
-        "panel2.title":"¿Por qué es útil?",
-        "panel2.text":"Un certificado caducado puede generar alertas del navegador, reducir la confianza y afectar el acceso a un sitio. SEAL ayuda a detectar eso antes de que aparezca un problema visible.",
-        "panel3.title":"¿El sitio es multilingüe?",
-        "panel3.text":"Sí. El contenido principal del sitio puede mostrarse en los seis idiomas propuestos en la interfaz.",
-
-        "faq.title":"Preguntas frecuentes",
-        "faq.subtitle":"Haz clic en una pregunta para mostrar la respuesta.",
-
-        "q1.q":"¿Qué hace exactamente SEAL?",
-        "q1.a":"SEAL analiza un dominio para leer la fecha de expiración de su certificado SSL, el tiempo restante antes de la expiración y un nivel visual que ayuda a comprender rápidamente si la situación es cómoda, requiere atención o es urgente.",
-        "q2.q":"¿Qué debo introducir en el verificador?",
-        "q2.a":"Puedes introducir un nombre de dominio simple o una URL completa. Por ejemplo: example.com o https://example.com. El sistema normaliza después la entrada para lanzar la verificación SSL.",
-        "q3.q":"¿Qué ocurre si el dominio no existe?",
-        "q3.a":"Si el dominio es inválido, no se encuentra o no se puede realizar una conexión utilizable, SEAL muestra un mensaje de error claro. El objetivo es no inventar nunca un resultado incoherente.",
-        "q4.q":"¿Qué significan los colores del resultado?",
-        "q4.a":"El código de color está pensado para hacer la lectura inmediata: verde para una situación todavía cómoda, naranja para un certificado que debe vigilarse y rojo para una expiración muy próxima o crítica.",
-        "q5.q":"¿Por qué es importante verificar un certificado SSL?",
-        "q5.a":"Un certificado SSL asegura los intercambios entre un sitio y sus visitantes. Cuando se acerca a la expiración o expira, puede generar alertas del navegador, reducir la confianza y crear una mala experiencia de usuario.",
-        "q6.q":"¿SEAL reemplaza una herramienta avanzada de monitorización?",
-        "q6.a":"El sitio público SEAL se centra sobre todo en la consulta rápida y la comprensión visual. No pretende necesariamente reemplazar una solución completa de supervisión, pero sí ofrece una interfaz clara para leer lo esencial rápidamente.",
-        "q7.q":"¿El sitio guarda mis preferencias?",
-        "q7.a":"Sí. El sitio puede conservar localmente algunas preferencias, como el idioma elegido o el modo claro/oscuro, para mejorar tu comodidad durante futuras visitas.",
-        "q8.q":"¿El sitio está adaptado a pantallas pequeñas?",
-        "q8.a":"Sí. La página está diseñada para seguir siendo legible en ordenador, tableta y smartphone. En pantallas pequeñas, la navegación principal pasa a un menú hamburguesa para mantener una navegación simple y limpia.",
-        "q9.q":"¿Puedo contactar con el equipo desde el sitio?",
-        "q9.a":"Sí. La página Contacto permite enviar un mensaje al equipo mediante el formulario previsto para ello. El mensaje se transmite después a la dirección de contacto del proyecto.",
-        "q10.q":"¿Dónde encontrar la información legal y de privacidad?",
-        "q10.a":"Las páginas de Política de privacidad, Aviso legal y Condiciones de uso son accesibles desde el pie de página del sitio.",
-
-        "cta.title":"¿No encuentras tu respuesta?",
-        "cta.text":"Puedes usar la página de Contacto para escribirnos directamente. Podremos responderte según la naturaleza de tu solicitud o guiarte hacia la página correcta.",
-        "cta.button":"Ir a Contacto",
-
-        "footer.nav":"Navegación",
-        "footer.support":"Soporte",
-        "footer.supportText":"Para cualquier pregunta relacionada con el sitio público o el formulario de contacto.",
-        "footer.legalTitle":"Legal",
-        "footer.brandText":"SEAL te ayuda a visualizar mejor la expiración de un certificado SSL con una interfaz clara, legible y accesible.",
-        "footer.socials":"Redes",
-        "footer.privacy":"Política de privacidad",
-        "footer.legal":"Aviso legal",
-        "footer.terms":"Condiciones de uso",
-        "footer.bottomText":"Secure Expiry Alert & Logging"
+        "nav.home":"Inicio", "nav.features":"Funcionalidades", "nav.about":"Acerca de", "nav.faq":"FAQ", "nav.contact":"Contacto",
+        "hero.eyebrow":"Preguntas frecuentes", "hero.title.l1":"Todas las respuestas", "hero.title.l2":"sobre", "hero.title.l3":"SEAL.",
+        "hero.subtitle":"Esta página te ayuda a comprender mejor el papel de SEAL, su funcionamiento, la verificación SSL y las principales preguntas antes o durante el uso.",
+        "hero.ctaPrimary":"Probar un dominio", "hero.ctaSecondary":"Contactarnos",
+        "side.title":"¿Por qué esta página?", "side.text":"La FAQ responde rápidamente a las preguntas más frecuentes sobre la utilidad de SEAL y la lectura de los resultados.",
+        "side2.title":"¿A quién va dirigido SEAL?", "side2.text":"Útil para estudiantes, desarrolladores, responsables de proyecto o cualquier persona que quiera comprobar el estado de un certificado SSL.",
+        "help.title":"Ayuda rápida", "help.subtitle":"Puntos útiles antes de recorrer la FAQ completa.",
+        "panel1.title":"¿Para qué sirve SEAL?", "panel1.text":"Permite verificar rápidamente la expiración de un certificado SSL con una lectura simple y visual.",
+        "panel2.title":"¿Por qué es útil?", "panel2.text":"Un certificado caducado reduce la confianza y afecta el acceso. SEAL ayuda a detectar esto antes de que sea visible.",
+        "panel3.title":"¿El sitio es multilingüe?", "panel3.text":"Sí. El contenido principal puede mostrarse en los seis idiomas propuestos.",
+        "faq.title":"Preguntas frecuentes", "faq.subtitle":"Haz clic en una pregunta para mostrar la respuesta.",
+        "q1.q":"¿Qué hace exactamente SEAL?", "q1.a":"Analiza un dominio para leer la fecha de expiración de su certificado SSL y muestra un nivel visual de estado.",
+        "q2.q":"¿Qué debo introducir en el verificador?", "q2.a":"Puedes introducir un nombre de dominio simple o una URL completa (ej: example.com o https://example.com).",
+        "q3.q":"¿Qué ocurre si el dominio no existe?", "q3.a":"Si el dominio es inválido o no se encuentra, SEAL muestra un mensaje de error claro para no inventar resultados.",
+        "q4.q":"¿Qué significan los colores del resultado?", "q4.a":"Verde: situación cómoda. Naranja: certificado a vigilar. Rojo: expiración muy próxima o crítica.",
+        "q5.q":"¿Por qué es importante verificar un certificado SSL?", "q5.a":"Asegura los intercambios. Si caduca, genera alertas del navegador y una mala experiencia de usuario.",
+        "q6.q":"¿SEAL reemplaza una herramienta avanzada de monitorización?", "q6.a":"Se centra en la consulta rápida. No reemplaza una supervisión completa, pero ofrece una lectura inmediata.",
+        "q7.q":"¿El sitio guarda mis preferencias?", "q7.a":"Sí. Guarda localmente preferencias como el idioma o el modo claro/oscuro para tu comodidad.",
+        "q8.q":"¿El sitio está adaptado a pantallas pequeñas?", "q8.a":"Sí. Está diseñado para ser legible en ordenador, tableta y smartphone.",
+        "q9.q":"¿Puedo contactar con el equipo desde el sitio?", "q9.a":"Sí. La página Contacto permite enviar un mensaje directamente al equipo del proyecto.",
+        "q10.q":"¿Dónde encontrar la información legal?", "q10.a":"En el pie de página del sitio.",
+        "cta.title":"¿No encuentras tu respuesta?", "cta.text":"Puedes usar la página de Contacto para escribirnos directamente.", "cta.button":"Ir a Contacto",
+        "footer.nav":"Sistema", "footer.support":"Soporte", "footer.supportText":"Para preguntas relacionadas con el sitio, contáctenos vía la página Contacto o email.", "footer.legalTitle":"Seguridad y Legal", "footer.brandText":"SEAL te ayuda a visualizar la expiración de certificados SSL.",
+        "footer.privacy":"Política de privacidad", "footer.legal":"Aviso legal", "footer.terms":"Condiciones de uso", "footer.bottomText":"Secure Expiry Alert & Logging"
       },
-
       ru: {
-        "nav.home":"Главная",
-        "nav.features":"Функции",
-        "nav.about":"О нас",
-        "nav.faq":"FAQ",
-        "nav.contact":"Контакты",
-
-        "hero.eyebrow":"Часто задаваемые вопросы",
-        "hero.title.l1":"Все ответы",
-        "hero.title.l2":"о",
-        "hero.title.l3":"SEAL.",
-        "hero.subtitle":"Эта страница помогает лучше понять роль сайта SEAL, его работу, проверку SSL, отображаемые сообщения, предлагаемый пользовательский опыт и основные вопросы, которые могут возникнуть до или во время использования.",
-        "hero.ctaPrimary":"Проверить домен",
-        "hero.ctaSecondary":"Связаться с нами",
-
-        "side.title":"Зачем эта страница?",
-        "side.text":"FAQ отвечает на самые частые вопросы о пользе SEAL, способе использования SSL checker и чтении результатов на экране.",
-        "side2.title":"Для кого SEAL?",
-        "side2.text":"Сайт может быть полезен студентам, разработчикам, руководителям проектов, техническим командам или любому человеку, который хочет просто проверить состояние SSL-сертификата.",
-
-        "help.title":"Быстрая помощь",
-        "help.subtitle":"Несколько полезных ориентиров перед чтением полной FAQ.",
-        "panel1.title":"Для чего нужен SEAL?",
-        "panel1.text":"SEAL позволяет быстро проверять срок действия SSL-сертификата по домену или URL с простой и наглядной подачей результата.",
-        "panel2.title":"Почему это полезно?",
-        "panel2.text":"Истёкший сертификат может вызывать предупреждения браузера, снижать доверие и мешать доступу к сайту. SEAL помогает заметить это до появления видимой проблемы.",
-        "panel3.title":"Сайт многоязычный?",
-        "panel3.text":"Да. Основное содержимое сайта может отображаться на шести языках, доступных в интерфейсе.",
-
-        "faq.title":"Часто задаваемые вопросы",
-        "faq.subtitle":"Нажмите на вопрос, чтобы открыть ответ.",
-
-        "q1.q":"Что именно делает SEAL?",
-        "q1.a":"SEAL анализирует домен, чтобы показать дату окончания SSL-сертификата, оставшееся время до истечения и визуальный уровень, который помогает быстро понять, спокойная ситуация, требует внимания или уже срочна.",
-        "q2.q":"Что нужно вводить в checker?",
-        "q2.a":"Можно ввести либо простой домен, либо полный URL. Например: example.com или https://example.com. Затем система нормализует ввод для запуска SSL-проверки.",
-        "q3.q":"Что происходит, если домен не существует?",
-        "q3.a":"Если домен некорректен, не найден или невозможно выполнить пригодное соединение, SEAL показывает понятное сообщение об ошибке. Цель — никогда не выдавать нелогичный результат.",
-        "q4.q":"Что означают цвета результата?",
-        "q4.a":"Цветовой код нужен для мгновенного чтения: зелёный — ситуация ещё спокойная, оранжевый — сертификат нужно отслеживать, красный — истечение очень близко или критично.",
-        "q5.q":"Почему важно проверять SSL-сертификат?",
-        "q5.a":"SSL-сертификат защищает обмен между сайтом и его посетителями. Когда он близок к окончанию срока действия или истекает, это может вызывать предупреждения браузера, снижать доверие и создавать плохой пользовательский опыт.",
-        "q6.q":"Заменяет ли SEAL продвинутый инструмент мониторинга?",
-        "q6.a":"Публичный сайт SEAL в первую очередь делает упор на быстрый просмотр и визуальное понимание. Он не обязательно заменяет полное решение мониторинга, но даёт понятный интерфейс для быстрого чтения основного.",
-        "q7.q":"Сохраняет ли сайт мои предпочтения?",
-        "q7.a":"Да. Сайт может локально сохранять некоторые предпочтения, например выбранный язык или светлую/тёмную тему, чтобы сделать следующие посещения удобнее.",
-        "q8.q":"Подходит ли сайт для маленьких экранов?",
-        "q8.a":"Да. Страница спроектирована так, чтобы оставаться читаемой на компьютере, планшете и смартфоне. На маленьком экране основная навигация переключается в hamburger menu.",
-        "q9.q":"Можно ли связаться с командой через сайт?",
-        "q9.a":"Да. Страница Контакты позволяет отправить сообщение команде через специальную форму. Затем сообщение передаётся на контактный адрес проекта.",
-        "q10.q":"Где найти правовую информацию и политику конфиденциальности?",
-        "q10.a":"Страницы политики конфиденциальности, юридической информации и условий использования доступны из футера сайта.",
-
-        "cta.title":"Не нашли ответ?",
-        "cta.text":"Вы можете использовать страницу Контакты, чтобы написать нам напрямую. Мы сможем ответить в зависимости от вашего запроса или направить вас на нужную страницу.",
-        "cta.button":"Перейти к Контактам",
-
-        "footer.nav":"Навигация",
-        "footer.support":"Поддержка",
-        "footer.supportText":"По любым вопросам, связанным с публичным сайтом или использованием формы контакта.",
-        "footer.legalTitle":"Правовая информация",
-        "footer.brandText":"SEAL помогает лучше видеть срок действия SSL-сертификата благодаря понятному, читаемому и доступному интерфейсу.",
-        "footer.socials":"Соцсети",
-        "footer.privacy":"Политика конфиденциальности",
-        "footer.legal":"Юридическая информация",
-        "footer.terms":"Условия использования",
-        "footer.bottomText":"Secure Expiry Alert & Logging"
+        "nav.home":"Главная", "nav.features":"Функции", "nav.about":"О нас", "nav.faq":"FAQ", "nav.contact":"Контакты",
+        "hero.eyebrow":"Часто задаваемые вопросы", "hero.title.l1":"Все ответы", "hero.title.l2":"о", "hero.title.l3":"SEAL.",
+        "hero.subtitle":"Эта страница помогает лучше понять роль сайта SEAL, его работу, проверку SSL и основные вопросы при использовании.",
+        "hero.ctaPrimary":"Проверить домен", "hero.ctaSecondary":"Связаться с нами",
+        "side.title":"Зачем эта страница?", "side.text":"FAQ отвечает на частые вопросы о пользе SEAL и чтении результатов.",
+        "side2.title":"Для кого SEAL?", "side2.text":"Полезен разработчикам, ИТ-командам и всем, кто хочет быстро проверить SSL-сертификат.",
+        "help.title":"Быстрая помощь", "help.subtitle":"Несколько ориентиров перед чтением полной FAQ.",
+        "panel1.title":"Для чего нужен SEAL?", "panel1.text":"SEAL позволяет быстро проверять срок действия SSL-сертификата с наглядной подачей результата.",
+        "panel2.title":"Почему это полезно?", "panel2.text":"Истёкший сертификат вызывает предупреждения браузера и мешает доступу. SEAL помогает заметить это вовремя.",
+        "panel3.title":"Сайт многоязычный?", "panel3.text":"Да. Основное содержимое доступно на шести языках.",
+        "faq.title":"Часто задаваемые вопросы", "faq.subtitle":"Нажмите на вопрос, чтобы открыть ответ.",
+        "q1.q":"Что именно делает SEAL?", "q1.a":"Анализирует домен, чтобы показать дату окончания SSL-сертификата и визуальный уровень статуса.",
+        "q2.q":"Что нужно вводить в checker?", "q2.a":"Простой домен или полный URL (например: example.com или https://example.com).",
+        "q3.q":"Что, если домен не существует?", "q3.a":"SEAL покажет понятное сообщение об ошибке, не выдавая ложных результатов.",
+        "q4.q":"Что означают цвета результата?", "q4.a":"Зелёный: всё хорошо. Оранжевый: нужно отслеживать. Красный: истечение близко или уже наступило.",
+        "q5.q":"Почему важно проверять SSL?", "q5.a":"SSL защищает обмен данными. Истечение вызывает предупреждения и снижает доверие.",
+        "q6.q":"Заменяет ли SEAL продвинутый мониторинг?", "q6.a":"В первую очередь это инструмент для быстрой проверки, а не полная замена сложного мониторинга.",
+        "q7.q":"Сохраняет ли сайт мои настройки?", "q7.a":"Да, локально сохраняет язык и тему (светлую/тёмную).",
+        "q8.q":"Подходит ли сайт для смартфонов?", "q8.a":"Да, дизайн адаптивен для любых устройств.",
+        "q9.q":"Можно ли связаться с командой?", "q9.a":"Да, через форму на странице Контакты.",
+        "q10.q":"Где найти правовую информацию?", "q10.a":"Ссылки доступны в нижней части сайта (футере).",
+        "cta.title":"Не нашли ответ?", "cta.text":"Напишите нам напрямую через страницу Контакты.", "cta.button":"Перейти к Контактам",
+        "footer.nav":"Система", "footer.support":"Поддержка", "footer.supportText":"По вопросам работы сайта обращайтесь через страницу Контакты или по email.", "footer.legalTitle":"Безопасность и право", "footer.brandText":"SEAL помогает визуализировать истечение срока SSL.",
+        "footer.privacy":"Конфиденциальность", "footer.legal":"Юридическая информация", "footer.terms":"Условия", "footer.bottomText":"Secure Expiry Alert & Logging"
       },
-
       ar: {
-        "nav.home":"الرئيسية",
-        "nav.features":"الميزات",
-        "nav.about":"من نحن",
-        "nav.faq":"الأسئلة الشائعة",
-        "nav.contact":"اتصال",
-
-        "hero.eyebrow":"الأسئلة الشائعة",
-        "hero.title.l1":"كل الإجابات",
-        "hero.title.l2":"حول",
-        "hero.title.l3":"SEAL.",
-        "hero.subtitle":"تساعدك هذه الصفحة على فهم دور موقع SEAL وطريقة عمله والتحقق من SSL والرسائل المعروضة والتجربة المقترحة وأهم الأسئلة التي قد تطرح قبل أو أثناء الاستخدام.",
-        "hero.ctaPrimary":"اختبار نطاق",
-        "hero.ctaSecondary":"اتصل بنا",
-
-        "side.title":"لماذا هذه الصفحة؟",
-        "side.text":"تجيب صفحة الأسئلة الشائعة على أكثر الأسئلة تكرارًا حول فائدة SEAL وطريقة استخدام checker SSL وكيفية قراءة النتائج المعروضة.",
-        "side2.title":"لمن تم تصميم SEAL؟",
-        "side2.text":"قد يكون الموقع مفيدًا للطلاب والمطورين ومديري المشاريع والفرق التقنية أو لأي شخص يريد التحقق بسهولة من حالة شهادة SSL.",
-
-        "help.title":"مساعدة سريعة",
-        "help.subtitle":"بعض النقاط المفيدة قبل تصفح الأسئلة الشائعة الكاملة.",
-        "panel1.title":"ما فائدة SEAL؟",
-        "panel1.text":"يتيح SEAL التحقق سريعًا من انتهاء شهادة SSL انطلاقًا من نطاق أو رابط، مع قراءة بسيطة وبصرية للنتيجة.",
-        "panel2.title":"لماذا هذا مفيد؟",
-        "panel2.text":"قد تتسبب الشهادة المنتهية في ظهور تحذيرات في المتصفح وتقليل الثقة وتعطيل الوصول إلى الموقع. يساعد SEAL على اكتشاف ذلك قبل ظهور مشكلة واضحة.",
-        "panel3.title":"هل الموقع متعدد اللغات؟",
-        "panel3.text":"نعم. يمكن عرض المحتوى الرئيسي للموقع باللغات الست المتاحة في الواجهة.",
-
-        "faq.title":"الأسئلة الشائعة",
-        "faq.subtitle":"اضغط على السؤال لعرض الإجابة.",
-
-        "q1.q":"ماذا يفعل SEAL بالضبط؟",
-        "q1.a":"يقوم SEAL بتحليل نطاق لعرض تاريخ انتهاء شهادة SSL والوقت المتبقي قبل الانتهاء ومستوى بصري يساعد على فهم ما إذا كانت الحالة مريحة أو تحتاج متابعة أو أصبحت عاجلة.",
-        "q2.q":"ماذا يجب أن أكتب في checker؟",
-        "q2.a":"يمكنك إدخال اسم نطاق بسيط أو رابط كامل. مثلًا: example.com أو https://example.com. بعد ذلك يقوم النظام بتجهيز الإدخال لإطلاق التحقق من SSL.",
-        "q3.q":"ماذا يحدث إذا كان النطاق غير موجود؟",
-        "q3.a":"إذا كان النطاق غير صالح أو غير موجود أو لا يمكن إنشاء اتصال قابل للاستخدام، يعرض SEAL رسالة خطأ واضحة. الهدف هو عدم إعطاء نتيجة غير منطقية أبدًا.",
-        "q4.q":"ماذا تعني ألوان النتيجة؟",
-        "q4.a":"تم تصميم الترميز اللوني لجعل القراءة فورية: الأخضر لحالة لا تزال مريحة، والبرتقالي لشهادة يجب متابعتها، والأحمر لانتهاء قريب جدًا أو حالة حرجة.",
-        "q5.q":"لماذا من المهم التحقق من شهادة SSL؟",
-        "q5.a":"تؤمّن شهادة SSL التبادل بين الموقع وزواره. وعندما تقترب من الانتهاء أو تنتهي فعليًا، قد تظهر تحذيرات في المتصفح وتضعف الثقة وتسبب تجربة استخدام سيئة.",
-        "q6.q":"هل يعوض SEAL أداة مراقبة متقدمة؟",
-        "q6.a":"يركّز الموقع العام SEAL أساسًا على العرض السريع والفهم البصري. ولا يعني ذلك بالضرورة أنه يعوض حل مراقبة كامل، لكنه يقدم واجهة واضحة لقراءة الأساسيات بسرعة.",
-        "q7.q":"هل يحتفظ الموقع بتفضيلاتي؟",
-        "q7.a":"نعم. يمكن للموقع حفظ بعض التفضيلات محليًا مثل اللغة المختارة أو الوضع الفاتح/الداكن من أجل تحسين الراحة في الزيارات القادمة.",
-        "q8.q":"هل الموقع مناسب للشاشات الصغيرة؟",
-        "q8.a":"نعم. تم تصميم الصفحة لتظل مقروءة على الحاسوب واللوحي والهاتف. وعلى الشاشات الصغيرة تتحول القائمة الرئيسية إلى menu hamburger للحفاظ على تنقل بسيط ونظيف.",
-        "q9.q":"هل يمكنني التواصل مع الفريق من خلال الموقع؟",
-        "q9.a":"نعم. تتيح صفحة الاتصال إرسال رسالة إلى الفريق عبر النموذج المخصص. وبعد ذلك يتم تحويل الرسالة إلى عنوان الاتصال الخاص بالمشروع.",
-        "q10.q":"أين أجد المعلومات القانونية وسياسة الخصوصية؟",
-        "q10.a":"يمكن الوصول إلى صفحات سياسة الخصوصية والبيان القانوني وشروط الاستخدام من تذييل الموقع.",
-
-        "cta.title":"لم تجد إجابتك؟",
-        "cta.text":"يمكنك استخدام صفحة الاتصال لمراسلتنا مباشرة. وسنتمكن من الرد وفقًا لطبيعة طلبك أو توجيهك إلى الصفحة المناسبة.",
-        "cta.button":"الذهاب إلى الاتصال",
-
-        "footer.nav":"التنقل",
-        "footer.support":"الدعم",
-        "footer.supportText":"لأي سؤال متعلق بالموقع العام أو باستخدام نموذج الاتصال.",
-        "footer.legalTitle":"قانوني",
-        "footer.brandText":"يساعدك SEAL على فهم تاريخ انتهاء شهادة SSL بشكل أفضل من خلال واجهة واضحة وسهلة القراءة.",
-        "footer.socials":"الشبكات",
-        "footer.privacy":"سياسة الخصوصية",
-        "footer.legal":"بيان قانوني",
-        "footer.terms":"شروط الاستخدام",
-        "footer.bottomText":"Secure Expiry Alert & Logging"
+        "nav.home":"الرئيسية", "nav.features":"الميزات", "nav.about":"من نحن", "nav.faq":"الأسئلة الشائعة", "nav.contact":"اتصال",
+        "hero.eyebrow":"الأسئلة الشائعة", "hero.title.l1":"كل الإجابات", "hero.title.l2":"حول", "hero.title.l3":"SEAL.",
+        "hero.subtitle":"تساعدك هذه الصفحة على فهم دور موقع SEAL وطريقة عمله والتحقق من SSL والأسئلة الشائعة حول الاستخدام.",
+        "hero.ctaPrimary":"اختبار نطاق", "hero.ctaSecondary":"اتصل بنا",
+        "side.title":"لماذا هذه الصفحة؟", "side.text":"تجيب صفحة الأسئلة الشائعة بسرعة على التساؤلات حول كيفية استخدام SEAL وقراءة النتائج.",
+        "side2.title":"لمن تم تصميم SEAL؟", "side2.text":"مفيد للطلاب والمطورين والفرق التقنية أو أي شخص يريد التحقق من حالة شهادة SSL بسهولة.",
+        "help.title":"مساعدة سريعة", "help.subtitle":"بعض النقاط المفيدة قبل تصفح الأسئلة الشائعة.",
+        "panel1.title":"ما فائدة SEAL؟", "panel1.text":"يتيح التحقق السريع من انتهاء شهادة SSL بقراءة بصرية بسيطة.",
+        "panel2.title":"لماذا هذا مفيد؟", "panel2.text":"الشهادة المنتهية تسبب تحذيرات وتقلل الثقة. SEAL يساعد على اكتشاف المشكلة مبكرًا.",
+        "panel3.title":"هل الموقع متعدد اللغات؟", "panel3.text":"نعم، المحتوى متوفر بست لغات.",
+        "faq.title":"الأسئلة الشائعة", "faq.subtitle":"اضغط على السؤال لعرض الإجابة.",
+        "q1.q":"ماذا يفعل SEAL بالضبط؟", "q1.a":"يحلل النطاق ليعرض تاريخ انتهاء SSL وحالة الشهادة عبر ألوان توضيحية.",
+        "q2.q":"ماذا أكتب في مربع البحث؟", "q2.a":"اسم نطاق أو رابط كامل (مثل: example.com أو https://example.com).",
+        "q3.q":"ماذا لو كان النطاق غير موجود؟", "q3.a":"يعرض النظام رسالة خطأ واضحة لتجنب تقديم بيانات خاطئة.",
+        "q4.q":"ماذا تعني الألوان؟", "q4.a":"أخضر: حالة آمنة. برتقالي: يجب المتابعة. أحمر: انتهاء قريب أو حالة حرجة.",
+        "q5.q":"لماذا يجب التحقق من SSL؟", "q5.a":"لضمان أمان الموقع وتجنب رسائل التحذير المزعجة للزوار.",
+        "q6.q":"هل يعوض SEAL أداة مراقبة متقدمة؟", "q6.a":"يركز أساسًا على الفحص السريع والواضح وليس بالضرورة بديلاً كاملاً للأنظمة المعقدة.",
+        "q7.q":"هل يحفظ الموقع إعداداتي؟", "q7.a":"نعم، يحفظ لغتك المفضلة والوضع الفاتح/الداكن في متصفحك.",
+        "q8.q":"هل الموقع مناسب للهواتف؟", "q8.a":"نعم، التصميم متجاوب تمامًا مع جميع الشاشات.",
+        "q9.q":"كيف أتواصل مع الفريق؟", "q9.a":"يمكنك إرسال رسالة من خلال صفحة الاتصال.",
+        "q10.q":"أين أجد سياسة الخصوصية؟", "q10.a":"موجودة في أسفل الموقع (الفوتر).",
+        "cta.title":"لم تجد إجابتك؟", "cta.text":"استخدم صفحة الاتصال لمراسلتنا مباشرة وسنقوم بالرد عليك.", "cta.button":"الذهاب إلى الاتصال",
+        "footer.nav":"النظام", "footer.support":"الدعم", "footer.supportText":"لأي أسئلة متعلقة بالموقع، اتصل بنا عبر صفحة الاتصال أو عبر البريد الإلكتروني.", "footer.legalTitle":"الأمان والقانون", "footer.brandText":"أداة مراقبة شهادات SSL.",
+        "footer.privacy":"سياسة الخصوصية", "footer.legal":"بيان قانوني", "footer.terms":"شروط الاستخدام", "footer.bottomText":"Secure Expiry Alert & Logging"
       },
-
       zh: {
-        "nav.home":"主页",
-        "nav.features":"功能",
-        "nav.about":"关于我们",
-        "nav.faq":"常见问题",
-        "nav.contact":"联系",
-
-        "hero.eyebrow":"常见问题",
-        "hero.title.l1":"关于",
-        "hero.title.l2":"SEAL 的",
-        "hero.title.l3":"全部答案。",
-        "hero.subtitle":"本页面帮助你更好地理解 SEAL 网站的作用、运行方式、SSL 检查、页面显示的信息、整体体验，以及在使用前后常见的核心问题。",
-        "hero.ctaPrimary":"测试一个域名",
-        "hero.ctaSecondary":"联系我们",
-
-        "side.title":"为什么要有这页？",
-        "side.text":"FAQ 用来快速回答关于 SEAL 的常见问题，包括如何使用 SSL checker 以及如何理解页面上的结果。",
-        "side2.title":"SEAL 适合谁？",
-        "side2.text":"该网站适合学生、开发者、项目负责人、技术团队，或任何想要简单检查 SSL 证书状态的人。",
-
-        "help.title":"快速帮助",
-        "help.subtitle":"在查看完整 FAQ 前的几个有用提示。",
-        "panel1.title":"SEAL 有什么作用？",
-        "panel1.text":"SEAL 可以通过域名或网址快速检查 SSL 证书到期情况，并以简单直观的方式展示结果。",
-        "panel2.title":"为什么这很有用？",
-        "panel2.text":"证书过期可能会触发浏览器警告、降低信任并影响网站访问。SEAL 帮助你在问题明显出现之前发现它。",
-        "panel3.title":"网站支持多语言吗？",
-        "panel3.text":"支持。网站主要内容可以通过界面中提供的六种语言显示。",
-
-        "faq.title":"常见问题",
-        "faq.subtitle":"点击问题即可显示答案。",
-
-        "q1.q":"SEAL 具体做什么？",
-        "q1.a":"SEAL 会分析一个域名，以显示其 SSL 证书的到期日期、距离到期的剩余时间，以及一个视觉级别，帮助你快速理解当前状态是安心、需要关注还是较为紧急。",
-        "q2.q":"我需要在 checker 中输入什么？",
-        "q2.a":"你可以输入简单域名或完整网址。例如：example.com 或 https://example.com。系统随后会规范化输入并启动 SSL 检查。",
-        "q3.q":"如果域名不存在会怎样？",
-        "q3.a":"如果域名无效、找不到，或无法建立可用连接，SEAL 会显示清晰的错误信息。目标是绝不返回不一致或虚构的结果。",
-        "q4.q":"结果中的颜色代表什么？",
-        "q4.a":"颜色代码是为了让结果更容易理解：绿色表示当前较为安心，橙色表示需要关注，红色表示已经非常接近到期或属于严重情况。",
-        "q5.q":"为什么检查 SSL 证书很重要？",
-        "q5.a":"SSL 证书保护网站与访问者之间的通信。当它接近到期或已经到期时，可能会触发浏览器警告、降低信任，并带来不好的用户体验。",
-        "q6.q":"SEAL 能替代高级监控工具吗？",
-        "q6.a":"SEAL 公共网站主要强调快速查看和视觉理解。它不一定替代完整的监控解决方案，但它提供了一个清晰界面，用来快速阅读最重要的信息。",
-        "q7.q":"网站会保存我的偏好吗？",
-        "q7.a":"会。网站可以在本地保存某些偏好设置，例如所选语言或明暗模式，以提升之后访问时的使用舒适度。",
-        "q8.q":"网站适配小屏幕吗？",
-        "q8.a":"适配。页面设计保证在电脑、平板和手机上都保持清晰可读。在小屏幕上，主导航会切换成 hamburger menu，以保持导航简洁干净。",
-        "q9.q":"我可以通过网站联系团队吗？",
-        "q9.a":"可以。联系页面允许你通过专门表单向团队发送消息，随后消息会被传送到项目联系地址。",
-        "q10.q":"在哪里可以找到法律和隐私信息？",
-        "q10.a":"隐私政策、法律声明和使用条款页面都可以从网站底部访问。",
-
-        "cta.title":"没有找到你的答案？",
-        "cta.text":"你可以通过联系页面直接给我们留言。我们会根据你的请求类型回复你，或引导你前往合适的页面。",
-        "cta.button":"前往联系页面",
-
-        "footer.nav":"导航",
-        "footer.support":"支持",
-        "footer.supportText":"如对公开网站或联系表单有任何问题，可通过此处联系。",
-        "footer.legalTitle":"法律信息",
-        "footer.brandText":"SEAL 通过清晰、易读、易访问的界面，帮助你更好地查看 SSL 证书到期情况。",
-        "footer.socials":"社交",
-        "footer.privacy":"隐私政策",
-        "footer.legal":"法律声明",
-        "footer.terms":"使用条款",
-        "footer.bottomText":"Secure Expiry Alert & Logging"
+        "nav.home":"主页", "nav.features":"功能", "nav.about":"关于我们", "nav.faq":"常见问题", "nav.contact":"联系",
+        "hero.eyebrow":"常见问题", "hero.title.l1":"关于", "hero.title.l2":"SEAL 的", "hero.title.l3":"全部答案。",
+        "hero.subtitle":"本页面帮助你了解 SEAL 的作用、SSL 检查方式以及常见的使用问题。",
+        "hero.ctaPrimary":"测试一个域名", "hero.ctaSecondary":"联系我们",
+        "side.title":"为什么要有这页？", "side.text":"快速回答关于 SEAL 使用和结果读取的最常见问题。",
+        "side2.title":"SEAL 适合谁？", "side2.text":"适合开发者、IT 团队以及任何想要简单检查 SSL 状态的人。",
+        "help.title":"快速帮助", "help.subtitle":"几个有用的提示。",
+        "panel1.title":"SEAL 有什么作用？", "panel1.text":"通过域名快速检查 SSL 证书到期情况，并提供直观的视觉反馈。",
+        "panel2.title":"为什么这很有用？", "panel2.text":"证书过期会引发浏览器警告。SEAL 帮助你在问题发生前发现它。",
+        "panel3.title":"支持多语言吗？", "panel3.text":"支持，网站提供六种语言。",
+        "faq.title":"常见问题", "faq.subtitle":"点击问题即可显示答案。",
+        "q1.q":"SEAL 具体做什么？", "q1.a":"分析域名，显示 SSL 证书到期日期及视觉安全级别。",
+        "q2.q":"我需要输入什么？", "q2.a":"域名或完整 URL（如：example.com 或 https://example.com）。",
+        "q3.q":"如果域名不存在会怎样？", "q3.a":"系统会显示清晰的错误信息，绝不会凭空捏造结果。",
+        "q4.q":"颜色代表什么？", "q4.a":"绿色：安全。橙色：需要关注。红色：即将过期或紧急。",
+        "q5.q":"为什么检查 SSL 很重要？", "q5.a":"证书过期会导致访客看到警告，降低网站信任度。",
+        "q6.q":"SEAL 能替代高级监控工具吗？", "q6.a":"它主打快速查询和直观理解，提供一个清晰的基础检查界面。",
+        "q7.q":"会保存我的偏好吗？", "q7.a":"会，系统会在本地保存你的语言和明暗主题偏好。",
+        "q8.q":"适配手机吗？", "q8.a":"完全适配，页面在各种设备上均清晰可读。",
+        "q9.q":"我能联系团队吗？", "q9.a":"可以，通过“联系”页面的表单向我们发送消息。",
+        "q10.q":"法律和隐私信息在哪？", "q10.a":"可从网站底部（Footer）访问。",
+        "cta.title":"没有找到答案？", "cta.text":"你可以通过联系页面直接给我们留言。", "cta.button":"前往联系页面",
+        "footer.nav":"系统", "footer.support":"支持", "footer.supportText":"如有任何与网站相关的问题，请通过“联系”页面或电子邮件与我们联系。", "footer.legalTitle":"安全与法律", "footer.brandText":"SSL 证书监控工具。",
+        "footer.privacy":"隐私政策", "footer.legal":"法律声明", "footer.terms":"使用条款", "footer.bottomText":"Secure Expiry Alert & Logging"
       }
     };
 
@@ -1636,7 +905,7 @@
     function applyI18n(){
       document.querySelectorAll("[data-i18n]").forEach(el => {
         const key = el.getAttribute("data-i18n");
-        el.textContent = t(key);
+        el.innerHTML = t(key);
       });
     }
 
@@ -1662,17 +931,15 @@
     function syncLogo(img){
       if(!img) return;
       const theme = document.documentElement.getAttribute("data-theme") || "dark";
-      const darkSrc = img.getAttribute("data-logo-dark");
-      const lightSrc = img.getAttribute("data-logo-light");
       const useDark = theme === "dark";
-      img.src = useDark ? darkSrc : lightSrc;
+      img.src = useDark ? img.getAttribute("data-logo-dark") : img.getAttribute("data-logo-light");
       img.classList.toggle("is-dark-logo", useDark);
       img.classList.toggle("is-light-logo", !useDark);
     }
 
     function syncAllLogos(){
-      syncLogo(document.getElementById("brandLogo"));
-      syncLogo(document.getElementById("footerLogo"));
+      syncLogo($("#brandLogo"));
+      syncLogo($("#footerLogo"));
     }
 
     function setTheme(theme){
@@ -1693,7 +960,7 @@
 
         button.addEventListener("click", () => {
           const isOpen = item.classList.contains("open");
-
+          
           document.querySelectorAll(".faq-item").forEach(other => {
             other.classList.remove("open");
             const otherAnswer = other.querySelector(".faq-answer");
@@ -1706,6 +973,9 @@
           }
         });
       });
+      // Initialise la hauteur pour le premier élément ouvert par défaut (s'il y en a un)
+      const firstOpen = document.querySelector(".faq-item.open .faq-answer");
+      if(firstOpen) firstOpen.style.maxHeight = firstOpen.scrollHeight + "px";
     }
 
     function toggleMobileMenu(force){

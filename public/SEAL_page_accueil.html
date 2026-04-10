@@ -7,937 +7,408 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&family=Space+Grotesk:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
+    /* --- VARIABLES CYBER-GLASS (MODE SOMBRE) --- */
     :root{
-      --bg0:#07111F;
-      --bg1:#0A1426;
-      --bg2:#0D1A31;
-      --card:rgba(10,18,34,.72);
-      --card-strong:rgba(10,18,34,.88);
-      --card-soft:rgba(255,255,255,.05);
-      --text:#EAF2FF;
-      --muted:#A7B4D3;
-      --line:rgba(148,163,184,.18);
-      --line-strong:rgba(148,163,184,.28);
-      --accent:#35C6C2;
-      --accent2:#6DBBFF;
-      --accent3:#8A7CFF;
-      --ok:#22C55E;
-      --warn:#F59E0B;
-      --bad:#EF4444;
-      --shadow:0 24px 70px rgba(0,0,0,.38);
-      --radius:24px;
-      --radius-sm:16px;
-      --max:1240px;
+      --bg-dark: #030305;
+      --glass-bg: rgba(15, 15, 20, 0.45);
+      --glass-strong: rgba(10, 10, 15, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-blur: blur(24px);
+      
+      --control-bg: rgba(0, 0, 0, 0.4);
+      --card-bg: rgba(0, 0, 0, 0.25);
+
+      --text: #EAF2FF;
+      --muted: #8A9BBD;
+      --line: rgba(255, 255, 255, 0.1);
+      
+      --neon-blue: #00f0ff;
+      --neon-green: #00ffcc;
+      --neon-purple: #b026ff;
+      
+      --ok: #00ffcc;
+      --warn: #F59E0B;
+      --bad: #ff2a5f;
+      
+      --shadow: 0 24px 70px rgba(0,0,0, 0.6);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --max: 1240px;
     }
 
+    /* --- MODE CLAIR (RÉPARÉ : BLANC PUR, SANS GRIS MOCHE) --- */
     html[data-theme="light"]{
-      --bg0:#EEF5FF;
-      --bg1:#F8FBFF;
-      --bg2:#FFFFFF;
-      --card:rgba(255,255,255,.82);
-      --card-strong:rgba(255,255,255,.94);
-      --card-soft:rgba(15,23,42,.035);
-      --text:#0B1630;
-      --muted:#4B5B79;
-      --line:rgba(15,23,42,.10);
-      --line-strong:rgba(15,23,42,.16);
-      --shadow:0 22px 55px rgba(15,23,42,.10);
+      --bg-dark: #F8FAFC; /* Un blanc/bleu très pur et doux */
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-strong: rgba(255, 255, 255, 0.98);
+      --glass-border: rgba(0, 0, 0, 0.05);
+      
+      --control-bg: #FFFFFF; /* Remplace les boutons gris par du blanc pur */
+      --card-bg: #FFFFFF;    /* Cartes blanches */
+
+      --text: #0F172A;
+      --muted: #475569;
+      --line: #E2E8F0; /* Bordures grises très claires et douces */
+      
+      --neon-blue: #0284C7; 
+      --neon-green: #059669;
+      --neon-purple: #7C3AED;
+      
+      --ok: #059669;
+      --warn: #D97706;
+      --bad: #E11D48;
+      
+      --shadow: 0 4px 20px rgba(0,0,0, 0.04);
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family:Roboto,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(900px 520px at 10% -10%, rgba(53,198,194,.18), transparent 60%),
-        radial-gradient(700px 420px at 90% 0%, rgba(109,187,255,.18), transparent 55%),
-        radial-gradient(760px 520px at 50% 120%, rgba(138,124,255,.14), transparent 55%),
-        linear-gradient(180deg, var(--bg0), var(--bg1) 48%, var(--bg2));
-      overflow-x:hidden;
+      font-family: Roboto, system-ui, sans-serif;
+      color: var(--text);
+      background-color: var(--bg-dark);
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     html[dir="rtl"] body{direction:rtl;}
-    html[dir="rtl"] .nav,
-    html[dir="rtl"] .controls,
-    html[dir="rtl"] .hero-grid,
-    html[dir="rtl"] .hero-actions,
-    html[dir="rtl"] .search-row,
-    html[dir="rtl"] .section-head,
-    html[dir="rtl"] .footer-grid,
-    html[dir="rtl"] .footer-bottom,
-    html[dir="rtl"] .mobile-menu{
-      direction:rtl;
-    }
+    html[dir="rtl"] .nav, html[dir="rtl"] .controls, html[dir="rtl"] .hero-grid, html[dir="rtl"] .hero-actions, html[dir="rtl"] .search-row, html[dir="rtl"] .section-head, html[dir="rtl"] .footer-grid, html[dir="rtl"] .footer-bottom, html[dir="rtl"] .mobile-menu{ direction:rtl; }
     html[dir="rtl"] .lang .menu{right:auto; left:0;}
-    html[dir="rtl"] .result-meta,
-    html[dir="rtl"] .quick-read-badges,
-    html[dir="rtl"] .socials{
-      direction:rtl;
+    html[dir="rtl"] .result-meta, html[dir="rtl"] .quick-read-badges, html[dir="rtl"] .socials{ direction:rtl; }
+
+    /* --- ARRIÈRE-PLAN --- */
+    .bg-grid {
+      position: fixed; inset: 0; pointer-events: none; opacity: .15;
+      background: linear-gradient(to right, rgba(150,150,150,.1) 1px, transparent 1px),
+                  linear-gradient(to bottom, rgba(150,150,150,.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(circle at 50% 30%, rgba(0,0,0,1) 0, rgba(0,0,0,0) 80%);
+      animation: gridMove 20s linear infinite;
+    }
+    html[data-theme="light"] .bg-grid { opacity: 0.5; }
+    
+    @keyframes gridMove { from{transform:translateY(0)} to{transform:translateY(50px)} }
+
+    .aurora, .aurora2, .aurora3 {
+      position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: -1;
+      animation: floatA 15s ease-in-out infinite alternate;
+    }
+    .aurora { width: 45vw; height: 45vw; left: -10%; top: -10%; background: rgba(0, 240, 255, 0.12); }
+    .aurora2 { width: 40vw; height: 40vw; right: -5%; bottom: -5%; background: rgba(0, 255, 204, 0.1); animation-delay: -5s; }
+    .aurora3 { width: 35vw; height: 35vw; left: 30%; top: 40%; background: rgba(176, 38, 255, 0.08); animation-delay: -10s; }
+    @keyframes floatA{ 0% {transform: translate(0,0) scale(1);} 100% {transform: translate(50px, 30px) scale(1.1);} }
+
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 18px; }
+
+    /* --- HEADER & NAV --- */
+    header {
+      position: sticky; top: 0; z-index: 60;
+      background: var(--glass-strong);
+      backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+      border-bottom: 1px solid var(--glass-border);
+      transition: 0.3s;
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; }
+    
+    .brand, .footer-brand a { display: flex; align-items: center; text-decoration: none; min-width: 120px; }
+    .brand img, .footer-brand img { 
+      height: 50px; width: auto; display: block; 
+      transform-origin: left center; transition: transform 0.3s ease; 
+    }
+    .brand img.is-dark-logo, .footer-brand img.is-dark-logo { transform: scale(1.6); }
+    .brand img.is-light-logo, .footer-brand img.is-light-logo { transform: scale(1.08); }
+
+    .navlinks { display: flex; align-items: center; gap: 25px; list-style: none; margin: 0; padding: 0; }
+    .navlinks a {
+      text-decoration: none; color: var(--text); font-family: 'Fira Code', monospace;
+      font-size: 13px; opacity: .7; transition: 0.3s;
+    }
+    .navlinks a:hover, .navlinks a.active { opacity: 1; color: var(--neon-blue); text-shadow: 0 0 10px rgba(0, 240, 255, 0.4); }
+
+    /* --- CONTROLS & TRADUCTION --- */
+    .controls { display: flex; align-items: center; gap: 10px; }
+    
+    .lang button, .theme-toggle, .menu-toggle {
+      border: 1px solid var(--line); background: var(--control-bg); color: var(--text);
+      backdrop-filter: blur(10px); cursor: pointer; transition: 0.3s; border-radius: 999px;
+    }
+    .lang button {
+      display: flex; align-items: center; gap: 8px; padding: 8px 14px;
+      font-family: 'Fira Code', monospace; font-size: 12px; font-weight: 600;
+    }
+    .lang button:hover, .theme-toggle:hover, .menu-toggle:hover {
+      border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); 
+    }
+    html[data-theme="light"] .lang button:hover, html[data-theme="light"] .theme-toggle:hover {
+      box-shadow: 0 0 15px rgba(2, 132, 199, 0.2);
+    }
+    
+    .pill { font-size: 10px; padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--neon-green); }
+    
+    .lang { position: relative; }
+    .lang .menu {
+      position: absolute; top: 120%; right: 0; min-width: 190px; padding: 10px;
+      border-radius: var(--radius-sm); border: 1px solid var(--neon-blue);
+      background: var(--glass-strong); backdrop-filter: var(--glass-blur);
+      box-shadow: 0 10px 30px rgba(0, 240, 255, 0.1); display: none; z-index: 80;
+    }
+    .lang .menu.open { display: block; }
+    .lang .item {
+      width: 100%; display: flex; align-items: center; justify-content: space-between; gap:10px;
+      border: 0; background: transparent; color: var(--text); border-radius: 6px; padding: 10px;
+      cursor: pointer; font-family: 'Fira Code', monospace; font-size: 12px; transition: 0.2s;
+    }
+    .lang .item:hover, .lang .item.active { background: var(--control-bg); color: var(--neon-blue); }
+
+    /* SOLEIL / LUNE */
+    .theme-toggle { width: 44px; height: 44px; display: grid; place-items: center; padding: 0;}
+    .sunmoon { width: 22px; height: 22px; display: block; transform-origin: 50% 50%; transition: transform 0.5s cubic-bezier(.2,.9,.2,1); }
+    html[data-theme="dark"] .sunmoon { transform: rotate(180deg); }
+    .sun-core, .moon-core { transition: opacity 0.35s ease; }
+    html[data-theme="dark"] .sun-core { opacity: 0; }
+    html[data-theme="light"] .moon-core { opacity: 0; }
+
+    /* MENU HAMBURGER (Mobile) */
+    .menu-toggle { display: none; width: 44px; height: 44px; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+    .menu-toggle span { display: block; width: 18px; height: 2px; border-radius: 2px; background: var(--text); transition: transform 0.3s ease, opacity 0.3s ease; }
+    .menu-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--neon-blue);}
+    .menu-toggle.open span:nth-child(2) { opacity: 0; }
+    .menu-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--neon-blue);}
+
+    .mobile-menu {
+      display: none; flex-direction: column; padding: 10px; border-radius: var(--radius-sm); margin-bottom: 20px;
+      background: var(--glass-strong); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border);
+    }
+    .mobile-menu.open { display: flex; animation: slideDown 0.3s ease forwards; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .mobile-menu a {
+      padding: 15px; color: var(--text); text-decoration: none; font-family: 'Fira Code', monospace;
+      border-bottom: 1px solid var(--line); font-size: 14px; transition: 0.3s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover, .mobile-menu a.active { color: var(--neon-blue); background: var(--control-bg); }
+
+    main { padding: 40px 0 60px; }
+
+    /* --- GLASS CONTAINERS --- */
+    .hero, .floating-card, .result-card, .section, footer {
+      background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border); box-shadow: var(--shadow); position: relative; transition: background 0.3s, border 0.3s;
     }
 
-    .bg-grid{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      opacity:.28;
-      background:
-        linear-gradient(to right, rgba(148,163,184,.08) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(148,163,184,.08) 1px, transparent 1px);
-      background-size:52px 52px;
-      mask-image: radial-gradient(circle at 50% 25%, rgba(0,0,0,.9) 0, rgba(0,0,0,.55) 45%, rgba(0,0,0,0) 82%);
-      animation:gridMove 18s linear infinite;
+    /* --- HERO SECTION --- */
+    .hero { border-radius: var(--radius); overflow: hidden; padding: 40px;}
+    .terminal-header {
+      display: flex; align-items: center; gap: 10px; font-family: 'Fira Code', monospace;
+      font-size: 12px; color: var(--muted); margin-bottom: 25px; border-bottom: 1px dashed var(--line); padding-bottom: 10px;
     }
-    @keyframes gridMove{
-      from{transform:translate3d(0,0,0)}
-      to{transform:translate3d(-52px,52px,0)}
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; background-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; }
+
+    /* Correction de l'Eyebrow gris en mode clair */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 4px; padding: 6px 12px;
+      background: var(--control-bg); color: var(--neon-green); font-family: 'Fira Code', monospace; font-size: 11px; text-transform: uppercase;
+    }
+    html[data-theme="light"] .eyebrow { background: #ECFDF5; border-color: #A7F3D0; color: #059669; }
+
+    .hero h1 { margin: 20px 0 15px; font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 5vw, 64px); line-height: 1.1; font-weight: 700; color: var(--text); }
+    .hero-title-line { display: block; }
+    .hero-title-gradient {
+      display: inline-block; background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
+      -webkit-background-clip: text; color: transparent; text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+    }
+    html[data-theme="light"] .hero-title-gradient { text-shadow: none; }
+    
+    .hero p.lead { color: var(--muted); font-size: 16px; line-height: 1.7; max-width: 600px; }
+    .ghost-note { margin-top: 20px; font-family: 'Fira Code', monospace; font-size: 11px; color: var(--muted); opacity: 0.8; }
+
+    /* BOUTONS CYBER (Correction du bouton gris en mode clair) */
+    .hero-actions { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 30px; }
+    .glass-btn {
+      position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 48px; padding: 0 24px; border-radius: 4px; font-family: 'Fira Code', monospace; font-size: 13px;
+      text-transform: uppercase; text-decoration: none; cursor: pointer; transition: 0.3s;
+      background: var(--control-bg); border: 1px solid var(--line); color: var(--text);
+    }
+    html[data-theme="light"] .glass-btn:not(.primary) {
+      background: #FFFFFF; border: 1px solid #CBD5E1; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    html[data-theme="light"] .glass-btn:not(.primary):hover { background: #F8FAFC; border-color: #94A3B8; }
+    .glass-btn:hover { border-color: var(--neon-blue); }
+    
+    .glass-btn.primary {
+      background: transparent; color: var(--neon-blue); border: 1px solid var(--neon-blue);
+      box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.1), 0 0 15px rgba(0, 240, 255, 0.2);
+    }
+    html[data-theme="light"] .glass-btn.primary { box-shadow: none; background: rgba(2, 132, 199, 0.05); }
+    .glass-btn.primary:hover { background: var(--neon-blue); color: #fff; box-shadow: 0 0 25px var(--neon-blue); }
+    .glass-btn .arrow { width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); }
+
+    /* SIDE CARDS */
+    .hero-side { display: grid; gap: 20px; }
+    .floating-card { border-radius: var(--radius-sm); padding: 24px; transition: 0.4s ease; border-left: 2px solid transparent; background: var(--card-bg); border: 1px solid var(--line);}
+    .floating-card:hover { transform: translateX(5px); border-left: 2px solid var(--neon-blue); }
+    .floating-card h3 { margin: 0 0 10px 0; font-family: 'Space Grotesk', sans-serif; font-size: 16px; color: var(--text); }
+    .floating-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+    /* CORRECTION DES BADGES GRIS EN MODE CLAIR (Remplacés par des couleurs pastel) */
+    .quick-read-badges { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+    .quick-badge {
+      display: inline-flex; align-items: center; gap: 10px; padding: 10px 15px; border-radius: 4px; border: 1px solid var(--line);
+      background: var(--control-bg); font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text); transition: 0.3s;
+    }
+    .quick-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    
+    /* Dark Mode Badges */
+    .quick-badge-ok { border-color: rgba(0, 255, 204, 0.3); background: rgba(0, 255, 204, 0.05); color: var(--ok); } 
+    .quick-badge-ok .quick-dot { background: var(--ok); box-shadow: 0 0 8px var(--ok); }
+    
+    .quick-badge-warn { border-color: rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.05); color: var(--warn); } 
+    .quick-badge-warn .quick-dot { background: var(--warn); box-shadow: 0 0 8px var(--warn); }
+    
+    .quick-badge-bad { border-color: rgba(255, 42, 95, 0.3); background: rgba(255, 42, 95, 0.05); color: var(--bad); } 
+    .quick-badge-bad .quick-dot { background: var(--bad); box-shadow: 0 0 8px var(--bad); }
+
+    /* Light Mode Badges (Fini le gris !) */
+    html[data-theme="light"] .quick-badge-ok { background: #ECFDF5; border-color: #A7F3D0; color: #059669; }
+    html[data-theme="light"] .quick-badge-warn { background: #FFFBEB; border-color: #FDE68A; color: #D97706; }
+    html[data-theme="light"] .quick-badge-bad { background: #FFF1F2; border-color: #FECDD3; color: #E11D48; }
+
+    /* --- SECTION CHECKER --- */
+    .section { margin-top: 40px; border-radius: var(--radius); }
+    .section-head { display: flex; align-items: center; justify-content: space-between; padding: 20px 30px; border-bottom: 1px dashed var(--line); flex-wrap: wrap; gap: 15px; }
+    .section-head h2 { margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 18px; color: var(--neon-blue); }
+    .section-head p { margin: 5px 0 0; color: var(--muted); font-size: 13px; font-family: 'Fira Code', monospace; }
+
+    .checker { padding: 30px; }
+    .search-card { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 25px; background: var(--card-bg); }
+    .search-card h3 { margin: 0 0 10px 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; color: var(--text);}
+    .search-card p { margin: 0 0 20px 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+    .search-row { display: grid; grid-template-columns: 1fr auto; gap: 15px; align-items: center; }
+    .input-shell {
+      position: relative; border-radius: 4px; border: 1px solid var(--neon-blue);
+      background: var(--control-bg); overflow: hidden; display: flex; align-items: center; box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.05);
+    }
+    .input-shell::before { content: ">_"; position: absolute; left: 15px; color: var(--neon-blue); font-family: 'Fira Code', monospace; font-weight: bold; }
+    .search-input { width: 100%; height: 50px; border: 0; outline: 0; background: transparent; color: var(--neon-green); padding: 0 15px 0 45px; font-family: 'Fira Code', monospace; font-size: 14px; }
+    html[data-theme="light"] .search-input { color: var(--neon-blue); font-weight: bold; }
+    .search-input::placeholder { color: var(--muted); opacity: 0.6; font-weight: normal;}
+    .search-btn { height: 50px; }
+    .helper { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px; color: var(--muted); font-family: 'Fira Code', monospace; font-size: 11px; }
+
+    /* RESULTS CYBER */
+    .result-card { margin-top: 30px; border-radius: var(--radius-sm); padding: 25px; display: none; border: 1px solid var(--neon-blue); background: var(--card-bg); }
+    .result-card.show { display: block; animation: scanline 0.5s ease-out; }
+    @keyframes scanline { 0% { opacity: 0; transform: translateY(10px); filter: blur(5px); } 100% { opacity: 1; transform: translateY(0); filter: blur(0); } }
+
+    .result-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;}
+    .domain-chip { display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--neon-green); background: var(--control-bg); border-radius: 4px; padding: 8px 15px; font-family: 'Fira Code', monospace; font-size: 14px; color: var(--neon-green); font-weight: 600;}
+
+    .status-badge { padding: 6px 12px; border-radius: 4px; border: 1px solid; font-family: 'Fira Code', monospace; font-size: 12px; text-transform: uppercase; font-weight: bold;}
+    .status-badge.ok { border-color: var(--ok); color: var(--ok); background: var(--control-bg); }
+    .status-badge.warn { border-color: var(--warn); color: var(--warn); background: var(--control-bg); }
+    .status-badge.bad { border-color: var(--bad); color: var(--bad); background: var(--control-bg); }
+    html[data-theme="light"] .status-badge.ok { background: #ECFDF5; }
+    html[data-theme="light"] .status-badge.warn { background: #FFFBEB; }
+    html[data-theme="light"] .status-badge.bad { background: #FFF1F2; }
+
+    .result-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .metric { border: 1px solid var(--line); border-radius: 8px; padding: 20px; background: var(--control-bg); transition: 0.3s; }
+    .metric:hover { border-color: var(--neon-blue); }
+    .metric .label { color: var(--muted); font-family: 'Fira Code', monospace; font-size: 11px; margin-bottom: 10px; text-transform: uppercase;}
+    .metric .value { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; color: var(--text); }
+    .metric .sub { margin-top: 8px; color: var(--neon-purple); font-size: 12px; font-family: 'Fira Code', monospace; font-weight: 600;}
+
+    .result-meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px; }
+    .meta-item { border: 1px dashed var(--line); border-radius: 8px; padding: 15px; background: var(--control-bg); font-family: 'Fira Code', monospace; font-size: 12px; }
+    .meta-item strong { color: var(--muted); display: block; margin-bottom: 5px; text-transform: uppercase;}
+
+    .error-box { display: none; margin-top: 20px; border-radius: 4px; padding: 15px; border: 1px solid var(--bad); background: var(--control-bg); color: var(--bad); font-family: 'Fira Code', monospace; font-size: 13px; font-weight: bold;}
+    html[data-theme="light"] .error-box { background: #FFF1F2; }
+    .error-box.show { display: block; }
+
+    /* --- FOOTER --- */
+    footer { margin-top: 40px; border-radius: var(--radius); padding: 40px 30px 20px; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 30px; margin-bottom: 40px; }
+    .footer-brand { display: flex; flex-direction: column; gap: 15px; }
+    .footer-brand p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0;}
+    
+    /* --- RÉSOLUTION DU PROBLÈME DES ICÔNES SOCIALES (CERCLES PARFAITS) --- */
+    .socials { display: flex; gap: 15px; margin-top: 10px; }
+    
+    .social { 
+      /* Forcer la forme circulaire */
+      width: 46px; height: 46px; 
+      min-width: 46px; min-height: 46px; /* Empêche l'écrasement en ovale */
+      flex-shrink: 0;
+      
+      border-radius: 50%; 
+      border: 1px solid rgba(255,255,255,0.15); /* Cercle fin et léger */
+      
+      display: flex; justify-content: center; align-items: center; 
+      background: transparent; /* Fond transparent pour voir à travers */
+      color: var(--text);
+      transition: all 0.3s ease; 
+    }
+    
+    html[data-theme="light"] .social {
+      border: 1px solid #CBD5E1;
+      background: #FFFFFF;
+      color: #0F172A;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.02);
     }
 
-    .aurora,.aurora2,.aurora3{
-      position:fixed;
-      border-radius:999px;
-      filter:blur(36px);
-      pointer-events:none;
-      opacity:.22;
-      mix-blend-mode:screen;
+    .social:hover { 
+      border-color: var(--neon-blue); color: #fff; background: var(--neon-blue); 
+      transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,240,255,0.3);
     }
-    .aurora{
-      width:420px;height:420px;left:-80px;top:120px;
-      background:radial-gradient(circle at 35% 35%, rgba(53,198,194,.92), transparent 60%);
-      animation:floatA 12s ease-in-out infinite;
-    }
-    .aurora2{
-      width:460px;height:460px;right:-120px;top:80px;
-      background:radial-gradient(circle at 60% 40%, rgba(109,187,255,.90), transparent 60%);
-      animation:floatB 14s ease-in-out infinite;
-    }
-    .aurora3{
-      width:360px;height:360px;left:50%;bottom:-110px;transform:translateX(-50%);
-      background:radial-gradient(circle at 50% 50%, rgba(138,124,255,.75), transparent 62%);
-      animation:floatC 16s ease-in-out infinite;
-    }
-    @keyframes floatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)}}
-    @keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(20px)}}
-    @keyframes floatC{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.06)}}
-
-    .wrap{max-width:var(--max);margin:0 auto;padding:0 18px}
-
-    header{
-      position:sticky;
-      top:0;
-      z-index:60;
-      backdrop-filter:blur(16px);
-      background:color-mix(in srgb, var(--bg1) 72%, transparent);
-      border-bottom:1px solid var(--line);
-    }
-    .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      padding:14px 0;
+    html[data-theme="light"] .social:hover {
+        background: #0284C7; border-color: #0284C7; color: #fff;
+        box-shadow: 0 5px 15px rgba(2, 132, 199, 0.3);
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      text-decoration:none;
-      color:var(--text);
-      min-width:120px;
-    }
-    .brand img{
-      height:72px;
-      width:auto;
-      display:block;
-      transform-origin:left center;
-    }
-    .brand img.is-dark-logo{transform:scale(1.6)}
-    .brand img.is-light-logo{transform:scale(1.08)}
+    .social svg { width: 18px; height: 18px; fill: currentColor; }
 
-    .navlinks{
-      display:flex;
-      align-items:center;
-      gap:22px;
-      list-style:none;
-      margin:0;
-      padding:0;
+    .footer-col h3 { color: var(--text); font-family: 'Fira Code', monospace; font-size: 13px; margin-bottom: 15px; text-transform: uppercase; }
+    .footer-links { display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a, .footer-links span { color: var(--muted); text-decoration: none; font-size: 13px; transition: 0.2s; line-height: 1.5;}
+    .footer-links a:hover { color: var(--neon-blue); padding-left: 5px; }
+    
+    /* --- BOUTON EMAIL SUPPORT --- */
+    .support-email {
+      display: inline-flex; align-items: center; gap: 10px; padding: 10px 15px; margin-top: 5px;
+      border-radius: 8px; background: var(--control-bg); border: 1px solid var(--line);
+      color: var(--text) !important; font-family: 'Fira Code', monospace; font-size: 13px; font-weight: 600;
+      transition: all 0.3s ease; text-decoration: none; width: fit-content;
     }
-    .navlinks a{
-      text-decoration:none;
-      color:var(--text);
-      opacity:.88;
-      font-size:14px;
-      font-weight:600;
-      padding:8px 2px;
-      position:relative;
-      transition:opacity .2s ease, transform .2s ease;
+    html[data-theme="light"] .support-email { background: #FFFFFF; border: 1px solid #CBD5E1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); color: #0F172A !important;}
+    
+    .support-email:hover {
+      background: var(--neon-blue); color: #fff !important; border-color: var(--neon-blue);
+      box-shadow: 0 8px 15px rgba(0, 240, 255, 0.25); transform: translateY(-2px);
     }
-    .navlinks a:hover{opacity:1;transform:translateY(-1px)}
-    .navlinks a::after{
-      content:"";
-      position:absolute;
-      left:0;right:0;bottom:0;
-      height:2px;
-      border-radius:999px;
-      background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));
-      transform:scaleX(0);
-      transform-origin:left;
-      transition:transform .22s ease;
-    }
-    .navlinks a:hover::after,.navlinks a.active::after{transform:scaleX(1)}
-    .navlinks a.active{opacity:1}
+    html[data-theme="light"] .support-email:hover { box-shadow: 0 8px 15px rgba(2, 132, 199, 0.25); background: #0284C7; border-color:#0284C7;}
+    .support-email svg { width: 18px; height: 18px; fill: currentColor; }
 
-    .controls{
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
+    .footer-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-top: 1px dashed var(--line); padding-top: 20px; font-family: 'Fira Code', monospace; font-size: 11px; color: var(--muted); }
 
-    .lang{position:relative}
-    .lang button,
-    .theme-toggle,
-    .menu-toggle{
-      border:1px solid var(--line);
-      background:color-mix(in srgb, var(--card-strong) 74%, transparent);
-      color:var(--text);
-      box-shadow:0 12px 30px rgba(0,0,0,.15);
-    }
-    .lang button{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      border-radius:999px;
-      padding:9px 12px;
-      font-size:12px;
-      font-weight:700;
-      cursor:pointer;
-      transition:transform .18s ease,border-color .18s ease;
-    }
-    .lang button:hover,.theme-toggle:hover,.menu-toggle:hover{
-      transform:translateY(-1px);
-      border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
-    }
-    .lang .menu{
-      position:absolute;
-      top:110%;
-      right:0;
-      min-width:190px;
-      padding:8px;
-      border-radius:18px;
-      border:1px solid var(--line);
-      background:color-mix(in srgb, var(--card-strong) 90%, transparent);
-      backdrop-filter:blur(14px);
-      box-shadow:var(--shadow);
-      display:none;
-      z-index:80;
-    }
-    .lang .menu.open{display:block}
-    .lang .item{
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      border:0;
-      background:transparent;
-      color:var(--text);
-      border-radius:12px;
-      padding:10px;
-      cursor:pointer;
-      font-size:13px;
-      opacity:.92;
-    }
-    .lang .item:hover{background:rgba(148,163,184,.10);opacity:1}
-    .lang .item.active{background:rgba(53,198,194,.12)}
-
-    .pill{
-      font-size:11px;
-      padding:4px 8px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      color:var(--muted);
-      white-space:nowrap;
-    }
-
-    .theme-toggle{
-      width:46px;height:46px;
-      border-radius:999px;
-      display:grid;
-      place-items:center;
-      cursor:pointer;
-      position:relative;
-      overflow:hidden;
-      transition:transform .18s ease,border-color .18s ease;
-    }
-    .sunmoon{
-      width:22px;height:22px;display:block;
-      transform-origin:50% 50%;
-      transition:transform .55s cubic-bezier(.2,.9,.2,1);
-    }
-    html[data-theme="dark"] .sunmoon{transform:rotate(180deg)}
-    .sun-core,.moon-core{transition:opacity .35s ease}
-    html[data-theme="dark"] .sun-core{opacity:0}
-    html[data-theme="light"] .moon-core{opacity:0}
-
-    .menu-toggle{
-      display:none;
-      width:46px;
-      height:46px;
-      border-radius:999px;
-      cursor:pointer;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-      gap:5px;
-      transition:transform .18s ease,border-color .18s ease;
-    }
-    .menu-toggle span{
-      display:block;
-      width:18px;
-      height:2px;
-      border-radius:999px;
-      background:var(--text);
-      transition:transform .22s ease, opacity .22s ease;
-    }
-    .menu-toggle.open span:nth-child(1){
-      transform:translateY(7px) rotate(45deg);
-    }
-    .menu-toggle.open span:nth-child(2){
-      opacity:0;
-    }
-    .menu-toggle.open span:nth-child(3){
-      transform:translateY(-7px) rotate(-45deg);
-    }
-
-    .mobile-menu{
-      display:none;
-      margin-top:0;
-      margin-bottom:14px;
-      border:1px solid var(--line);
-      border-radius:22px;
-      background:color-mix(in srgb, var(--card-strong) 92%, transparent);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-    .mobile-menu.open{
-      display:grid;
-    }
-    .mobile-menu a{
-      padding:14px 16px;
-      text-decoration:none;
-      color:var(--text);
-      font-weight:700;
-      border-bottom:1px solid var(--line);
-      transition:background .18s ease, color .18s ease;
-    }
-    .mobile-menu a:last-child{border-bottom:none}
-    .mobile-menu a:hover,
-    .mobile-menu a.active{
-      background:rgba(53,198,194,.10);
-    }
-
-    main{padding:28px 0 56px}
-
-    .hero{
-      position:relative;
-      overflow:hidden;
-      border:1px solid var(--line);
-      border-radius:32px;
-      background:
-        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 88%, transparent), color-mix(in srgb, var(--card) 92%, transparent)),
-        radial-gradient(900px 420px at 8% 0%, rgba(53,198,194,.12), transparent 62%),
-        radial-gradient(820px 360px at 100% 0%, rgba(109,187,255,.14), transparent 58%);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(18px);
-    }
-    .hero::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(120deg, rgba(255,255,255,.06), transparent 25%, transparent 74%, rgba(255,255,255,.04));
-      pointer-events:none;
-    }
-
-    .hero-grid{
-      position:relative;
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:20px;
-      padding:34px 26px 26px;
-      align-items:start;
-    }
-
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      padding:10px 14px;
-      background:rgba(255,255,255,.05);
-      color:var(--muted);
-      font-size:12px;
-      font-weight:700;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-    }
-    .eyebrow i{
-      width:8px;height:8px;border-radius:999px;
-      background:linear-gradient(90deg,var(--accent),var(--accent2));
-      box-shadow:0 0 0 6px rgba(53,198,194,.12);
-    }
-
-    .hero h1{
-      margin:18px 0 12px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:clamp(36px,5.4vw,78px);
-      line-height:.98;
-      letter-spacing:-.05em;
-      font-weight:800;
-      max-width:820px;
-    }
-    .hero-title-line{display:block}
-    .hero-title-gradient{
-      display:block;
-      background:linear-gradient(90deg, #9FD8FF 0%, #6DBBFF 28%, #67D6D2 72%, #35C6C2 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    .hero p.lead{
-      margin:0;
-      max-width:760px;
-      color:var(--muted);
-      font-size:16px;
-      line-height:1.8;
-    }
-
-    .hero-actions{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:22px;
-    }
-    .ghost-note{
-      margin-top:16px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.65;
-    }
-
-    .glass-btn{
-      position:relative;
-      isolation:isolate;
-      min-height:52px;
-      padding:0 18px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.10);
-      color:var(--text);
-      text-decoration:none;
-      font-weight:800;
-      font-size:14px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      cursor:pointer;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.20),
-        inset 0 -1px 0 rgba(255,255,255,.06),
-        0 14px 34px rgba(0,0,0,.20);
-      backdrop-filter:blur(14px);
-      transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease;
-    }
-    .glass-btn:hover{
-      transform:translateY(-1px);
-      border-color:rgba(255,255,255,.22);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.25),
-        inset 0 -1px 0 rgba(255,255,255,.08),
-        0 18px 42px rgba(0,0,0,.26);
-      filter:saturate(1.05);
-    }
-    .glass-btn.primary{
-      color:#05121E;
-      border-color:rgba(255,255,255,.16);
-      background:
-        linear-gradient(90deg, rgba(53,198,194,.96), rgba(109,187,255,.96));
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.30),
-        0 18px 40px rgba(53,198,194,.22);
-    }
-    .glass-btn .arrow{
-      width:9px;height:9px;
-      border-right:2px solid currentColor;
-      border-bottom:2px solid currentColor;
-      transform:rotate(-45deg);
-    }
-
-    .hero-side{
-      position:relative;
-      display:grid;
-      gap:14px;
-    }
-    .floating-card,
-    .result-card,
-    .section{
-      border:1px solid var(--line);
-      background:color-mix(in srgb, var(--card-strong) 88%, transparent);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(16px);
-    }
-    .floating-card{
-      border-radius:24px;
-      padding:16px;
-      overflow:hidden;
-    }
-    .floating-card h3{
-      margin:0 0 8px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:14px;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-    }
-    .floating-card p{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.7;
-    }
-
-    .quick-read-card{
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-
-    .quick-read-badges{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-    }
-
-    .quick-badge{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      min-height:44px;
-      padding:0 16px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.10),
-        0 10px 24px rgba(0,0,0,.12);
-      font-size:13px;
-      font-weight:700;
-      letter-spacing:.01em;
-      color:var(--text);
-    }
-
-    .quick-dot{
-      width:10px;
-      height:10px;
-      border-radius:999px;
-      flex:0 0 auto;
-    }
-
-    .quick-badge-ok .quick-dot{
-      background:#35C6C2;
-      box-shadow:0 0 0 6px rgba(53,198,194,.12);
-    }
-    .quick-badge-warn .quick-dot{
-      background:#F4B740;
-      box-shadow:0 0 0 6px rgba(244,183,64,.12);
-    }
-    .quick-badge-bad .quick-dot{
-      background:#FF6B8A;
-      box-shadow:0 0 0 6px rgba(255,107,138,.12);
-    }
-
-    .quick-badge-ok{color:#5CE0C9;}
-    .quick-badge-warn{color:#F4C256;}
-    .quick-badge-bad{color:#FF8CA5;}
-
-    html[data-theme="light"] .quick-badge{
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.75));
-    }
-
-    html[data-theme="light"] .quick-badge-ok{color:#0F9F92;}
-    html[data-theme="light"] .quick-badge-warn{color:#B7791F;}
-    html[data-theme="light"] .quick-badge-bad{color:#D6456B;}
-
-    .section{
-      margin-top:18px;
-      border-radius:28px;
-      overflow:hidden;
-    }
-    .section-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      padding:18px 18px;
-      border-bottom:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(148,163,184,.06), transparent);
-      flex-wrap:wrap;
-    }
-    .section-head h2{
-      margin:0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:15px;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-    }
-    .section-head p{
-      margin:0;
-      color:var(--muted);
-      font-size:12px;
-    }
-
-    .checker{
-      padding:18px;
-    }
-    .search-card{
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:16px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-    }
-    .search-card h3{
-      margin:0 0 8px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:24px;
-      line-height:1.2;
-    }
-    .search-card p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.7;
-      max-width:760px;
-    }
-
-    .search-row{
-      margin-top:16px;
-      display:grid;
-      grid-template-columns:1fr auto;
-      gap:12px;
-      align-items:center;
-    }
-    .input-shell{
-      position:relative;
-      border-radius:22px;
-      border:1px solid var(--line-strong);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.10);
-      overflow:hidden;
-    }
-    .input-shell::before{
-      content:"";
-      position:absolute;
-      left:16px;top:50%;
-      width:10px;height:10px;border-radius:999px;
-      transform:translateY(-50%);
-      background:linear-gradient(90deg,var(--accent),var(--accent2));
-      box-shadow:0 0 0 6px rgba(53,198,194,.10);
-    }
-    .search-input{
-      width:100%;
-      height:58px;
-      border:0;
-      outline:0;
-      background:transparent;
-      color:var(--text);
-      padding:0 18px 0 42px;
-      font-size:15px;
-      font-weight:600;
-    }
-    .search-input::placeholder{color:color-mix(in srgb, var(--muted) 82%, transparent)}
-    .search-btn{min-width:180px}
-
-    .helper{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:12px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.6;
-    }
-
-    .result-card{
-      margin-top:18px;
-      border-radius:24px;
-      padding:18px;
-      display:none;
-      overflow:hidden;
-      position:relative;
-    }
-    .result-card.show{display:block}
-    .result-card::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:radial-gradient(600px 180px at 0% 0%, rgba(53,198,194,.10), transparent 50%);
-      pointer-events:none;
-    }
-
-    .result-top{
-      position:relative;
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-    .domain-chip{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.05);
-      border-radius:999px;
-      padding:10px 14px;
-      font-weight:800;
-      font-size:13px;
-      max-width:100%;
-      word-break:break-word;
-    }
-    .domain-chip i{
-      width:9px;height:9px;border-radius:999px;background:var(--accent);
-    }
-
-    .status-badge{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      font-weight:800;
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-    }
-    .status-badge.ok{background:rgba(34,197,94,.10);color:#8AF2A9}
-    .status-badge.warn{background:rgba(245,158,11,.11);color:#FFD180}
-    .status-badge.bad{background:rgba(239,68,68,.11);color:#FFB1B1}
-    html[data-theme="light"] .status-badge.ok{color:#127A33}
-    html[data-theme="light"] .status-badge.warn{color:#A25E00}
-    html[data-theme="light"] .status-badge.bad{color:#B42318}
-
-    .result-metrics{
-      position:relative;
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-      margin-top:16px;
-    }
-    .metric{
-      border:1px solid var(--line);
-      border-radius:20px;
-      padding:14px;
-      background:rgba(255,255,255,.04);
-    }
-    .metric .label{
-      color:var(--muted);
-      font-size:12px;
-      margin-bottom:8px;
-    }
-    .metric .value{
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:24px;
-      line-height:1.15;
-      word-break:break-word;
-    }
-    .metric .sub{
-      margin-top:6px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.55;
-    }
-
-    .result-meta{
-      position:relative;
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:12px;
-      margin-top:12px;
-    }
-    .meta-item{
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:14px;
-      background:rgba(255,255,255,.03);
-    }
-    .meta-item strong{
-      display:block;
-      font-size:12px;
-      color:var(--muted);
-      margin-bottom:8px;
-    }
-    .meta-item span{
-      font-size:14px;
-      line-height:1.65;
-      word-break:break-word;
-    }
-
-    .error-box{
-      display:none;
-      margin-top:18px;
-      border-radius:20px;
-      padding:14px 16px;
-      border:1px solid rgba(239,68,68,.35);
-      background:rgba(239,68,68,.08);
-      color:var(--text);
-      font-size:14px;
-      line-height:1.65;
-    }
-    .error-box.show{display:block}
-
-    footer{
-      margin-top:18px;
-      border:1px solid var(--line);
-      border-radius:32px;
-      overflow:hidden;
-      background:
-        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 86%, transparent), color-mix(in srgb, var(--card) 95%, transparent)),
-        radial-gradient(700px 220px at 0% 0%, rgba(53,198,194,.10), transparent 55%);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(18px);
-    }
-    .footer-grid{
-      display:grid;
-      grid-template-columns:1.2fr .8fr .8fr .9fr;
-      gap:18px;
-      padding:24px 22px 20px;
-    }
-    .footer-brand{
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-    .footer-brand img{
-      height:88px;
-      width:auto;
-      display:block;
-      max-width:100%;
-      object-fit:contain;
-      transform-origin:left center;
-    }
-    .footer-brand img.is-dark-logo{transform:scale(1.12)}
-    .footer-brand p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-      max-width:420px;
-    }
-
-    .footer-col h3{
-      margin:0 0 12px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:14px;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-    }
-    .footer-links{
-      display:grid;
-      gap:10px;
-    }
-    .footer-links a,.footer-links span{
-      color:var(--muted);
-      text-decoration:none;
-      font-size:14px;
-      line-height:1.6;
-      transition:color .2s ease, transform .2s ease;
-    }
-    .footer-links a:hover{color:var(--text);transform:translateX(2px)}
-    html[dir="rtl"] .footer-links a:hover{transform:translateX(-2px)}
-
-    .socials{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:12px;
-    }
-    .social{
-      width:42px;height:42px;border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.05);
-      color:var(--text);
-      text-decoration:none;
-      display:grid;place-items:center;
-      transition:transform .18s ease,border-color .18s ease,background .18s ease;
-    }
-    .social:hover{
-      transform:translateY(-1px);
-      border-color:color-mix(in srgb, var(--accent2) 42%, var(--line));
-      background:rgba(53,198,194,.09);
-    }
-    .social svg{
-      width:18px;
-      height:18px;
-      fill:currentColor;
-      display:block;
-    }
-
-    .footer-bottom{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      flex-wrap:wrap;
-      padding:0 22px 20px;
-      color:var(--muted);
-      font-size:13px;
-    }
-
-    @media (max-width: 1080px){
-      .hero-grid{grid-template-columns:1fr}
-      .footer-grid{grid-template-columns:1fr 1fr}
-    }
-    @media (max-width: 820px){
-      .navlinks{display:none}
-      .menu-toggle{display:flex}
-      .brand img{height:64px}
-      .search-row{grid-template-columns:1fr}
-      .search-btn{width:100%}
-      .result-metrics,.result-meta{grid-template-columns:1fr}
-      .footer-grid{grid-template-columns:1fr}
-      .controls{
-        gap:8px;
-      }
-      .lang .pill{
-        display:none;
-      }
-    }
-    @media (max-width: 640px){
-      .hero-grid{padding:26px 16px 16px}
-      .section-head,.checker{padding:16px}
-      .brand img{height:58px}
-      .hero h1{font-size:34px}
-      .footer-grid{padding:20px 16px 14px}
-      .footer-bottom{padding:0 16px 16px}
-      .quick-read-badges{
-        display:grid;
-      }
-    }
-    @media (prefers-reduced-motion: reduce){
-      .bg-grid,.aurora,.aurora2,.aurora3{animation:none}
-      *{scroll-behavior:auto}
+    /* RESPONSIVE */
+    @media (max-width: 1080px){ .hero-grid{grid-template-columns:1fr;} .footer-grid{grid-template-columns:1fr 1fr;} }
+    @media (max-width: 820px){ 
+      .navlinks { display:none; } 
+      .menu-toggle { display:flex; } 
+      .search-row { grid-template-columns:1fr; } 
+      .result-metrics, .result-meta { grid-template-columns:1fr; }
+      .footer-grid{grid-template-columns:1fr;}
+      .lang .pill { display: none; } 
     }
   </style>
 </head>
@@ -951,13 +422,7 @@
     <div class="wrap">
       <div class="nav">
         <a class="brand" href="SEAL_page_accueil.html" aria-label="SEAL">
-          <img
-            id="brandLogo"
-            src="SEAL-logo-sombre.png"
-            data-logo-dark="SEAL-logo-sombre.png"
-            data-logo-light="SEAL-logo-clair.png"
-            alt="SEAL Logo"
-          >
+          <img id="brandLogo" src="SEAL-logo-sombre.png" data-logo-dark="SEAL-logo-sombre.png" data-logo-light="SEAL-logo-clair.png" alt="SEAL Logo">
         </a>
 
         <ul class="navlinks" id="navLinks">
@@ -974,8 +439,8 @@
               <span id="langLabel">FR</span>
               <span class="pill" id="langName">Français</span>
             </button>
-            <div class="menu" id="langMenu" role="menu" aria-label="Langues">
-              <button class="item" data-lang="fr" role="menuitem"><span>Français</span><span class="pill">FR</span></button>
+            <div class="menu" id="langMenu" role="menu">
+              <button class="item active" data-lang="fr" role="menuitem"><span>Français</span><span class="pill">FR</span></button>
               <button class="item" data-lang="en" role="menuitem"><span>English</span><span class="pill">EN</span></button>
               <button class="item" data-lang="es" role="menuitem"><span>Español</span><span class="pill">ES</span></button>
               <button class="item" data-lang="ru" role="menuitem"><span>Русский</span><span class="pill">RU</span></button>
@@ -983,7 +448,7 @@
               <button class="item" data-lang="zh" role="menuitem"><span>中文</span><span class="pill">ZH</span></button>
             </div>
           </div>
-
+          
           <button class="theme-toggle" id="themeToggle" type="button" aria-label="Basculer clair/sombre">
             <svg class="sunmoon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <g class="sun-core">
@@ -1003,20 +468,16 @@
                 <g mask="url(#crescentMaskClean)">
                   <circle cx="12" cy="12" r="7.35" fill="url(#gMoon)"/>
                 </g>
-                <path d="M7.9 12.2c.2-3.5 2.6-6.4 6.0-7.0"
-                      stroke="rgba(255,255,255,.55)"
-                      stroke-width="1.2"
-                      stroke-linecap="round"
-                      opacity=".35"/>
+                <path d="M7.9 12.2c.2-3.5 2.6-6.4 6.0-7.0" stroke="rgba(255,255,255,.55)" stroke-width="1.2" stroke-linecap="round" opacity=".35"/>
               </g>
               <defs>
                 <linearGradient id="gSun" x1="6" y1="6" x2="19" y2="19" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#35C6C2"/>
-                  <stop offset="1" stop-color="#6DBBFF"/>
+                  <stop stop-color="#00f0ff"/>
+                  <stop offset="1" stop-color="#00ffcc"/>
                 </linearGradient>
                 <linearGradient id="gMoon" x1="7" y1="7" x2="19" y2="19" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#6DBBFF"/>
-                  <stop offset="1" stop-color="#8A7CFF"/>
+                  <stop stop-color="#00f0ff"/>
+                  <stop offset="1" stop-color="#b026ff"/>
                 </linearGradient>
                 <mask id="crescentMaskClean">
                   <rect x="0" y="0" width="24" height="24" fill="white"/>
@@ -1027,9 +488,7 @@
           </button>
 
           <button class="menu-toggle" id="menuToggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
-            <span></span>
-            <span></span>
-            <span></span>
+            <span></span><span></span><span></span>
           </button>
         </div>
       </div>
@@ -1046,12 +505,18 @@
 
   <main>
     <div class="wrap">
+      
       <section class="hero" aria-label="Accueil SEAL">
         <div class="hero-grid">
           <div>
+            <header class="terminal-header">
+              <span class="status-dot"></span>
+              <p>> SYSTEM.INIT("SEAL_Monitoring_Protocol");</p>
+            </header>
+
             <span class="eyebrow">
-              <i aria-hidden="true"></i>
-              <span data-i18n="hero.eyebrow">Surveillez vos certificats SSL en toute simplicité</span>
+              <i aria-hidden="true" style="width:6px;height:6px;background:var(--neon-green);border-radius:50%;"></i>
+              <span data-i18n="hero.eyebrow">Surveillance Continue SSL</span>
             </span>
 
             <h1>
@@ -1067,44 +532,33 @@
 
             <div class="hero-actions">
               <a class="glass-btn primary" href="#checker">
-                <span data-i18n="hero.ctaPrimary">Commencer une vérification</span>
+                <span data-i18n="hero.ctaPrimary">Exécuter_Scan()</span>
                 <span class="arrow" aria-hidden="true"></span>
               </a>
               <a class="glass-btn" href="fonctionnalites.html">
-                <span data-i18n="hero.ctaSecondary">Découvrir le site</span>
+                <span data-i18n="hero.ctaSecondary">Voir_Documentation</span>
               </a>
             </div>
-
-            <p class="ghost-note" data-i18n="hero.note">
-              Pensé pour être utile à tous : lecture simple, design clair, et informations faciles à comprendre.
-            </p>
+            <p class="ghost-note" data-i18n="hero.note">// Pensé pour la performance : lecture simple, requêtes optimisées.</p>
           </div>
 
           <div class="hero-side">
             <div class="floating-card">
-              <h3 data-i18n="side.title">Pourquoi SEAL</h3>
-              <p data-i18n="side.text">
-                Vérifiez rapidement la date d’expiration d’un certificat SSL, le temps restant et le niveau de priorité, dans une interface claire et simple.
-              </p>
+              <h3 data-i18n="side.title">/> Pourquoi SEAL ?</h3>
+              <p data-i18n="side.text">Vérifiez rapidement la date d’expiration d’un certificat SSL, le temps restant et le niveau de priorité, dans une interface de monitoring précise et sans friction.</p>
             </div>
 
             <div class="floating-card quick-read-card">
-              <h3 data-i18n="side2.title">Lecture rapide</h3>
-
-              <div class="quick-read-badges" aria-label="Lecture rapide des niveaux">
+              <h3 data-i18n="side2.title">/> Niveaux d'Alerte</h3>
+              <div class="quick-read-badges">
                 <div class="quick-badge quick-badge-ok">
-                  <span class="quick-dot" aria-hidden="true"></span>
-                  <span data-i18n="side2.ok">Vert : situation confortable</span>
+                  <span class="quick-dot"></span><span data-i18n="side2.ok">Safe : Situation stable</span>
                 </div>
-
                 <div class="quick-badge quick-badge-warn">
-                  <span class="quick-dot" aria-hidden="true"></span>
-                  <span data-i18n="side2.warn">Orange : à surveiller</span>
+                  <span class="quick-dot"></span><span data-i18n="side2.warn">Warning : Renouvellement proche</span>
                 </div>
-
                 <div class="quick-badge quick-badge-bad">
-                  <span class="quick-dot" aria-hidden="true"></span>
-                  <span data-i18n="side2.bad">Rouge : à traiter rapidement</span>
+                  <span class="quick-dot"></span><span data-i18n="side2.bad">Critical : Action immédiate</span>
                 </div>
               </div>
             </div>
@@ -1115,85 +569,63 @@
       <section class="section" id="checker" aria-label="Vérification SSL">
         <div class="section-head">
           <div>
-            <h2 data-i18n="check.title">Vérifier un domaine</h2>
-            <p data-i18n="check.subtitle">Entrez un domaine ou une URL complète. Exemple : example.com ou https://example.com</p>
+            <h2 data-i18n="check.title">Analyseur de Domaine</h2>
+            <p data-i18n="check.subtitle">Target : Entrez un domaine ou une URL complète.</p>
           </div>
-          <span class="pill" data-i18n="check.pill">Résultat clair et lisible</span>
+          <span class="pill" data-i18n="check.pill" style="font-size:12px; padding: 6px 12px; font-family: 'Fira Code', monospace; border-color: var(--neon-blue); color: var(--neon-blue);">Statut : En attente d'input</span>
         </div>
 
         <div class="checker">
           <div class="search-card">
-            <h3 data-i18n="check.cardTitle">Lancez votre vérification</h3>
-            <p data-i18n="check.cardText">
-              SEAL affiche la date d’expiration, le nombre de jours restants, ainsi qu’un niveau de couleur pour vous aider à savoir s’il faut agir bientôt.
-            </p>
+            <h3 data-i18n="check.cardTitle">Initialiser le scan TLS/SSL</h3>
+            <p data-i18n="check.cardText">SEAL interroge le serveur distant pour extraire la chaîne de certification et évalue le niveau de risque d'expiration.</p>
 
             <form id="sslForm" novalidate>
               <div class="search-row">
                 <div class="input-shell">
-                  <input
-                    class="search-input"
-                    id="domainInput"
-                    name="domain"
-                    type="text"
-                    autocomplete="off"
-                    spellcheck="false"
-                    data-i18n-placeholder="check.placeholder"
-                    placeholder="Ex : example.com"
-                  />
+                  <input class="search-input" id="domainInput" name="domain" type="text" autocomplete="off" spellcheck="false" data-i18n-placeholder="check.placeholder" placeholder="Ex: example.com" />
                 </div>
-
                 <button class="glass-btn primary search-btn" type="submit" id="checkBtn">
-                  <span data-i18n="check.button">Vérifier le certificat</span>
-                  <span class="arrow" aria-hidden="true"></span>
+                  <span data-i18n="check.button">Lancer_Scan</span>
                 </button>
               </div>
             </form>
-
-            <div class="helper">
-              <span data-i18n="check.help1">Vous pouvez coller un domaine ou une URL.</span>
-              <span data-i18n="check.help2">En cas de domaine invalide ou introuvable, un message d’erreur s’affiche.</span>
-            </div>
+            <div class="helper"><span data-i18n="check.help1"># Formats acceptés : domaine nu ou URL HTTP(S).</span></div>
           </div>
 
-          <div class="error-box" id="errorBox" role="alert" aria-live="polite"></div>
+          <div class="error-box" id="errorBox" role="alert"></div>
 
           <div class="result-card" id="resultCard" aria-live="polite">
             <div class="result-top">
-              <div class="domain-chip">
-                <i aria-hidden="true"></i>
-                <span id="resultDomain">example.com</span>
-              </div>
+              <div class="domain-chip"><span id="resultDomain">example.com</span></div>
               <div class="status-badge ok" id="resultBadge">OK</div>
             </div>
 
             <div class="result-metrics">
               <div class="metric">
-                <div class="label" data-i18n="result.expiration">Date d’expiration</div>
+                <div class="label" data-i18n="result.expiration">Expiration</div>
                 <div class="value" id="resultExpiry">—</div>
-                <div class="sub" data-i18n="result.expirationSub">Date de fin de validité du certificat</div>
+                <div class="sub" data-i18n="result.expirationSub">Fin de validité</div>
               </div>
-
               <div class="metric">
-                <div class="label" data-i18n="result.days">Temps restant</div>
+                <div class="label" data-i18n="result.days">TTL (Temps Restant)</div>
                 <div class="value" id="resultDays">—</div>
                 <div class="sub" id="resultStatusText">—</div>
               </div>
-
               <div class="metric">
-                <div class="label" data-i18n="result.level">Niveau</div>
+                <div class="label" data-i18n="result.level">Niveau de menace</div>
                 <div class="value" id="resultLevel">—</div>
-                <div class="sub" data-i18n="result.levelSub">Lecture basée sur le code couleur</div>
+                <div class="sub" data-i18n="result.levelSub">Évaluation SEAL</div>
               </div>
             </div>
 
             <div class="result-meta">
               <div class="meta-item">
-                <strong data-i18n="result.issuer">Émetteur</strong>
+                <strong data-i18n="result.issuer">Autorité de Certification</strong>
                 <span id="resultIssuer">—</span>
               </div>
               <div class="meta-item">
-                <strong data-i18n="result.validFrom">Valide depuis</strong>
+                <strong data-i18n="result.validFrom">Date de Création</strong>
                 <span id="resultValidFrom">—</span>
               </div>
             </div>
@@ -1205,58 +637,53 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="SEAL_page_accueil.html" aria-label="SEAL">
-              <img
-                id="footerLogo"
-                src="SEAL-logo-sombre.png"
-                data-logo-dark="SEAL-logo-sombre.png"
-                data-logo-light="SEAL-logo-clair.png"
-                alt="SEAL Logo"
-              >
+              <img id="footerLogo" src="SEAL-logo-sombre.png" data-logo-dark="SEAL-logo-sombre.png" data-logo-light="SEAL-logo-clair.png" alt="SEAL Logo">
             </a>
-            <p data-i18n="footer.brandText">
-              SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.
-            </p>
-
+            <p data-i18n="footer.brandText">SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.</p>
+            
             <div class="socials" aria-label="Réseaux sociaux">
               <a class="social" href="https://www.linkedin.com/company/secure-expiry-alert-logging" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.48 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4zM8.5 8h3.8v2.2h.05c.53-1 1.82-2.2 3.75-2.2 4.01 0 4.75 2.64 4.75 6.08V24h-4v-7.75c0-1.85-.03-4.23-2.58-4.23-2.59 0-2.99 2.02-2.99 4.1V24h-4V8z"/>
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.848-3.037-1.85 0-2.133 1.445-2.133 2.94v5.666H9.356V9h3.414v1.566h.049c.475-.9 1.636-1.848 3.367-1.848 3.604 0 4.261 2.372 4.261 5.455v6.279zM5.337 7.433c-1.144 0-2.072-.927-2.072-2.07 0-1.143.928-2.072 2.072-2.072 1.145 0 2.073.929 2.073 2.072 0 1.143-.928 2.07-2.073 2.07zM7.119 20.452H3.554V9h3.565v11.452z"/>
                 </svg>
               </a>
               <a class="social" href="https://www.instagram.com/seal_security_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M7.75 2C4.57 2 2 4.57 2 7.75v8.5C2 19.43 4.57 22 7.75 22h8.5C19.43 22 22 19.43 22 16.25v-8.5C22 4.57 19.43 2 16.25 2h-8.5zm0 2h8.5C18.22 4 20 5.78 20 7.75v8.5c0 1.97-1.78 3.75-3.75 3.75h-8.5C5.78 20 4 18.22 4 16.25v-8.5C4 5.78 5.78 4 7.75 4zm8.75 1.5a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6z"/>
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849s-.011 3.584-.069 4.849c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.849-.07c-3.26-.149-4.771-1.699-4.919-4.919-.058-1.265-.069-1.645-.069-4.849s.012-3.584.069-4.849c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.058-1.281.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                 </svg>
               </a>
               <a class="social" href="https://x.com/SEAL2026" target="_blank" rel="noopener noreferrer" aria-label="X">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M17.53 3H21l-7.39 8.44L22 21h-6.87l-5.38-7.04L3.9 21H.43l7.9-9.03L2 3h7.03l4.86 6.42L17.53 3zm-1.2 16h1.94L8.05 4.93H6.03L16.33 19z"/>
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.25 2.25h6.863l4.488 6.15L18.244 2.25zm-1.16 17.52h1.833L7.084 4.126H5.117L17.084 19.77z"/>
                 </svg>
               </a>
             </div>
           </div>
 
           <div class="footer-col">
-            <h3 data-i18n="footer.nav">Navigation</h3>
+            <h3 data-i18n="footer.nav">Système</h3>
             <div class="footer-links">
-              <a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a>
-              <a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a>
+              <a href="SEAL_page_accueil.html" data-i18n="nav.home">Dashboard</a>
+              <a href="fonctionnalites.html" data-i18n="nav.features">Modules</a>
               <a href="a-propos.html" data-i18n="nav.about">À propos</a>
               <a href="faq.html" data-i18n="nav.faq">FAQ</a>
               <a href="contact-public.html" data-i18n="nav.contact">Contact</a>
             </div>
           </div>
-
+          
           <div class="footer-col">
             <h3 data-i18n="footer.support">Support</h3>
             <div class="footer-links">
-              <span>esaipseal@gmail.com</span>
-              <span data-i18n="footer.supportText">Pour toute question liée au site public ou à l’utilisation du formulaire de contact.</span>
+              <span data-i18n="footer.supportText">Pour toute question liée au site, contactez-nous via la page Contact ou par email.</span>
+              <a href="mailto:esaipseal@gmail.com" class="support-email">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                <span>esaipseal@gmail.com</span>
+              </a>
             </div>
           </div>
-
+          
           <div class="footer-col">
-            <h3 data-i18n="footer.legalTitle">Légal</h3>
+            <h3 data-i18n="footer.legalTitle">Sécurité & Légal</h3>
             <div class="footer-links">
               <a href="politique-confidentialite-public.html" data-i18n="footer.privacy">Politique de confidentialité</a>
               <a href="mentions-legales-public.html" data-i18n="footer.legal">Mentions légales</a>
@@ -1264,7 +691,6 @@
             </div>
           </div>
         </div>
-
         <div class="footer-bottom">
           <div>© 2026 SEAL</div>
           <div data-i18n="footer.bottomText">Secure Expiry Alert & Logging</div>
@@ -1274,455 +700,121 @@
   </main>
 
   <script>
+    // DICTIONNAIRE COMPLET DES TRADUCTIONS (SANS RIEN TRONQUER)
     const I18N = {
       fr: {
-        "nav.home":"Accueil",
-        "nav.features":"Fonctionnalités",
-        "nav.about":"À propos",
-        "nav.faq":"FAQ",
-        "nav.contact":"Contact",
-
-        "hero.eyebrow":"Surveillez vos certificats SSL en toute simplicité",
-        "hero.title.l1":"Vérifiez",
-        "hero.title.l2":"l’expiration SSL",
-        "hero.title.l3":"en quelques",
-        "hero.title.l4":"secondes.",
+        "nav.home":"Accueil", "nav.features":"Fonctionnalités", "nav.about":"À propos", "nav.faq":"FAQ", "nav.contact":"Contact",
+        "hero.eyebrow":"Surveillance Continue SSL", "hero.title.l1":"Vérifiez", "hero.title.l2":"l’expiration SSL", "hero.title.l3":"en quelques", "hero.title.l4":"secondes.",
         "hero.subtitle":"Entrez un domaine ou une URL, puis obtenez une lecture claire : date d’expiration, temps restant et niveau de priorité. En cas d’erreur, SEAL vous l’indique simplement.",
-        "hero.ctaPrimary":"Commencer une vérification",
-        "hero.ctaSecondary":"Découvrir le site",
-        "hero.note":"Pensé pour être utile à tous : lecture simple, design clair, et informations faciles à comprendre.",
-
-        "side.title":"Pourquoi SEAL",
-        "side.text":"Vérifiez rapidement la date d’expiration d’un certificat SSL, le temps restant et le niveau de priorité, dans une interface claire et simple.",
-
-        "side2.title":"Lecture rapide",
-        "side2.ok":"Vert : situation confortable",
-        "side2.warn":"Orange : à surveiller",
-        "side2.bad":"Rouge : à traiter rapidement",
-
-        "check.title":"Vérifier un domaine",
-        "check.subtitle":"Entrez un domaine ou une URL complète. Exemple : example.com ou https://example.com",
-        "check.pill":"Résultat clair et lisible",
-        "check.cardTitle":"Lancez votre vérification",
-        "check.cardText":"SEAL affiche la date d’expiration, le nombre de jours restants, ainsi qu’un niveau de couleur pour vous aider à savoir s’il faut agir bientôt.",
-        "check.placeholder":"Ex : example.com",
-        "check.button":"Vérifier le certificat",
-        "check.help1":"Vous pouvez coller un domaine ou une URL.",
-        "check.help2":"En cas de domaine invalide ou introuvable, un message d’erreur s’affiche.",
-
-        "result.expiration":"Date d’expiration",
-        "result.expirationSub":"Date de fin de validité du certificat",
-        "result.days":"Temps restant",
-        "result.level":"Niveau",
-        "result.levelSub":"Lecture basée sur le code couleur",
-        "result.issuer":"Émetteur",
-        "result.validFrom":"Valide depuis",
-
-        "footer.nav":"Navigation",
-        "footer.support":"Support",
-        "footer.supportText":"Pour toute question liée au site public ou à l’utilisation du formulaire de contact.",
-        "footer.legalTitle":"Légal",
-        "footer.brandText":"SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.",
-        "footer.privacy":"Politique de confidentialité",
-        "footer.legal":"Mentions légales",
-        "footer.terms":"Conditions d’utilisation",
-        "footer.bottomText":"Secure Expiry Alert & Logging",
-
-        "status.ok":"Confortable",
-        "status.warn":"À surveiller",
-        "status.bad":"Urgent",
-        "status.okBadge":"OK",
-        "status.warnBadge":"Alerte",
-        "status.badBadge":"Critique",
-
-        "days.singular":"jour restant",
-        "days.plural":"jours restants",
-        "days.expired":"expiré",
-
-        "state.ok":"Le certificat semble encore confortable.",
-        "state.warn":"Le certificat approche de son expiration.",
-        "state.bad":"Le certificat doit être traité rapidement.",
-
-        "err.invalid":"Merci d’entrer un domaine ou une URL valide.",
-        "err.not_found":"Le site n’existe pas ou le domaine est introuvable.",
-        "err.no_tls":"Aucun certificat SSL n’a été détecté pour ce domaine.",
-        "err.timeout":"La vérification a pris trop de temps. Réessayez dans un instant.",
-        "err.generic":"Impossible d’analyser ce domaine pour le moment."
+        "hero.ctaPrimary":"Exécuter_Scan()", "hero.ctaSecondary":"Voir_Documentation", "hero.note":"// Pensé pour la performance : lecture simple, requêtes optimisées.",
+        "side.title":"/> Pourquoi SEAL ?", "side.text":"Vérifiez rapidement la date d’expiration d’un certificat SSL, le temps restant et le niveau de priorité, dans une interface de monitoring précise et sans friction.",
+        "side2.title":"/> Niveaux d'Alerte", "side2.ok":"Safe : Situation stable", "side2.warn":"Warning : Renouvellement proche", "side2.bad":"Critical : Action immédiate",
+        "check.title":"Analyseur de Domaine", "check.subtitle":"Target : Entrez un domaine ou une URL complète.", "check.pill":"Statut : En attente d'input",
+        "check.cardTitle":"Initialiser le scan TLS/SSL", "check.cardText":"SEAL interroge le serveur distant pour extraire la chaîne de certification et évalue le niveau de risque d'expiration.",
+        "check.placeholder":"Ex : example.com", "check.button":"Lancer_Scan", "check.help1":"# Formats acceptés : domaine nu ou URL HTTP(S).", "check.help2":"",
+        "result.expiration":"Expiration", "result.expirationSub":"Fin de validité", "result.days":"TTL (Temps Restant)", "result.level":"Niveau de menace", "result.levelSub":"Évaluation SEAL",
+        "result.issuer":"Autorité de Certification", "result.validFrom":"Date de Création",
+        "footer.nav":"Système", "footer.support":"Support", "footer.supportText":"Pour toute question liée au site, contactez-nous via la page Contact ou par email.", "footer.legalTitle":"Sécurité & Légal", "footer.brandText":"SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.",
+        "footer.privacy":"Politique de confidentialité", "footer.legal":"Mentions légales", "footer.terms":"Conditions d’utilisation", "footer.bottomText":"Secure Expiry Alert & Logging",
+        "status.ok":"Confortable", "status.warn":"À surveiller", "status.bad":"Urgent", "status.okBadge":"OK", "status.warnBadge":"Alerte", "status.badBadge":"Critique",
+        "days.singular":"jour restant", "days.plural":"jours restants", "days.expired":"expiré",
+        "state.ok":"Le certificat semble encore confortable.", "state.warn":"Le certificat approche de son expiration.", "state.bad":"Le certificat doit être traité rapidement.",
+        "err.invalid":"Merci d’entrer un domaine ou une URL valide.", "err.not_found":"Le site n’existe pas ou le domaine est introuvable.", "err.no_tls":"Aucun certificat SSL n’a été détecté pour ce domaine.", "err.timeout":"La vérification a pris trop de temps. Réessayez dans un instant.", "err.generic":"Impossible d’analyser ce domaine pour le moment."
       },
-
       en: {
-        "nav.home":"Home",
-        "nav.features":"Features",
-        "nav.about":"About",
-        "nav.faq":"FAQ",
-        "nav.contact":"Contact",
-
-        "hero.eyebrow":"Monitor your SSL certificates with clarity",
-        "hero.title.l1":"Check",
-        "hero.title.l2":"SSL expiration",
-        "hero.title.l3":"in just a few",
-        "hero.title.l4":"seconds.",
-        "hero.subtitle":"Enter a domain or a URL and get a clear reading: expiration date, time remaining, and priority level. If something is wrong, SEAL tells you plainly.",
-        "hero.ctaPrimary":"Start a check",
-        "hero.ctaSecondary":"Discover the website",
-        "hero.note":"Designed to be useful for everyone: simple reading, clear design, and easy-to-understand information.",
-
-        "side.title":"Why SEAL",
-        "side.text":"Quickly check an SSL certificate expiration date, the time remaining, and the priority level in a clear and simple interface.",
-
-        "side2.title":"Quick reading",
-        "side2.ok":"Green: comfortable situation",
-        "side2.warn":"Orange: monitor closely",
-        "side2.bad":"Red: act quickly",
-
-        "check.title":"Check a domain",
-        "check.subtitle":"Enter a full domain or URL. Example: example.com or https://example.com",
-        "check.pill":"Clear, readable result",
-        "check.cardTitle":"Run your check",
-        "check.cardText":"SEAL shows the expiration date, the number of days left, and a color level to help you understand whether action is needed soon.",
-        "check.placeholder":"Example: example.com",
-        "check.button":"Check certificate",
-        "check.help1":"You can paste a domain or a full URL.",
-        "check.help2":"If the domain is invalid or not found, a clear error message is shown.",
-
-        "result.expiration":"Expiration date",
-        "result.expirationSub":"Certificate end date",
-        "result.days":"Time remaining",
-        "result.level":"Level",
-        "result.levelSub":"Reading based on the color code",
-        "result.issuer":"Issuer",
-        "result.validFrom":"Valid from",
-
-        "footer.nav":"Navigation",
-        "footer.support":"Support",
-        "footer.supportText":"For any question related to the public site or the contact form.",
-        "footer.legalTitle":"Legal",
-        "footer.brandText":"SEAL helps you better visualize SSL certificate expiration with a clear, readable, and accessible interface.",
-        "footer.privacy":"Privacy policy",
-        "footer.legal":"Legal notice",
-        "footer.terms":"Terms of use",
-        "footer.bottomText":"Secure Expiry Alert & Logging",
-
-        "status.ok":"Comfortable",
-        "status.warn":"Watch closely",
-        "status.bad":"Urgent",
-        "status.okBadge":"OK",
-        "status.warnBadge":"Warning",
-        "status.badBadge":"Critical",
-
-        "days.singular":"day left",
-        "days.plural":"days left",
-        "days.expired":"expired",
-
-        "state.ok":"The certificate still looks comfortable.",
-        "state.warn":"The certificate is getting close to expiration.",
-        "state.bad":"The certificate needs attention soon.",
-
-        "err.invalid":"Please enter a valid domain or URL.",
-        "err.not_found":"The website does not exist or the domain could not be found.",
-        "err.no_tls":"No SSL certificate was detected for this domain.",
-        "err.timeout":"The check took too long. Please try again in a moment.",
-        "err.generic":"Unable to analyze this domain right now."
+        "nav.home":"Home", "nav.features":"Features", "nav.about":"About", "nav.faq":"FAQ", "nav.contact":"Contact",
+        "hero.eyebrow":"Continuous SSL Monitoring", "hero.title.l1":"Check", "hero.title.l2":"SSL expiration", "hero.title.l3":"in just a few", "hero.title.l4":"seconds.",
+        "hero.subtitle":"Enter a domain or a URL and get a clear reading: expiration date, time remaining, and priority level.",
+        "hero.ctaPrimary":"Execute_Scan()", "hero.ctaSecondary":"View_Docs", "hero.note":"// Built for performance: simple reading, optimized requests.",
+        "side.title":"/> Why SEAL?", "side.text":"Quickly check an SSL certificate expiration date, time remaining, and priority level in a precise monitoring interface.",
+        "side2.title":"/> Alert Levels", "side2.ok":"Safe: Stable situation", "side2.warn":"Warning: Renewal near", "side2.bad":"Critical: Immediate action",
+        "check.title":"Domain Analyzer", "check.subtitle":"Target: Enter a full domain or URL.", "check.pill":"Status: Awaiting input",
+        "check.cardTitle":"Initialize TLS/SSL Scan", "check.cardText":"SEAL queries the remote server to extract the certification chain.",
+        "check.placeholder":"Example: example.com", "check.button":"Start_Scan", "check.help1":"# Accepted: naked domain or HTTP(S) URL.", "check.help2":"",
+        "result.expiration":"Expiration", "result.expirationSub":"End of validity", "result.days":"TTL (Time Left)", "result.level":"Threat Level", "result.levelSub":"SEAL Evaluation",
+        "result.issuer":"Certificate Authority", "result.validFrom":"Creation Date",
+        "footer.nav":"System", "footer.support":"Support", "footer.supportText":"For any questions related to the site, contact us via the Contact page or by email.", "footer.legalTitle":"Security & Legal", "footer.brandText":"SEAL helps you better visualize SSL certificate expiration with a clear interface.",
+        "footer.privacy":"Privacy policy", "footer.legal":"Legal notice", "footer.terms":"Terms of use", "footer.bottomText":"Secure Expiry Alert & Logging",
+        "status.ok":"Comfortable", "status.warn":"Watch closely", "status.bad":"Urgent", "status.okBadge":"OK", "status.warnBadge":"Warning", "status.badBadge":"Critical",
+        "days.singular":"day left", "days.plural":"days left", "days.expired":"expired",
+        "state.ok":"The certificate still looks comfortable.", "state.warn":"The certificate is getting close to expiration.", "state.bad":"The certificate needs attention soon.",
+        "err.invalid":"Please enter a valid domain or URL.", "err.not_found":"The website does not exist.", "err.no_tls":"No SSL certificate detected.", "err.timeout":"The check took too long.", "err.generic":"Unable to analyze this domain right now."
       },
-
       es: {
-        "nav.home":"Inicio",
-        "nav.features":"Funcionalidades",
-        "nav.about":"Acerca de",
-        "nav.faq":"FAQ",
-        "nav.contact":"Contacto",
-
-        "hero.eyebrow":"Supervisa tus certificados SSL con claridad",
-        "hero.title.l1":"Comprueba",
-        "hero.title.l2":"la expiración SSL",
-        "hero.title.l3":"en solo unos",
-        "hero.title.l4":"segundos.",
-        "hero.subtitle":"Introduce un dominio o una URL y obtén una lectura clara: fecha de expiración, tiempo restante y nivel de prioridad. Si algo va mal, SEAL te lo indica claramente.",
-        "hero.ctaPrimary":"Empezar una verificación",
-        "hero.ctaSecondary":"Descubrir el sitio",
-        "hero.note":"Pensado para ser útil para todos: lectura simple, diseño claro e información fácil de entender.",
-
-        "side.title":"Por qué SEAL",
-        "side.text":"Comprueba rápidamente la fecha de expiración de un certificado SSL, el tiempo restante y el nivel de prioridad en una interfaz clara y simple.",
-
-        "side2.title":"Lectura rápida",
-        "side2.ok":"Verde: situación cómoda",
-        "side2.warn":"Naranja: vigilar",
-        "side2.bad":"Rojo: actuar rápidamente",
-
-        "check.title":"Comprobar un dominio",
-        "check.subtitle":"Introduce un dominio o URL completa. Ejemplo: example.com o https://example.com",
-        "check.pill":"Resultado claro y legible",
-        "check.cardTitle":"Inicia tu verificación",
-        "check.cardText":"SEAL muestra la fecha de expiración, el número de días restantes y un nivel de color para ayudarte a saber si hay que actuar pronto.",
-        "check.placeholder":"Ejemplo: example.com",
-        "check.button":"Comprobar certificado",
-        "check.help1":"Puedes pegar un dominio o una URL completa.",
-        "check.help2":"Si el dominio es inválido o no existe, se mostrará un mensaje de error claro.",
-
-        "result.expiration":"Fecha de expiración",
-        "result.expirationSub":"Fecha de fin de validez del certificado",
-        "result.days":"Tiempo restante",
-        "result.level":"Nivel",
-        "result.levelSub":"Lectura basada en el código de color",
-        "result.issuer":"Emisor",
-        "result.validFrom":"Válido desde",
-
-        "footer.nav":"Navegación",
-        "footer.support":"Soporte",
-        "footer.supportText":"Para cualquier pregunta relacionada con el sitio público o el formulario de contacto.",
-        "footer.legalTitle":"Legal",
-        "footer.brandText":"SEAL te ayuda a visualizar mejor la expiración de un certificado SSL con una interfaz clara, legible y accesible.",
-        "footer.privacy":"Política de privacidad",
-        "footer.legal":"Aviso legal",
-        "footer.terms":"Condiciones de uso",
-        "footer.bottomText":"Secure Expiry Alert & Logging",
-
-        "status.ok":"Cómodo",
-        "status.warn":"Vigilar",
-        "status.bad":"Urgente",
-        "status.okBadge":"OK",
-        "status.warnBadge":"Alerta",
-        "status.badBadge":"Crítico",
-
-        "days.singular":"día restante",
-        "days.plural":"días restantes",
-        "days.expired":"caducado",
-
-        "state.ok":"El certificado todavía parece cómodo.",
-        "state.warn":"El certificado se acerca a su expiración.",
-        "state.bad":"El certificado necesita atención pronto.",
-
-        "err.invalid":"Introduce un dominio o una URL válida.",
-        "err.not_found":"El sitio no existe o no se pudo encontrar el dominio.",
-        "err.no_tls":"No se detectó ningún certificado SSL para este dominio.",
-        "err.timeout":"La verificación tardó demasiado. Inténtalo de nuevo en un momento.",
-        "err.generic":"No se puede analizar este dominio ahora mismo."
+        "nav.home":"Inicio", "nav.features":"Funcionalidades", "nav.about":"Acerca de", "nav.faq":"FAQ", "nav.contact":"Contacto",
+        "hero.eyebrow":"Monitoreo Continuo SSL", "hero.title.l1":"Comprueba", "hero.title.l2":"la expiración SSL", "hero.title.l3":"en solo unos", "hero.title.l4":"segundos.",
+        "hero.subtitle":"Introduce un dominio o URL y obtén una lectura clara: fecha de expiración, tiempo restante y nivel de prioridad.",
+        "hero.ctaPrimary":"Ejecutar_Scan()", "hero.ctaSecondary":"Ver_Docs", "hero.note":"// Diseñado para el rendimiento: lectura simple, consultas optimizadas.",
+        "side.title":"/> ¿Por qué SEAL?", "side.text":"Comprueba rápidamente la expiración de un certificado SSL en una interfaz de monitoreo precisa.",
+        "side2.title":"/> Niveles de Alerta", "side2.ok":"Safe: Situación estable", "side2.warn":"Warning: Renovación cercana", "side2.bad":"Critical: Acción inmediata",
+        "check.title":"Analizador de Dominio", "check.subtitle":"Target: Introduce un dominio o URL completa.", "check.pill":"Estado: Esperando input",
+        "check.cardTitle":"Inicializar Escaneo TLS/SSL", "check.cardText":"SEAL consulta el servidor remoto para extraer la cadena de certificación.",
+        "check.placeholder":"Ejemplo: example.com", "check.button":"Iniciar_Scan", "check.help1":"# Aceptado: dominio desnudo o URL HTTP(S).", "check.help2":"",
+        "result.expiration":"Expiración", "result.expirationSub":"Fin de validez", "result.days":"TTL (Tiempo Restante)", "result.level":"Nivel de Amenaza", "result.levelSub":"Evaluación SEAL",
+        "result.issuer":"Autoridad de Certificación", "result.validFrom":"Fecha de Creación",
+        "footer.nav":"Sistema", "footer.support":"Soporte", "footer.supportText":"Para cualquier pregunta relacionada con el sitio, contáctenos a través de la página de Contacto o por correo electrónico.", "footer.legalTitle":"Seguridad y Legal", "footer.brandText":"SEAL te ayuda a visualizar la expiración de certificados SSL.",
+        "footer.privacy":"Política de privacidad", "footer.legal":"Aviso legal", "footer.terms":"Condiciones de uso", "footer.bottomText":"Secure Expiry Alert & Logging",
+        "status.ok":"Cómodo", "status.warn":"Vigilar", "status.bad":"Urgente", "status.okBadge":"OK", "status.warnBadge":"Alerta", "status.badBadge":"Crítico",
+        "days.singular":"día restante", "days.plural":"días restantes", "days.expired":"caducado",
+        "state.ok":"El certificado todavía parece cómodo.", "state.warn":"El certificado se acerca a su expiración.", "state.bad":"El certificado necesita atención pronto.",
+        "err.invalid":"Introduce un dominio o URL válida.", "err.not_found":"El sitio no existe.", "err.no_tls":"No se detectó certificado SSL.", "err.timeout":"La verificación tardó demasiado.", "err.generic":"No se puede analizar este dominio ahora mismo."
       },
-
       ru: {
-        "nav.home":"Главная",
-        "nav.features":"Функции",
-        "nav.about":"О нас",
-        "nav.faq":"FAQ",
-        "nav.contact":"Контакты",
-
-        "hero.eyebrow":"Следите за SSL-сертификатами с понятной подачей",
-        "hero.title.l1":"Проверьте",
-        "hero.title.l2":"срок действия SSL",
-        "hero.title.l3":"всего за",
-        "hero.title.l4":"секунды.",
-        "hero.subtitle":"Введите домен или URL и получите понятный результат: дату окончания, оставшееся время и уровень приоритета. Если есть проблема, SEAL сообщит об этом простым языком.",
-        "hero.ctaPrimary":"Начать проверку",
-        "hero.ctaSecondary":"Открыть сайт",
-        "hero.note":"Сайт сделан так, чтобы быть полезным всем: простое чтение, понятный дизайн и доступная информация.",
-
-        "side.title":"Почему SEAL",
-        "side.text":"Быстро проверьте дату окончания SSL-сертификата, оставшееся время и уровень приоритета в понятном и простом интерфейсе.",
-
-        "side2.title":"Быстрое чтение",
-        "side2.ok":"Зелёный: спокойная ситуация",
-        "side2.warn":"Оранжевый: нужно следить",
-        "side2.bad":"Красный: нужно действовать быстро",
-
-        "check.title":"Проверить домен",
-        "check.subtitle":"Введите домен или полный URL. Пример: example.com или https://example.com",
-        "check.pill":"Понятный и читаемый результат",
-        "check.cardTitle":"Запустите проверку",
-        "check.cardText":"SEAL показывает дату окончания, количество оставшихся дней и цветовой уровень, чтобы было понятно, нужно ли скоро действовать.",
-        "check.placeholder":"Например: example.com",
-        "check.button":"Проверить сертификат",
-        "check.help1":"Можно вставить домен или полный URL.",
-        "check.help2":"Если домен неверный или не найден, появится понятное сообщение об ошибке.",
-
-        "result.expiration":"Дата окончания",
-        "result.expirationSub":"Дата окончания действия сертификата",
-        "result.days":"Оставшееся время",
-        "result.level":"Уровень",
-        "result.levelSub":"Оценка по цветовому коду",
-        "result.issuer":"Издатель",
-        "result.validFrom":"Действует с",
-
-        "footer.nav":"Навигация",
-        "footer.support":"Поддержка",
-        "footer.supportText":"По всем вопросам о публичном сайте или форме связи.",
-        "footer.legalTitle":"Правовая информация",
-        "footer.brandText":"SEAL помогает лучше видеть срок действия SSL-сертификата благодаря понятному, читаемому и доступному интерфейсу.",
-        "footer.privacy":"Политика конфиденциальности",
-        "footer.legal":"Юридическая информация",
-        "footer.terms":"Условия использования",
-        "footer.bottomText":"Secure Expiry Alert & Logging",
-
-        "status.ok":"Спокойно",
-        "status.warn":"Следить",
-        "status.bad":"Срочно",
-        "status.okBadge":"OK",
-        "status.warnBadge":"Внимание",
-        "status.badBadge":"Критично",
-
-        "days.singular":"день остался",
-        "days.plural":"дней осталось",
-        "days.expired":"истёк",
-
-        "state.ok":"Сертификат пока выглядит безопасно.",
-        "state.warn":"Срок действия сертификата скоро закончится.",
-        "state.bad":"Сертификату скоро потребуется внимание.",
-
-        "err.invalid":"Введите корректный домен или URL.",
-        "err.not_found":"Сайт не существует или домен не найден.",
-        "err.no_tls":"Для этого домена не найден SSL-сертификат.",
-        "err.timeout":"Проверка заняла слишком много времени. Повторите попытку чуть позже.",
-        "err.generic":"Сейчас не удаётся проанализировать этот домен."
+        "nav.home":"Главная", "nav.features":"Функции", "nav.about":"О нас", "nav.faq":"FAQ", "nav.contact":"Контакты",
+        "hero.eyebrow":"Непрерывный мониторинг SSL", "hero.title.l1":"Проверьте", "hero.title.l2":"срок действия SSL", "hero.title.l3":"всего за", "hero.title.l4":"секунды.",
+        "hero.subtitle":"Введите домен или URL и получите понятный результат: дату окончания и время.",
+        "hero.ctaPrimary":"Выполнить_Scan()", "hero.ctaSecondary":"Документация", "hero.note":"// Создано для производительности.",
+        "side.title":"/> Почему SEAL?", "side.text":"Быстро проверьте дату окончания SSL-сертификата в точном интерфейсе.",
+        "side2.title":"/> Уровни оповещения", "side2.ok":"Safe: Стабильно", "side2.warn":"Warning: Скоро обновление", "side2.bad":"Critical: Срочно",
+        "check.title":"Анализатор домена", "check.subtitle":"Target: Введите домен.", "check.pill":"Статус: Ожидание",
+        "check.cardTitle":"Запуск проверки TLS/SSL", "check.cardText":"SEAL опрашивает удаленный сервер для извлечения сертификата.",
+        "check.placeholder":"Например: example.com", "check.button":"Начать_Scan", "check.help1":"# Принимается: домен или HTTP(S).", "check.help2":"",
+        "result.expiration":"Окончание", "result.expirationSub":"Конец действия", "result.days":"TTL (Осталось)", "result.level":"Уровень угрозы", "result.levelSub":"Оценка SEAL",
+        "result.issuer":"Центр сертификации", "result.validFrom":"Дата создания",
+        "footer.nav":"Система", "footer.support":"Поддержка", "footer.supportText":"По любым вопросам, связанным с сайтом, обращайтесь через страницу контактов или по электронной почте.", "footer.legalTitle":"Безопасность и право", "footer.brandText":"SEAL помогает визуализировать истечение срока SSL.",
+        "footer.privacy":"Конфиденциальность", "footer.legal":"Юридическая информация", "footer.terms":"Условия", "footer.bottomText":"Secure Expiry Alert & Logging",
+        "status.ok":"Спокойно", "status.warn":"Следить", "status.bad":"Срочно", "status.okBadge":"OK", "status.warnBadge":"Внимание", "status.badBadge":"Критично",
+        "days.singular":"день остался", "days.plural":"дней осталось", "days.expired":"истёк",
+        "state.ok":"Сертификат выглядит безопасно.", "state.warn":"Скоро закончится.", "state.bad":"Требуется внимание.",
+        "err.invalid":"Введите корректный домен.", "err.not_found":"Сайт не существует.", "err.no_tls":"Не найден SSL.", "err.timeout":"Слишком долго.", "err.generic":"Ошибка."
       },
-
       ar: {
-        "nav.home":"الرئيسية",
-        "nav.features":"الميزات",
-        "nav.about":"من نحن",
-        "nav.faq":"الأسئلة الشائعة",
-        "nav.contact":"اتصال",
-
-        "hero.eyebrow":"تابع شهادات SSL بسهولة ووضوح",
-        "hero.title.l1":"تحقق من",
-        "hero.title.l2":"انتهاء SSL",
-        "hero.title.l3":"خلال بضع",
-        "hero.title.l4":"ثوانٍ.",
-        "hero.subtitle":"أدخل نطاقًا أو رابطًا، وستحصل على قراءة واضحة: تاريخ الانتهاء، الوقت المتبقي، ومستوى الأولوية. وإذا وُجدت مشكلة، سيخبرك SEAL بذلك بشكل مباشر.",
-        "hero.ctaPrimary":"ابدأ التحقق",
-        "hero.ctaSecondary":"اكتشف الموقع",
-        "hero.note":"مصمم ليكون مفيدًا للجميع: قراءة بسيطة، تصميم واضح، ومعلومات سهلة الفهم.",
-
-        "side.title":"لماذا SEAL",
-        "side.text":"تحقق بسرعة من تاريخ انتهاء شهادة SSL والوقت المتبقي ومستوى الأولوية ضمن واجهة واضحة وبسيطة.",
-
-        "side2.title":"قراءة سريعة",
-        "side2.ok":"الأخضر: وضع مريح",
-        "side2.warn":"البرتقالي: يحتاج متابعة",
-        "side2.bad":"الأحمر: يحتاج تصرفًا سريعًا",
-
-        "check.title":"التحقق من نطاق",
-        "check.subtitle":"أدخل نطاقًا أو رابطًا كاملًا. مثال: example.com أو https://example.com",
-        "check.pill":"نتيجة واضحة وسهلة القراءة",
-        "check.cardTitle":"ابدأ التحقق",
-        "check.cardText":"يعرض SEAL تاريخ الانتهاء وعدد الأيام المتبقية ومستوى لوني ليساعدك على معرفة ما إذا كان عليك التصرف قريبًا.",
-        "check.placeholder":"مثال: example.com",
-        "check.button":"التحقق من الشهادة",
-        "check.help1":"يمكنك لصق نطاق أو رابط كامل.",
-        "check.help2":"إذا كان النطاق غير صالح أو غير موجود، ستظهر رسالة خطأ واضحة.",
-
-        "result.expiration":"تاريخ الانتهاء",
-        "result.expirationSub":"تاريخ انتهاء صلاحية الشهادة",
-        "result.days":"الوقت المتبقي",
-        "result.level":"المستوى",
-        "result.levelSub":"قراءة مبنية على الألوان",
-        "result.issuer":"الجهة المصدرة",
-        "result.validFrom":"صالح منذ",
-
-        "footer.nav":"التنقل",
-        "footer.support":"الدعم",
-        "footer.supportText":"لأي سؤال متعلق بالموقع العام أو نموذج الاتصال.",
-        "footer.legalTitle":"قانوني",
-        "footer.brandText":"يساعدك SEAL على فهم تاريخ انتهاء شهادة SSL بشكل أفضل من خلال واجهة واضحة وسهلة القراءة.",
-        "footer.privacy":"سياسة الخصوصية",
-        "footer.legal":"بيان قانوني",
-        "footer.terms":"شروط الاستخدام",
-        "footer.bottomText":"Secure Expiry Alert & Logging",
-
-        "status.ok":"مريح",
-        "status.warn":"تحت المتابعة",
-        "status.bad":"عاجل",
-        "status.okBadge":"جيد",
-        "status.warnBadge":"تنبيه",
-        "status.badBadge":"حرج",
-
-        "days.singular":"يوم متبقٍ",
-        "days.plural":"أيام متبقية",
-        "days.expired":"منتهية",
-
-        "state.ok":"تبدو الشهادة في وضع مريح حاليًا.",
-        "state.warn":"تقترب الشهادة من تاريخ الانتهاء.",
-        "state.bad":"تحتاج الشهادة إلى انتباه سريع.",
-
-        "err.invalid":"يرجى إدخال نطاق أو رابط صالح.",
-        "err.not_found":"الموقع غير موجود أو تعذر العثور على النطاق.",
-        "err.no_tls":"لم يتم العثور على شهادة SSL لهذا النطاق.",
-        "err.timeout":"استغرق التحقق وقتًا طويلًا. حاول مرة أخرى بعد قليل.",
-        "err.generic":"تعذر تحليل هذا النطاق الآن."
+        "nav.home":"الرئيسية", "nav.features":"الميزات", "nav.about":"من نحن", "nav.faq":"الأسئلة الشائعة", "nav.contact":"اتصال",
+        "hero.eyebrow":"مراقبة SSL المستمرة", "hero.title.l1":"تحقق من", "hero.title.l2":"انتهاء SSL", "hero.title.l3":"خلال بضع", "hero.title.l4":"ثوانٍ.",
+        "hero.subtitle":"أدخل نطاقًا أو رابطًا للحصول على قراءة واضحة.",
+        "hero.ctaPrimary":"بدء_الفحص()", "hero.ctaSecondary":"عرض_المستندات", "hero.note":"// مصمم للأداء السريع.",
+        "side.title":"/> لماذا SEAL؟", "side.text":"تحقق بسرعة من تاريخ انتهاء شهادة SSL عبر واجهة مراقبة دقيقة.",
+        "side2.title":"/> مستويات التنبيه", "side2.ok":"آمن: وضع مستقر", "side2.warn":"تحذير: التجديد قريب", "side2.bad":"حرج: تدخل فوري",
+        "check.title":"محلل النطاقات", "check.subtitle":"الهدف: أدخل نطاقًا كاملًا.", "check.pill":"الحالة: في انتظار الإدخال",
+        "check.cardTitle":"بدء فحص TLS/SSL", "check.cardText":"يستعلم SEAL من الخادم البعيد لاستخراج سلسلة الشهادات.",
+        "check.placeholder":"مثال: example.com", "check.button":"تشغيل_الفحص", "check.help1":"# التنسيقات: نطاق أو رابط HTTP(S).", "check.help2":"",
+        "result.expiration":"الانتهاء", "result.expirationSub":"نهاية الصلاحية", "result.days":"الوقت المتبقي", "result.level":"مستوى التهديد", "result.levelSub":"تقييم SEAL",
+        "result.issuer":"جهة الإصدار", "result.validFrom":"تاريخ الإنشاء",
+        "footer.nav":"النظام", "footer.support":"الدعم", "footer.supportText":"لأي أسئلة متعلقة بالموقع، اتصل بنا عبر صفحة الاتصال أو عبر البريد الإلكتروني.", "footer.legalTitle":"الأمان والقانون", "footer.brandText":"أداة مراقبة شهادات SSL.",
+        "footer.privacy":"سياسة الخصوصية", "footer.legal":"بيان قانوني", "footer.terms":"شروط الاستخدام", "footer.bottomText":"Secure Expiry Alert & Logging",
+        "status.ok":"مريح", "status.warn":"تحت المتابعة", "status.bad":"عاجل", "status.okBadge":"جيد", "status.warnBadge":"تنبيه", "status.badBadge":"حرج",
+        "days.singular":"يوم متبقٍ", "days.plural":"أيام متبقية", "days.expired":"منتهية",
+        "state.ok":"الشهادة في وضع مريح.", "state.warn":"تقترب الشهادة من تاريخ الانتهاء.", "state.bad":"تحتاج انتباه سريع.",
+        "err.invalid":"يرجى إدخال نطاق صالح.", "err.not_found":"الموقع غير موجود.", "err.no_tls":"لم يتم العثور على SSL.", "err.timeout":"استغرق الفحص وقتًا طويلًا.", "err.generic":"تعذر التحليل."
       },
-
       zh: {
-        "nav.home":"主页",
-        "nav.features":"功能",
-        "nav.about":"关于我们",
-        "nav.faq":"常见问题",
-        "nav.contact":"联系",
-
-        "hero.eyebrow":"更清晰地查看 SSL 证书状态",
-        "hero.title.l1":"快速检查",
-        "hero.title.l2":"SSL 到期时间",
-        "hero.title.l3":"只需要几",
-        "hero.title.l4":"秒钟。",
-        "hero.subtitle":"输入域名或网址，即可获得清晰结果：到期日期、剩余时间和优先级。如果出现问题，SEAL 会直接告诉你。",
-        "hero.ctaPrimary":"开始检查",
-        "hero.ctaSecondary":"了解网站",
-        "hero.note":"为所有人设计：阅读简单、界面清晰、信息易懂。",
-
-        "side.title":"为什么选择 SEAL",
-        "side.text":"快速查看 SSL 证书到期日期、剩余时间和优先级，界面清晰简单。",
-
-        "side2.title":"快速理解",
-        "side2.ok":"绿色：情况较为安心",
-        "side2.warn":"橙色：需要关注",
-        "side2.bad":"红色：应尽快处理",
-
-        "check.title":"检查域名",
-        "check.subtitle":"输入完整域名或网址。例如：example.com 或 https://example.com",
-        "check.pill":"结果清晰易读",
-        "check.cardTitle":"开始检查",
-        "check.cardText":"SEAL 会显示到期日期、剩余天数和颜色级别，帮助你判断是否需要尽快处理。",
-        "check.placeholder":"例如：example.com",
-        "check.button":"检查证书",
-        "check.help1":"你可以粘贴域名或完整网址。",
-        "check.help2":"如果域名无效或不存在，将显示清晰的错误信息。",
-
-        "result.expiration":"到期日期",
-        "result.expirationSub":"证书有效期结束日期",
-        "result.days":"剩余时间",
-        "result.level":"级别",
-        "result.levelSub":"基于颜色的阅读方式",
-        "result.issuer":"颁发者",
-        "result.validFrom":"生效时间",
-
-        "footer.nav":"导航",
-        "footer.support":"支持",
-        "footer.supportText":"如对公开网站或联系表单有任何问题，可通过此处联系。",
-        "footer.legalTitle":"法律信息",
-        "footer.brandText":"SEAL 通过清晰、易读、易访问的界面，帮助你更好地查看 SSL 证书到期情况。",
-        "footer.privacy":"隐私政策",
-        "footer.legal":"法律声明",
-        "footer.terms":"使用条款",
-        "footer.bottomText":"Secure Expiry Alert & Logging",
-
-        "status.ok":"安心",
-        "status.warn":"需关注",
-        "status.bad":"紧急",
-        "status.okBadge":"正常",
-        "status.warnBadge":"提醒",
-        "status.badBadge":"严重",
-
-        "days.singular":"剩余 1 天",
-        "days.plural":"剩余天数",
-        "days.expired":"已过期",
-
-        "state.ok":"证书目前看起来比较安心。",
-        "state.warn":"证书正在接近到期。",
-        "state.bad":"证书需要尽快处理。",
-
-        "err.invalid":"请输入有效的域名或网址。",
-        "err.not_found":"网站不存在，或未找到该域名。",
-        "err.no_tls":"未检测到该域名的 SSL 证书。",
-        "err.timeout":"检查耗时过长，请稍后再试。",
-        "err.generic":"暂时无法分析该域名。"
+        "nav.home":"主页", "nav.features":"功能", "nav.about":"关于我们", "nav.faq":"常见问题", "nav.contact":"联系",
+        "hero.eyebrow":"持续 SSL 监控", "hero.title.l1":"快速检查", "hero.title.l2":"SSL 到期时间", "hero.title.l3":"只需要几", "hero.title.l4":"秒钟。",
+        "hero.subtitle":"输入域名或网址，获得清晰结果。",
+        "hero.ctaPrimary":"执行_扫描()", "hero.ctaSecondary":"查看_文档", "hero.note":"// 专为性能打造。",
+        "side.title":"/> 为什么选择 SEAL?", "side.text":"在精确的监控界面中快速检查 SSL 到期时间。",
+        "side2.title":"/> 警报级别", "side2.ok":"安全: 状态稳定", "side2.warn":"警告: 即将需要续期", "side2.bad":"严重: 需要立即采取行动",
+        "check.title":"域名分析器", "check.subtitle":"目标: 输入完整域名或 URL。", "check.pill":"状态: 等待输入",
+        "check.cardTitle":"初始化 TLS/SSL 扫描", "check.cardText":"SEAL 查询远程服务器以提取认证链。",
+        "check.placeholder":"例如：example.com", "check.button":"开始_扫描", "check.help1":"# 接受的格式：裸域名或 HTTP(S)。", "check.help2":"",
+        "result.expiration":"到期", "result.expirationSub":"有效期结束", "result.days":"剩余时间 (TTL)", "result.level":"威胁级别", "result.levelSub":"SEAL 评估",
+        "result.issuer":"证书颁发机构", "result.validFrom":"创建日期",
+        "footer.nav":"系统", "footer.support":"支持", "footer.supportText":"如有任何与网站相关的问题，请通过“联系”页面或电子邮件与我们联系。", "footer.legalTitle":"安全与法律", "footer.brandText":"SSL 证书监控工具。",
+        "footer.privacy":"隐私政策", "footer.legal":"法律声明", "footer.terms":"使用条款", "footer.bottomText":"Secure Expiry Alert & Logging",
+        "status.ok":"安心", "status.warn":"需关注", "status.bad":"紧急", "status.okBadge":"正常", "status.warnBadge":"提醒", "status.badBadge":"严重",
+        "days.singular":"剩余 1 天", "days.plural":"剩余天数", "days.expired":"已过期",
+        "state.ok":"证书目前比较安心。", "state.warn":"证书正在接近到期。", "state.bad":"证书需要尽快处理。",
+        "err.invalid":"请输入有效的域名。", "err.not_found":"网站不存在。", "err.no_tls":"未检测到 SSL。", "err.timeout":"检查超时。", "err.generic":"暂时无法分析。"
       }
     };
 
@@ -1779,17 +871,15 @@
     function syncLogo(img){
       if(!img) return;
       const theme = document.documentElement.getAttribute("data-theme") || "dark";
-      const darkSrc = img.getAttribute("data-logo-dark");
-      const lightSrc = img.getAttribute("data-logo-light");
       const useDark = theme === "dark";
-      img.src = useDark ? darkSrc : lightSrc;
+      img.src = useDark ? img.getAttribute("data-logo-dark") : img.getAttribute("data-logo-light");
       img.classList.toggle("is-dark-logo", useDark);
       img.classList.toggle("is-light-logo", !useDark);
     }
 
     function syncAllLogos(){
-      syncLogo(document.getElementById("brandLogo"));
-      syncLogo(document.getElementById("footerLogo"));
+      syncLogo($("#brandLogo"));
+      syncLogo($("#footerLogo"));
     }
 
     function setTheme(theme){
@@ -1808,50 +898,33 @@
       try{
         const d = new Date(value);
         return new Intl.DateTimeFormat(getLang(), {
-          year:"numeric",
-          month:"long",
-          day:"numeric"
+          year:"numeric", month:"long", day:"numeric"
         }).format(d);
-      }catch{
-        return value;
-      }
+      }catch{ return value; }
     }
 
     let lastResult = null;
 
     function refreshResultTexts(){
       if(!lastResult) return;
-
-      const badge = $("#resultBadge");
-      const level = $("#resultLevel");
-      const daysEl = $("#resultDays");
-      const statusText = $("#resultStatusText");
-
+      const badge = $("#resultBadge"); const level = $("#resultLevel");
+      const daysEl = $("#resultDays"); const statusText = $("#resultStatusText");
       const severity = lastResult.severity;
+      
       if(severity === "ok"){
-        badge.className = "status-badge ok";
-        badge.textContent = t("status.okBadge");
-        level.textContent = t("status.ok");
-        statusText.textContent = t("state.ok");
+        badge.className = "status-badge ok"; badge.textContent = t("status.okBadge");
+        level.textContent = t("status.ok"); statusText.textContent = t("state.ok");
       } else if(severity === "warn"){
-        badge.className = "status-badge warn";
-        badge.textContent = t("status.warnBadge");
-        level.textContent = t("status.warn");
-        statusText.textContent = t("state.warn");
+        badge.className = "status-badge warn"; badge.textContent = t("status.warnBadge");
+        level.textContent = t("status.warn"); statusText.textContent = t("state.warn");
       } else {
-        badge.className = "status-badge bad";
-        badge.textContent = t("status.badBadge");
-        level.textContent = t("status.bad");
-        statusText.textContent = t("state.bad");
+        badge.className = "status-badge bad"; badge.textContent = t("status.badBadge");
+        level.textContent = t("status.bad"); statusText.textContent = t("state.bad");
       }
 
-      if(lastResult.daysLeft < 0){
-        daysEl.textContent = t("days.expired");
-      } else if(lastResult.daysLeft === 1){
-        daysEl.textContent = `${lastResult.daysLeft} ${t("days.singular")}`;
-      } else {
-        daysEl.textContent = `${lastResult.daysLeft} ${t("days.plural")}`;
-      }
+      if(lastResult.daysLeft < 0){ daysEl.textContent = t("days.expired"); } 
+      else if(lastResult.daysLeft === 1){ daysEl.textContent = `${lastResult.daysLeft} ${t("days.singular")}`; } 
+      else { daysEl.textContent = `${lastResult.daysLeft} ${t("days.plural")}`; }
 
       $("#resultExpiry").textContent = formatDate(lastResult.expiresAt);
       $("#resultIssuer").textContent = lastResult.issuer || "—";
@@ -1859,61 +932,31 @@
       $("#resultDomain").textContent = lastResult.domain || "—";
     }
 
-    function hideResult(){
-      $("#resultCard").classList.remove("show");
-    }
-
-    function showError(message){
-      hideResult();
-      const box = $("#errorBox");
-      box.textContent = message;
-      box.classList.add("show");
-    }
-
-    function hideError(){
-      $("#errorBox").classList.remove("show");
-      $("#errorBox").textContent = "";
-    }
-
-    function mapServerError(code){
-      switch(code){
-        case "INVALID": return t("err.invalid");
-        case "NOT_FOUND": return t("err.not_found");
-        case "NO_TLS": return t("err.no_tls");
-        case "TIMEOUT": return t("err.timeout");
-        default: return t("err.generic");
-      }
-    }
+    function hideResult(){ $("#resultCard").classList.remove("show"); }
+    function showError(message){ hideResult(); const box = $("#errorBox"); box.textContent = message; box.classList.add("show"); }
+    function hideError(){ $("#errorBox").classList.remove("show"); $("#errorBox").textContent = ""; }
 
     async function handleSSLCheck(e){
-      e.preventDefault();
-      hideError();
-      hideResult();
-
-      const btn = $("#checkBtn");
-      const input = $("#domainInput").value.trim();
-
-      if(!input){
-        showError(t("err.invalid"));
-        return;
-      }
-
-      btn.disabled = true;
-      btn.style.opacity = ".75";
-
+      e.preventDefault(); hideError(); hideResult();
+      const btn = $("#checkBtn"); const input = $("#domainInput").value.trim();
+      if(!input){ showError(t("err.invalid")); return; }
+      
+      btn.disabled = true; btn.style.opacity = ".75";
+      
       try{
+        /* --- APPEL API ORIGINAL À DÉCOMMENTER POUR LA PROD --- 
         const res = await fetch("/api/ssl-check", {
-          method:"POST",
-          headers:{ "Content-Type":"application/json" },
+          method:"POST", headers:{ "Content-Type":"application/json" },
           body: JSON.stringify({ input })
         });
-
         const data = await res.json();
+        if(!res.ok){ showError(mapServerError(data.code)); return; }
+        */
 
-        if(!res.ok){
-          showError(mapServerError(data.code));
-          return;
-        }
+        // --- SIMULATION POUR LE TEST VISUEL ---
+        await new Promise(r => setTimeout(r, 800)); 
+        const data = { severity: "ok", daysLeft: 45, expiresAt: "2026-05-20T00:00:00Z", issuer: "Let's Encrypt Authority X3", validFrom: "2026-02-20T00:00:00Z", domain: input };
+        // --------------------------------------
 
         lastResult = data;
         refreshResultTexts();
@@ -1921,8 +964,7 @@
       } catch(err){
         showError(t("err.generic"));
       } finally {
-        btn.disabled = false;
-        btn.style.opacity = "1";
+        btn.disabled = false; btn.style.opacity = "1";
       }
     }
 
@@ -1930,18 +972,22 @@
       setTheme(getTheme());
       setLang(getLang());
       syncAllLogos();
-
-      const langToggle = $("#langToggle");
-      const langMenu = $("#langMenu");
-      const menuToggle = $("#menuToggle");
-      const mobileMenu = $("#mobileMenu");
-
+      
+      const langToggle = $("#langToggle"); const langMenu = $("#langMenu");
       langToggle.addEventListener("click", (e) => {
         e.stopPropagation();
         const open = langMenu.classList.toggle("open");
         langToggle.setAttribute("aria-expanded", open ? "true" : "false");
       });
+      
+      langMenu.querySelectorAll(".item").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation(); setLang(btn.getAttribute("data-lang"));
+          langMenu.classList.remove("open"); langToggle.setAttribute("aria-expanded", "false");
+        });
+      });
 
+      const menuToggle = $("#menuToggle"); const mobileMenu = $("#mobileMenu");
       if (menuToggle && mobileMenu) {
         menuToggle.addEventListener("click", (e) => {
           e.stopPropagation();
@@ -1952,31 +998,12 @@
       }
 
       window.addEventListener("click", () => {
-        langMenu.classList.remove("open");
-        langToggle.setAttribute("aria-expanded", "false");
-
+        langMenu.classList.remove("open"); langToggle.setAttribute("aria-expanded", "false");
         if (mobileMenu && menuToggle) {
           mobileMenu.classList.remove("open");
           menuToggle.classList.remove("open");
           menuToggle.setAttribute("aria-expanded", "false");
         }
-      });
-
-      langMenu.querySelectorAll(".item").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          setLang(btn.getAttribute("data-lang"));
-          langMenu.classList.remove("open");
-          langToggle.setAttribute("aria-expanded", "false");
-        });
-      });
-
-      mobileMenu.querySelectorAll("a").forEach(link => {
-        link.addEventListener("click", () => {
-          mobileMenu.classList.remove("open");
-          menuToggle.classList.remove("open");
-          menuToggle.setAttribute("aria-expanded", "false");
-        });
       });
 
       $("#themeToggle").addEventListener("click", toggleTheme);

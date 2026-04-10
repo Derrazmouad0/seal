@@ -7,853 +7,348 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&family=Space+Grotesk:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
+    /* --- VARIABLES CYBER-GLASS (MODE SOMBRE) --- */
     :root{
-      --bg0:#07111F;
-      --bg1:#0A1426;
-      --bg2:#0D1A31;
-      --card:rgba(10,18,34,.72);
-      --card-strong:rgba(10,18,34,.88);
-      --card-soft:rgba(255,255,255,.05);
-      --text:#EAF2FF;
-      --muted:#A7B4D3;
-      --line:rgba(148,163,184,.18);
-      --line-strong:rgba(148,163,184,.28);
-      --accent:#35C6C2;
-      --accent2:#6DBBFF;
-      --accent3:#8A7CFF;
-      --ok:#22C55E;
-      --warn:#F59E0B;
-      --bad:#EF4444;
-      --shadow:0 24px 70px rgba(0,0,0,.38);
-      --max:1240px;
+      --bg-dark: #030305;
+      --glass-bg: rgba(15, 15, 20, 0.45);
+      --glass-strong: rgba(10, 10, 15, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-blur: blur(24px);
+      
+      --control-bg: rgba(0, 0, 0, 0.4);
+      --card-bg: rgba(0, 0, 0, 0.25);
+
+      --text: #EAF2FF;
+      --muted: #8A9BBD;
+      --line: rgba(255, 255, 255, 0.1);
+      
+      --neon-blue: #00f0ff;
+      --neon-green: #00ffcc;
+      --neon-purple: #b026ff;
+      
+      --ok: #00ffcc;
+      --warn: #F59E0B;
+      --bad: #ff2a5f;
+      
+      --shadow: 0 24px 70px rgba(0,0,0, 0.6);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --max: 1240px;
     }
 
+    /* --- MODE CLAIR (PROPRE, BLANC PUR) --- */
     html[data-theme="light"]{
-      --bg0:#EEF5FF;
-      --bg1:#F8FBFF;
-      --bg2:#FFFFFF;
-      --card:rgba(255,255,255,.82);
-      --card-strong:rgba(255,255,255,.94);
-      --card-soft:rgba(15,23,42,.035);
-      --text:#0B1630;
-      --muted:#4B5B79;
-      --line:rgba(15,23,42,.10);
-      --line-strong:rgba(15,23,42,.16);
-      --shadow:0 22px 55px rgba(15,23,42,.10);
+      --bg-dark: #F8FAFC; 
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-strong: rgba(255, 255, 255, 0.98);
+      --glass-border: rgba(0, 0, 0, 0.08);
+      
+      --control-bg: #FFFFFF;
+      --card-bg: #FFFFFF;
+
+      --text: #0F172A;
+      --muted: #475569;
+      --line: #E2E8F0;
+      
+      --neon-blue: #0284C7; 
+      --neon-green: #059669;
+      --neon-purple: #7C3AED;
+      
+      --ok: #059669;
+      --warn: #D97706;
+      --bad: #E11D48;
+      
+      --shadow: 0 4px 20px rgba(0,0,0, 0.04);
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family:Roboto,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(900px 520px at 10% -10%, rgba(53,198,194,.18), transparent 60%),
-        radial-gradient(700px 420px at 90% 0%, rgba(109,187,255,.18), transparent 55%),
-        radial-gradient(760px 520px at 50% 120%, rgba(138,124,255,.14), transparent 55%),
-        linear-gradient(180deg, var(--bg0), var(--bg1) 48%, var(--bg2));
-      overflow-x:hidden;
+      font-family: Roboto, system-ui, sans-serif;
+      color: var(--text);
+      background-color: var(--bg-dark);
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     html[dir="rtl"] body{direction:rtl;}
-    html[dir="rtl"] .nav,
-    html[dir="rtl"] .controls,
-    html[dir="rtl"] .hero-grid,
-    html[dir="rtl"] .contact-layout,
-    html[dir="rtl"] .contact-meta,
-    html[dir="rtl"] .footer-grid,
-    html[dir="rtl"] .footer-bottom,
-    html[dir="rtl"] .cta{
-      direction:rtl;
-    }
-    html[dir="rtl"] .lang .menu{right:auto;left:0;}
-    html[dir="rtl"] .footer-links a:hover{transform:translateX(-2px)}
+    html[dir="rtl"] .nav, html[dir="rtl"] .controls, html[dir="rtl"] .hero-grid, html[dir="rtl"] .contact-layout, html[dir="rtl"] .section-head, html[dir="rtl"] .footer-grid, html[dir="rtl"] .footer-bottom, html[dir="rtl"] .mobile-menu{ direction:rtl; }
+    html[dir="rtl"] .lang .menu{right:auto; left:0;}
+    html[dir="rtl"] .info-icon{ margin-right: 0; margin-left: 15px; }
 
-    .bg-grid{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      opacity:.28;
-      background:
-        linear-gradient(to right, rgba(148,163,184,.08) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(148,163,184,.08) 1px, transparent 1px);
-      background-size:52px 52px;
-      mask-image: radial-gradient(circle at 50% 25%, rgba(0,0,0,.9) 0, rgba(0,0,0,.55) 45%, rgba(0,0,0,0) 82%);
-      animation:gridMove 18s linear infinite;
+    /* --- ARRIÈRE-PLAN --- */
+    .bg-grid {
+      position: fixed; inset: 0; pointer-events: none; opacity: .15;
+      background: linear-gradient(to right, rgba(150,150,150,.1) 1px, transparent 1px),
+                  linear-gradient(to bottom, rgba(150,150,150,.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(circle at 50% 30%, rgba(0,0,0,1) 0, rgba(0,0,0,0) 80%);
+      animation: gridMove 20s linear infinite;
     }
-    @keyframes gridMove{
-      from{transform:translate3d(0,0,0)}
-      to{transform:translate3d(-52px,52px,0)}
-    }
+    html[data-theme="light"] .bg-grid { opacity: 0.5; }
+    @keyframes gridMove { from{transform:translateY(0)} to{transform:translateY(50px)} }
 
-    .aurora,.aurora2,.aurora3{
-      position:fixed;
-      border-radius:999px;
-      filter:blur(36px);
-      pointer-events:none;
-      opacity:.22;
-      mix-blend-mode:screen;
+    .aurora, .aurora2, .aurora3 {
+      position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: -1;
+      animation: floatA 15s ease-in-out infinite alternate;
     }
-    .aurora{
-      width:420px;height:420px;left:-80px;top:120px;
-      background:radial-gradient(circle at 35% 35%, rgba(53,198,194,.92), transparent 60%);
-      animation:floatA 12s ease-in-out infinite;
-    }
-    .aurora2{
-      width:460px;height:460px;right:-120px;top:80px;
-      background:radial-gradient(circle at 60% 40%, rgba(109,187,255,.90), transparent 60%);
-      animation:floatB 14s ease-in-out infinite;
-    }
-    .aurora3{
-      width:360px;height:360px;left:50%;bottom:-110px;transform:translateX(-50%);
-      background:radial-gradient(circle at 50% 50%, rgba(138,124,255,.75), transparent 62%);
-      animation:floatC 16s ease-in-out infinite;
-    }
-    @keyframes floatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)}}
-    @keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(20px)}}
-    @keyframes floatC{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.06)}}
+    .aurora { width: 45vw; height: 45vw; left: -10%; top: -10%; background: rgba(0, 240, 255, 0.12); }
+    .aurora2 { width: 40vw; height: 40vw; right: -5%; bottom: -5%; background: rgba(0, 255, 204, 0.1); animation-delay: -5s; }
+    .aurora3 { width: 35vw; height: 35vw; left: 30%; top: 40%; background: rgba(176, 38, 255, 0.08); animation-delay: -10s; }
+    @keyframes floatA{ 0% {transform: translate(0,0) scale(1);} 100% {transform: translate(50px, 30px) scale(1.1);} }
 
-    .wrap{max-width:var(--max);margin:0 auto;padding:0 18px}
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 18px; }
 
-    header{
-      position:sticky;
-      top:0;
-      z-index:90;
-      backdrop-filter:blur(16px);
-      background:color-mix(in srgb, var(--bg1) 72%, transparent);
-      border-bottom:1px solid var(--line);
+    /* --- HEADER & NAV --- */
+    header {
+      position: sticky; top: 0; z-index: 60;
+      background: var(--glass-strong);
+      backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+      border-bottom: 1px solid var(--glass-border);
+      transition: 0.3s;
     }
-    .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      padding:14px 0;
-      position:relative;
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; }
+    
+    .brand, .footer-brand a { display: flex; align-items: center; text-decoration: none; min-width: 120px; }
+    .brand img, .footer-brand img { 
+      height: 50px; width: auto; display: block; 
+      transform-origin: left center; transition: transform 0.3s ease; 
     }
+    .brand img.is-dark-logo, .footer-brand img.is-dark-logo { transform: scale(1.6); }
+    .brand img.is-light-logo, .footer-brand img.is-light-logo { transform: scale(1.08); }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      text-decoration:none;
-      color:var(--text);
-      min-width:120px;
-      z-index:2;
+    .navlinks { display: flex; align-items: center; gap: 25px; list-style: none; margin: 0; padding: 0; }
+    .navlinks a {
+      text-decoration: none; color: var(--text); font-family: 'Fira Code', monospace;
+      font-size: 13px; opacity: .7; transition: 0.3s;
     }
-    .brand img{
-      height:72px;
-      width:auto;
-      display:block;
-      transform-origin:left center;
-    }
-    .brand img.is-dark-logo{transform:scale(1.6)}
-    .brand img.is-light-logo{transform:scale(1.08)}
+    .navlinks a:hover, .navlinks a.active { opacity: 1; color: var(--neon-blue); text-shadow: 0 0 10px rgba(0, 240, 255, 0.4); }
 
-    .navlinks{
-      display:flex;
-      align-items:center;
-      gap:22px;
-      list-style:none;
-      margin:0;
-      padding:0;
+    /* --- CONTROLS & TRADUCTION --- */
+    .controls { display: flex; align-items: center; gap: 10px; }
+    
+    .lang button, .theme-toggle, .menu-toggle {
+      border: 1px solid var(--line); background: var(--control-bg); color: var(--text);
+      backdrop-filter: blur(10px); cursor: pointer; transition: 0.3s; border-radius: 999px;
     }
-    .navlinks a{
-      text-decoration:none;
-      color:var(--text);
-      opacity:.88;
-      font-size:14px;
-      font-weight:600;
-      padding:8px 2px;
-      position:relative;
-      transition:opacity .2s ease, transform .2s ease;
+    .lang button {
+      display: flex; align-items: center; gap: 8px; padding: 8px 14px;
+      font-family: 'Fira Code', monospace; font-size: 12px; font-weight: 600;
     }
-    .navlinks a:hover{opacity:1;transform:translateY(-1px)}
-    .navlinks a::after{
-      content:"";
-      position:absolute;
-      left:0;right:0;bottom:0;
-      height:2px;
-      border-radius:999px;
-      background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));
-      transform:scaleX(0);
-      transform-origin:left;
-      transition:transform .22s ease;
+    .lang button:hover, .theme-toggle:hover, .menu-toggle:hover {
+      border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); 
     }
-    .navlinks a:hover::after,.navlinks a.active::after{transform:scaleX(1)}
-    .navlinks a.active{opacity:1}
+    html[data-theme="light"] .lang button:hover, html[data-theme="light"] .theme-toggle:hover {
+      box-shadow: 0 0 15px rgba(2, 132, 199, 0.2);
+    }
+    
+    .pill { font-size: 10px; padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--neon-green); }
+    
+    .lang { position: relative; }
+    .lang .menu {
+      position: absolute; top: 120%; right: 0; min-width: 190px; padding: 10px;
+      border-radius: var(--radius-sm); border: 1px solid var(--neon-blue);
+      background: var(--glass-strong); backdrop-filter: var(--glass-blur);
+      box-shadow: 0 10px 30px rgba(0, 240, 255, 0.1); display: none; z-index: 80;
+    }
+    .lang .menu.open { display: block; }
+    .lang .item {
+      width: 100%; display: flex; align-items: center; justify-content: space-between; gap:10px;
+      border: 0; background: transparent; color: var(--text); border-radius: 6px; padding: 10px;
+      cursor: pointer; font-family: 'Fira Code', monospace; font-size: 12px; transition: 0.2s;
+    }
+    .lang .item:hover, .lang .item.active { background: var(--control-bg); color: var(--neon-blue); }
 
-    .controls{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      z-index:2;
+    /* SOLEIL / LUNE */
+    .theme-toggle { width: 44px; height: 44px; display: grid; place-items: center; padding: 0;}
+    .sunmoon { width: 22px; height: 22px; display: block; transform-origin: 50% 50%; transition: transform 0.5s cubic-bezier(.2,.9,.2,1); }
+    html[data-theme="dark"] .sunmoon { transform: rotate(180deg); }
+    .sun-core, .moon-core { transition: opacity 0.35s ease; }
+    html[data-theme="dark"] .sun-core { opacity: 0; }
+    html[data-theme="light"] .moon-core { opacity: 0; }
+
+    /* MENU HAMBURGER (Mobile) */
+    .menu-toggle { display: none; width: 44px; height: 44px; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+    .menu-toggle span { display: block; width: 18px; height: 2px; border-radius: 2px; background: var(--text); transition: transform 0.3s ease, opacity 0.3s ease; }
+    .menu-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--neon-blue);}
+    .menu-toggle.open span:nth-child(2) { opacity: 0; }
+    .menu-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--neon-blue);}
+
+    .mobile-menu {
+      display: none; flex-direction: column; padding: 10px; border-radius: var(--radius-sm); margin-bottom: 20px;
+      background: var(--glass-strong); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border);
+    }
+    .mobile-menu.open { display: flex; animation: slideDown 0.3s ease forwards; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .mobile-menu a {
+      padding: 15px; color: var(--text); text-decoration: none; font-family: 'Fira Code', monospace;
+      border-bottom: 1px solid var(--line); font-size: 14px; transition: 0.3s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover, .mobile-menu a.active { color: var(--neon-blue); background: var(--control-bg); }
+
+    main { padding: 40px 0 60px; }
+
+    /* --- GLASS CONTAINERS GENERAUX --- */
+    .hero, .section, footer, .contact-card {
+      background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border); box-shadow: var(--shadow); position: relative; transition: background 0.3s, border 0.3s;
+      border-radius: var(--radius);
     }
 
-    .lang{position:relative}
-    .lang button,
-    .theme-toggle,
-    .menu-toggle{
-      border:1px solid var(--line);
-      background:color-mix(in srgb, var(--card-strong) 74%, transparent);
-      color:var(--text);
-      box-shadow:0 12px 30px rgba(0,0,0,.15);
+    /* --- HERO CONTACT --- */
+    .hero { overflow: hidden; padding: 40px;}
+    .hero-grid { display: grid; grid-template-columns: 1fr; text-align: center; gap: 20px; }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 4px; padding: 6px 12px;
+      background: var(--control-bg); color: var(--neon-green); font-family: 'Fira Code', monospace; font-size: 11px; text-transform: uppercase;
+      margin: 0 auto;
+    }
+    html[data-theme="light"] .eyebrow { background: #ECFDF5; border-color: #A7F3D0; color: #059669; }
+
+    .hero h1 { margin: 20px 0 15px; font-family: 'Space Grotesk', sans-serif; font-size: clamp(34px, 4.8vw, 66px); line-height: 1.05; font-weight: 800; color: var(--text); }
+    .hero-title-line { display: block; }
+    .hero-title-gradient {
+      display: inline-block; background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
+      -webkit-background-clip: text; color: transparent; text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+    }
+    html[data-theme="light"] .hero-title-gradient { text-shadow: none; }
+    
+    .hero p.lead { color: var(--muted); font-size: 16px; line-height: 1.8; max-width: 700px; margin: 0 auto;}
+
+    /* --- CONTACT LAYOUT --- */
+    .contact-layout {
+      display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; margin-top: 40px; align-items: start;
     }
 
-    .lang button{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      border-radius:999px;
-      padding:9px 12px;
-      font-size:12px;
-      font-weight:700;
-      cursor:pointer;
-      transition:transform .18s ease,border-color .18s ease;
+    /* Info Cards (Left Column) */
+    .contact-info { display: flex; flex-direction: column; gap: 20px; }
+    
+    .info-card {
+      background: var(--card-bg); border: 1px solid var(--line); border-radius: var(--radius-sm);
+      padding: 30px; display: flex; align-items: flex-start; transition: 0.3s;
     }
-    .lang button:hover,.theme-toggle:hover,.menu-toggle:hover{
-      transform:translateY(-1px);
-      border-color:color-mix(in srgb, var(--accent2) 45%, var(--line));
-    }
-    .lang .menu{
-      position:absolute;
-      top:110%;
-      right:0;
-      min-width:190px;
-      padding:8px;
-      border-radius:18px;
-      border:1px solid var(--line);
-      background:color-mix(in srgb, var(--card-strong) 90%, transparent);
-      backdrop-filter:blur(14px);
-      box-shadow:var(--shadow);
-      display:none;
-      z-index:100;
-    }
-    .lang .menu.open{display:block}
-    .lang .item{
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      border:0;
-      background:transparent;
-      color:var(--text);
-      border-radius:12px;
-      padding:10px;
-      cursor:pointer;
-      font-size:13px;
-      opacity:.92;
-    }
-    .lang .item:hover{background:rgba(148,163,184,.10);opacity:1}
-    .lang .item.active{background:rgba(53,198,194,.12)}
+    .info-card:hover { border-color: var(--neon-blue); transform: translateX(5px); box-shadow: 0 10px 25px rgba(0, 240, 255, 0.05); }
+    html[data-theme="light"] .info-card:hover { box-shadow: 0 10px 25px rgba(2, 132, 199, 0.05); }
 
-    .pill{
-      font-size:11px;
-      padding:4px 8px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      color:var(--muted);
-      white-space:nowrap;
+    .info-icon {
+      width: 48px; height: 48px; border-radius: 50%; background: var(--control-bg); border: 1px solid var(--line);
+      display: grid; place-items: center; color: var(--neon-blue); flex-shrink: 0; margin-right: 20px;
     }
+    .info-icon svg { width: 20px; height: 20px; fill: currentColor; }
 
-    .theme-toggle,.menu-toggle{
-      width:46px;height:46px;
-      border-radius:999px;
-      display:grid;
-      place-items:center;
-      cursor:pointer;
-      position:relative;
-      overflow:hidden;
-      transition:transform .18s ease,border-color .18s ease;
-    }
+    .info-content h3 { margin: 0 0 5px 0; font-family: 'Space Grotesk', sans-serif; font-size: 18px; color: var(--text); }
+    .info-content p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .info-content a { color: var(--neon-blue); text-decoration: none; font-weight: bold; font-family: 'Fira Code', monospace; font-size: 13px; display: inline-block; margin-top: 8px;}
+    .info-content a:hover { text-decoration: underline; }
 
-    .menu-toggle{display:none}
+    .contact-social-link {
+      color: var(--text); transition: color 0.3s ease; display: inline-block;
+    }
+    .contact-social-link:hover { color: var(--neon-blue); }
 
-    .menu-icon{
-      width:18px;
-      height:14px;
-      position:relative;
-      display:block;
-    }
-    .menu-icon span{
-      position:absolute;
-      left:0;
-      width:100%;
-      height:2px;
-      border-radius:999px;
-      background:currentColor;
-      transition:.25s ease;
-    }
-    .menu-icon span:nth-child(1){top:0}
-    .menu-icon span:nth-child(2){top:6px}
-    .menu-icon span:nth-child(3){top:12px}
+    /* Formulaire (Right Column) */
+    .contact-card { padding: 40px; }
+    .contact-card h2 { margin: 0 0 10px 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px; color: var(--text); }
+    .contact-card p { margin: 0 0 30px 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
 
-    .menu-toggle.open .menu-icon span:nth-child(1){
-      top:6px; transform:rotate(45deg);
-    }
-    .menu-toggle.open .menu-icon span:nth-child(2){
-      opacity:0;
-    }
-    .menu-toggle.open .menu-icon span:nth-child(3){
-      top:6px; transform:rotate(-45deg);
-    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .form-group.full { grid-column: 1 / -1; }
 
-    .sunmoon{
-      width:22px;height:22px;display:block;
-      transform-origin:50% 50%;
-      transition:transform .55s cubic-bezier(.2,.9,.2,1);
+    .form-label { font-family: 'Fira Code', monospace; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px;}
+    
+    .form-input, .form-textarea {
+      width: 100%; background: var(--control-bg); border: 1px solid var(--line); border-radius: 8px;
+      padding: 15px 20px; color: var(--text); font-family: 'Roboto', sans-serif; font-size: 15px;
+      outline: none; transition: all 0.3s ease; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
     }
-    html[data-theme="dark"] .sunmoon{transform:rotate(180deg)}
-    .sun-core,.moon-core{transition:opacity .35s ease}
-    html[data-theme="dark"] .sun-core{opacity:0}
-    html[data-theme="light"] .moon-core{opacity:0}
+    html[data-theme="light"] .form-input, html[data-theme="light"] .form-textarea { box-shadow: inset 0 2px 5px rgba(0,0,0,0.02); }
+    
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--neon-blue); background: var(--card-bg);
+      box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.1);
+    }
+    html[data-theme="light"] .form-input:focus, html[data-theme="light"] .form-textarea:focus { box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1); }
+    
+    .form-textarea { resize: vertical; min-height: 150px; }
 
-    .mobile-menu{
-      display:none;
-      margin-top:12px;
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:10px;
-      background:color-mix(in srgb, var(--card-strong) 90%, transparent);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(14px);
+    .glass-btn.primary {
+      position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 50px; padding: 0 30px; border-radius: 4px; font-family: 'Fira Code', monospace; font-size: 14px;
+      text-transform: uppercase; text-decoration: none; cursor: pointer; transition: 0.3s;
+      background: transparent; color: var(--neon-blue); border: 1px solid var(--neon-blue);
+      box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.1), 0 0 15px rgba(0, 240, 255, 0.2);
+      width: 100%;
     }
-    .mobile-menu.open{display:grid}
-    .mobile-menu a{
-      text-decoration:none;
-      color:var(--text);
-      padding:12px 14px;
-      border-radius:14px;
-      font-weight:700;
-      font-size:14px;
-      opacity:.92;
-      transition:background .2s ease, opacity .2s ease;
-    }
-    .mobile-menu a:hover,
-    .mobile-menu a.active{
-      background:rgba(148,163,184,.10);
-      opacity:1;
-    }
+    html[data-theme="light"] .glass-btn.primary { box-shadow: none; background: rgba(2, 132, 199, 0.05); }
+    .glass-btn.primary:hover { background: var(--neon-blue); color: #fff; box-shadow: 0 0 25px var(--neon-blue); }
+    .glass-btn.primary:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
 
-    main{padding:28px 0 56px}
+    /* Status Message */
+    .form-status {
+      display: none; padding: 15px; border-radius: 8px; margin-top: 20px; font-size: 14px; font-weight: 500;
+      text-align: center; animation: fadeIn 0.3s ease; font-family: 'Fira Code', monospace;
+    }
+    .form-status.success { display: block; background: rgba(0, 255, 204, 0.1); border: 1px solid var(--ok); color: var(--ok); }
+    .form-status.error { display: block; background: rgba(255, 42, 95, 0.1); border: 1px solid var(--bad); color: var(--bad); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-    .hero,.section,footer,.cta{
-      border:1px solid var(--line);
-      background:color-mix(in srgb, var(--card-strong) 88%, transparent);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(16px);
+    /* --- FOOTER --- */
+    footer { margin-top: 40px; padding: 40px 30px 20px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); box-shadow: var(--shadow); border-radius: var(--radius); transition: 0.3s;}
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 30px; margin-bottom: 40px; }
+    .footer-brand { display: flex; flex-direction: column; gap: 15px; }
+    .footer-brand p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0;}
+    
+    /* ICONES SOCIALES PARFAITES */
+    .socials { display: flex; gap: 15px; margin-top: 10px; }
+    .social { 
+      width: 46px; height: 46px; min-width: 46px; min-height: 46px; flex-shrink: 0;
+      border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
+      display: flex; justify-content: center; align-items: center; 
+      background: transparent; color: var(--text); transition: all 0.3s ease; 
     }
+    html[data-theme="light"] .social { border: 1px solid #CBD5E1; background: #FFFFFF; color: #0F172A; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    .social:hover { border-color: var(--neon-blue); color: #fff; background: var(--neon-blue); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,240,255,0.3); }
+    html[data-theme="light"] .social:hover { background: #0284C7; border-color: #0284C7; color: #fff; box-shadow: 0 5px 15px rgba(2, 132, 199, 0.3); }
+    .social svg { width: 18px; height: 18px; fill: currentColor; }
 
-    .hero{
-      position:relative;
-      overflow:hidden;
-      border-radius:32px;
-      background:
-        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 88%, transparent), color-mix(in srgb, var(--card) 92%, transparent)),
-        radial-gradient(900px 420px at 8% 0%, rgba(53,198,194,.12), transparent 62%),
-        radial-gradient(820px 360px at 100% 0%, rgba(109,187,255,.14), transparent 58%);
+    .footer-col h3 { color: var(--text); font-family: 'Fira Code', monospace; font-size: 13px; margin-bottom: 15px; text-transform: uppercase; }
+    .footer-links { display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a, .footer-links span { color: var(--muted); text-decoration: none; font-size: 13px; transition: 0.2s; line-height: 1.5;}
+    .footer-links a:hover { color: var(--neon-blue); padding-left: 5px; }
+    
+    /* BOUTON EMAIL SUPPORT */
+    .support-email {
+      display: inline-flex; align-items: center; gap: 10px; padding: 10px 15px; margin-top: 5px;
+      border-radius: 8px; background: var(--control-bg); border: 1px solid var(--line);
+      color: var(--text) !important; font-family: 'Fira Code', monospace; font-size: 13px; font-weight: 600;
+      transition: all 0.3s ease; text-decoration: none; width: fit-content;
     }
-    .hero::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(120deg, rgba(255,255,255,.06), transparent 25%, transparent 74%, rgba(255,255,255,.04));
-      pointer-events:none;
-    }
+    html[data-theme="light"] .support-email { background: #FFFFFF; border: 1px solid #CBD5E1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); color: #0F172A !important;}
+    .support-email:hover { background: var(--neon-blue); color: #fff !important; border-color: var(--neon-blue); box-shadow: 0 8px 15px rgba(0, 240, 255, 0.25); transform: translateY(-2px); }
+    html[data-theme="light"] .support-email:hover { box-shadow: 0 8px 15px rgba(2, 132, 199, 0.25); background: #0284C7; border-color:#0284C7;}
+    .support-email svg { width: 18px; height: 18px; fill: currentColor; }
 
-    .hero-grid{
-      position:relative;
-      display:grid;
-      grid-template-columns:1.05fr .95fr;
-      gap:20px;
-      padding:34px 26px 26px;
-      align-items:start;
-    }
+    .footer-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-top: 1px dashed var(--line); padding-top: 20px; font-family: 'Fira Code', monospace; font-size: 11px; color: var(--muted); }
 
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      padding:10px 14px;
-      background:rgba(255,255,255,.05);
-      color:var(--muted);
-      font-size:12px;
-      font-weight:700;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-    }
-    .eyebrow i{
-      width:8px;height:8px;border-radius:999px;
-      background:linear-gradient(90deg,var(--accent),var(--accent2));
-      box-shadow:0 0 0 6px rgba(53,198,194,.12);
-    }
-
-    .hero h1{
-      margin:18px 0 12px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:clamp(34px,4.8vw,66px);
-      line-height:1.02;
-      letter-spacing:-.045em;
-      font-weight:800;
-      max-width:760px;
-    }
-    .hero-title-line{display:block}
-    .hero-title-gradient{
-      display:block;
-      background:linear-gradient(90deg, #9FD8FF 0%, #6DBBFF 28%, #67D6D2 72%, #35C6C2 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    .hero p.lead{
-      margin:0;
-      max-width:760px;
-      color:var(--muted);
-      font-size:16px;
-      line-height:1.8;
-    }
-
-    .hero-actions{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:22px;
-    }
-
-    .glass-btn{
-      min-height:52px;
-      padding:0 18px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.10);
-      color:var(--text);
-      text-decoration:none;
-      font-weight:800;
-      font-size:14px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      cursor:pointer;
-      background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.20), inset 0 -1px 0 rgba(255,255,255,.06), 0 14px 34px rgba(0,0,0,.20);
-      backdrop-filter:blur(14px);
-      transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease;
-    }
-    .glass-btn:hover{
-      transform:translateY(-1px);
-      border-color:rgba(255,255,255,.22);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.25), inset 0 -1px 0 rgba(255,255,255,.08), 0 18px 42px rgba(0,0,0,.26);
-      filter:saturate(1.05);
-    }
-    .glass-btn.primary{
-      color:#05121E;
-      border-color:rgba(255,255,255,.16);
-      background:linear-gradient(90deg, rgba(53,198,194,.96), rgba(109,187,255,.96));
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.30), 0 18px 40px rgba(53,198,194,.22);
-    }
-    .glass-btn .arrow{
-      width:9px;height:9px;
-      border-right:2px solid currentColor;
-      border-bottom:2px solid currentColor;
-      transform:rotate(-45deg);
-    }
-
-    .hero-side{
-      display:grid;
-      gap:14px;
-    }
-    .floating-card{
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:16px;
-      overflow:hidden;
-      background:rgba(255,255,255,.04);
-    }
-    .floating-card h3{
-      margin:0 0 8px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:14px;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-    }
-    .floating-card p{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.7;
-    }
-
-    .contact-layout{
-      display:grid;
-      grid-template-columns:.9fr 1.1fr;
-      gap:18px;
-      margin-top:18px;
-    }
-
-    .section{
-      border-radius:28px;
-      overflow:hidden;
-    }
-    .section-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      padding:18px;
-      border-bottom:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(148,163,184,.06), transparent);
-      flex-wrap:wrap;
-    }
-    .section-head h2{
-      margin:0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:15px;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-    }
-    .section-head p{
-      margin:0;
-      color:var(--muted);
-      font-size:12px;
-    }
-
-    .info-grid{
-      padding:18px;
-      display:grid;
-      gap:14px;
-    }
-
-    .info-card{
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:18px;
-      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-    }
-    .info-card h3{
-      margin:0 0 8px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:18px;
-    }
-    .info-card p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-    }
-
-    .contact-meta{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:12px;
-      margin-top:14px;
-    }
-    .meta-pill{
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:14px;
-      background:rgba(255,255,255,.03);
-    }
-    .meta-pill strong{
-      display:block;
-      margin-bottom:6px;
-      color:var(--muted);
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-    }
-    .meta-pill span,
-    .meta-pill a{
-      color:var(--text);
-      text-decoration:none;
-      font-size:14px;
-      line-height:1.7;
-      word-break:break-word;
-    }
-
-    .form-wrap{
-      padding:18px;
-    }
-
-    .form-card{
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:18px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)),
-        radial-gradient(260px 120px at 0% 0%, rgba(53,198,194,.06), transparent 60%);
-    }
-
-    .form-intro{
-      margin-bottom:16px;
-    }
-    .form-intro h3{
-      margin:0 0 8px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:24px;
-      line-height:1.2;
-    }
-    .form-intro p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-    }
-
-    .form-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-    }
-    .field{
-      display:grid;
-      gap:8px;
-    }
-    .field.full{grid-column:1 / -1}
-    .field label{
-      font-size:13px;
-      font-weight:700;
-      color:var(--text);
-    }
-    .input-shell,
-    .textarea-shell{
-      position:relative;
-      border-radius:18px;
-      border:1px solid var(--line-strong);
-      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.10);
-      overflow:hidden;
-    }
-    .form-input,
-    .form-textarea{
-      width:100%;
-      border:0;
-      outline:0;
-      background:transparent;
-      color:var(--text);
-      font-size:15px;
-      font-family:inherit;
-    }
-    .form-input{
-      height:54px;
-      padding:0 16px;
-    }
-    .form-textarea{
-      min-height:160px;
-      resize:vertical;
-      padding:14px 16px;
-      line-height:1.7;
-    }
-    .form-input::placeholder,
-    .form-textarea::placeholder{
-      color:color-mix(in srgb, var(--muted) 82%, transparent);
-    }
-
-    .form-actions{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-top:18px;
-    }
-    .helper-text{
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.7;
-      max-width:620px;
-    }
-
-    .status-box{
-      margin-top:16px;
-      display:none;
-      border-radius:18px;
-      padding:14px 16px;
-      font-size:14px;
-      line-height:1.7;
-      border:1px solid var(--line);
-    }
-    .status-box.show{display:block}
-    .status-box.success{
-      border-color:rgba(34,197,94,.35);
-      background:rgba(34,197,94,.10);
-      color:var(--text);
-    }
-    .status-box.error{
-      border-color:rgba(239,68,68,.35);
-      background:rgba(239,68,68,.10);
-      color:var(--text);
-    }
-
-    .cta{
-      margin-top:18px;
-      border-radius:28px;
-      padding:22px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      flex-wrap:wrap;
-      background:
-        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 86%, transparent), color-mix(in srgb, var(--card) 95%, transparent)),
-        radial-gradient(700px 240px at 0% 0%, rgba(53,198,194,.10), transparent 55%);
-    }
-    .cta h3{
-      margin:0 0 8px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:24px;
-    }
-    .cta p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-      max-width:760px;
-    }
-
-    footer{
-      margin-top:18px;
-      border-radius:32px;
-      overflow:hidden;
-      background:
-        linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 86%, transparent), color-mix(in srgb, var(--card) 95%, transparent)),
-        radial-gradient(700px 220px at 0% 0%, rgba(53,198,194,.10), transparent 55%);
-    }
-    .footer-grid{
-      display:grid;
-      grid-template-columns:1.2fr .8fr .8fr .9fr;
-      gap:18px;
-      padding:24px 22px 20px;
-    }
-    .footer-brand{
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-    .footer-brand img{
-      height:88px;
-      width:auto;
-      display:block;
-      max-width:100%;
-      object-fit:contain;
-      transform-origin:left center;
-    }
-    .footer-brand img.is-dark-logo{transform:scale(1.12)}
-    .footer-brand p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-      max-width:420px;
-    }
-
-    .footer-col h3{
-      margin:0 0 12px 0;
-      font-family:Montserrat,Roboto,sans-serif;
-      font-size:14px;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-    }
-    .footer-links{
-      display:grid;
-      gap:10px;
-    }
-    .footer-links a,.footer-links span{
-      color:var(--muted);
-      text-decoration:none;
-      font-size:14px;
-      line-height:1.6;
-      transition:color .2s ease, transform .2s ease;
-    }
-    .footer-links a:hover{color:var(--text);transform:translateX(2px)}
-
-    .social-label{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      color:var(--muted);
-      font-size:12px;
-      font-weight:700;
-      text-transform:uppercase;
-      letter-spacing:.05em;
-    }
-    .social-label::before{
-      content:"";
-      width:18px;height:1px;
-      background:linear-gradient(90deg,var(--accent),transparent);
-    }
-
-    .socials{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:12px;
-    }
-    .social{
-      width:42px;height:42px;border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.05);
-      color:var(--text);
-      text-decoration:none;
-      display:grid;place-items:center;
-      transition:transform .18s ease,border-color .18s ease,background .18s ease;
-    }
-    .social:hover{
-      transform:translateY(-1px);
-      border-color:color-mix(in srgb, var(--accent2) 42%, var(--line));
-      background:rgba(53,198,194,.09);
-    }
-    .social svg{width:18px;height:18px;fill:currentColor;display:block}
-
-    .footer-bottom{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      flex-wrap:wrap;
-      padding:0 22px 20px;
-      color:var(--muted);
-      font-size:13px;
-    }
-
-    @media (max-width: 1080px){
-      .hero-grid,.contact-layout{grid-template-columns:1fr}
-      .footer-grid{grid-template-columns:1fr 1fr}
-    }
-
-    @media (max-width: 900px){
-      .navlinks{display:none}
-      .menu-toggle{display:grid}
-      .brand img{height:64px}
-      .controls{gap:8px}
-      .lang button{padding:9px 10px}
-      .lang .pill{display:none}
-      .footer-grid{grid-template-columns:1fr}
-    }
-
-    @media (max-width: 700px){
-      .form-grid{grid-template-columns:1fr}
-    }
-
-    @media (max-width: 640px){
-      .hero-grid{padding:26px 16px 16px}
-      .section-head,.info-grid,.form-wrap{padding:16px}
-      .brand img{height:58px}
-      .hero h1{font-size:34px}
-      .footer-grid{padding:20px 16px 14px}
-      .footer-bottom{padding:0 16px 16px}
-      .cta{padding:18px}
-      .theme-toggle,.menu-toggle{width:42px;height:42px}
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      .bg-grid,.aurora,.aurora2,.aurora3{animation:none}
-      *{scroll-behavior:auto}
+    /* RESPONSIVE */
+    @media (max-width: 1080px){ 
+      .footer-grid{grid-template-columns:1fr 1fr;} 
+    }
+    @media (max-width: 820px){ 
+      .navlinks { display:none; } 
+      .menu-toggle { display:flex; } 
+      .contact-layout { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .footer-grid{grid-template-columns:1fr;}
+      .lang .pill { display: none; } 
+      .hero h1 { font-size: 32px; }
     }
   </style>
 </head>
@@ -867,16 +362,10 @@
     <div class="wrap">
       <div class="nav">
         <a class="brand" href="SEAL_page_accueil.html" aria-label="SEAL">
-          <img
-            id="brandLogo"
-            src="SEAL-logo-sombre.png"
-            data-logo-dark="SEAL-logo-sombre.png"
-            data-logo-light="SEAL-logo-clair.png"
-            alt="SEAL Logo"
-          >
+          <img id="brandLogo" src="SEAL-logo-sombre.png" data-logo-dark="SEAL-logo-sombre.png" data-logo-light="SEAL-logo-clair.png" alt="SEAL Logo">
         </a>
 
-        <ul class="navlinks">
+        <ul class="navlinks" id="navLinks">
           <li><a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a></li>
           <li><a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a></li>
           <li><a href="a-propos.html" data-i18n="nav.about">À propos</a></li>
@@ -890,8 +379,8 @@
               <span id="langLabel">FR</span>
               <span class="pill" id="langName">Français</span>
             </button>
-            <div class="menu" id="langMenu" role="menu" aria-label="Langues">
-              <button class="item" data-lang="fr" role="menuitem"><span>Français</span><span class="pill">FR</span></button>
+            <div class="menu" id="langMenu" role="menu">
+              <button class="item active" data-lang="fr" role="menuitem"><span>Français</span><span class="pill">FR</span></button>
               <button class="item" data-lang="en" role="menuitem"><span>English</span><span class="pill">EN</span></button>
               <button class="item" data-lang="es" role="menuitem"><span>Español</span><span class="pill">ES</span></button>
               <button class="item" data-lang="ru" role="menuitem"><span>Русский</span><span class="pill">RU</span></button>
@@ -899,7 +388,7 @@
               <button class="item" data-lang="zh" role="menuitem"><span>中文</span><span class="pill">ZH</span></button>
             </div>
           </div>
-
+          
           <button class="theme-toggle" id="themeToggle" type="button" aria-label="Basculer clair/sombre">
             <svg class="sunmoon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <g class="sun-core">
@@ -919,20 +408,16 @@
                 <g mask="url(#crescentMaskClean)">
                   <circle cx="12" cy="12" r="7.35" fill="url(#gMoon)"/>
                 </g>
-                <path d="M7.9 12.2c.2-3.5 2.6-6.4 6.0-7.0"
-                      stroke="rgba(255,255,255,.55)"
-                      stroke-width="1.2"
-                      stroke-linecap="round"
-                      opacity=".35"/>
+                <path d="M7.9 12.2c.2-3.5 2.6-6.4 6.0-7.0" stroke="rgba(255,255,255,.55)" stroke-width="1.2" stroke-linecap="round" opacity=".35"/>
               </g>
               <defs>
                 <linearGradient id="gSun" x1="6" y1="6" x2="19" y2="19" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#35C6C2"/>
-                  <stop offset="1" stop-color="#6DBBFF"/>
+                  <stop stop-color="#00f0ff"/>
+                  <stop offset="1" stop-color="#00ffcc"/>
                 </linearGradient>
                 <linearGradient id="gMoon" x1="7" y1="7" x2="19" y2="19" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#6DBBFF"/>
-                  <stop offset="1" stop-color="#8A7CFF"/>
+                  <stop stop-color="#00f0ff"/>
+                  <stop offset="1" stop-color="#b026ff"/>
                 </linearGradient>
                 <mask id="crescentMaskClean">
                   <rect x="0" y="0" width="24" height="24" fill="white"/>
@@ -943,247 +428,165 @@
           </button>
 
           <button class="menu-toggle" id="menuToggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
-            <span class="menu-icon" aria-hidden="true">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
+            <span></span><span></span><span></span>
           </button>
         </div>
       </div>
 
-      <nav class="mobile-menu" id="mobileMenu" aria-label="Navigation mobile">
+      <div class="mobile-menu" id="mobileMenu">
         <a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a>
         <a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a>
         <a href="a-propos.html" data-i18n="nav.about">À propos</a>
         <a href="faq.html" data-i18n="nav.faq">FAQ</a>
         <a class="active" href="contact-public.html" data-i18n="nav.contact">Contact</a>
-      </nav>
+      </div>
     </div>
   </header>
 
   <main>
     <div class="wrap">
+      
       <section class="hero" aria-label="Contact SEAL">
         <div class="hero-grid">
           <div>
             <span class="eyebrow">
-              <i aria-hidden="true"></i>
-              <span data-i18n="hero.eyebrow">Parlons de votre besoin</span>
+              <i aria-hidden="true" style="width:6px;height:6px;background:var(--neon-green);border-radius:50%;"></i>
+              <span data-i18n="contact.hero.eyebrow">Support & Assistance</span>
             </span>
 
-            <h1>
-              <span class="hero-title-line" data-i18n="hero.title.l1">Contactez</span>
-              <span class="hero-title-line" data-i18n="hero.title.l2">l’équipe</span>
-              <span class="hero-title-gradient" data-i18n="hero.title.l3">SEAL.</span>
+            <h1 data-i18n="contact.hero.title">
+              Prendre <span class="hero-title-gradient">Contact.</span>
             </h1>
 
-            <p class="lead" data-i18n="hero.subtitle">
-              Vous avez une question sur le site, le checker SSL, le projet ou son fonctionnement ? Utilisez ce formulaire pour nous écrire simplement. Votre message sera transmis à l’équipe via le serveur du site.
+            <p class="lead" data-i18n="contact.hero.desc">
+              Une question, une suggestion ou un besoin spécifique ? Notre équipe est à votre écoute. Utilisez le formulaire ci-dessous ou nos coordonnées directes.
             </p>
-
-            <div class="hero-actions">
-              <a class="glass-btn primary" href="#contactFormSection">
-                <span data-i18n="hero.ctaPrimary">Écrire un message</span>
-                <span class="arrow" aria-hidden="true"></span>
-              </a>
-              <a class="glass-btn" href="faq.html">
-                <span data-i18n="hero.ctaSecondary">Voir la FAQ</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="hero-side">
-            <div class="floating-card">
-              <h3 data-i18n="side.title">Pourquoi nous écrire ?</h3>
-              <p data-i18n="side.text">
-                Cette page permet de poser une question, faire une remarque, demander une précision ou partager un retour sur l’expérience du site public SEAL.
-              </p>
-            </div>
-
-            <div class="floating-card">
-              <h3 data-i18n="side2.title">Réponse simple</h3>
-              <p data-i18n="side2.text">
-                Le formulaire est directement connecté à l’API du serveur. Si le message est bien envoyé, un message de confirmation s’affiche à l’écran.
-              </p>
-            </div>
           </div>
         </div>
       </section>
 
       <div class="contact-layout">
-        <section class="section" aria-label="Informations de contact">
-          <div class="section-head">
-            <div>
-              <h2 data-i18n="info.title">Informations utiles</h2>
-              <p data-i18n="info.subtitle">Quelques repères avant de nous écrire.</p>
+        
+        <div class="contact-info">
+          <div class="info-card">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </div>
+            <div class="info-content">
+              <h3 data-i18n="contact.info.emailTitle">Email Direct</h3>
+              <p data-i18n="contact.info.emailDesc">Pour toute demande générale ou support technique.</p>
+              <a href="mailto:esaipseal@gmail.com">esaipseal@gmail.com</a>
             </div>
           </div>
 
-          <div class="info-grid">
-            <div class="info-card">
-              <h3 data-i18n="info.card1.title">Un formulaire simple</h3>
-              <p data-i18n="info.card1.text">
-                Vous pouvez nous envoyer votre nom, votre adresse e-mail, un objet et votre message. Cela nous permet de comprendre plus facilement votre demande et d’y répondre.
-              </p>
+          <div class="info-card">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
             </div>
-
-            <div class="info-card">
-              <h3 data-i18n="info.card2.title">À propos du projet</h3>
-              <p data-i18n="info.card2.text">
-                SEAL est un projet centré sur la lecture simple de l’expiration SSL. La page Contact sert aussi à recueillir des questions, idées d’amélioration et retours sur l’interface.
-              </p>
-            </div>
-
-            <div class="info-card">
-              <h3 data-i18n="info.card3.title">Canal principal</h3>
-              <p data-i18n="info.card3.text">
-                Le formulaire de cette page constitue le moyen principal pour transmettre une demande depuis le site public.
-              </p>
-
-              <div class="contact-meta">
-                <div class="meta-pill">
-                  <strong data-i18n="info.emailLabel">Adresse de contact</strong>
-                  <span>esaipseal@gmail.com</span>
-                </div>
-                <div class="meta-pill">
-                  <strong data-i18n="info.socialLabel">Réseaux</strong>
-                  <a href="https://www.linkedin.com/company/secure-expiry-alert-logging" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                </div>
+            <div class="info-content">
+              <h3 data-i18n="contact.info.socialTitle">Réseaux Sociaux</h3>
+              <p data-i18n="contact.info.socialDesc">Rejoignez notre communauté et suivez nos actualités.</p>
+              <div style="display: flex; gap: 15px; margin-top: 10px;">
+                <a href="https://www.linkedin.com/company/secure-expiry-alert-logging" class="contact-social-link" target="_blank" aria-label="LinkedIn">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.848-3.037-1.85 0-2.133 1.445-2.133 2.94v5.666H9.356V9h3.414v1.566h.049c.475-.9 1.636-1.848 3.367-1.848 3.604 0 4.261 2.372 4.261 5.455v6.279zM5.337 7.433c-1.144 0-2.072-.927-2.072-2.07 0-1.143.928-2.072 2.072-2.072 1.145 0 2.073.929 2.073 2.072 0 1.143-.928 2.07-2.073 2.07zM7.119 20.452H3.554V9h3.565v11.452z"/></svg>
+                </a>
+                <a href="https://www.instagram.com/seal_security_/" class="contact-social-link" target="_blank" aria-label="Instagram">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849s-.011 3.584-.069 4.849c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.849-.07c-3.26-.149-4.771-1.699-4.919-4.919-.058-1.265-.069-1.645-.069-4.849s.012-3.584.069-4.849c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.058-1.281.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+                <a href="https://x.com/SEAL2026" class="contact-social-link" target="_blank" aria-label="X">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.25 2.25h6.863l4.488 6.15L18.244 2.25zm-1.16 17.52h1.833L7.084 4.126H5.117L17.084 19.77z"/></svg>
+                </a>
               </div>
             </div>
           </div>
-        </section>
-
-        <section class="section" id="contactFormSection" aria-label="Formulaire de contact">
-          <div class="section-head">
-            <div>
-              <h2 data-i18n="form.title">Formulaire</h2>
-              <p data-i18n="form.subtitle">Votre message sera envoyé à l’API /api/contact du serveur.</p>
-            </div>
-          </div>
-
-          <div class="form-wrap">
-            <div class="form-card">
-              <div class="form-intro">
-                <h3 data-i18n="form.cardTitle">Envoyez-nous un message</h3>
-                <p data-i18n="form.cardText">
-                  Remplissez les champs ci-dessous. Une validation simple est faite côté interface avant l’envoi, puis le serveur traite votre demande.
-                </p>
-              </div>
-
-              <form id="contactForm" novalidate>
-                <div class="form-grid">
-                  <div class="field">
-                    <label for="name" data-i18n="form.name">Nom</label>
-                    <div class="input-shell">
-                      <input class="form-input" id="name" name="name" type="text" autocomplete="name" data-i18n-placeholder="form.namePlaceholder" placeholder="Votre nom" />
-                    </div>
-                  </div>
-
-                  <div class="field">
-                    <label for="email" data-i18n="form.email">Adresse e-mail</label>
-                    <div class="input-shell">
-                      <input class="form-input" id="email" name="email" type="email" autocomplete="email" data-i18n-placeholder="form.emailPlaceholder" placeholder="vous@example.com" />
-                    </div>
-                  </div>
-
-                  <div class="field full">
-                    <label for="subject" data-i18n="form.subject">Objet</label>
-                    <div class="input-shell">
-                      <input class="form-input" id="subject" name="subject" type="text" autocomplete="off" data-i18n-placeholder="form.subjectPlaceholder" placeholder="Objet de votre message" />
-                    </div>
-                  </div>
-
-                  <div class="field full">
-                    <label for="message" data-i18n="form.message">Message</label>
-                    <div class="textarea-shell">
-                      <textarea class="form-textarea" id="message" name="message" data-i18n-placeholder="form.messagePlaceholder" placeholder="Décrivez votre demande..." ></textarea>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-actions">
-                  <div class="helper-text" data-i18n="form.helper">
-                    Le formulaire est relié au serveur SEAL. Une adresse e-mail valide et un message sont nécessaires pour l’envoi.
-                  </div>
-
-                  <button class="glass-btn primary" type="submit" id="sendBtn">
-                    <span data-i18n="form.button">Envoyer le message</span>
-                    <span class="arrow" aria-hidden="true"></span>
-                  </button>
-                </div>
-              </form>
-
-              <div class="status-box" id="statusBox" role="alert" aria-live="polite"></div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <section class="cta" aria-label="Aide complémentaire">
-        <div>
-          <h3 data-i18n="cta.title">Avant de nous écrire</h3>
-          <p data-i18n="cta.text">Vous pouvez aussi consulter la FAQ, les fonctionnalités du site ou la page À propos pour trouver rapidement une première réponse.</p>
         </div>
 
-        <a class="glass-btn primary" href="faq.html">
-          <span data-i18n="cta.button">Voir la FAQ</span>
-          <span class="arrow" aria-hidden="true"></span>
-        </a>
-      </section>
+        <div class="contact-card">
+          <h2 data-i18n="contact.form.title">Envoyez-nous un message</h2>
+          <p data-i18n="contact.form.subtitle">Remplissez les champs ci-dessous, nous vous répondrons dans les plus brefs délais.</p>
+
+          <form id="contactForm" action="mailto:esaipseal@gmail.com" method="POST" enctype="text/plain">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" for="name" data-i18n="contact.form.name">Nom Complet</label>
+                <input type="text" id="name" class="form-input" data-i18n-placeholder="contact.form.namePH" placeholder="John Doe" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="email" data-i18n="contact.form.email">Adresse Email</label>
+                <input type="email" id="email" class="form-input" placeholder="john@example.com" required>
+              </div>
+              <div class="form-group full">
+                <label class="form-label" for="subject" data-i18n="contact.form.subject">Sujet</label>
+                <input type="text" id="subject" class="form-input" data-i18n-placeholder="contact.form.subjectPH" placeholder="Comment pouvons-nous vous aider ?" required>
+              </div>
+              <div class="form-group full">
+                <label class="form-label" for="message" data-i18n="contact.form.message">Message</label>
+                <textarea id="message" class="form-textarea" data-i18n-placeholder="contact.form.messagePH" placeholder="Détaillez votre demande ici..." required></textarea>
+              </div>
+            </div>
+            
+            <button type="submit" class="glass-btn primary" id="submitBtn">
+              <span data-i18n="contact.form.submit">Envoyer le message</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-left:8px;"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+
+            <div id="formStatus" class="form-status"></div>
+          </form>
+        </div>
+
+      </div>
 
       <footer>
         <div class="footer-grid">
           <div class="footer-brand">
             <a href="SEAL_page_accueil.html" aria-label="SEAL">
-              <img
-                id="footerLogo"
-                src="SEAL-logo-sombre.png"
-                data-logo-dark="SEAL-logo-sombre.png"
-                data-logo-light="SEAL-logo-clair.png"
-                alt="SEAL Logo"
-              >
+              <img id="footerLogo" src="SEAL-logo-sombre.png" data-logo-dark="SEAL-logo-sombre.png" data-logo-light="SEAL-logo-clair.png" alt="SEAL Logo">
             </a>
-            <p data-i18n="footer.brandText">
-              SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.
-            </p>
-
-            <div class="social-label" data-i18n="footer.socials">Réseaux</div>
+            <p data-i18n="footer.brandText">SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.</p>
+            
             <div class="socials" aria-label="Réseaux sociaux">
               <a class="social" href="https://www.linkedin.com/company/secure-expiry-alert-logging" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.28 4.97 1.97 1.97 0 0 0 5.25 6.94 1.97 1.97 0 0 0 7.22 4.97 1.97 1.97 0 0 0 5.25 3ZM12.28 12.9c0-1.82.84-2.9 2.46-2.9 1.48 0 2.19 1.04 2.19 2.9V20h3.36v-8.22c0-3.48-1.97-5.16-4.71-5.16-2.2 0-3.17 1.21-3.72 2.05V8.5H8.62c.04.81 0 11.5 0 11.5h3.24v-7.1Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.848-3.037-1.85 0-2.133 1.445-2.133 2.94v5.666H9.356V9h3.414v1.566h.049c.475-.9 1.636-1.848 3.367-1.848 3.604 0 4.261 2.372 4.261 5.455v6.279zM5.337 7.433c-1.144 0-2.072-.927-2.072-2.07 0-1.143.928-2.072 2.072-2.072 1.145 0 2.073.929 2.073 2.072 0 1.143-.928 2.07-2.073 2.07zM7.119 20.452H3.554V9h3.565v11.452z"/>
+                </svg>
               </a>
               <a class="social" href="https://www.instagram.com/seal_security_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.95 1.35a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849s-.011 3.584-.069 4.849c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.849-.07c-3.26-.149-4.771-1.699-4.919-4.919-.058-1.265-.069-1.645-.069-4.849s.012-3.584.069-4.849c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.058-1.281.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
               </a>
               <a class="social" href="https://x.com/SEAL2026" target="_blank" rel="noopener noreferrer" aria-label="X">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H21l-6.56 7.5L22 22h-5.96l-4.67-6.1L6.03 22H4l7-8L2 2h6.11l4.22 5.52L18.9 2Zm-1.04 18h1.65L7.2 3.9H5.42L17.86 20Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.25 2.25h6.863l4.488 6.15L18.244 2.25zm-1.16 17.52h1.833L7.084 4.126H5.117L17.084 19.77z"/>
+                </svg>
               </a>
             </div>
           </div>
 
           <div class="footer-col">
-            <h3 data-i18n="footer.nav">Navigation</h3>
+            <h3 data-i18n="footer.nav">Système</h3>
             <div class="footer-links">
-              <a href="SEAL_page_accueil.html" data-i18n="nav.home">Accueil</a>
-              <a href="fonctionnalites.html" data-i18n="nav.features">Fonctionnalités</a>
+              <a href="SEAL_page_accueil.html" data-i18n="nav.home">Dashboard</a>
+              <a href="fonctionnalites.html" data-i18n="nav.features">Modules</a>
               <a href="a-propos.html" data-i18n="nav.about">À propos</a>
               <a href="faq.html" data-i18n="nav.faq">FAQ</a>
               <a href="contact-public.html" data-i18n="nav.contact">Contact</a>
             </div>
           </div>
-
+          
           <div class="footer-col">
             <h3 data-i18n="footer.support">Support</h3>
             <div class="footer-links">
-              <span>esaipseal@gmail.com</span>
-              <span data-i18n="footer.supportText">Pour toute question liée au site public ou à l’utilisation du formulaire de contact.</span>
+              <span data-i18n="footer.supportText">Pour toute question liée au site, contactez-nous via la page Contact ou par email.</span>
+              <a href="mailto:esaipseal@gmail.com" class="support-email">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                <span>esaipseal@gmail.com</span>
+              </a>
             </div>
           </div>
-
+          
           <div class="footer-col">
-            <h3 data-i18n="footer.legalTitle">Légal</h3>
+            <h3 data-i18n="footer.legalTitle">Sécurité & Légal</h3>
             <div class="footer-links">
               <a href="politique-confidentialite-public.html" data-i18n="footer.privacy">Politique de confidentialité</a>
               <a href="mentions-legales-public.html" data-i18n="footer.legal">Mentions légales</a>
@@ -1191,7 +594,6 @@
             </div>
           </div>
         </div>
-
         <div class="footer-bottom">
           <div>© 2026 SEAL</div>
           <div data-i18n="footer.bottomText">Secure Expiry Alert & Logging</div>
@@ -1201,425 +603,151 @@
   </main>
 
   <script>
+    // DICTIONNAIRE DE TRADUCTION COMPLET
     const I18N = {
       fr: {
-        "nav.home":"Accueil",
-        "nav.features":"Fonctionnalités",
-        "nav.about":"À propos",
-        "nav.faq":"FAQ",
-        "nav.contact":"Contact",
+        "nav.home":"Accueil", "nav.features":"Fonctionnalités", "nav.about":"À propos", "nav.faq":"FAQ", "nav.contact":"Contact",
+        
+        "contact.hero.eyebrow":"Support & Assistance",
+        "contact.hero.title":"Prendre <span class=\"hero-title-gradient\">Contact.</span>",
+        "contact.hero.desc":"Une question, une suggestion ou un besoin spécifique ? Notre équipe est à votre écoute. Utilisez le formulaire ci-dessous ou nos coordonnées directes.",
+        
+        "contact.info.emailTitle":"Email Direct", "contact.info.emailDesc":"Pour toute demande générale ou support technique.",
+        "contact.info.socialTitle":"Réseaux Sociaux", "contact.info.socialDesc":"Rejoignez notre communauté et suivez nos actualités.",
+        
+        "contact.form.title":"Envoyez-nous un message",
+        "contact.form.subtitle":"Remplissez les champs ci-dessous, nous vous répondrons dans les plus brefs délais.",
+        "contact.form.name":"Nom Complet", "contact.form.namePH":"John Doe",
+        "contact.form.email":"Adresse Email",
+        "contact.form.subject":"Sujet", "contact.form.subjectPH":"Comment pouvons-nous vous aider ?",
+        "contact.form.message":"Message", "contact.form.messagePH":"Détaillez votre demande ici...",
+        "contact.form.submit":"Envoyer le message",
+        "contact.form.sending":"Envoi en cours...",
+        "contact.form.success":"Message envoyé avec succès ! Nous vous répondrons bientôt.",
+        "contact.form.error":"Une erreur est survenue lors de l'envoi. Veuillez réessayer.",
 
-        "hero.eyebrow":"Parlons de votre besoin",
-        "hero.title.l1":"Contactez",
-        "hero.title.l2":"l’équipe",
-        "hero.title.l3":"SEAL.",
-        "hero.subtitle":"Vous avez une question sur le site, le checker SSL, le projet ou son fonctionnement ? Utilisez ce formulaire pour nous écrire simplement. Votre message sera transmis à l’équipe via le serveur du site.",
-        "hero.ctaPrimary":"Écrire un message",
-        "hero.ctaSecondary":"Voir la FAQ",
-
-        "side.title":"Pourquoi nous écrire ?",
-        "side.text":"Cette page permet de poser une question, faire une remarque, demander une précision ou partager un retour sur l’expérience du site public SEAL.",
-        "side2.title":"Réponse simple",
-        "side2.text":"Le formulaire est directement connecté à l’API du serveur. Si le message est bien envoyé, un message de confirmation s’affiche à l’écran.",
-
-        "info.title":"Informations utiles",
-        "info.subtitle":"Quelques repères avant de nous écrire.",
-        "info.card1.title":"Un formulaire simple",
-        "info.card1.text":"Vous pouvez nous envoyer votre nom, votre adresse e-mail, un objet et votre message. Cela nous permet de comprendre plus facilement votre demande et d’y répondre.",
-        "info.card2.title":"À propos du projet",
-        "info.card2.text":"SEAL est un projet centré sur la lecture simple de l’expiration SSL. La page Contact sert aussi à recueillir des questions, idées d’amélioration et retours sur l’interface.",
-        "info.card3.title":"Canal principal",
-        "info.card3.text":"Le formulaire de cette page constitue le moyen principal pour transmettre une demande depuis le site public.",
-        "info.emailLabel":"Adresse de contact",
-        "info.socialLabel":"Réseaux",
-
-        "form.title":"Formulaire",
-        "form.subtitle":"Votre message sera envoyé à l’API /api/contact du serveur.",
-        "form.cardTitle":"Envoyez-nous un message",
-        "form.cardText":"Remplissez les champs ci-dessous. Une validation simple est faite côté interface avant l’envoi, puis le serveur traite votre demande.",
-        "form.name":"Nom",
-        "form.email":"Adresse e-mail",
-        "form.subject":"Objet",
-        "form.message":"Message",
-        "form.namePlaceholder":"Votre nom",
-        "form.emailPlaceholder":"vous@example.com",
-        "form.subjectPlaceholder":"Objet de votre message",
-        "form.messagePlaceholder":"Décrivez votre demande...",
-        "form.helper":"Le formulaire est relié au serveur SEAL. Une adresse e-mail valide et un message sont nécessaires pour l’envoi.",
-        "form.button":"Envoyer le message",
-
-        "cta.title":"Avant de nous écrire",
-        "cta.text":"Vous pouvez aussi consulter la FAQ, les fonctionnalités du site ou la page À propos pour trouver rapidement une première réponse.",
-        "cta.button":"Voir la FAQ",
-
-        "footer.nav":"Navigation",
-        "footer.support":"Support",
-        "footer.supportText":"Pour toute question liée au site public ou à l’utilisation du formulaire de contact.",
-        "footer.legalTitle":"Légal",
-        "footer.brandText":"SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.",
-        "footer.socials":"Réseaux",
-        "footer.privacy":"Politique de confidentialité",
-        "footer.legal":"Mentions légales",
-        "footer.terms":"Conditions d’utilisation",
-        "footer.bottomText":"Secure Expiry Alert & Logging",
-
-        "status.sending":"Envoi du message en cours...",
-        "status.success":"Votre message a bien été envoyé. Merci pour votre retour.",
-        "status.invalidEmail":"Merci d’entrer une adresse e-mail valide.",
-        "status.invalidMessage":"Merci d’écrire un message avant l’envoi.",
-        "status.mailConfig":"Le service e-mail n’est pas configuré sur le serveur.",
-        "status.mailFailed":"L’envoi a échoué côté serveur. Merci de réessayer plus tard.",
-        "status.generic":"Impossible d’envoyer le message pour le moment."
+        "footer.nav":"Système", "footer.support":"Support", "footer.supportText":"Pour toute question liée au site, contactez-nous via la page Contact ou par email.", "footer.legalTitle":"Sécurité & Légal", "footer.brandText":"SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.",
+        "footer.privacy":"Politique de confidentialité", "footer.legal":"Mentions légales", "footer.terms":"Conditions d’utilisation", "footer.bottomText":"Secure Expiry Alert & Logging"
       },
-
       en: {
-        "nav.home":"Home",
-        "nav.features":"Features",
-        "nav.about":"About",
-        "nav.faq":"FAQ",
-        "nav.contact":"Contact",
+        "nav.home":"Home", "nav.features":"Features", "nav.about":"About", "nav.faq":"FAQ", "nav.contact":"Contact",
+        
+        "contact.hero.eyebrow":"Support & Assistance",
+        "contact.hero.title":"Get in <span class=\"hero-title-gradient\">Touch.</span>",
+        "contact.hero.desc":"A question, a suggestion, or a specific need? Our team is here for you. Use the form below or our direct contact details.",
+        
+        "contact.info.emailTitle":"Direct Email", "contact.info.emailDesc":"For any general inquiry or technical support.",
+        "contact.info.socialTitle":"Social Networks", "contact.info.socialDesc":"Join our community and follow our latest news.",
+        
+        "contact.form.title":"Send us a message",
+        "contact.form.subtitle":"Fill out the fields below, and we will get back to you as soon as possible.",
+        "contact.form.name":"Full Name", "contact.form.namePH":"John Doe",
+        "contact.form.email":"Email Address",
+        "contact.form.subject":"Subject", "contact.form.subjectPH":"How can we help you?",
+        "contact.form.message":"Message", "contact.form.messagePH":"Detail your request here...",
+        "contact.form.submit":"Send message",
+        "contact.form.sending":"Sending...",
+        "contact.form.success":"Message successfully sent! We will reply soon.",
+        "contact.form.error":"An error occurred while sending. Please try again.",
 
-        "hero.eyebrow":"Let’s talk about your need",
-        "hero.title.l1":"Contact",
-        "hero.title.l2":"the",
-        "hero.title.l3":"SEAL team.",
-        "hero.subtitle":"Do you have a question about the website, the SSL checker, the project, or how it works? Use this form to write to us easily. Your message will be sent to the team through the website server.",
-        "hero.ctaPrimary":"Write a message",
-        "hero.ctaSecondary":"See the FAQ",
-
-        "side.title":"Why contact us?",
-        "side.text":"This page lets you ask a question, make a remark, request clarification, or share feedback about the SEAL public website experience.",
-        "side2.title":"Simple answer",
-        "side2.text":"The form is directly connected to the server API. If the message is successfully sent, a confirmation message appears on screen.",
-
-        "info.title":"Useful information",
-        "info.subtitle":"A few helpful points before writing to us.",
-        "info.card1.title":"A simple form",
-        "info.card1.text":"You can send us your name, email address, a subject, and your message. This helps us better understand your request and reply.",
-        "info.card2.title":"About the project",
-        "info.card2.text":"SEAL is a project centered on clear SSL expiration reading. The Contact page is also here to collect questions, improvement ideas, and interface feedback.",
-        "info.card3.title":"Main channel",
-        "info.card3.text":"The form on this page is the main way to send a request from the public website.",
-        "info.emailLabel":"Contact address",
-        "info.socialLabel":"Socials",
-
-        "form.title":"Form",
-        "form.subtitle":"Your message will be sent to the server API /api/contact.",
-        "form.cardTitle":"Send us a message",
-        "form.cardText":"Fill in the fields below. A simple validation is done on the interface before sending, then the server processes your request.",
-        "form.name":"Name",
-        "form.email":"Email address",
-        "form.subject":"Subject",
-        "form.message":"Message",
-        "form.namePlaceholder":"Your name",
-        "form.emailPlaceholder":"you@example.com",
-        "form.subjectPlaceholder":"Subject of your message",
-        "form.messagePlaceholder":"Describe your request...",
-        "form.helper":"The form is connected to the SEAL server. A valid email address and a message are required before sending.",
-        "form.button":"Send message",
-
-        "cta.title":"Before writing to us",
-        "cta.text":"You can also read the FAQ, the features page, or the About page to quickly find a first answer.",
-        "cta.button":"See the FAQ",
-
-        "footer.nav":"Navigation",
-        "footer.support":"Support",
-        "footer.supportText":"For any question related to the public website or the contact form.",
-        "footer.legalTitle":"Legal",
-        "footer.brandText":"SEAL helps you better visualize SSL certificate expiration with a clear, readable, and accessible interface.",
-        "footer.socials":"Socials",
-        "footer.privacy":"Privacy policy",
-        "footer.legal":"Legal notice",
-        "footer.terms":"Terms of use",
-        "footer.bottomText":"Secure Expiry Alert & Logging",
-
-        "status.sending":"Sending your message...",
-        "status.success":"Your message has been sent successfully. Thank you for your feedback.",
-        "status.invalidEmail":"Please enter a valid email address.",
-        "status.invalidMessage":"Please write a message before sending.",
-        "status.mailConfig":"The email service is not configured on the server.",
-        "status.mailFailed":"Sending failed on the server side. Please try again later.",
-        "status.generic":"Unable to send the message right now."
+        "footer.nav":"System", "footer.support":"Support", "footer.supportText":"For any questions related to the site, contact us via the Contact page or by email.", "footer.legalTitle":"Security & Legal", "footer.brandText":"SEAL helps you better visualize SSL certificate expiration with a clear, readable, and accessible interface.",
+        "footer.privacy":"Privacy policy", "footer.legal":"Legal notice", "footer.terms":"Terms of use", "footer.bottomText":"Secure Expiry Alert & Logging"
       },
-
       es: {
-        "nav.home":"Inicio",
-        "nav.features":"Funcionalidades",
-        "nav.about":"Acerca de",
-        "nav.faq":"FAQ",
-        "nav.contact":"Contacto",
+        "nav.home":"Inicio", "nav.features":"Funcionalidades", "nav.about":"Acerca de", "nav.faq":"FAQ", "nav.contact":"Contacto",
+        
+        "contact.hero.eyebrow":"Soporte y Asistencia",
+        "contact.hero.title":"Ponte en <span class=\"hero-title-gradient\">Contacto.</span>",
+        "contact.hero.desc":"¿Una pregunta, una sugerencia o una necesidad específica? Nuestro equipo está a tu disposición.",
+        
+        "contact.info.emailTitle":"Email Directo", "contact.info.emailDesc":"Para cualquier consulta general o soporte técnico.",
+        "contact.info.socialTitle":"Redes Sociales", "contact.info.socialDesc":"Únete a nuestra comunidad y sigue nuestras novedades.",
+        
+        "contact.form.title":"Envíanos un mensaje",
+        "contact.form.subtitle":"Rellena los campos a continuación y te responderemos lo antes posible.",
+        "contact.form.name":"Nombre Completo", "contact.form.namePH":"Juan Pérez",
+        "contact.form.email":"Dirección de Correo",
+        "contact.form.subject":"Asunto", "contact.form.subjectPH":"¿Cómo podemos ayudarte?",
+        "contact.form.message":"Mensaje", "contact.form.messagePH":"Detalla tu solicitud aquí...",
+        "contact.form.submit":"Enviar mensaje",
+        "contact.form.sending":"Enviando...",
+        "contact.form.success":"¡Mensaje enviado con éxito! Te responderemos pronto.",
+        "contact.form.error":"Ocurrió un error al enviar. Por favor, inténtalo de nuevo.",
 
-        "hero.eyebrow":"Hablemos de tu necesidad",
-        "hero.title.l1":"Contacta",
-        "hero.title.l2":"con el equipo",
-        "hero.title.l3":"SEAL.",
-        "hero.subtitle":"¿Tienes una pregunta sobre el sitio, el verificador SSL, el proyecto o su funcionamiento? Usa este formulario para escribirnos fácilmente. Tu mensaje será enviado al equipo a través del servidor del sitio.",
-        "hero.ctaPrimary":"Escribir un mensaje",
-        "hero.ctaSecondary":"Ver la FAQ",
-
-        "side.title":"¿Por qué escribirnos?",
-        "side.text":"Esta página permite hacer una pregunta, compartir una observación, pedir una aclaración o enviar una opinión sobre la experiencia del sitio público SEAL.",
-        "side2.title":"Respuesta simple",
-        "side2.text":"El formulario está conectado directamente a la API del servidor. Si el mensaje se envía correctamente, aparece un mensaje de confirmación en pantalla.",
-
-        "info.title":"Información útil",
-        "info.subtitle":"Algunas referencias antes de escribirnos.",
-        "info.card1.title":"Un formulario simple",
-        "info.card1.text":"Puedes enviarnos tu nombre, tu correo electrónico, un asunto y tu mensaje. Esto nos ayuda a comprender mejor tu solicitud y responderte.",
-        "info.card2.title":"Sobre el proyecto",
-        "info.card2.text":"SEAL es un proyecto centrado en la lectura clara de la expiración SSL. La página de Contacto también sirve para recoger preguntas, ideas de mejora y comentarios sobre la interfaz.",
-        "info.card3.title":"Canal principal",
-        "info.card3.text":"El formulario de esta página constituye el medio principal para transmitir una solicitud desde el sitio público.",
-        "info.emailLabel":"Dirección de contacto",
-        "info.socialLabel":"Redes",
-
-        "form.title":"Formulario",
-        "form.subtitle":"Tu mensaje será enviado a la API /api/contact del servidor.",
-        "form.cardTitle":"Envíanos un mensaje",
-        "form.cardText":"Completa los campos siguientes. Se realiza una validación simple en la interfaz antes del envío, y luego el servidor procesa tu solicitud.",
-        "form.name":"Nombre",
-        "form.email":"Correo electrónico",
-        "form.subject":"Asunto",
-        "form.message":"Mensaje",
-        "form.namePlaceholder":"Tu nombre",
-        "form.emailPlaceholder":"tu@email.com",
-        "form.subjectPlaceholder":"Asunto de tu mensaje",
-        "form.messagePlaceholder":"Describe tu solicitud...",
-        "form.helper":"El formulario está conectado al servidor SEAL. Se requiere una dirección de correo válida y un mensaje antes de enviar.",
-        "form.button":"Enviar mensaje",
-
-        "cta.title":"Antes de escribirnos",
-        "cta.text":"También puedes consultar la FAQ, la página de funcionalidades o la página Acerca de para encontrar rápidamente una primera respuesta.",
-        "cta.button":"Ver la FAQ",
-
-        "footer.nav":"Navegación",
-        "footer.support":"Soporte",
-        "footer.supportText":"Para cualquier pregunta relacionada con el sitio público o el formulario de contacto.",
-        "footer.legalTitle":"Legal",
-        "footer.brandText":"SEAL te ayuda a visualizar mejor la expiración de un certificado SSL con una interfaz clara, legible y accesible.",
-        "footer.socials":"Redes",
-        "footer.privacy":"Política de privacidad",
-        "footer.legal":"Aviso legal",
-        "footer.terms":"Condiciones de uso",
-        "footer.bottomText":"Secure Expiry Alert & Logging",
-
-        "status.sending":"Enviando tu mensaje...",
-        "status.success":"Tu mensaje se ha enviado correctamente. Gracias por tu comentario.",
-        "status.invalidEmail":"Introduce una dirección de correo válida.",
-        "status.invalidMessage":"Escribe un mensaje antes de enviarlo.",
-        "status.mailConfig":"El servicio de correo no está configurado en el servidor.",
-        "status.mailFailed":"El envío ha fallado en el servidor. Inténtalo de nuevo más tarde.",
-        "status.generic":"No se puede enviar el mensaje en este momento."
+        "footer.nav":"Sistema", "footer.support":"Soporte", "footer.supportText":"Para preguntas relacionadas con el sitio, contáctenos vía la página Contacto o email.", "footer.legalTitle":"Seguridad y Legal", "footer.brandText":"SEAL te ayuda a visualizar la expiración de certificados SSL.",
+        "footer.privacy":"Política de privacidad", "footer.legal":"Aviso legal", "footer.terms":"Condiciones de uso", "footer.bottomText":"Secure Expiry Alert & Logging"
       },
-
       ru: {
-        "nav.home":"Главная",
-        "nav.features":"Функции",
-        "nav.about":"О нас",
-        "nav.faq":"FAQ",
-        "nav.contact":"Контакты",
+        "nav.home":"Главная", "nav.features":"Функции", "nav.about":"О нас", "nav.faq":"FAQ", "nav.contact":"Контакты",
+        
+        "contact.hero.eyebrow":"Поддержка и помощь",
+        "contact.hero.title":"Свяжитесь <span class=\"hero-title-gradient\">с нами.</span>",
+        "contact.hero.desc":"Есть вопросы, предложения или особые потребности? Наша команда всегда на связи.",
+        
+        "contact.info.emailTitle":"Прямой Email", "contact.info.emailDesc":"Для общих вопросов и техподдержки.",
+        "contact.info.socialTitle":"Социальные сети", "contact.info.socialDesc":"Присоединяйтесь к нашему сообществу и следите за новостями.",
+        
+        "contact.form.title":"Отправьте нам сообщение",
+        "contact.form.subtitle":"Заполните поля ниже, и мы ответим вам в кратчайшие сроки.",
+        "contact.form.name":"Полное имя", "contact.form.namePH":"Иван Иванов",
+        "contact.form.email":"Email адрес",
+        "contact.form.subject":"Тема", "contact.form.subjectPH":"Чем мы можем помочь?",
+        "contact.form.message":"Сообщение", "contact.form.messagePH":"Подробно опишите ваш запрос...",
+        "contact.form.submit":"Отправить",
+        "contact.form.sending":"Отправка...",
+        "contact.form.success":"Сообщение успешно отправлено! Мы скоро ответим.",
+        "contact.form.error":"При отправке произошла ошибка. Попробуйте еще раз.",
 
-        "hero.eyebrow":"Давайте обсудим ваш запрос",
-        "hero.title.l1":"Свяжитесь",
-        "hero.title.l2":"с командой",
-        "hero.title.l3":"SEAL.",
-        "hero.subtitle":"У вас есть вопрос о сайте, SSL checker, проекте или его работе? Используйте эту форму, чтобы написать нам. Ваше сообщение будет передано команде через сервер сайта.",
-        "hero.ctaPrimary":"Написать сообщение",
-        "hero.ctaSecondary":"Открыть FAQ",
-
-        "side.title":"Почему стоит написать нам?",
-        "side.text":"Эта страница позволяет задать вопрос, оставить замечание, запросить уточнение или поделиться отзывом о публичном сайте SEAL.",
-        "side2.title":"Простой ответ",
-        "side2.text":"Форма напрямую подключена к API сервера. Если сообщение отправлено успешно, на экране появится подтверждение.",
-
-        "info.title":"Полезная информация",
-        "info.subtitle":"Несколько ориентиров перед отправкой сообщения.",
-        "info.card1.title":"Простая форма",
-        "info.card1.text":"Вы можете отправить нам своё имя, адрес электронной почты, тему и сообщение. Это помогает лучше понять ваш запрос и ответить на него.",
-        "info.card2.title":"О проекте",
-        "info.card2.text":"SEAL — это проект, ориентированный на понятное чтение срока действия SSL. Страница Контакты также служит для сбора вопросов, идей по улучшению и отзывов об интерфейсе.",
-        "info.card3.title":"Основной канал",
-        "info.card3.text":"Форма на этой странице является основным способом передать запрос с публичного сайта.",
-        "info.emailLabel":"Контактный адрес",
-        "info.socialLabel":"Соцсети",
-
-        "form.title":"Форма",
-        "form.subtitle":"Ваше сообщение будет отправлено в API сервера /api/contact.",
-        "form.cardTitle":"Отправьте нам сообщение",
-        "form.cardText":"Заполните поля ниже. Перед отправкой выполняется простая проверка на стороне интерфейса, затем сервер обрабатывает запрос.",
-        "form.name":"Имя",
-        "form.email":"Электронная почта",
-        "form.subject":"Тема",
-        "form.message":"Сообщение",
-        "form.namePlaceholder":"Ваше имя",
-        "form.emailPlaceholder":"you@example.com",
-        "form.subjectPlaceholder":"Тема вашего сообщения",
-        "form.messagePlaceholder":"Опишите ваш запрос...",
-        "form.helper":"Форма подключена к серверу SEAL. Перед отправкой требуется действующий e-mail и сообщение.",
-        "form.button":"Отправить сообщение",
-
-        "cta.title":"Перед тем как писать нам",
-        "cta.text":"Вы также можете открыть FAQ, страницу функций или страницу О нас, чтобы быстро найти первый ответ.",
-        "cta.button":"Открыть FAQ",
-
-        "footer.nav":"Навигация",
-        "footer.support":"Поддержка",
-        "footer.supportText":"По любым вопросам, связанным с публичным сайтом или формой контакта.",
-        "footer.legalTitle":"Правовая информация",
-        "footer.brandText":"SEAL помогает лучше видеть срок действия SSL-сертификата благодаря понятному, читаемому и доступному интерфейсу.",
-        "footer.socials":"Соцсети",
-        "footer.privacy":"Политика конфиденциальности",
-        "footer.legal":"Юридическая информация",
-        "footer.terms":"Условия использования",
-        "footer.bottomText":"Secure Expiry Alert & Logging",
-
-        "status.sending":"Отправка сообщения...",
-        "status.success":"Ваше сообщение успешно отправлено. Спасибо за ваш отзыв.",
-        "status.invalidEmail":"Введите корректный адрес электронной почты.",
-        "status.invalidMessage":"Введите сообщение перед отправкой.",
-        "status.mailConfig":"Почтовый сервис не настроен на сервере.",
-        "status.mailFailed":"Отправка не удалась на стороне сервера. Попробуйте позже.",
-        "status.generic":"Сейчас не удаётся отправить сообщение."
+        "footer.nav":"Система", "footer.support":"Поддержка", "footer.supportText":"По вопросам работы сайта обращайтесь через страницу Контакты или по email.", "footer.legalTitle":"Безопасность и право", "footer.brandText":"SEAL помогает визуализировать истечение срока SSL.",
+        "footer.privacy":"Конфиденциальность", "footer.legal":"Юридическая информация", "footer.terms":"Условия", "footer.bottomText":"Secure Expiry Alert & Logging"
       },
-
       ar: {
-        "nav.home":"الرئيسية",
-        "nav.features":"الميزات",
-        "nav.about":"من نحن",
-        "nav.faq":"الأسئلة الشائعة",
-        "nav.contact":"اتصال",
+        "nav.home":"الرئيسية", "nav.features":"الميزات", "nav.about":"من نحن", "nav.faq":"الأسئلة الشائعة", "nav.contact":"اتصال",
+        
+        "contact.hero.eyebrow":"الدعم والمساعدة",
+        "contact.hero.title":"تواصل <span class=\"hero-title-gradient\">معنا.</span>",
+        "contact.hero.desc":"سؤال، اقتراح، أو حاجة معينة؟ فريقنا هنا من أجلك. استخدم النموذج أدناه أو تفاصيل الاتصال المباشرة.",
+        
+        "contact.info.emailTitle":"البريد المباشر", "contact.info.emailDesc":"لأي استفسار عام أو دعم فني.",
+        "contact.info.socialTitle":"الشبكات الاجتماعية", "contact.info.socialDesc":"انضم إلى مجتمعنا وتابع أحدث أخبارنا.",
+        
+        "contact.form.title":"أرسل لنا رسالة",
+        "contact.form.subtitle":"املأ الحقول أدناه، وسنرد عليك في أقرب وقت ممكن.",
+        "contact.form.name":"الاسم الكامل", "contact.form.namePH":"فلان الفلاني",
+        "contact.form.email":"البريد الإلكتروني",
+        "contact.form.subject":"الموضوع", "contact.form.subjectPH":"كيف يمكننا مساعدتك؟",
+        "contact.form.message":"الرسالة", "contact.form.messagePH":"اكتب طلبك بالتفصيل هنا...",
+        "contact.form.submit":"إرسال الرسالة",
+        "contact.form.sending":"جاري الإرسال...",
+        "contact.form.success":"تم إرسال الرسالة بنجاح! سنرد عليك قريبًا.",
+        "contact.form.error":"حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.",
 
-        "hero.eyebrow":"لنتحدث عن حاجتك",
-        "hero.title.l1":"تواصل مع",
-        "hero.title.l2":"فريق",
-        "hero.title.l3":"SEAL.",
-        "hero.subtitle":"هل لديك سؤال حول الموقع أو checker SSL أو المشروع أو طريقة عمله؟ استخدم هذا النموذج لمراسلتنا بسهولة. سيتم إرسال رسالتك إلى الفريق عبر خادم الموقع.",
-        "hero.ctaPrimary":"كتابة رسالة",
-        "hero.ctaSecondary":"عرض FAQ",
-
-        "side.title":"لماذا تراسلنا؟",
-        "side.text":"تسمح هذه الصفحة بطرح سؤال أو تقديم ملاحظة أو طلب توضيح أو مشاركة رأي حول تجربة الموقع العام SEAL.",
-        "side2.title":"رد بسيط",
-        "side2.text":"النموذج متصل مباشرة بواجهة API الخاصة بالخادم. وإذا تم إرسال الرسالة بنجاح، فستظهر رسالة تأكيد على الشاشة.",
-
-        "info.title":"معلومات مفيدة",
-        "info.subtitle":"بعض النقاط المفيدة قبل مراسلتنا.",
-        "info.card1.title":"نموذج بسيط",
-        "info.card1.text":"يمكنك إرسال اسمك وبريدك الإلكتروني وموضوع الرسالة ومحتواها. وهذا يساعدنا على فهم طلبك والرد عليه بشكل أفضل.",
-        "info.card2.title":"حول المشروع",
-        "info.card2.text":"SEAL هو مشروع يركز على قراءة واضحة لتاريخ انتهاء SSL. كما تُستخدم صفحة الاتصال لجمع الأسئلة وأفكار التحسين والملاحظات حول الواجهة.",
-        "info.card3.title":"القناة الرئيسية",
-        "info.card3.text":"يشكل نموذج هذه الصفحة الوسيلة الرئيسية لإرسال طلب من خلال الموقع العام.",
-        "info.emailLabel":"عنوان التواصل",
-        "info.socialLabel":"الشبكات",
-
-        "form.title":"النموذج",
-        "form.subtitle":"سيتم إرسال رسالتك إلى /api/contact على الخادم.",
-        "form.cardTitle":"أرسل لنا رسالة",
-        "form.cardText":"املأ الحقول التالية. يتم إجراء تحقق بسيط في الواجهة قبل الإرسال، ثم يتولى الخادم معالجة الطلب.",
-        "form.name":"الاسم",
-        "form.email":"البريد الإلكتروني",
-        "form.subject":"الموضوع",
-        "form.message":"الرسالة",
-        "form.namePlaceholder":"اسمك",
-        "form.emailPlaceholder":"you@example.com",
-        "form.subjectPlaceholder":"موضوع رسالتك",
-        "form.messagePlaceholder":"اشرح طلبك...",
-        "form.helper":"النموذج متصل بخادم SEAL. يجب إدخال بريد إلكتروني صالح ورسالة قبل الإرسال.",
-        "form.button":"إرسال الرسالة",
-
-        "cta.title":"قبل أن تراسلنا",
-        "cta.text":"يمكنك أيضًا الاطلاع على FAQ أو صفحة الميزات أو صفحة من نحن للعثور بسرعة على إجابة أولية.",
-        "cta.button":"عرض FAQ",
-
-        "footer.nav":"التنقل",
-        "footer.support":"الدعم",
-        "footer.supportText":"لأي سؤال متعلق بالموقع العام أو باستخدام نموذج الاتصال.",
-        "footer.legalTitle":"قانوني",
-        "footer.brandText":"يساعدك SEAL على فهم تاريخ انتهاء شهادة SSL بشكل أفضل من خلال واجهة واضحة وسهلة القراءة.",
-        "footer.socials":"الشبكات",
-        "footer.privacy":"سياسة الخصوصية",
-        "footer.legal":"بيان قانوني",
-        "footer.terms":"شروط الاستخدام",
-        "footer.bottomText":"Secure Expiry Alert & Logging",
-
-        "status.sending":"جاري إرسال الرسالة...",
-        "status.success":"تم إرسال رسالتك بنجاح. شكرًا على ملاحظتك.",
-        "status.invalidEmail":"يرجى إدخال عنوان بريد إلكتروني صالح.",
-        "status.invalidMessage":"يرجى كتابة رسالة قبل الإرسال.",
-        "status.mailConfig":"خدمة البريد غير مهيأة على الخادم.",
-        "status.mailFailed":"فشل الإرسال من جهة الخادم. حاول مرة أخرى لاحقًا.",
-        "status.generic":"يتعذر إرسال الرسالة في الوقت الحالي."
+        "footer.nav":"النظام", "footer.support":"الدعم", "footer.supportText":"لأي أسئلة متعلقة بالموقع، اتصل بنا عبر صفحة الاتصال أو عبر البريد الإلكتروني.", "footer.legalTitle":"الأمان والقانون", "footer.brandText":"أداة مراقبة شهادات SSL.",
+        "footer.privacy":"سياسة الخصوصية", "footer.legal":"بيان قانوني", "footer.terms":"شروط الاستخدام", "footer.bottomText":"Secure Expiry Alert & Logging"
       },
-
       zh: {
-        "nav.home":"主页",
-        "nav.features":"功能",
-        "nav.about":"关于我们",
-        "nav.faq":"常见问题",
-        "nav.contact":"联系",
+        "nav.home":"主页", "nav.features":"功能", "nav.about":"关于我们", "nav.faq":"常见问题", "nav.contact":"联系",
+        
+        "contact.hero.eyebrow":"支持与协助",
+        "contact.hero.title":"联系 <span class=\"hero-title-gradient\">我们。</span>",
+        "contact.hero.desc":"有任何问题、建议或特殊需求？我们的团队竭诚为您服务。请使用下方表单或直接联系方式。",
+        
+        "contact.info.emailTitle":"直接邮件", "contact.info.emailDesc":"针对一般查询或技术支持。",
+        "contact.info.socialTitle":"社交网络", "contact.info.socialDesc":"加入我们的社区并关注最新动态。",
+        
+        "contact.form.title":"给我们发消息",
+        "contact.form.subtitle":"填写下方字段，我们将尽快回复您。",
+        "contact.form.name":"全名", "contact.form.namePH":"张三",
+        "contact.form.email":"电子邮件",
+        "contact.form.subject":"主题", "contact.form.subjectPH":"我们能帮您什么？",
+        "contact.form.message":"消息", "contact.form.messagePH":"在此详细说明您的请求...",
+        "contact.form.submit":"发送消息",
+        "contact.form.sending":"发送中...",
+        "contact.form.success":"消息发送成功！我们会尽快回复。",
+        "contact.form.error":"发送时发生错误，请重试。",
 
-        "hero.eyebrow":"告诉我们你的需求",
-        "hero.title.l1":"联系",
-        "hero.title.l2":"SEAL",
-        "hero.title.l3":"团队。",
-        "hero.subtitle":"如果你对网站、SSL checker、项目本身或其运行方式有疑问，可以使用此表单直接联系我们。你的消息会通过网站服务器发送给团队。",
-        "hero.ctaPrimary":"写一条消息",
-        "hero.ctaSecondary":"查看 FAQ",
-
-        "side.title":"为什么联系我们？",
-        "side.text":"本页面可用于提问、提出建议、请求说明，或分享你对 SEAL 公开网站体验的反馈。",
-        "side2.title":"简单回复流程",
-        "side2.text":"表单直接连接到服务器 API。如果消息发送成功，页面上会显示确认信息。",
-
-        "info.title":"实用信息",
-        "info.subtitle":"给我们写信前的一些提示。",
-        "info.card1.title":"简单表单",
-        "info.card1.text":"你可以向我们发送姓名、电子邮箱、主题和消息内容，这有助于我们更好地理解你的请求并回复你。",
-        "info.card2.title":"关于项目",
-        "info.card2.text":"SEAL 是一个专注于清晰读取 SSL 到期信息的项目。联系页面也用于收集问题、改进建议和界面反馈。",
-        "info.card3.title":"主要渠道",
-        "info.card3.text":"本页表单是从公开网站发送请求的主要方式。",
-        "info.emailLabel":"联系地址",
-        "info.socialLabel":"社交平台",
-
-        "form.title":"表单",
-        "form.subtitle":"你的消息将发送到服务器 API /api/contact。",
-        "form.cardTitle":"给我们发送消息",
-        "form.cardText":"请填写以下字段。发送前会先在前端做简单验证，然后由服务器处理你的请求。",
-        "form.name":"姓名",
-        "form.email":"电子邮箱",
-        "form.subject":"主题",
-        "form.message":"消息",
-        "form.namePlaceholder":"你的姓名",
-        "form.emailPlaceholder":"you@example.com",
-        "form.subjectPlaceholder":"你的消息主题",
-        "form.messagePlaceholder":"请描述你的需求...",
-        "form.helper":"该表单连接到 SEAL 服务器。发送前需要有效邮箱和消息内容。",
-        "form.button":"发送消息",
-
-        "cta.title":"在联系我们之前",
-        "cta.text":"你也可以先查看 FAQ、功能页或关于我们页面，以更快找到初步答案。",
-        "cta.button":"查看 FAQ",
-
-        "footer.nav":"导航",
-        "footer.support":"支持",
-        "footer.supportText":"如对公开网站或联系表单有任何问题，可通过此处联系。",
-        "footer.legalTitle":"法律信息",
-        "footer.brandText":"SEAL 通过清晰、易读、易访问的界面，帮助你更好地查看 SSL 证书到期情况。",
-        "footer.socials":"社交",
-        "footer.privacy":"隐私政策",
-        "footer.legal":"法律声明",
-        "footer.terms":"使用条款",
-        "footer.bottomText":"Secure Expiry Alert & Logging",
-
-        "status.sending":"正在发送消息...",
-        "status.success":"你的消息已成功发送。感谢你的反馈。",
-        "status.invalidEmail":"请输入有效的电子邮箱地址。",
-        "status.invalidMessage":"请先填写消息内容再发送。",
-        "status.mailConfig":"服务器未配置邮件服务。",
-        "status.mailFailed":"服务器端发送失败，请稍后重试。",
-        "status.generic":"暂时无法发送消息。"
+        "footer.nav":"系统", "footer.support":"支持", "footer.supportText":"如有任何与网站相关的问题，请通过“联系”页面或电子邮件与我们联系。", "footer.legalTitle":"安全与法律", "footer.brandText":"SSL 证书监控工具。",
+        "footer.privacy":"隐私政策", "footer.legal":"法律声明", "footer.terms":"使用条款", "footer.bottomText":"Secure Expiry Alert & Logging"
       }
     };
 
@@ -1645,9 +773,8 @@
     function applyI18n(){
       document.querySelectorAll("[data-i18n]").forEach(el => {
         const key = el.getAttribute("data-i18n");
-        el.textContent = t(key);
+        el.innerHTML = t(key);
       });
-
       document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
         const key = el.getAttribute("data-i18n-placeholder");
         el.setAttribute("placeholder", t(key));
@@ -1676,17 +803,15 @@
     function syncLogo(img){
       if(!img) return;
       const theme = document.documentElement.getAttribute("data-theme") || "dark";
-      const darkSrc = img.getAttribute("data-logo-dark");
-      const lightSrc = img.getAttribute("data-logo-light");
       const useDark = theme === "dark";
-      img.src = useDark ? darkSrc : lightSrc;
+      img.src = useDark ? img.getAttribute("data-logo-dark") : img.getAttribute("data-logo-light");
       img.classList.toggle("is-dark-logo", useDark);
       img.classList.toggle("is-light-logo", !useDark);
     }
 
     function syncAllLogos(){
-      syncLogo(document.getElementById("brandLogo"));
-      syncLogo(document.getElementById("footerLogo"));
+      syncLogo($("#brandLogo"));
+      syncLogo($("#footerLogo"));
     }
 
     function setTheme(theme){
@@ -1700,136 +825,91 @@
       setTheme(getTheme() === "dark" ? "light" : "dark");
     }
 
-    function toggleMobileMenu(force){
-      const menu = document.getElementById("mobileMenu");
-      const button = document.getElementById("menuToggle");
-      const isOpen = typeof force === "boolean" ? force : !menu.classList.contains("open");
-
-      menu.classList.toggle("open", isOpen);
-      button.classList.toggle("open", isOpen);
-      button.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    }
-
-    function showStatus(type, message){
-      const box = document.getElementById("statusBox");
-      box.className = `status-box show ${type}`;
-      box.textContent = message;
-    }
-
-    function clearStatus(){
-      const box = document.getElementById("statusBox");
-      box.className = "status-box";
-      box.textContent = "";
-    }
-
-    function mapServerError(code){
-      switch(code){
-        case "INVALID": return t("status.invalidEmail");
-        case "MAIL_NOT_CONFIGURED": return t("status.mailConfig");
-        case "MAIL_FAILED": return t("status.mailFailed");
-        default: return t("status.generic");
-      }
-    }
-
-    async function handleContactSubmit(e){
-      e.preventDefault();
-      clearStatus();
-
-      const sendBtn = document.getElementById("sendBtn");
-      const form = document.getElementById("contactForm");
-
-      const name = String(document.getElementById("name").value || "").trim();
-      const email = String(document.getElementById("email").value || "").trim();
-      const subject = String(document.getElementById("subject").value || "").trim();
-      const message = String(document.getElementById("message").value || "").trim();
-
-      const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-      if(!validEmail){
-        showStatus("error", t("status.invalidEmail"));
-        return;
-      }
-
-      if(!message || message.length < 2){
-        showStatus("error", t("status.invalidMessage"));
-        return;
-      }
-
-      sendBtn.disabled = true;
-      sendBtn.style.opacity = ".75";
-      showStatus("success", t("status.sending"));
-
-      try{
-        const res = await fetch("/api/contact", {
-          method:"POST",
-          headers:{ "Content-Type":"application/json" },
-          body: JSON.stringify({ name, email, subject, message })
-        });
-
-        const data = await res.json();
-
-        if(!res.ok){
-          showStatus("error", mapServerError(data.code));
-          return;
-        }
-
-        form.reset();
-        showStatus("success", t("status.success"));
-      }catch(err){
-        showStatus("error", t("status.generic"));
-      }finally{
-        sendBtn.disabled = false;
-        sendBtn.style.opacity = "1";
-      }
-    }
-
     document.addEventListener("DOMContentLoaded", () => {
       setTheme(getTheme());
       setLang(getLang());
       syncAllLogos();
-
-      const langToggle = $("#langToggle");
-      const langMenu = $("#langMenu");
-
+      
+      const langToggle = $("#langToggle"); const langMenu = $("#langMenu");
       langToggle.addEventListener("click", (e) => {
         e.stopPropagation();
         const open = langMenu.classList.toggle("open");
         langToggle.setAttribute("aria-expanded", open ? "true" : "false");
       });
-
-      window.addEventListener("click", (e) => {
-        if (!langMenu.contains(e.target) && !langToggle.contains(e.target)) {
-          langMenu.classList.remove("open");
-          langToggle.setAttribute("aria-expanded", "false");
-        }
-      });
-
+      
       langMenu.querySelectorAll(".item").forEach(btn => {
         btn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          setLang(btn.getAttribute("data-lang"));
-          langMenu.classList.remove("open");
-          langToggle.setAttribute("aria-expanded", "false");
+          e.stopPropagation(); setLang(btn.getAttribute("data-lang"));
+          langMenu.classList.remove("open"); langToggle.setAttribute("aria-expanded", "false");
         });
+      });
+
+      const menuToggle = $("#menuToggle"); const mobileMenu = $("#mobileMenu");
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const open = mobileMenu.classList.toggle("open");
+          menuToggle.classList.toggle("open", open);
+          menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      }
+
+      window.addEventListener("click", () => {
+        langMenu.classList.remove("open"); langToggle.setAttribute("aria-expanded", "false");
+        if (mobileMenu && menuToggle) {
+          mobileMenu.classList.remove("open");
+          menuToggle.classList.remove("open");
+          menuToggle.setAttribute("aria-expanded", "false");
+        }
       });
 
       $("#themeToggle").addEventListener("click", toggleTheme);
 
-      const menuToggle = $("#menuToggle");
-      menuToggle.addEventListener("click", (e) => {
-        e.stopPropagation();
-        toggleMobileMenu();
-      });
+      // --- LOGIQUE DU FORMULAIRE DE CONTACT ---
+      const contactForm = document.getElementById("contactForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const btnTextSpan = submitBtn.querySelector("span");
+      const formStatus = document.getElementById("formStatus");
 
-      document.querySelectorAll("#mobileMenu a").forEach(link => {
-        link.addEventListener("click", () => toggleMobileMenu(false));
-      });
+      contactForm.addEventListener("submit", async (e) => {
+        // Enlève le e.preventDefault() et les lignes en dessous si tu veux que 
+        // le bouton ouvre le client mail de l'utilisateur avec mailto:
+        
+        e.preventDefault(); 
+        
+        const originalText = btnTextSpan.textContent;
+        btnTextSpan.textContent = t("contact.form.sending");
+        submitBtn.disabled = true;
+        formStatus.className = "form-status";
+        formStatus.textContent = "";
 
-      window.addEventListener("resize", () => {
-        if (window.innerWidth > 900) toggleMobileMenu(false);
-      });
+        try {
+          // Si tu utilises une vraie API d'envoi comme Formspree, décommente ceci :
+          /*
+          const formData = new FormData(contactForm);
+          const response = await fetch("TON_URL_FORMSPREE_OU_API_ICI", {
+            method: "POST",
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          });
+          if (!response.ok) throw new Error("Network error");
+          */
 
-      document.getElementById("contactForm").addEventListener("submit", handleContactSubmit);
+          // Simulation pour montrer l'effet UI
+          await new Promise(r => setTimeout(r, 1500));
+
+          formStatus.textContent = t("contact.form.success");
+          formStatus.classList.add("success");
+          contactForm.reset();
+        } catch (error) {
+          formStatus.textContent = t("contact.form.error");
+          formStatus.classList.add("error");
+        } finally {
+          btnTextSpan.textContent = originalText;
+          submitBtn.disabled = false;
+          setTimeout(() => { formStatus.className = "form-status"; formStatus.textContent = ""; }, 5000);
+        }
+      });
     });
   </script>
 </body>

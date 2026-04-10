@@ -2,6 +2,8 @@ require("dotenv").config();
 
 const express = require("express");
 const helmet = require("helmet");
+const cors = require("cors");
+const rateLimit = require("express-rate-limit");
 const nodemailer = require("nodemailer");
 const tls = require("tls");
 const path = require("path");
@@ -11,7 +13,7 @@ const PORT = Number(process.env.PORT || 3000);
 
 /*
 ================================
-CONFIG
+CONFIGURATIONS
 ================================
 */
 
@@ -26,19 +28,48 @@ const CONTACT_FROM = process.env.CONTACT_FROM || SMTP_USER || CONTACT_TO;
 
 /*
 ================================
-MIDDLEWARES
+SÉCURITÉ & MIDDLEWARES
 ================================
 */
 
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-  })
-);
+// Helmet protège les en-têtes HTTP (désactivé pour CSP afin d'autoriser tes scripts HTML internes)
+app.use(helmet({ contentSecurityPolicy: false }));
+
+// CORS : Autoriser les requêtes (Ajuste l'origin en production avec ton vrai nom de domaine)
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' ? '*' : '*', // Remplace '*' par ['https://tondomaine.com'] en prod stricte
+  methods: ['GET', 'POST']
+}));
 
 app.use(express.json({ limit: "256kb" }));
 app.use(express.urlencoded({ extended: true }));
+
+// Indique à Express de servir les fichiers statiques (HTML, CSS, Images) depuis le dossier "public"
 app.use(express.static(path.join(__dirname, "public")));
+
+/*
+================================
+LIMITATIONS DE REQUÊTES (ANTI-SPAM)
+================================
+*/
+
+// Limite pour le scanner SSL : max 30 requêtes par minute par IP
+const sslLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, 
+  max: 30, 
+  message: { code: "TOO_MANY_REQUESTS", message: "Trop de requêtes. Veuillez patienter une minute." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Limite pour le formulaire de contact : max 3 messages par heure par IP
+const contactLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 3,
+  message: { code: "TOO_MANY_REQUESTS", message: "Vous avez atteint la limite de messages. Réessayez plus tard." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 /*
 ================================
@@ -52,7 +83,7 @@ app.get("/healthz", (_req, res) => {
 
 /*
 ================================
-UTILS
+FONCTIONS UTILITAIRES
 ================================
 */
 
@@ -62,6 +93,7 @@ function normalizeDomain(input) {
   let value = input.trim();
   if (!value) return null;
 
+  // Nettoyage de l'URL pour ne garder que le domaine
   value = value.replace(/^https?:\/\//i, "");
   value = value.split("/")[0];
   value = value.replace(/:\d+$/, "");
@@ -69,7 +101,6 @@ function normalizeDomain(input) {
 
   if (!value) return null;
 
-  // Vérification basique domaine / sous-domaine / IP
   const isDomain = /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(value);
   const isIPv4 = /^(?:\d{1,3}\.){3}\d{1,3}$/.test(value);
 
@@ -88,67 +119,32 @@ function mapSslError(error) {
   const code = error && error.code ? error.code : error && error.message ? error.message : "SSL_CHECK_FAILED";
 
   if (code === "INVALID_DOMAIN") {
-    return {
-      http: 400,
-      body: {
-        code: "INVALID",
-        message: "Invalid domain.",
-      },
-    };
+    return { http: 400, body: { code: "INVALID", message: "Invalid domain." } };
   }
-
-  if (code === "ENOTFOUND" || code === "EAI_AGAIN") {
-    return {
-      http: 404,
-      body: {
-        code: "NOT_FOUND",
-        message: "Website not found or domain does not exist.",
-      },
-    };
+  if (code === "ENOTFOUND" || code === "EAI_AGAIN" || code === "ENOTDIR") {
+    return { http: 404, body: { code: "NOT_FOUND", message: "Website not found or domain does not exist." } };
   }
-
   if (code === "ECONNREFUSED") {
-    return {
-      http: 400,
-      body: {
-        code: "NO_TLS",
-        message: "No TLS certificate detected.",
-      },
-    };
+    return { http: 400, body: { code: "NO_TLS", message: "No TLS certificate detected." } };
   }
-
   if (code === "TIMEOUT" || code === "ETIMEDOUT") {
-    return {
-      http: 504,
-      body: {
-        code: "TIMEOUT",
-        message: "Timeout while checking SSL.",
-      },
-    };
+    return { http: 504, body: { code: "TIMEOUT", message: "Timeout while checking SSL." } };
   }
-
   if (code === "NO_CERTIFICATE") {
-    return {
-      http: 400,
-      body: {
-        code: "NO_TLS",
-        message: "No TLS certificate detected.",
-      },
-    };
+    return { http: 400, body: { code: "NO_TLS", message: "No TLS certificate detected." } };
   }
 
-  return {
-    http: 500,
-    body: {
-      code: "CHECK_FAILED",
-      message: "Unable to analyze this domain right now.",
-    },
-  };
+  return { http: 500, body: { code: "CHECK_FAILED", message: "Unable to analyze this domain right now." } };
+}
+
+// Nettoyage basique pour éviter l'injection de code dans les emails
+function sanitizeText(str) {
+  return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 /*
 ================================
-VERIFICATION SSL
+VERIFICATION SSL API
 ================================
 */
 
@@ -159,14 +155,14 @@ function checkSSL(domain) {
         host: domain,
         port: 443,
         servername: domain,
-        rejectUnauthorized: false,
+        rejectUnauthorized: false, // Permet de lire même les certificats expirés ou auto-signés
       },
       () => {
         try {
           const cert = socket.getPeerCertificate(true);
 
           if (!cert || Object.keys(cert).length === 0 || !cert.valid_to) {
-            socket.end();
+            socket.destroy();
             reject(Object.assign(new Error("NO_CERTIFICATE"), { code: "NO_CERTIFICATE" }));
             return;
           }
@@ -175,7 +171,7 @@ function checkSSL(domain) {
           const validFromDate = cert.valid_from ? new Date(cert.valid_from) : null;
 
           if (Number.isNaN(expirationDate.getTime())) {
-            socket.end();
+            socket.destroy();
             reject(Object.assign(new Error("NO_CERTIFICATE"), { code: "NO_CERTIFICATE" }));
             return;
           }
@@ -199,9 +195,7 @@ function checkSSL(domain) {
           resolve({
             domain,
             expiresAt: expirationDate.toISOString(),
-            validFrom: validFromDate && !Number.isNaN(validFromDate.getTime())
-              ? validFromDate.toISOString()
-              : null,
+            validFrom: validFromDate && !Number.isNaN(validFromDate.getTime()) ? validFromDate.toISOString() : null,
             validTo: expirationDate.toISOString(),
             issuer,
             daysLeft,
@@ -209,7 +203,7 @@ function checkSSL(domain) {
             severity,
           });
         } catch (error) {
-          socket.end();
+          socket.destroy();
           reject(error);
         }
       }
@@ -228,22 +222,19 @@ function checkSSL(domain) {
   });
 }
 
-app.post("/api/ssl-check", async (req, res) => {
+// Endpoint protégé par le rate limiter
+app.post("/api/ssl-check", sslLimiter, async (req, res) => {
   const rawInput = req.body.input || req.body.domain || req.body.url;
   const domain = normalizeDomain(rawInput);
 
   if (!domain) {
-    return res.status(400).json({
-      code: "INVALID",
-      message: "Invalid domain.",
-    });
+    return res.status(400).json({ code: "INVALID", message: "Invalid domain." });
   }
 
   try {
     const result = await checkSSL(domain);
     return res.status(200).json(result);
   } catch (error) {
-    console.error("SSL check error:", error);
     const mapped = mapSslError(error);
     return res.status(mapped.http).json(mapped.body);
   }
@@ -251,7 +242,7 @@ app.post("/api/ssl-check", async (req, res) => {
 
 /*
 ================================
-FORMULAIRE CONTACT
+FORMULAIRE CONTACT API
 ================================
 */
 
@@ -265,31 +256,24 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-app.post("/api/contact", async (req, res) => {
-  const name = String(req.body.name || "").trim();
-  const email = String(req.body.email || "").trim();
-  const subject = String(req.body.subject || "").trim();
-  const message = String(req.body.message || "").trim();
+// Endpoint protégé par le rate limiter anti-spam
+app.post("/api/contact", contactLimiter, async (req, res) => {
+  const name = sanitizeText(String(req.body.name || "").trim());
+  const email = sanitizeText(String(req.body.email || "").trim());
+  const subject = sanitizeText(String(req.body.subject || "").trim());
+  const message = sanitizeText(String(req.body.message || "").trim());
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return res.status(400).json({
-      code: "INVALID",
-      message: "Invalid email.",
-    });
+    return res.status(400).json({ code: "INVALID", message: "Invalid email." });
   }
 
   if (!message || message.length < 2) {
-    return res.status(400).json({
-      code: "INVALID",
-      message: "Message is required.",
-    });
+    return res.status(400).json({ code: "INVALID", message: "Message is required." });
   }
 
   if (!SMTP_USER || !SMTP_PASS || !CONTACT_TO) {
-    return res.status(500).json({
-      code: "MAIL_NOT_CONFIGURED",
-      message: "Email service is not configured on the server.",
-    });
+    console.error("[SEAL] ERREUR : Serveur SMTP non configuré dans .env");
+    return res.status(500).json({ code: "MAIL_NOT_CONFIGURED", message: "Email service not configured." });
   }
 
   try {
@@ -297,64 +281,50 @@ app.post("/api/contact", async (req, res) => {
       from: CONTACT_FROM,
       to: CONTACT_TO,
       replyTo: email,
-      subject: subject ? `[SEAL Contact] ${subject}` : "[SEAL Contact] New message",
+      subject: subject ? `[SEAL Contact] ${subject}` : "[SEAL Contact] Nouveau message",
       text:
-        `New message from SEAL contact form\n\n` +
-        `Name: ${name || "(not provided)"}\n` +
+        `Nouveau message reçu via le formulaire de contact SEAL\n\n` +
+        `Nom: ${name || "(Non fourni)"}\n` +
         `Email: ${email}\n` +
-        `Subject: ${subject || "(not provided)"}\n\n` +
+        `Sujet: ${subject || "(Non fourni)"}\n\n` +
         `Message:\n${message}\n`,
     });
 
     return res.status(200).json({ ok: true });
   } catch (error) {
-    console.error("Mail error:", error);
-    return res.status(502).json({
-      code: "MAIL_FAILED",
-      message: "Failed to send email.",
-    });
+    console.error("[SEAL] Erreur d'envoi d'email:", error);
+    return res.status(502).json({ code: "MAIL_FAILED", message: "Failed to send email." });
   }
 });
 
 /*
 ================================
-ROUTES HTML
+ROUTES HTML & FALLBACK
 ================================
 */
 
+// Route principale menant à ta page d'accueil
 app.get("/", (_req, res) => {
   res.sendFile(path.join(__dirname, "public", "SEAL_page_accueil.html"));
 });
 
-/*
-================================
-404 API
-================================
-*/
-
+// Gérer les API non trouvées
 app.use("/api", (_req, res) => {
-  return res.status(404).json({
-    code: "NOT_FOUND",
-    message: "API route not found.",
-  });
+  return res.status(404).json({ code: "NOT_FOUND", message: "API route not found." });
 });
 
-/*
-================================
-404 GENERAL
-================================
-*/
-
+// Gérer toutes les autres routes (Erreur 404)
 app.use((_req, res) => {
-  res.status(404).send("404 - Page not found");
+  res.status(404).send("404 - Page introuvable");
 });
 
 /*
 ================================
-START SERVER
+DÉMARRAGE DU SERVEUR
 ================================
 */
 
 app.listen(PORT, () => {
-  console.log(`SEAL server running on http://localhost:${PORT}`);
+  console.log(`[OK] Serveur SEAL en ligne sur le port ${PORT}`);
+  console.log(`[INFO] Mode d'exécution : ${process.env.NODE_ENV || 'développement'}`);
 });
