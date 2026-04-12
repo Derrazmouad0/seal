@@ -34,7 +34,6 @@ app.use(cors());
 app.use(express.json({ limit: "256kb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// LIGNE CORRIGÉE : On sert TOUJOURS le dossier public, même sur Vercel
 app.use(express.static(path.join(__dirname, "public")));
 
 /* ================================
@@ -128,7 +127,7 @@ app.post("/api/ssl-check", sslLimiter, async (req, res) => {
 });
 
 /* ================================
-   API : FORMULAIRE DE CONTACT
+   API : FORMULAIRE DE CONTACT (DOUBLE EMAIL)
 ================================ */
 const transporter = nodemailer.createTransport({
   host: SMTP_HOST, port: SMTP_PORT, secure: SMTP_SECURE,
@@ -145,15 +144,28 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
   if (!message || message.length < 2) return res.status(400).json({ message: "Le message est requis." });
 
   if (!SMTP_USER || !SMTP_PASS) {
-    return res.status(500).json({ message: "Le serveur mail n'est pas configuré sur Vercel." });
+    return res.status(500).json({ message: "Le serveur mail n'est pas configuré sur Vercel. Vérifiez les Environment Variables." });
   }
 
   try {
+    // 1. Envoi du mail à l'équipe SEAL (Vous)
     await transporter.sendMail({
-      from: CONTACT_FROM, to: CONTACT_TO, replyTo: email,
+      from: CONTACT_FROM, 
+      to: CONTACT_TO, 
+      replyTo: email,
       subject: subject ? `[SEAL Contact] ${subject}` : "[SEAL Contact] Nouveau message",
       text: `Nouveau message reçu via SEAL\n\nNom: ${name}\nEmail: ${email}\nSujet: ${subject}\n\nMessage:\n${message}\n`,
     });
+
+    // 2. Envoi du mail de confirmation à l'utilisateur (Auto-reply pro)
+    await transporter.sendMail({
+      from: CONTACT_FROM, 
+      to: email, 
+      subject: "Confirmation de réception - L'équipe SEAL",
+      text: `Bonjour ${name || 'cher utilisateur'},\n\nNous vous confirmons la bonne réception de votre message.\n\nNotre équipe va l'étudier avec attention et nous vous répondrons dans les meilleurs délais.\n\n--- Récapitulatif de votre demande ---\nSujet : ${subject}\nMessage :\n${message}\n---------------------------------------\n\nCordialement,\nL'équipe SEAL.\n\n(Ceci est un message automatique, merci de ne pas y répondre).`,
+    });
+
+    // Si les deux mails sont partis, on renvoie un succès au frontend
     return res.status(200).json({ ok: true });
   } catch (error) {
     console.error("[SEAL ERREUR] Échec de l'envoi :", error);
