@@ -338,13 +338,16 @@
     .footer-brand { display: flex; flex-direction: column; gap: 15px; }
     .footer-brand p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0;}
     
-    /* --- RÉSOLUTION DU PROBLÈME DES ICÔNES SOCIALES (CERCLES PARFAITS) --- */
-    .socials { display: flex; gap: 15px; margin-top: 10px; }
+    /* --- RÉSOLUTION ULTIME DU PROBLÈME DES ICÔNES SOCIALES OVALES --- */
+    .socials { display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap;}
     .social { 
-      width: 46px; height: 46px; min-width: 46px; min-height: 46px; flex-shrink: 0;
-      border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
       display: flex; justify-content: center; align-items: center; 
+      width: 46px !important; height: 46px !important; /* Force la taille */
+      min-width: 46px !important; min-height: 46px !important; /* Empêche le rétrécissement */
+      flex-basis: 46px !important; flex-shrink: 0 !important; /* Empêche le conteneur flex de l'écraser */
+      border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
       background: transparent; color: var(--text); transition: all 0.3s ease; 
+      box-sizing: border-box; overflow: hidden;
     }
     html[data-theme="light"] .social { border: 1px solid #CBD5E1; background: #FFFFFF; color: #0F172A; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
     .social:hover { border-color: var(--neon-blue); color: #fff; background: var(--neon-blue); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,240,255,0.3); }
@@ -522,13 +525,13 @@
               <h3 data-i18n="side2.title">/> Niveaux d'Alerte</h3>
               <div class="quick-read-badges">
                 <div class="quick-badge quick-badge-ok">
-                  <span class="quick-dot"></span><span data-i18n="side2.ok">Safe : Situation stable</span>
+                  <span class="quick-dot"></span><span data-i18n="side2.ok">Safe : Plus de 15 jours</span>
                 </div>
                 <div class="quick-badge quick-badge-warn">
-                  <span class="quick-dot"></span><span data-i18n="side2.warn">Warning : Renouvellement proche</span>
+                  <span class="quick-dot"></span><span data-i18n="side2.warn">Warning : Entre 7 et 15 jours</span>
                 </div>
                 <div class="quick-badge quick-badge-bad">
-                  <span class="quick-dot"></span><span data-i18n="side2.bad">Critical : Action immédiate</span>
+                  <span class="quick-dot"></span><span data-i18n="side2.bad">Critical : Moins de 7 jours</span>
                 </div>
               </div>
             </div>
@@ -679,7 +682,9 @@
         "hero.subtitle":"Entrez un domaine ou une URL, puis obtenez une lecture claire : date d’expiration, temps restant et niveau de priorité. En cas d’erreur, SEAL vous l’indique simplement.",
         "hero.ctaPrimary":"Exécuter_Scan()", "hero.ctaSecondary":"Voir_Documentation", "hero.note":"// Pensé pour la performance : lecture simple, requêtes optimisées.",
         "side.title":"/> Pourquoi SEAL ?", "side.text":"Vérifiez rapidement la date d’expiration d’un certificat SSL, le temps restant et le niveau de priorité, dans une interface de monitoring précise et sans friction.",
-        "side2.title":"/> Niveaux d'Alerte", "side2.ok":"Safe : Situation stable", "side2.warn":"Warning : Renouvellement proche", "side2.bad":"Critical : Action immédiate",
+        
+        // MODIFICATION DES BADGES ICI
+        "side2.title":"/> Niveaux d'Alerte", "side2.ok":"Safe : Plus de 15 jours", "side2.warn":"Warning : Entre 7 et 15 jours", "side2.bad":"Critical : Moins de 7 jours",
         
         "check.title":"Analyseur de Domaine", "check.subtitle":"Target : Entrez un domaine ou une URL complète.", "check.pill":"Statut : En attente d'input",
         "check.cardTitle":"Initialiser le scan TLS/SSL", "check.cardText":"SEAL interroge le serveur distant pour extraire la chaîne de certification et évalue le niveau de risque d'expiration.",
@@ -703,7 +708,8 @@
         "hero.subtitle":"Enter a domain or a URL and get a clear reading: expiration date, time remaining, and priority level.",
         "hero.ctaPrimary":"Execute_Scan()", "hero.ctaSecondary":"View_Docs", "hero.note":"// Built for performance: simple reading, optimized requests.",
         "side.title":"/> Why SEAL?", "side.text":"Quickly check an SSL certificate expiration date, time remaining, and priority level in a precise monitoring interface.",
-        "side2.title":"/> Alert Levels", "side2.ok":"Safe: Stable situation", "side2.warn":"Warning: Renewal near", "side2.bad":"Critical: Immediate action",
+        
+        "side2.title":"/> Alert Levels", "side2.ok":"Safe: Over 15 days", "side2.warn":"Warning: Between 7 and 15 days", "side2.bad":"Critical: Less than 7 days",
         
         "check.title":"Domain Analyzer", "check.subtitle":"Target: Enter a full domain or URL.", "check.pill":"Status: Awaiting input",
         "check.cardTitle":"Initialize TLS/SSL Scan", "check.cardText":"SEAL queries the remote server to extract the certification chain.",
@@ -726,7 +732,9 @@
         "hero.subtitle":"Introduce un dominio o URL y obtén una lectura clara: fecha de expiración, tiempo restante y nivel de prioridad.",
         "hero.ctaPrimary":"Ejecutar_Scan()", "hero.ctaSecondary":"Ver_Docs", "hero.note":"// Diseñado para el rendimiento: lectura simple, consultas optimizadas.",
         "side.title":"/> ¿Por qué SEAL?", "side.text":"Comprueba rápidamente la expiración de un certificado SSL en una interfaz de monitoreo precisa.",
-        "side2.title":"/> Niveles de Alerta", "side2.ok":"Safe: Situación estable", "side2.warn":"Warning: Renovación cercana", "side2.bad":"Critical: Acción inmediata",
+        
+        "side2.title":"/> Niveles de Alerta", "side2.ok":"Safe: Más de 15 días", "side2.warn":"Warning: Entre 7 y 15 días", "side2.bad":"Critical: Menos de 7 días",
+        
         "check.title":"Analizador de Dominio", "check.subtitle":"Target: Introduce un dominio o URL completa.", "check.pill":"Estado: Esperando input",
         "check.cardTitle":"Inicializar Escaneo TLS/SSL", "check.cardText":"SEAL consulta el servidor remoto para extraer la cadena de certificación.",
         "check.placeholder":"Ejemplo: example.com", "check.button":"Iniciar_Scan", "check.help1":"# Aceptado: dominio desnudo o URL HTTP(S).",
@@ -745,7 +753,9 @@
         "hero.subtitle":"Введите домен или URL и получите понятный результат: дату окончания и время.",
         "hero.ctaPrimary":"Выполнить_Scan()", "hero.ctaSecondary":"Документация", "hero.note":"// Создано для производительности.",
         "side.title":"/> Почему SEAL?", "side.text":"Быстро проверьте дату окончания SSL-сертификата в точном интерфейсе.",
-        "side2.title":"/> Уровни оповещения", "side2.ok":"Safe: Стабильно", "side2.warn":"Warning: Скоро обновление", "side2.bad":"Critical: Срочно",
+        
+        "side2.title":"/> Уровни оповещения", "side2.ok":"Safe: Более 15 дней", "side2.warn":"Warning: От 7 до 15 дней", "side2.bad":"Critical: Менее 7 дней",
+        
         "check.title":"Анализатор домена", "check.subtitle":"Target: Введите домен.", "check.pill":"Статус: Ожидание",
         "check.cardTitle":"Запуск проверки TLS/SSL", "check.cardText":"SEAL опрашивает удаленный сервер для извлечения сертификата.",
         "check.placeholder":"Например: example.com", "check.button":"Начать_Scan", "check.help1":"# Принимается: домен или HTTP(S).",
@@ -764,7 +774,9 @@
         "hero.subtitle":"أدخل نطاقًا أو رابطًا للحصول على قراءة واضحة.",
         "hero.ctaPrimary":"بدء_الفحص()", "hero.ctaSecondary":"عرض_المستندات", "hero.note":"// مصمم للأداء السريع.",
         "side.title":"/> لماذا SEAL؟", "side.text":"تحقق بسرعة من تاريخ انتهاء شهادة SSL عبر واجهة مراقبة دقيقة.",
-        "side2.title":"/> مستويات التنبيه", "side2.ok":"آمن: وضع مستقر", "side2.warn":"تحذير: التجديد قريب", "side2.bad":"حرج: تدخل فوري",
+        
+        "side2.title":"/> مستويات التنبيه", "side2.ok":"آمن: أكثر من 15 يومًا", "side2.warn":"تحذير: بين 7 و 15 يومًا", "side2.bad":"حرج: أقل من 7 أيام",
+        
         "check.title":"محلل النطاقات", "check.subtitle":"الهدف: أدخل نطاقًا كاملًا.", "check.pill":"الحالة: في انتظار الإدخال",
         "check.cardTitle":"بدء فحص TLS/SSL", "check.cardText":"يستعلم SEAL من الخادم البعيد لاستخراج سلسلة الشهادات.",
         "check.placeholder":"مثال: example.com", "check.button":"تشغيل_الفحص", "check.help1":"# التنسيقات: نطاق أو رابط HTTP(S).",
@@ -783,7 +795,9 @@
         "hero.subtitle":"输入域名或网址，获得清晰结果。",
         "hero.ctaPrimary":"执行_扫描()", "hero.ctaSecondary":"查看_文档", "hero.note":"// 专为性能打造。",
         "side.title":"/> 为什么选择 SEAL?", "side.text":"在精确的监控界面中快速检查 SSL 到期时间。",
-        "side2.title":"/> 警报级别", "side2.ok":"安全: 状态稳定", "side2.warn":"警告: 即将需要续期", "side2.bad":"严重: 需要立即采取行动",
+        
+        "side2.title":"/> 警报级别", "side2.ok":"安全: 超过 15 天", "side2.warn":"警告: 7 至 15 天之间", "side2.bad":"严重: 少于 7 天",
+        
         "check.title":"域名分析器", "check.subtitle":"目标: 输入完整域名或 URL。", "check.pill":"状态: 等待输入",
         "check.cardTitle":"初始化 TLS/SSL 扫描", "check.cardText":"SEAL 查询远程服务器以提取认证链。",
         "check.placeholder":"例如：example.com", "check.button":"开始_扫描", "check.help1":"# 接受的格式：裸域名或 HTTP(S)。",
@@ -889,7 +903,14 @@
       if(!lastResult) return;
       const badge = $("#resultBadge"); const level = $("#resultLevel");
       const daysEl = $("#resultDays"); const statusText = $("#resultStatusText");
-      const severity = lastResult.severity;
+
+      // --- NOUVELLE LOGIQUE DE COULEURS PERSONNALISÉE STRICTE ---
+      let severity = "ok";
+      if (lastResult.daysLeft < 7) {
+        severity = "bad";
+      } else if (lastResult.daysLeft <= 15) {
+        severity = "warn";
+      }
       
       if(severity === "ok"){
         badge.className = "status-badge ok"; badge.textContent = t("status.okBadge");

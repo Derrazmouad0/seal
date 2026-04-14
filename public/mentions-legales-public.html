@@ -279,10 +279,13 @@
     /* ICONES SOCIALES PARFAITES */
     .socials { display: flex; gap: 15px; margin-top: 10px; }
     .social { 
-      width: 46px; height: 46px; min-width: 46px; min-height: 46px; flex-shrink: 0;
-      border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
       display: flex; justify-content: center; align-items: center; 
+      width: 46px !important; height: 46px !important; /* Force la taille */
+      min-width: 46px !important; min-height: 46px !important; /* Empêche le rétrécissement */
+      flex-basis: 46px !important; flex-shrink: 0 !important; /* Empêche le conteneur flex de l'écraser */
+      border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
       background: transparent; color: var(--text); transition: all 0.3s ease; 
+      box-sizing: border-box; overflow: hidden; aspect-ratio: 1 / 1;
     }
     html[data-theme="light"] .social { border: 1px solid #CBD5E1; background: #FFFFFF; color: #0F172A; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
     .social:hover { border-color: var(--neon-blue); color: #fff; background: var(--neon-blue); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,240,255,0.3); }

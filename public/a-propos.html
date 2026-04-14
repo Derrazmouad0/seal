@@ -283,7 +283,15 @@
     html[data-theme="light"] .team-card:hover { box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05); }
     .team-card:hover::before { transform: scaleX(1); }
 
-    .team-photo { width: 100px; height: 100px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); margin-bottom: 20px; background: var(--control-bg); flex-shrink: 0;}
+    /* RÉSOLUTION DE L'ÉCRASEMENT DES PHOTOS DE L'ÉQUIPE EN OVALE */
+    .team-photo { 
+      width: 100px !important; height: 100px !important; 
+      min-width: 100px !important; min-height: 100px !important;
+      flex-basis: 100px !important; flex-shrink: 0 !important;
+      border-radius: 50%; /* Passe de carrés arrondis à des cercles si tu le souhaites, sinon remets 16px */
+      overflow: hidden; border: 1px solid var(--line); margin-bottom: 20px; 
+      background: var(--control-bg); box-sizing: border-box; aspect-ratio: 1 / 1;
+    }
     .team-photo img { width: 100%; height: 100%; object-fit: cover; display: block;}
     
     .team-card h3 { margin: 0 0 8px 0; font-family: 'Space Grotesk', sans-serif; font-size: 18px; color: var(--text); }
@@ -320,13 +328,16 @@
     .footer-brand { display: flex; flex-direction: column; gap: 15px; }
     .footer-brand p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0;}
     
-    /* --- RÉSOLUTION DU PROBLÈME DES ICÔNES SOCIALES (CERCLES PARFAITS) --- */
-    .socials { display: flex; gap: 15px; margin-top: 10px; }
+    /* --- RÉSOLUTION ULTIME DU PROBLÈME DES ICÔNES SOCIALES OVALES --- */
+    .socials { display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap;}
     .social { 
-      width: 46px; height: 46px; min-width: 46px; min-height: 46px; flex-shrink: 0; /* Empêche l'écrasement en ovale */
-      border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
       display: flex; justify-content: center; align-items: center; 
+      width: 46px !important; height: 46px !important; /* Force la taille */
+      min-width: 46px !important; min-height: 46px !important; /* Empêche le rétrécissement */
+      flex-basis: 46px !important; flex-shrink: 0 !important; /* Empêche le conteneur flex de l'écraser */
+      border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
       background: transparent; color: var(--text); transition: all 0.3s ease; 
+      box-sizing: border-box; overflow: hidden; aspect-ratio: 1 / 1;
     }
     html[data-theme="light"] .social { border: 1px solid #CBD5E1; background: #FFFFFF; color: #0F172A; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
     .social:hover { border-color: var(--neon-blue); color: #fff; background: var(--neon-blue); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,240,255,0.3); }
@@ -356,7 +367,7 @@
     @media (max-width: 1180px){ .team-grid{grid-template-columns:repeat(2,1fr);} .footer-grid{grid-template-columns:1fr 1fr;} }
     @media (max-width: 820px){ 
       .navlinks { display:none; } .menu-toggle { display:flex; } 
-      .hero-grid, .story-grid, .values-grid { grid-template-columns:1fr; }
+      .hero-grid, .story-grid, .values-grid, .team-grid { grid-template-columns:1fr; }
       .footer-grid{grid-template-columns:1fr;} .lang .pill { display: none; } 
       .cta { flex-direction: column; text-align: center; } .cta .glass-btn { width: 100%; }
       .timeline::before { left: 25px; } .timeline-item { padding-left: 50px; }
@@ -575,8 +586,8 @@
           <article class="team-card">
             <div class="team-photo"><img src="yanis.jpeg" alt="Yanis Gely"></div>
             <h3>Yanis Gely</h3>
-            <div class="team-role" data-i18n="team.yanis.role">Chef de projet & architecture</div>
-            <p data-i18n="team.yanis.text">Coordonne l’équipe, définit l’architecture du projet et assure le bon déroulement des étapes.</p>
+            <div class="team-role" data-i18n="team.yanis.role">Chef de projet & Développeur application</div>
+            <p data-i18n="team.yanis.text">Coordonne l’équipe, définit l’architecture logicielle et développe le cœur applicatif de la solution SEAL.</p>
             <a class="glass-btn team-link" href="https://www.linkedin.com/in/yanis-gely/" target="_blank" rel="noopener noreferrer">
               <span data-i18n="team.linkedin">Voir LinkedIn</span>
             </a>
@@ -585,8 +596,8 @@
           <article class="team-card">
             <div class="team-photo"><img src="emmeline.jpeg" alt="Emmeline Wagner"></div>
             <h3>Emmeline Wagner</h3>
-            <div class="team-role" data-i18n="team.emmeline.role">Développeuse web & UI/UX</div>
-            <p data-i18n="team.emmeline.text">Se concentre sur l’expérience utilisateur et un design moderne, clair et intuitif.</p>
+            <div class="team-role" data-i18n="team.emmeline.role">Responsable communication & UX/UI</div>
+            <p data-i18n="team.emmeline.text">Se concentre sur l’expérience utilisateur, l'identité visuelle du projet et pilote les stratégies de communication.</p>
             <a class="glass-btn team-link" href="https://www.linkedin.com/in/emmeline-wagner/" target="_blank" rel="noopener noreferrer">
               <span data-i18n="team.linkedin">Voir LinkedIn</span>
             </a>
@@ -595,8 +606,8 @@
           <article class="team-card">
             <div class="team-photo"><img src="mouad.jpeg" alt="Mouad Derraz"></div>
             <h3>Mouad Derraz</h3>
-            <div class="team-role" data-i18n="team.mouad.role">Développeur web & communication</div>
-            <p data-i18n="team.mouad.text">Développement, documentation et valorisation des résultats du projet.</p>
+            <div class="team-role" data-i18n="team.mouad.role">Développeur WEB</div>
+            <p data-i18n="team.mouad.text">Gère la conception, la programmation et l'intégration continue de l'interface web accessible au public.</p>
             <a class="glass-btn team-link" href="https://www.linkedin.com/in/mouad-derraz/" target="_blank" rel="noopener noreferrer">
               <span data-i18n="team.linkedin">Voir LinkedIn</span>
             </a>
@@ -605,8 +616,8 @@
           <article class="team-card">
             <div class="team-photo"><img src="mayron.jpeg" alt="Mayron Bejjaj"></div>
             <h3>Mayron Bejjaj</h3>
-            <div class="team-role" data-i18n="team.mayron.role">Développeur web & qualité</div>
-            <p data-i18n="team.mayron.text">Mise en place des tests, vérification des performances et garantie de fiabilité.</p>
+            <div class="team-role" data-i18n="team.mayron.role">Test WEB & Communication</div>
+            <p data-i18n="team.mayron.text">Assure le contrôle qualité du code, exécute les tests de fiabilité et soutient les efforts de communication du groupe.</p>
             <a class="glass-btn team-link" href="https://www.linkedin.com/in/mayron-bejjaj/" target="_blank" rel="noopener noreferrer">
               <span data-i18n="team.linkedin">Voir LinkedIn</span>
             </a>
@@ -692,7 +703,7 @@
   </main>
 
   <script>
-    // TOUTES LES TRADUCTIONS INTEGRALES
+    // TOUTES LES TRADUCTIONS INTEGRALES AVEC LES NOUVEAUX RÔLES
     const I18N = {
       fr: {
         "nav.home":"Accueil", "nav.features":"Fonctionnalités", "nav.about":"À propos", "nav.faq":"FAQ", "nav.contact":"Contact",
@@ -712,10 +723,12 @@
         "timeline.i2.title":"Conserver une expérience douce", "timeline.i2.text":"Le site privilégie une interface élégante, structurée et rassurante, afin de rendre l’usage plus agréable au quotidien.",
         "timeline.i3.title":"S’ouvrir à plusieurs contextes", "timeline.i3.text":"SEAL a été pensé comme une plateforme pouvant répondre à des besoins similaires dans d’autres organisations et pour d’autres utilisateurs.",
         "team.title":"L’équipe", "team.subtitle":"Les personnes qui portent le projet SEAL.", "team.linkedin":"Voir LinkedIn",
-        "team.yanis.role":"Chef de projet & architecture", "team.yanis.text":"Coordonne l’équipe, définit l’architecture du projet et assure le bon déroulement des étapes.",
-        "team.emmeline.role":"Développeuse web & UI/UX", "team.emmeline.text":"Se concentre sur l’expérience utilisateur et un design moderne, clair et intuitif.",
-        "team.mouad.role":"Développeur web & communication", "team.mouad.text":"Développement, documentation et valorisation des résultats du projet.",
-        "team.mayron.role":"Développeur web & qualité", "team.mayron.text":"Mise en place des tests, vérification des performances et garantie de fiabilité.",
+        
+        "team.yanis.role":"Chef de projet & Développeur application", "team.yanis.text":"Coordonne l’équipe, définit l’architecture logicielle et développe le cœur applicatif de la solution SEAL.",
+        "team.emmeline.role":"Responsable communication & UX/UI", "team.emmeline.text":"Se concentre sur l’expérience utilisateur, l'identité visuelle du projet et pilote les stratégies de communication.",
+        "team.mouad.role":"Développeur WEB", "team.mouad.text":"Gère la conception, la programmation et l'intégration continue de l'interface web accessible au public.",
+        "team.mayron.role":"Test WEB & Communication", "team.mayron.text":"Assure le contrôle qualité du code, exécute les tests de fiabilité et soutient les efforts de communication du groupe.",
+        
         "cta.title":"Continuer la découverte de SEAL", "cta.text":"Vous pouvez maintenant explorer les fonctionnalités, consulter la FAQ, ou revenir à l’accueil pour tester directement un domaine.", "cta.button":"Voir les fonctionnalités",
         "footer.nav":"Système", "footer.support":"Support", "footer.supportText":"Pour toute question liée au site, contactez-nous via la page Contact ou par email.", "footer.legalTitle":"Sécurité & Légal", "footer.brandText":"SEAL vous aide à mieux visualiser l’expiration d’un certificat SSL, avec une interface claire, lisible et accessible.",
         "footer.privacy":"Politique de confidentialité", "footer.legal":"Mentions légales", "footer.terms":"Conditions d’utilisation", "footer.bottomText":"Secure Expiry Alert & Logging"
@@ -738,10 +751,12 @@
         "timeline.i2.title":"Keeping a soft experience", "timeline.i2.text":"The website favors an elegant, structured, and reassuring interface to make everyday use more pleasant.",
         "timeline.i3.title":"Opening to several contexts", "timeline.i3.text":"SEAL was designed as a platform that could answer similar needs in other organizations and for other users.",
         "team.title":"The team", "team.subtitle":"The people behind the SEAL project.", "team.linkedin":"View LinkedIn",
-        "team.yanis.role":"Project lead & architecture manager", "team.yanis.text":"Coordinates the team, defines the project architecture, and ensures smooth progress.",
-        "team.emmeline.role":"Web developer & UI/UX manager", "team.emmeline.text":"Focuses on user experience and a modern, clear, and intuitive design.",
-        "team.mouad.role":"Web developer & communication manager", "team.mouad.text":"Development, documentation, and promotion of the project results.",
-        "team.mayron.role":"Web developer & testing/quality manager", "team.mayron.text":"Implements tests, verifies performance, and ensures reliability.",
+        
+        "team.yanis.role":"Project Manager & App Developer", "team.yanis.text":"Coordinates the team, defines software architecture, and develops the core application of the SEAL solution.",
+        "team.emmeline.role":"Communication & UX/UI Manager", "team.emmeline.text":"Focuses on user experience, project visual identity, and drives communication strategies.",
+        "team.mouad.role":"WEB Developer", "team.mouad.text":"Manages the design, programming, and continuous integration of the public-facing web interface.",
+        "team.mayron.role":"WEB Testing & Communication", "team.mayron.text":"Ensures code quality control, executes reliability tests, and supports the group's communication efforts.",
+        
         "cta.title":"Continue discovering SEAL", "cta.text":"You can now explore the features, read the FAQ, or return to the homepage to test a domain directly.", "cta.button":"View features",
         "footer.nav":"System", "footer.support":"Support", "footer.supportText":"For any questions related to the site, contact us via the Contact page or by email.", "footer.legalTitle":"Security & Legal", "footer.brandText":"SEAL helps you better visualize SSL certificate expiration with a clear interface.",
         "footer.privacy":"Privacy policy", "footer.legal":"Legal notice", "footer.terms":"Terms of use", "footer.bottomText":"Secure Expiry Alert & Logging"
@@ -764,10 +779,12 @@
         "timeline.i2.title":"Experiencia suave", "timeline.i2.text":"Interfaz elegante y tranquilizadora para un uso agradable.",
         "timeline.i3.title":"Abrirse a varios contextos", "timeline.i3.text":"Una plataforma capaz de responder a necesidades similares en otras organizaciones.",
         "team.title":"El equipo", "team.subtitle":"Las personas que llevan el proyecto SEAL.", "team.linkedin":"Ver LinkedIn",
-        "team.yanis.role":"Jefe de proyecto y arquitectura", "team.yanis.text":"Coordina el equipo y define la arquitectura del proyecto.",
-        "team.emmeline.role":"Desarrolladora web y UI/UX", "team.emmeline.text":"Se centra en la experiencia del usuario y un diseño intuitivo.",
-        "team.mouad.role":"Desarrollador web y comunicación", "team.mouad.text":"Desarrollo, documentación y valorización de resultados.",
-        "team.mayron.role":"Desarrollador web y calidad", "team.mayron.text":"Implementación de pruebas y garantía de fiabilidad.",
+        
+        "team.yanis.role":"Gerente de Proyecto y Desarrollador de Aplicaciones", "team.yanis.text":"Coordina el equipo, define la arquitectura de software y desarrolla la aplicación principal.",
+        "team.emmeline.role":"Gerente de Comunicación y UX/UI", "team.emmeline.text":"Se enfoca en la experiencia del usuario, la identidad visual y dirige las estrategias de comunicación.",
+        "team.mouad.role":"Desarrollador WEB", "team.mouad.text":"Gestiona el diseño, la programación y la integración continua de la interfaz web pública.",
+        "team.mayron.role":"Pruebas WEB y Comunicación", "team.mayron.text":"Asegura el control de calidad, ejecuta pruebas de confiabilidad y apoya la comunicación del grupo.",
+        
         "cta.title":"Seguir descubriendo SEAL", "cta.text":"Ahora puedes explorar las funcionalidades, consultar la FAQ o volver a la página principal.", "cta.button":"Ver funcionalidades",
         "footer.nav":"Sistema", "footer.support":"Soporte", "footer.supportText":"Para cualquier pregunta relacionada con el sitio, contáctenos vía la página Contacto o email.", "footer.legalTitle":"Seguridad y Legal", "footer.brandText":"SEAL te ayuda a visualizar la expiración de certificados SSL.",
         "footer.privacy":"Política de privacidad", "footer.legal":"Aviso legal", "footer.terms":"Condiciones de uso", "footer.bottomText":"Secure Expiry Alert & Logging"
@@ -790,10 +807,12 @@
         "timeline.i2.title":"Сохранить мягкий опыт", "timeline.i2.text":"Элегантный и спокойный интерфейс для приятного использования.",
         "timeline.i3.title":"Открытость к разным контекстам", "timeline.i3.text":"Платформа может отвечать на схожие потребности в других организациях.",
         "team.title":"Команда", "team.subtitle":"Люди, которые несут проект SEAL.", "team.linkedin":"Смотреть LinkedIn",
-        "team.yanis.role":"Руководитель проекта и архитектура", "team.yanis.text":"Координирует команду и определяет архитектуру проекта.",
-        "team.emmeline.role":"Веб-разработчица и UI/UX", "team.emmeline.text":"Сосредоточена на пользовательском опыте и интуитивном дизайне.",
-        "team.mouad.role":"Веб-разработчик и коммуникация", "team.mouad.text":"Разработка, документация и представление результатов.",
-        "team.mayron.role":"Веб-разработчик и качество", "team.mayron.text":"Настройка тестов и обеспечение надёжности.",
+        
+        "team.yanis.role":"Менеджер проекта и разработчик приложений", "team.yanis.text":"Координирует команду, определяет архитектуру ПО и разрабатывает основное приложение SEAL.",
+        "team.emmeline.role":"Менеджер по коммуникациям и UX/UI", "team.emmeline.text":"Сосредоточена на пользовательском опыте, визуальной идентичности проекта и стратегиях общения.",
+        "team.mouad.role":"WEB-разработчик", "team.mouad.text":"Управляет дизайном, программированием и непрерывной интеграцией публичного веб-интерфейса.",
+        "team.mayron.role":"WEB-тестирование и коммуникации", "team.mayron.text":"Обеспечивает контроль качества кода, выполняет тесты на надежность и поддерживает коммуникации группы.",
+        
         "cta.title":"Продолжить знакомство с SEAL", "cta.text":"Изучите функции, посмотрите FAQ или вернитесь на главную страницу.", "cta.button":"Смотреть функции",
         "footer.nav":"Система", "footer.support":"Поддержка", "footer.supportText":"По вопросам работы сайта обращайтесь через страницу Контакты или по email.", "footer.legalTitle":"Безопасность и право", "footer.brandText":"SEAL помогает визуализировать истечение срока SSL.",
         "footer.privacy":"Конфиденциальность", "footer.legal":"Юридическая информация", "footer.terms":"Условия", "footer.bottomText":"Secure Expiry Alert & Logging"
@@ -816,10 +835,12 @@
         "timeline.i2.title":"تجربة هادئة", "timeline.i2.text":"واجهة أنيقة ومنظمة لجعل الاستخدام اليومي أكثر راحة.",
         "timeline.i3.title":"الانفتاح على سياقات متعددة", "timeline.i3.text":"منصة يمكنها الاستجابة لاحتياجات مشابهة في منظمات أخرى.",
         "team.title":"الفريق", "team.subtitle":"الأشخاص الذين يقودون مشروع SEAL.", "team.linkedin":"عرض LinkedIn",
-        "team.yanis.role":"رئيس المشروع والبنية المعمارية", "team.yanis.text":"ينسق الفريق ويحدد بنية المشروع.",
-        "team.emmeline.role":"مطورة ويب و UI/UX", "team.emmeline.text":"تركز على تجربة المستخدم وتصميم حديث وسهل الاستخدام.",
-        "team.mouad.role":"مطور ويب والتواصل", "team.mouad.text":"التطوير والتوثيق وإبراز نتائج المشروع.",
-        "team.mayron.role":"مطور ويب والاختبارات", "team.mouad.text":"إعداد الاختبارات وضمان الموثوقية.",
+        
+        "team.yanis.role":"مدير المشروع ومطور التطبيقات", "team.yanis.text":"ينسق الفريق، يحدد بنية البرمجيات، ويطور التطبيق الأساسي لحل SEAL.",
+        "team.emmeline.role":"مسؤولة التواصل و UX/UI", "team.emmeline.text":"تركز على تجربة المستخدم، الهوية البصرية للمشروع، وتقود استراتيجيات التواصل.",
+        "team.mouad.role":"مطور WEB", "team.mouad.text":"يدير التصميم والبرمجة والتكامل المستمر لواجهة الويب العامة.",
+        "team.mayron.role":"اختبارات WEB والتواصل", "team.mayron.text":"يضمن مراقبة جودة الكود، ينفذ اختبارات الموثوقية، ويدعم جهود التواصل للمجموعة.",
+        
         "cta.title":"واصل اكتشاف SEAL", "cta.text":"يمكنك الآن استكشاف الميزات أو الاطلاع على الأسئلة الشائعة.", "cta.button":"عرض الميزات",
         "footer.nav":"النظام", "footer.support":"الدعم", "footer.supportText":"لأي أسئلة متعلقة بالموقع، اتصل بنا عبر صفحة الاتصال أو عبر البريد الإلكتروني.", "footer.legalTitle":"الأمان والقانون", "footer.brandText":"أداة مراقبة شهادات SSL.",
         "footer.privacy":"سياسة الخصوصية", "footer.legal":"بيان قانوني", "footer.terms":"شروط الاستخدام", "footer.bottomText":"Secure Expiry Alert & Logging"
@@ -842,10 +863,12 @@
         "timeline.i2.title":"保持柔和体验", "timeline.i2.text":"优雅、有结构且令人安心的界面，让日常使用更加舒适。",
         "timeline.i3.title":"面向更多场景", "timeline.i3.text":"能够满足其他组织和其他用户场景中的类似需求。",
         "team.title":"团队", "team.subtitle":"推动 SEAL 项目的人。", "team.linkedin":"查看 LinkedIn",
-        "team.yanis.role":"项目兼架构负责人", "team.yanis.text":"协调团队，定义项目架构。",
-        "team.emmeline.role":"Web 开发者兼 UI/UX", "team.emmeline.text":"专注于用户体验以及现代、清晰的设计。",
-        "team.mouad.role":"Web 开发者兼传播", "team.mouad.text":"负责开发、文档以及项目成果展示。",
-        "team.mayron.role":"Web 开发者兼质量", "team.mayron.text":"负责测试实施和可靠性保障。",
+        
+        "team.yanis.role":"项目经理与应用程序开发者", "team.yanis.text":"协调团队，定义软件架构，并开发 SEAL 解决方案的核心应用程序。",
+        "team.emmeline.role":"通信与 UX/UI 经理", "team.emmeline.text":"专注于用户体验、项目视觉识别，并推动通信策略。",
+        "team.mouad.role":"WEB 开发者", "team.mouad.text":"管理面向公众的 Web 界面的设计、编程和持续集成。",
+        "team.mayron.role":"WEB 测试与通信", "team.mayron.text":"确保代码质量控制，执行可靠性测试，并支持团队的沟通工作。",
+        
         "cta.title":"继续了解 SEAL", "cta.text":"现在你可以继续探索功能页面、查看 FAQ。", "cta.button":"查看功能",
         "footer.nav":"系统", "footer.support":"支持", "footer.supportText":"如有任何与网站相关的问题，请通过“联系”页面或电子邮件与我们联系。", "footer.legalTitle":"安全与法律", "footer.brandText":"SSL 证书监控工具。",
         "footer.privacy":"隐私政策", "footer.legal":"法律声明", "footer.terms":"使用条款", "footer.bottomText":"Secure Expiry Alert & Logging"
